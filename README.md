@@ -6,16 +6,14 @@
 
 主要优化侧：
 
-- finger 指纹
-- poc 维护 (2026.8.20)
-- poc tag (便于维护)
+- finger 指纹维护 (1w+)
+- poc 维护 (截止国内外开源 poc 2026.8.20)
+- poc tag (自动化调用 poc)
 - 默认字典优化
 
 整理、优化规则、收集与撰写不易，不吝打赏，随意即可。
 
 ![zanshang.png](https://pic1.imgdb.cn/i/034Gd5uqUyivsgQRvXLsg3.png)
-
-
 
 ## 免责声明
 
