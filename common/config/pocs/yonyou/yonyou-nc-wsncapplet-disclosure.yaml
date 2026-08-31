@@ -1,0 +1,32 @@
+id: yonyou-nc-wsncapplet-disclosure
+
+info:
+  name: 用友 UFIDA NC wsncapplet.jsp - Disclosure
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,disclosure,nc,oa
+
+http:
+  - raw:
+      - |
+        GET /jsp/wsncapplet.jsp HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - 'SERVER_WORKINGDIR'
+          - 'NCApplet'
+          - 'SERVER_HOST_NAME'
+
+      - type: status
+        status:
+          - 200

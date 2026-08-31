@@ -1,0 +1,33 @@
+id: laravel-debug-enabled
+
+info:
+  name: Laravel Debug Enabled
+  author: notsoevilweasel
+  severity: high
+  description: |
+    Laravel with APP_DEBUG set to true is prone to show verbose errors.
+    在 laravel 框架的根目录下存在配置文件，该文件存储了 debug 的配置、mysql账号密码、邮箱账号密码、redis 密码等信息。如果访问控制不当会导致文件泄露敏感信息。
+  remediation: |
+    Disable Laravel's debug mode by setting APP_DEBUG to false.
+  metadata:
+    max-request: 1
+    repair: 关闭laravel配置文件中的调试功能，在.env文件中找到APP_DEBUG=true，将true改为false。
+  tags: debug,laravel,misconfig
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/_ignition/health-check"
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - can_execute_commands
+
+      - type: status
+        status:
+          - 200
+
+# digest: 4a0a00473045022021f5d4e0139f8896fd4f330b08e129cdf385a67aab51ba5516fafd4b4ff0335a022100d877024cf9f3def775870120ada78e34b730ef7acdf0c6b30f58fff4f9ec6549:922c64590222798bb761d5b6d8e72950

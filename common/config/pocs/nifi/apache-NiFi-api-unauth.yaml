@@ -1,0 +1,33 @@
+id: apache-NiFi-api-unauth
+info:
+  name: apache-NiFi-api-unauth
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="stylesheet\" href=\"/nifi"
+  tags: apache,nifi,unauth
+
+http:
+  - raw:
+      - |
+        GET /nifi-api/flow/current-user HTTP/1.1
+        Host: {{Hostname}}
+      
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "identity"
+        part: body
+    
+    extractors:
+      - type: regex
+        part: body
+        regex:
+          - "\"identity\":\"(.*?)\""

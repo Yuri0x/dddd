@@ -1,0 +1,28 @@
+id: prometheus-unauth
+info:
+  name: poc-yaml-Prometheus-unatuh
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-Prometheus-unatuh.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-1449038499" || icon_hash="-1399433489"
+  tags: prometheus,unauth
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/graph"
+      - "{{BaseURL}}/query"
+      - "{{BaseURL}}/classic/query"
+      - "{{BaseURL}}/classic/graph"
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'GLOBAL_CONSOLES_LINK')
+        condition: and

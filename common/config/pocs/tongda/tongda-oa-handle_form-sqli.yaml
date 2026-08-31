@@ -1,0 +1,32 @@
+id: tongda-oa-handle_form-sqli
+
+info:
+  name: 通达 OA handle_form.php - sqli
+  author: xy
+  severity: high
+  description: 
+  metadata:
+    max-request: 1
+    verified: true
+    fofa-query: app="TDXK-通达OA" || icon_hash="-759108386"
+  tags: tongda,oa,sqli
+
+http:
+  - raw:
+      - |
+        GET /general/approve_center/handle_form.php?FORM_VERSION_ID=1 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+
+      - type: word
+        part: body
+        words:
+          - "g_login_user_priv"
+          - "没有检测到用户Key"
+          - "您有附件尚未上传，请上传后提交！"
+        condition: and 

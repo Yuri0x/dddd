@@ -1,0 +1,26 @@
+id: ueditor-dotnet-fileupload
+info:
+  name: Ueditor 编辑器 DOTNET - fileupload
+  author: leadlife
+  severity: critical
+  description: UEditor是一款所见即所得的开源富文本编辑器，具有轻量、可定制、用户体验优秀等特点，被广大WEB应用程序所使用。其在 .NET 1.4.3.3版本存在任意文件上传漏洞，攻击者可直接上传任意文件接管服务器
+  metadata:
+    verified: true
+    version: .NET 1.4.3.3版本
+    fofa-query: body="ueditor.all.js"
+    repair: 升级至UEditor安全版本 http://ueditor.baidu.com/website/index.html
+  tags: ueditor,fileupload
+
+http:
+  - method: GET 
+    path:
+      - "{{BaseURL}}/scripts/ueditor/net/controller.ashx?action=catchimage&encode=utf-8"
+      - "{{BaseURL}}/ueditor/net/controller.ashx?action=catchimage&encode=utf-8"
+      - "{{BaseURL}}/editor/ueditor/net/controller.ashx?action=catchimage&encode=utf-8"
+      - "{{BaseURL}}/Scripts/ueditor/net/controller.ashx?action=catchimage&encode=utf-8"
+   
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - contains(body,"没有指定抓取源")

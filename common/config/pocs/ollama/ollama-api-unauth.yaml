@@ -1,0 +1,34 @@
+id: ollama-api-unauth
+info:
+  name: Ollama 未授权访问漏洞 CNVD-2025-04094
+  author: leadlife
+  severity: medium
+  description: Ollama 存在未授权访问漏洞。由于 Ollama 默认未设置身份验证和访问控制功能，未经授权的攻击者可在远程条件下调用 Ollama 服务接口，执行包括但不限于敏感模型资产窃取、虚假信息投喂、模型计算资源滥用和拒绝服务、系统配置篡改和扩大利用等恶意操作
+  reference: 
+    - https://github.com/Threekiii/Awesome-POC/blob/f49058cb899fee301b374cd09e7bc316958e28f4/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%BC%8F%E6%B4%9E/Ollama%20%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E%20CNVD-2025-04094.md
+  classification:
+    cve-id: CNVD-2025-04094
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair: |
+      1.限制公网访问：避免直接将 Ollama 服务端口（默认 11434）暴露在公网，仅允许内网或通过 VPN 访问
+      2.配置网络访问控制：通过云安全组、防火墙等手段限制对 Ollama 服务端口的访问来源，仅允许可信的源 IP 地址连接。
+      3.启用身份认证保护：通过反向代理（如 Nginx）启用 HTTP Basic Authentication 或基于 OAuth 的认证机制
+    version:
+  tags: ollama,ai,unauth,disclosure
+
+http:
+  - raw:
+      - |
+        GET /api/tags HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'name','model','size','digest','details')
+          - contains_all(header,'application/json')
+        condition: and

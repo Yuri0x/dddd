@@ -1,0 +1,31 @@
+id: easycvr-default-login
+info:
+  name: EasyCVR视频管理平台-默认账户密码
+  author: leadlife
+  severity: high
+  description: 登录方式:easycvr/easycvr
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: easycvr,default-login
+
+http:
+  - raw:
+      - |
+        GET /api/v1/login?_t=1696841652&username=easycvr&password=5cdecdb8e87a0db1fe6e35555a870ae5 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Token','id','EasyDarwin')
+        condition: and

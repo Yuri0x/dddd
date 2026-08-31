@@ -1,0 +1,47 @@
+id: apache-dubbo-default-login
+info:
+  name: apache dubbo - default login
+  author: leadlife
+  severity: high
+  description: 默认密码 root/root guest/guest
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-Apache-Dubbo-default-password.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: apache,dubbo,default-login
+
+http:
+  - raw:
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Basic Z3Vlc3Q6Z3Vlc3Q=
+        
+    matchers:
+      - type: dsl
+        name: root_user
+        dsl:
+          - status_code == 200
+          - contains_all(body,'root','sysinfo/versions')
+        condition: and
+
+  - raw:
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Basic Z3Vlc3Q6Z3Vlc3Q=
+
+    matchers:
+      - type: dsl
+        name: guest_user
+        dsl:
+          - status_code == 200
+          - contains_all(body,'guest','sysinfo/versions')
+        condition: and

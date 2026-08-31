@@ -1,0 +1,33 @@
+id: yonyou-nc-console-uapws-unauth
+
+info:
+  name: 用友 UFIDA NC index.jsp - unauth
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,nc,unauth,oa
+
+http:
+  - raw:
+      - |
+        GET /uapws/index.jsp HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - soapUI
+          - WS-Console
+          - loginDialog
+        part: body
+        condition: or
+
+      - type: status
+        status:
+          - 200

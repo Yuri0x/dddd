@@ -1,0 +1,27 @@
+id: hiveserver-unauth
+info:
+  name: HiveServer未授权访问
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-HiveServer-unauth.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: title="HiveServer - Hive Control"
+  tags: hiveserver,unauth
+
+http:
+  - raw:
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+      
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'HiveServer','Active Sessions')
+        condition: and

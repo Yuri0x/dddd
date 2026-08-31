@@ -1,0 +1,27 @@
+id: discuz-config-global-disclosure
+
+info:
+  name: discuz 论坛系统 config_global.php.bak - 备份文件信息泄露
+  author: Str1am
+  severity: high
+  tags: discuz,disclsoure
+
+http:
+  - raw:
+      - |
+        GET /config/config_global.php.bak HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "<?php"
+          - "dbuser"
+          - "dbpw"
+        part: body
+        condition: and
+

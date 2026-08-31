@@ -1,0 +1,28 @@
+id: tongda-oa-add-disclosure
+info:
+  name: 通达 OA add.html - disclosure
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=Mzg2NDg2MDIxNQ==&mid=2247484951&idx=1&sn=0dae3f9deadbe40f81ba47cda779796e&chksm=ce63a74ff9142e5965966711085ed02723ef993a10ec1ffc595a43082b6074eb3e5445a71977&cur_album_id=3708659952727343111&scene=189#wechat_redirect
+  classification:
+    cve-id: CVE-2024-10598
+  metadata:
+    verified: true
+    fofa-query: demo
+    version: v11.2-v11.6
+  tags: 2024,tongda,oa,disclosure
+
+http:
+  - raw:
+      - |
+        GET /general/hr/setting/attendance/newLeave/add.html HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'年假设置')
+        condition: and

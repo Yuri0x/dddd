@@ -1,0 +1,27 @@
+id: yonyou-bip-druid-unauth
+info:
+  name: 用友 bip druid - unauth
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=Mzg2MjkwMDY3OA==&mid=2247485066&idx=1&sn=f3ee0ffd2ac97fce1620c8a63484c3c0
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: app="用友分析云"
+  tags: yonyou,oa,fenxiyun,unauth,druid
+
+http:
+  - raw:
+      - |
+        GET /console/druid/index.html HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'druid.index')
+        condition: and

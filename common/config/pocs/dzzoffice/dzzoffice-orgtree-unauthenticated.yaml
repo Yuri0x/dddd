@@ -1,0 +1,34 @@
+id: dzzoffice-orgtree-unauthenticated
+info:
+  name: dzzoffice orgtree - unauthenticated
+  author: leadlife
+  severity: high
+  description: description
+  metadata:
+    verified: true
+    max-request: 1
+    shodan-query: http.favicon.hash:-1961736892
+    fofa-query: title="dzzoffice"
+  tags: dzzoffice,orgtree,unauthenticated
+
+http:
+  - raw:
+      - |+
+        GET /index.php?mod=system&op=orgtree HTTP/1.1
+        Host: {{Hostname}}
+
+
+    matchers-condition: and
+    matchers:
+      - type: binary
+        part: body
+        binary:
+          - e6909ce7b4a2e6
+      - type: word
+        part: body
+        words:
+          - ree_search('stop');
+      - type: word
+        part: header
+        words:
+          - text/html

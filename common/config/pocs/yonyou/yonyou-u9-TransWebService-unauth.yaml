@@ -1,0 +1,26 @@
+id: yonyou-u9-TransWebService-unauth
+info:
+  name: 用友 U9 TransWebService.asmx - unauth
+  author: leadlife
+  severity: high
+  description: 用友U9秉承互联网基因，是全球第一款基于SOA云架构的多组织企业互联网应用平台。U9以精细化管理、产业链协协同与社交化商业，帮助多组织企业（多事业部/多地点/多工厂/多法人）在互联网时代实现商业模式创新、组织变革与管理升级。用友u9 TransWebService存在未授权访问漏洞
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8BOA/%E7%94%A8%E5%8F%8Bu9%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3TransWebService%E5%AD%98%E5%9C%A8%E6%9C%AA%E6%8E%88%E6%9D%83%E8%AE%BF%E9%97%AE%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: demo
+    hunter-query: web.body="logo-u9.png"
+  tags: yonyou,u9,unauth,oa
+
+http:
+  - raw:
+      - |
+        GET /U9Supplier/CS/Office/TransWebService.asmx HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'DoNonQuery','DoQuery','DoServerQuery','GetConnectionString')
+        condition: and

